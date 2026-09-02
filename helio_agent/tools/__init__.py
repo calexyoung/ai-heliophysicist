@@ -7,6 +7,7 @@ from helio_agent.tools import (  # noqa: F401
     retrieve,
     reduce,
     measure,
+    models,
     literature,
     report,
     spedas,

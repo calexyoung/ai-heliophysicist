@@ -42,3 +42,6 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["helio_agent"]
+
+[dependency-groups]
+dev = ["pytest>=8.0"]

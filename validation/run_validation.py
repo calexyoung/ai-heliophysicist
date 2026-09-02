@@ -254,6 +254,57 @@ def case_indices() -> None:
           f"GFZ Kp max {g.get('max_value')} for Gannon storm (published: 9.0)")
 
 
+def case_dst_model() -> None:
+    """O'Brien-McPherron Dst nowcast on the 2015 St. Patrick's Day storm.
+
+    Anchor: driven by OMNI hourly V/Bz/N, the model must correlate > 0.9
+    with observed Dst and put the minimum within the storm's main day
+    (2015-03-17/18). OBM2000 underpredicts extreme minima by design; the
+    check allows up to 80 nT of minimum underprediction.
+    """
+    r = run_tool("fetch_omni", start="2015-03-15T00:00:00Z",
+                 end="2015-03-20T00:00:00Z",
+                 variables=["V1800", "BZ_GSM1800", "N1800", "DST1800"])
+    if r["status"] != "ok":
+        check("dstmodel.fetch", False, r.get("error", ""))
+        return
+    m = run_tool("model_dst", file=r["file"], v_column="V1800",
+                 bz_column="BZ_GSM1800", density_column="N1800",
+                 dst_column="DST1800")
+    sk = m.get("skill", {})
+    ok = (m["status"] == "ok" and sk.get("corr", 0) > 0.9
+          and abs(sk.get("min_error_nT", 999)) <= 80
+          and m.get("time_of_model_min", "").startswith(("2015-03-17", "2015-03-18")))
+    check("dstmodel.stpatrick2015", ok,
+          f"corr={sk.get('corr')}, rmse={sk.get('rmse_nT')} nT, "
+          f"model min {m.get('model_min_nT')} vs obs {sk.get('obs_min_nT')} nT "
+          f"at {m.get('time_of_model_min')}")
+
+
+def case_cme_arrival() -> None:
+    """Drag-based CME arrival for the 2012-07-12 halo CME.
+
+    Anchor: DONKI CMEAnalysis gives v0=1400 km/s at 21.5 Rs (19:35 UT);
+    the interplanetary shock reached Earth 2012-07-14 17:26 UT (DONKI IPS).
+    The DBM estimate must land within 10 h and the ensemble window must
+    contain the observed arrival.
+    """
+    import pandas as pd
+    r = run_tool("cme_arrival", v0_kms=1400.0,
+                 launch_time="2012-07-12T19:35Z", w_kms=400.0)
+    if r["status"] != "ok":
+        check("cmearrival.dbm", False, r.get("error", ""))
+        return
+    obs = pd.Timestamp("2012-07-14T17:26Z")
+    est = pd.Timestamp(r["arrival_estimate"])
+    lo, hi = (pd.Timestamp(t) for t in r["arrival_window"])
+    err_h = abs((est - obs).total_seconds()) / 3600
+    ok = err_h <= 10 and lo <= obs <= hi
+    check("cmearrival.20120712", ok,
+          f"estimate {est} vs observed {obs} ({err_h:.1f} h error, "
+          "tolerance 10 h); window contains observed: " + str(lo <= obs <= hi))
+
+
 CASES = {
     "halloween2003": case_halloween_2003,
     "flare20170906": case_flare_20170906,
@@ -264,6 +315,8 @@ CASES = {
     "solarcycle": case_solar_cycle,
     "cotrans": case_cotrans,
     "indices": case_indices,
+    "dstmodel": case_dst_model,
+    "cmearrival": case_cme_arrival,
 }
 
 

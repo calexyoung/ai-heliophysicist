@@ -17,9 +17,12 @@ produced it; every tool is anchored to a published result before use.
 
 ```bash
 uv sync                                   # one-time: build the environment
-uv run helio-agent list                   # 53 tools in six families
+uv run helio-agent list                   # 55 tools in six families
 uv run helio-agent run fetch_omni '{"start":"2024-05-10T00:00:00Z","end":"2024-05-14T00:00:00Z"}'
 uv run python validation/run_validation.py  # prove the stack against known results
+uv run helio-agent report sun-news          # today's space-weather report (PDF)
+uv run helio-agent monitor                  # standing watch: CME forecasts + scored ledger
+uv run helio-agent replay <audit-id>        # re-execute a recorded call from cache
 ```
 
 Then open this directory in Claude Code: `CLAUDE.md` makes the session the

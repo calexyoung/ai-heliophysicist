@@ -58,6 +58,22 @@ def main() -> int:
         print(json.dumps(result, indent=2, default=str))
         return 0 if result.get("verdict") == "match" else 1
 
+    if cmd == "report":
+        from helio_agent.reports import REPORTS
+        name = args[1] if len(args) > 1 else ""
+        if name not in REPORTS:
+            print(f"unknown report {name!r}; available: {list(REPORTS)}")
+            return 1
+        date = args[args.index("--date") + 1] if "--date" in args else None
+        result = REPORTS[name](date=date)
+        print(json.dumps(result, indent=2, default=str))
+        return 0 if result.get("status") == "ok" else 1
+
+    if cmd == "monitor":
+        from helio_agent.monitor import cycle
+        print(json.dumps(cycle(), indent=2, default=str))
+        return 0
+
     if cmd == "audit":
         n = int(args[1]) if len(args) > 1 else 10
         if not AUDIT_FILE.exists():
