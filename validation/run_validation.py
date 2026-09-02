@@ -380,6 +380,49 @@ def case_verify_claim() -> None:
           f"no-audit={no_audit.get('verdict')}, off-by-50%={mis.get('verdict')}")
 
 
+def case_repro_20120723() -> None:
+    """Paper reproduction: the 2012-07-23 extreme CME at STEREO-A.
+
+    Immutable anchors (Baker et al. 2013 SpWea; Russell et al. 2013 ApJ;
+    Cash et al. 2015 SpWea; reproduced end-to-end 2026-09-02): shock arrival
+    2012-07-23 20:55 UT in STA_L2_MAGPLASMA_1M |B|, peak field 109.1 nT at
+    2012-07-24 ~00:52 UT, spacecraft at 0.964 AU. Also asserts the DOCUMENTED
+    L2 plasma gap over the event (PLASTIC moments unusable in the extreme
+    flow) — if a future reprocessing fills it, this check flags the change
+    rather than letting an old caveat silently go stale.
+    """
+    import numpy as np
+    import pandas as pd
+    r = run_tool("fetch_cdaweb_data", dataset="STA_L2_MAGPLASMA_1M",
+                 variables=["BTOTAL", "Vp", "Np", "R"],
+                 start="2012-07-22T00:00:00Z", end="2012-07-27T00:00:00Z")
+    if r["status"] != "ok":
+        check("repro20120723.fetch", False, r.get("error", ""))
+        return
+    df = pd.read_csv(r["file"], index_col="time", parse_dates=True)
+    b = df["BTOTAL"]
+    pre = b.loc["2012-07-23 12:00":"2012-07-23 20:00"].mean()
+    late = b.loc["2012-07-23 20:00":"2012-07-23 23:59"]
+    shock = late[late > 2.5 * pre].index[0]
+    peak_b = float(b.max())
+    t_peak = b.idxmax()
+    r_au = float(df["R"].mean())
+    ok = (str(shock)[:16] == "2012-07-23 20:55"
+          and abs(peak_b - 109.1) < 0.5
+          and str(t_peak).startswith("2012-07-24 00:5")
+          and abs(r_au - 0.964) < 0.002)
+    check("repro20120723.insitu", ok,
+          f"shock {shock} (published 20:55 UT), peak |B| {peak_b:.1f} nT "
+          f"at {t_peak} (published 109), R {r_au:.4f} AU (0.96)")
+    vp_gap = df.loc["2012-07-23 12:00":"2012-07-25 12:00", "Vp"]
+    gap_ok = vp_gap.isna().mean() > 0.8  # sporadic points exist inside the gap
+    check("repro20120723.l2_plasma_gap", gap_ok,
+          f"L2 Vp NaN fraction over the event: {vp_gap.isna().mean():.2f} "
+          "(the documented PLASTIC gap; impact-speed claims stay blocked at "
+          "L2 while this holds)")
+    _ = np.asarray  # keep numpy import used if pandas paths change
+
+
 CASES = {
     "halloween2003": case_halloween_2003,
     "flare20170906": case_flare_20170906,
@@ -395,6 +438,7 @@ CASES = {
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,
+    "repro20120723": case_repro_20120723,
 }
 
 
