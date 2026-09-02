@@ -25,3 +25,27 @@ Read before producing any figure. Heliophysics has strong plotting idioms; follo
 - Compare your stack plot to CDAWeb's GUI plot or SWPC dashboards for the same interval — shapes must match.
 - Recreate one published figure for a famous event as a pipeline check.
 - Have the time axis print its timezone; if you can't tell from the figure alone that it's UTC, fix the figure.
+
+## Publication style (default since 2026-09-02)
+All report tools apply `helio_agent/style.py` automatically:
+- **Palette**: Okabe-Ito colorblind-safe, fixed order
+  (#0072B2 blue, #D55E00 vermillion, #009E73 green, #E69F00 orange,
+  #CC79A7 purple, #56B4E9 sky, #000000). CVD-validated (worst adjacent
+  pair dE 9.6 deutan). Never cycle or reassign when series count changes;
+  event markers are always vermillion dashed (style_event_lines).
+- **Geometry**: figsize("column")=3.5 in, figsize("page")=7.2 in; boxed axes,
+  inward major+minor ticks on all four sides; recessive grid (alpha 0.25).
+- **Type**: sans (Helvetica/Arial/DejaVu), base 9 pt, mathtext regular;
+  label axes with quantity + units (e.g. "Vsw (km s$^{-1}$)"), never raw
+  column names in a finished figure - plot_scatter/plot_distribution take
+  x_label/y_label for this.
+- **Output**: 300 dpi raster, bbox tight; pdf/ps fonttype 42 and
+  svg fonttype none so text stays editable in vector editors. Save .pdf or
+  .svg for journal submission by using that extension in out_name.
+- **Legends**: frameless; omitted for a single series (title names it).
+- **Statistical plots**: seaborn via style.seaborn_theme() (context "paper",
+  style "ticks", same palette) - plot_distribution (violin/box/hist,
+  quartile inner marks, cut=0 so violins stop at data extremes) and
+  plot_scatter (open markers, optional fit + 95% CI band, reports Pearson r).
+- Sequential colormap: viridis; diverging (signed Bz-like data): RdBu_r
+  with neutral at zero. Never rainbow/jet.

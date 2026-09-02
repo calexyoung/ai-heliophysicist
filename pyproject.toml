@@ -22,6 +22,7 @@ dependencies = [
     "defusedxml>=0.7",
     "pyspedas>=1.7",
     "plasmapy>=2024.2",
+    "seaborn>=0.13",
 ]
 
 [project.optional-dependencies]
