@@ -2,7 +2,7 @@
 
 [![validation](https://github.com/calexyoung/ai-heliophysicist/actions/workflows/validate.yml/badge.svg)](https://github.com/calexyoung/ai-heliophysicist/actions/workflows/validate.yml)
 
-An AI-supported heliophysics research and data-analysis system, built on the
+An AI-supported heliophysics research and data-analysis system, started as a heliophysics agent harness, a personal analysis system, then branched off and built on the
 pattern of NASA HEASARC's **AI Astrophysicist**: an LLM supplies judgment
 (planning, tool selection, interpretation) while a layer of deterministic,
 validated Python tools does every computation, over NASA HDRL's archives
@@ -54,6 +54,6 @@ cross-check, everything on disk).
 
 ## Provenance
 
-Model: *The AI Astrophysicist* (B. Powell, NASA/GSFC HEASARC).
+Model: Started by C. Alex Young, then checked against *The AI Astrophysicist* (B. Powell, NASA/GSFC HEASARC) as a model. Separate from the heliophysics agent harness, helio-agent
 Resources: *How HDRL can support Space Weather* (B. Thomas et al., NASA/GSFC
 HDRL, 2026) and the [Python in Heliophysics Community](https://heliopython.org/projects/).
