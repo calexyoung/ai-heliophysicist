@@ -73,3 +73,17 @@ tiny convert_markdown call before relying on it; unknown ids 400 cleanly.
 - Open the published page once after publishing: check mermaid and math
   actually rendered, tables didn't overflow, and the verdict marks survived.
 - `get_usage` if publishing in bulk (Pro quota: 10k calls/month).
+
+## Data-bearing reports (added 2026-09-02, learned publishing Sun News)
+- Published pages render ```chart (Chart.js JSON: type/data/options) — for
+  reports, live charts beat embedded PNGs. Downsample time series first
+  (10-min bins for a day; monthly for cycle plots) and use the core palette
+  hexes (#0072B2 #D55E00 #009E73 #E69F00).
+- **update_document does NOT update the published page** — republish
+  (publish_document, same slug) after every content change or the page
+  serves the stale version.
+- Verify rendering with a REAL browser (playwright), not the in-app pane —
+  a hidden pane can have a 0-width viewport that fakes broken charts.
+- Logarithmic Chart.js axes label ticks verbosely (1.0000000000E-6);
+  acceptable, but prefer linear axes where the data allows.
+- Sun News web edition example: unmarkdown.com/u/calexyoung/sun-news-2026-09-02
