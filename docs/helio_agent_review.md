@@ -7,6 +7,7 @@
 > excluded: HELIO4CAST catalogs (user decision: paper-specific) and
 > agent-evals-in-CI (needs an LLM key in CI). Still open: hindcast
 > machinery over the accumulating ledger. Kept as the design record.
+> Follow-up: `helio_agent_merge_analysis.md` (should the repos combine? no — split by role).
 
 A review of `~/Developer/helio-agent` (v1.1.0, 70 skills, ~930 recorded runs)
 looking for features that would improve this project. helio-agent has a
