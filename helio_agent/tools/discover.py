@@ -161,7 +161,8 @@ def search_donki(start_date: str, end_date: str, kind: str = "FLR") -> dict:
     Dates: 'YYYY-MM-DD'.
     """
     r = cached_get(f"{DONKI_BASE}/{kind}",
-                     params={"startDate": start_date, "endDate": end_date}, timeout=90)
+                   params={"startDate": start_date, "endDate": end_date},
+                   timeout=90, ttl_seconds=1800)  # DONKI grows through the day
     r.raise_for_status()
     if not r.text.strip():
         return {"n_results": 0, "events": [], "message": "DONKI returned no events"}

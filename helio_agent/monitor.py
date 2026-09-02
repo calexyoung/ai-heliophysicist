@@ -77,17 +77,27 @@ def cycle(lookback_days: int = 3) -> dict:
     # 2. new CMEs -> forecasts
     analyses = run_tool("search_donki", start_date=start, end_date=end,
                         kind="CMEAnalysis")
+    by_cme: dict[str, list] = {}
     for a in analyses.get("events", []):
-        cme_id = a.get("associatedCMEID")
-        if not cme_id or cme_id in state["seen_cme_ids"]:
+        cid = a.get("associatedCMEID")
+        if cid:
+            by_cme.setdefault(cid, []).append(a)
+    for cme_id, fits in by_cme.items():
+        if cme_id in state["seen_cme_ids"]:
             continue
         state["seen_cme_ids"].append(cme_id)
         summary["new_cmes"].append(cme_id)
-        lon, speed, t215 = a.get("longitude"), a.get("speed"), a.get("time21_5")
-        if lon is None or speed is None or t215 is None:
+        # a CME may carry several analyst fits; forecast on the qualifying
+        # (Earth-directed cone) fit with the highest speed - conservative for
+        # arrival, and independent of feed ordering
+        qualifying = [a for a in fits
+                      if a.get("longitude") is not None
+                      and a.get("speed") is not None and a.get("time21_5")
+                      and abs(float(a["longitude"])) <= EARTH_DIRECTED_MAX_LON]
+        if not qualifying:
             continue
-        if abs(float(lon)) > EARTH_DIRECTED_MAX_LON:
-            continue
+        a = max(qualifying, key=lambda x: float(x["speed"]))
+        lon, speed, t215 = a["longitude"], a["speed"], a["time21_5"]
         fc = run_tool("cme_arrival", v0_kms=float(speed), launch_time=t215)
         if fc.get("status") != "ok":
             continue
