@@ -97,3 +97,13 @@ Host it anywhere (thesuntoday.org, GitHub Pages) or open locally — no
 unmarkdown.com hosting needed; viewers need network for the CDN scripts.
 Use the hosted publish flow when you want a zero-setup share link, the
 export when the page must live on your own domain.
+
+## Fully-local rendering (added 2026-09-02)
+`export_html` now has two independence levers:
+- `embed_assets=True`: mermaid/Chart.js/KaTeX downloaded once (shared HTTP
+  cache), each verified against its pinned sha384, and inlined (~3.3 MB
+  page, renders with zero network).
+- `engine="local"`: markdown→HTML conversion done on-machine
+  (markdown-it-py + the built-in publication stylesheet) — no unmarkdown
+  API, no key. `engine="unmarkdown"` (default) keeps the hosted templates.
+Combine both for a page with no external dependency at build or view time.

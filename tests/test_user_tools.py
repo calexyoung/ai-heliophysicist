@@ -42,5 +42,11 @@ def test_user_tool_cannot_shadow_core(user_profile):
     assert registry._REGISTRY["find_flares"].scope == "core"
 
 
-def test_no_user_tools_without_profile():
-    assert all(t.scope == "core" for t in registry.list_tools())
+def test_tool_scopes_match_active_profile():
+    # .env may set HELIO_AGENT_USER (durably active profile) — then that
+    # user's tools are expected; tools from any OTHER scope never are.
+    u = workspace.active_user()
+    allowed = {"core"} | ({f"user:{u}"} if u else set())
+    assert all(t.scope in allowed for t in registry.list_tools()), (
+        f"unexpected tool scopes: "
+        f"{ {t.scope for t in registry.list_tools()} - allowed }")
