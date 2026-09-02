@@ -66,7 +66,7 @@ def main() -> int:
             print(f"unknown report {name!r}; available: {list(REPORTS)}")
             return 1
         date = args[args.index("--date") + 1] if "--date" in args else None
-        result = REPORTS[name](date=date)
+        result = REPORTS[name](date=date, archive="--archive" in args)
         print(json.dumps(result, indent=2, default=str))
         return 0 if result.get("status") == "ok" else 1
 
