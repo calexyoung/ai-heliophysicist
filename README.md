@@ -1,5 +1,7 @@
 # The AI Heliophysicist
 
+[![validation](https://github.com/calexyoung/ai-heliophysicist/actions/workflows/validate.yml/badge.svg)](https://github.com/calexyoung/ai-heliophysicist/actions/workflows/validate.yml)
+
 An AI-supported heliophysics research and data-analysis system, built on the
 pattern of NASA HEASARC's **AI Astrophysicist**: an LLM supplies judgment
 (planning, tool selection, interpretation) while a layer of deterministic,

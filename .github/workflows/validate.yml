@@ -1,0 +1,23 @@
+name: validation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1"  # weekly: catch upstream service/data changes
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12"
+      - name: Install environment
+        run: uv sync --frozen
+      - name: Run validation suite (live against NASA/NOAA services)
+        run: uv run python validation/run_validation.py
