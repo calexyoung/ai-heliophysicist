@@ -212,7 +212,19 @@ def get_noaa_realtime(product: str = "solar_wind") -> dict:
             header, rows = data[0], data[1:]
             out[url.rsplit("/", 1)[-1]] = {"header": header, "last_rows": rows[-5:],
                                            "n_records": len(rows)}
+        elif isinstance(data, list):
+            # list-of-dicts feeds carry a timestamp field but differ in sort
+            # order (alerts.json is newest-FIRST); sort explicitly instead of
+            # trusting position, so "latest" always means latest.
+            time_key = next((k for k in ("issue_datetime", "time_tag",
+                                         "observed_time", "eventTime")
+                             if data and isinstance(data[0], dict) and k in data[0]),
+                            None)
+            records = (sorted(data, key=lambda d: d.get(time_key) or "",
+                              reverse=True)[:5] if time_key else data[-5:])
+            out[url.rsplit("/", 1)[-1]] = {"latest_records": records,
+                                           "sorted_by": time_key or "feed order",
+                                           "n_records": len(data)}
         else:
-            out[url.rsplit("/", 1)[-1]] = {"last_records": data[-5:] if isinstance(data, list) else data,
-                                           "n_records": len(data) if isinstance(data, list) else 1}
+            out[url.rsplit("/", 1)[-1]] = {"latest_records": data, "n_records": 1}
     return {"product": product, "data": out}

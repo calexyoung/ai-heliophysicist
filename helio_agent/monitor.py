@@ -60,12 +60,12 @@ def cycle(lookback_days: int = 3) -> dict:
         blob = kp["data"]["noaa-planetary-k-index.json"]
         if "last_rows" in blob:            # legacy list-of-lists feed
             conditions["kp_latest"] = float(blob["last_rows"][-1][1])
-        else:                              # dict-format feed (2026+)
-            conditions["kp_latest"] = float(blob["last_records"][-1]["Kp"])
+        else:                              # latest_records is sorted newest-first
+            conditions["kp_latest"] = float(blob["latest_records"][0]["Kp"])
     except Exception:  # noqa: BLE001
         conditions["kp_latest"] = None
     try:
-        rec = xray["data"]["xrays-1-day.json"]["last_records"][-1]
+        rec = xray["data"]["xrays-1-day.json"]["latest_records"][0]
         conditions["xray_flux_wm2"] = rec.get("flux")
     except Exception:  # noqa: BLE001
         conditions["xray_flux_wm2"] = None
