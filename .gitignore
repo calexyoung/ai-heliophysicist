@@ -9,3 +9,9 @@ workspace/logs/
 .remember/
 workspace/cache/
 workspace/monitor_state.json
+users/*/workspace/data/
+users/*/workspace/logs/
+users/*/workspace/outputs/
+!users/_template/workspace/data/.gitkeep
+!users/_template/workspace/outputs/.gitkeep
+!users/_template/workspace/logs/.gitkeep

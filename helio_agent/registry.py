@@ -16,8 +16,10 @@ Families:
 from __future__ import annotations
 
 import inspect
+import sys
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Callable
 
 from helio_agent import audit
@@ -34,9 +36,13 @@ class Tool:
     func: Callable
     doc: str = ""
     params: dict[str, str] = field(default_factory=dict)
+    scope: str = "core"   # "core" or "user:<name>" for users/<name>/tools/
 
     def signature(self) -> str:
         return f"{self.name}{inspect.signature(self.func)}"
+
+
+_CURRENT_SCOPE = "core"
 
 
 def tool(family: str, name: str | None = None):
@@ -48,9 +54,14 @@ def tool(family: str, name: str | None = None):
         tname = name or func.__name__
         sig = inspect.signature(func)
         params = {p: str(v.annotation) for p, v in sig.parameters.items()}
+        if tname in _REGISTRY and _REGISTRY[tname].scope != _CURRENT_SCOPE:
+            raise ValueError(
+                f"user tool {tname!r} would shadow a {_REGISTRY[tname].scope} "
+                "tool; user tools must use new names")
         _REGISTRY[tname] = Tool(
             name=tname, family=family, func=func,
             doc=inspect.getdoc(func) or "", params=params,
+            scope=_CURRENT_SCOPE,
         )
         return func
 
@@ -146,5 +157,34 @@ def replay(entry_id: str, readonly_cache: bool = True) -> dict:
 
 
 def _load_all() -> None:
-    """Import all tool modules so their registrations run."""
+    """Import all tool modules so their registrations run.
+
+    Core tools come from helio_agent.tools; if a user profile is active
+    (HELIO_AGENT_USER), every .py under users/<name>/tools/ is loaded too,
+    tagged scope="user:<name>". User tools are one-off/paper-specific by
+    policy (see users/README.md) — anything general belongs in core with a
+    validation case.
+    """
+    global _CURRENT_SCOPE
     import helio_agent.tools  # noqa: F401
+
+    from helio_agent.workspace import active_user, user_dir
+    u = active_user()
+    if not u:
+        return
+    tools_dir = (user_dir() or Path()) / "tools"
+    if not tools_dir.is_dir():
+        return
+    import importlib.util
+    for py in sorted(tools_dir.glob("*.py")):
+        modname = f"helio_user_{u}_{py.stem}"
+        if modname in sys.modules:
+            continue
+        _CURRENT_SCOPE = f"user:{u}"
+        try:
+            spec = importlib.util.spec_from_file_location(modname, py)
+            mod = importlib.util.module_from_spec(spec)
+            sys.modules[modname] = mod
+            spec.loader.exec_module(mod)
+        finally:
+            _CURRENT_SCOPE = "core"

@@ -38,6 +38,7 @@ cross-check, everything on disk).
 | `skills/` | 48 knowledge documents: missions, methods, datasources, software |
 | `validation/` | Canonical-result test suite (Halloween 2003 storm, 2017 X9.3 flare, ...) |
 | `workspace/` | Persistent environment: `data/`, `outputs/`, `logs/audit.jsonl` |
+| `users/` | Per-user profiles (`HELIO_AGENT_USER=<name>`): one-off tools/skills/analyses; core stays general — see [users/README.md](users/README.md) |
 | `docs/ARCHITECTURE.md` | Full design, mapping to the AI Astrophysicist model |
 
 ## Tool families

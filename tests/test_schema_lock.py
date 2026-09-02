@@ -22,6 +22,8 @@ LOCK = Path(__file__).resolve().parent / "tool_schemas.lock.json"
 def current_schemas() -> dict[str, str]:
     out = {}
     for t in list_tools():
+        if t.scope != "core":
+            continue
         blob = json.dumps({"family": t.family, "params": t.params},
                           sort_keys=True)
         out[t.name] = hashlib.sha256(blob.encode()).hexdigest()[:16]

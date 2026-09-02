@@ -29,9 +29,7 @@ from pathlib import Path
 
 import requests
 
-from helio_agent.workspace import WORKSPACE
-
-CACHE_DIR = WORKSPACE / "cache"
+from helio_agent.workspace import CACHE_DIR
 SECRET_PARAMS = {"api_key", "apikey", "token", "key", "mailto", "authorization"}
 _UA = {"User-Agent": "helio-agent/0.1 (AI Heliophysicist)"}
 

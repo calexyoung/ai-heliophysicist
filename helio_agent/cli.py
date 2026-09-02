@@ -34,7 +34,8 @@ def main() -> int:
                 current = t.family
                 print(f"\n[{current}]")
             first_line = t.doc.splitlines()[0] if t.doc else ""
-            print(f"  {t.name:32s} {first_line}")
+            tag = "" if t.scope == "core" else f" [{t.scope}]"
+            print(f"  {t.name:32s}{tag} {first_line}")
         return 0
 
     if cmd == "describe":

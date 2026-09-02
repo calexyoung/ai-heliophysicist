@@ -12,8 +12,12 @@ from helio_agent.registry import FAMILIES, list_tools
 ROOT = Path(__file__).resolve().parent.parent
 
 
+def _core_count():
+    return sum(1 for t in list_tools() if t.scope == "core")
+
+
 def test_readme_tool_count_matches_registry():
-    n = len(list_tools())
+    n = _core_count()
     readme = (ROOT / "README.md").read_text()
     m = re.search(r"(\d+) tools", readme)
     assert m, "README must state the tool count as '<N> tools'"
@@ -23,7 +27,7 @@ def test_readme_tool_count_matches_registry():
 
 
 def test_architecture_tool_count_matches_registry():
-    n = len(list_tools())
+    n = _core_count()
     arch = (ROOT / "docs" / "ARCHITECTURE.md").read_text()
     m = re.search(r"(\d+) tools wrapping sunpy", arch)
     assert m and int(m.group(1)) == n, (

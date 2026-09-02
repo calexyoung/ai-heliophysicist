@@ -37,6 +37,22 @@ is strict.
    whenever conclusions rest on them (NOAA SWPC feeds, STEREO beacon,
    Solar Orbiter LL02).
 
+## Core vs user work
+
+The repo is shared; `users/<name>/` (selected via `HELIO_AGENT_USER`) is
+personal. Route new work by generality, not convenience — the full policy is
+`users/README.md`:
+
+- **General** (new data source, mission, method, tool, dependency) → core:
+  `helio_agent/` + a validation case + skill note + schema-lock update. If
+  the next paper could use it, it is core.
+- **One-off** (a single paper's reproduction, an event analysis, personal
+  scripts/templates) → `users/<name>/` (tools/, skills/, analyses/). Results
+  worth keeping go in `analyses/<slug>/` with an analysis.md citing audit ids.
+- With a profile active, data/outputs/logs land under the user's workspace;
+  the HTTP cache stays shared. User tools load automatically, appear as
+  `[user:<name>]` in `helio-agent list`, and may not shadow core names.
+
 ## Driving the tools
 
 ```bash
