@@ -57,8 +57,11 @@ def cycle(lookback_days: int = 3) -> dict:
     xray = run_tool("get_noaa_realtime", product="xray")
     conditions = {}
     try:
-        rows = kp["data"]["noaa-planetary-k-index.json"]["last_rows"]
-        conditions["kp_latest"] = float(rows[-1][1])
+        blob = kp["data"]["noaa-planetary-k-index.json"]
+        if "last_rows" in blob:            # legacy list-of-lists feed
+            conditions["kp_latest"] = float(blob["last_rows"][-1][1])
+        else:                              # dict-format feed (2026+)
+            conditions["kp_latest"] = float(blob["last_records"][-1]["Kp"])
     except Exception:  # noqa: BLE001
         conditions["kp_latest"] = None
     try:
