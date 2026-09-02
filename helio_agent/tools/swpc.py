@@ -70,6 +70,7 @@ def fetch_swpc_timeseries(product: str, start: str | None = None,
         df = df.set_index("time")[_KEEP[product]]
         df = df.apply(pd.to_numeric, errors="coerce")
         df = df.sort_index()
+        df = df[~df.index.duplicated(keep="last")]  # feed repeats timestamps
         units = {"plasma": {"proton_density": "1/cm^3", "proton_speed": "km/s",
                             "proton_temperature": "K"},
                  "mag": {"bt": "nT", "bx_gsm": "nT", "by_gsm": "nT",
