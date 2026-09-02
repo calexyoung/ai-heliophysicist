@@ -35,3 +35,10 @@
 ## Validation anchors
 - **2008-02-26 substorm onset (Angelopoulos et al. 2008, Science)**: the mission's marquee result — tail reconnection at ~-20 Re preceding auroral onset by ~1.5 min; reproduce the multi-probe timing figure.
 - **ARTEMIS vs OMNI**: any quiet interval with the Moon upstream — correlate THB FGM with OMNI B (shifted) to validate your ARTEMIS solar wind handling.
+
+## Example notebooks (github.com/spedas/themis-examples, added 2026-09-02)
+Colab-runnable; default branch `main`. `basic/`: FGM, EFI, ESA, SCM, SST,
+state data, ground magnetometer data, and All-Sky Imager data (the ASI
+notebook is the starting point if auroral imaging ever becomes a tool).
+`advanced/`: lunar wakes, spin models and eclipse corrections — the
+craft notes for THEMIS's spin-plane caveats.

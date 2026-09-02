@@ -34,3 +34,18 @@
 ## Validation anchors
 - **2015-10-16 13:07 UT electron diffusion region event (Burch et al. 2016)**: MMS2/3/4 magnetopause EDR with the famous electron crescents — reproduce the burst-mode overview panels.
 - **2017-07-11 22:34 UT magnetotail EDR (Torbert et al. 2018)**: the canonical tail reconnection event — a good test of burst retrieval and multi-spacecraft alignment.
+
+## Example notebooks (github.com/spedas/mms-examples, added 2026-09-02)
+Colab-runnable. `basic/` has one notebook per instrument — FGM, FPI (incl.
+error bars and angle-angle plots), EIS, FEEPS, HPCA, EDP, EDI, SCM, DSP,
+ASPOC, MEC ephemeris, state data, burst status/events. `advanced/` is where
+the real craft lives:
+- Curlometer (4-spacecraft currents): `advanced/FPI_curlometer.ipynb`
+- 2D velocity-distribution slices (FPI + HPCA)
+- LMN coordinate transformation; minimum variance analysis
+- Wave polarization from SCM; Poynting flux
+- Neutral sheet models; dayside/tail basic science walkthroughs
+- "Plasma calculations with PlasmaPy" — the same PlasmaPy our
+  plasma_parameters tool wraps, applied to MMS moments
+Use these as the recipe source when promoting an MMS capability into a core
+tool; each new tool still needs its own validation anchor.

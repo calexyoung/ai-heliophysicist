@@ -51,3 +51,18 @@ Prefer cdasws/HAPI instead when you need a specific dataset ID reproducibly, min
 - File cache: SPEDAS_DATA_DIR is pinned to workspace/data/pyspedas.
 - Validated: THEMIS-C FGM 2008-02-26 loads; ACE MFI hourly means agree with
   the CDAWeb pipeline to <2% (validation case `pyspedas`).
+
+## Worked examples (added 2026-09-02)
+**In this repo (validated):** generic load → CSV: `fetch_pyspedas`
+(helio_agent/tools/spedas.py, incl. the 2.x namespace handling and the
+mission-project lookup); coordinate transforms: `transform_coordinates`
+(helio_agent/tools/geospace.py — note the pandas-3 epoch and read-only-array
+gotchas handled there).
+
+**Upstream example repos** (all runnable on Google Colab — open
+colab.research.google.com and search the 'spedas' GitHub org):
+- github.com/spedas/pyspedas_examples — basic usage and simple workflows.
+- github.com/spedas/mms-examples — see skills/missions/mms.md for a
+  curated map (30+ notebooks, basic per-instrument through advanced
+  multi-spacecraft techniques).
+- github.com/spedas/themis-examples — see skills/missions/themis.md.

@@ -43,3 +43,27 @@ df = xrs.to_dataframe()
 - `m.peek()` after every load — wrong pointing/rotation is obvious to the eye.
 - Compare a Fido-fetched image with Helioviewer at the same timestamp.
 - Verify coordinate transforms against a known landmark (disk center, a numbered AR's SWPC-reported position).
+
+## Worked examples (added 2026-09-02)
+**In this repo (validated, never rot):** Fido search+fetch with Resolution
+attrs → `fetch_goes_xrs` (helio_agent/tools/retrieve.py); VSO query/download
+→ `search_vso`/`fetch_vso`; HEK attrs → `search_hek_events`; Map loading and
+plotting with proper colormap → `load_solar_map`, `plot_solar_map`.
+
+**Upstream gallery** (https://docs.sunpy.org/en/stable/generated/gallery/ —
+maintained and executed by sunpy CI, so it tracks their API):
+- Acquiring data: "Getting data from CDAWeb", "Requesting cutouts of AIA
+  images from the JSOC", SOAR search examples (Solar Orbiter).
+- Time series: "Retrieving and analyzing GOES XRS data", "Creating a
+  TimeSeries from GOES-XRS near-real-time data with flare times".
+- Coordinates: "AIA to STEREO coordinate conversion", "Obtaining a
+  spacecraft trajectory from JPL Horizons".
+- Image work: "Aligning AIA and HMI Data with Reproject", "Creating
+  Carrington Maps" — the reference when a reprojection tool gets built.
+
+**Session-verified snippets (sunpy 6.x, 2026-09-02):**
+- GOES fetch needs `a.Resolution("flx1s") | a.Resolution("avg1m")` alongside
+  `a.Instrument("XRS")` or you get ambiguous multi-resolution results.
+- `sunpy[timeseries]` extra is required for XRS netcdf loading (h5py) and
+  `[visualization]` for Map plotting (mpl-animators) — plain `sunpy[net]`
+  import errors are cryptic.
