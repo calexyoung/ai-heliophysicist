@@ -24,11 +24,11 @@ dependencies = [
     "plasmapy>=2024.2",
     "seaborn>=0.13",
     "geopack>=1.0.12",
+    "aiapy>=0.8",
 ]
 
 [project.optional-dependencies]
 extra = [
-    "aiapy>=0.8",       # SDO/AIA calibration (degradation correction, PSF)
     "solarmach>=0.3",   # multi-spacecraft heliospheric configuration plots
     "pysat>=3.2",       # PyHC-core satellite data management framework
 ]

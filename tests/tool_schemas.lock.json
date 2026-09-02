@@ -1,8 +1,12 @@
 {
+ "aia_degradation": "b6d57a94aa424650",
  "cme_arrival": "b72d786b7ff1c8ab",
  "compute_derived": "d0b69196a8277a32",
+ "correct_aia_map": "90b95d107a0c4d58",
  "cross_correlate": "fe4a4d0b04f2589d",
  "describe_series": "c2e090617fd8df9b",
+ "extreme_value": "b34bfb75697ad1ba",
+ "extreme_value_sweep": "468186a927904ead",
  "fetch_arxiv_pdf": "b7f6493f368b0cf2",
  "fetch_cdaweb_data": "ccc8b3fc5d5cde0f",
  "fetch_gfz_index": "e26ac7d5eaecc757",
@@ -53,5 +57,6 @@
  "superposed_epoch": "f9905813cb10e2d6",
  "trace_field_line": "b1ad80ef748671ad",
  "transform_coordinates": "393c2a172308d9b7",
+ "verify_claim": "201dd227c0f82953",
  "write_pdf_report": "ce2544c88a77dd08"
 }

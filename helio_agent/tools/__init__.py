@@ -1,7 +1,9 @@
 """Tool modules. Importing this package registers all tools."""
 
 from helio_agent.tools import (  # noqa: F401
+    aia,
     discover,
+    extremes,
     geospace,
     indices,
     retrieve,
@@ -12,4 +14,5 @@ from helio_agent.tools import (  # noqa: F401
     report,
     spedas,
     swpc,
+    verify,
 )

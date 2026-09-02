@@ -305,6 +305,81 @@ def case_cme_arrival() -> None:
           "tolerance 10 h); window contains observed: " + str(lo <= obs <= hi))
 
 
+def case_extreme_value() -> None:
+    """POT/GPD on the 61-year hourly Dst record.
+
+    Anchors: intense storms (Dst <= -100 nT, 48 h declustering) occur at
+    4-7 per year (literature: ~5-6); the strongest declustered event is
+    March 1989 at -589 nT (immutable); the 100-yr return level lands in
+    the published -450 to -700 nT band.
+    """
+    r = run_tool("fetch_cdaweb_data", dataset="OMNI2_H0_MRG1HR",
+                 variables=["DST1800"], start="1964-01-01T00:00:00Z",
+                 end="2024-12-31T23:00:00Z")
+    if r["status"] != "ok":
+        check("extremes.fetch", False, r.get("error", ""))
+        return
+    e = run_tool("extreme_value", file=r["file"], column="DST1800",
+                 threshold=-100.0, direction="min")
+    if e["status"] != "ok":
+        check("extremes.gpd", False, e.get("error", ""))
+        return
+    top = e["strongest_events"][0]
+    lvl100 = e["return_levels"].get("100yr")
+    ok = (4 <= e["events_per_year"] <= 7
+          and top["time"].startswith("1989-03") and top["value"] == -589.0
+          and lvl100 is not None and -700 <= lvl100 <= -450)
+    check("extremes.dst_pot", ok,
+          f"{e['events_per_year']}/yr above -100 nT; strongest {top['value']} "
+          f"at {top['time'][:10]} (published: -589, 1989-03-14); "
+          f"100-yr level {lvl100} nT (band -450..-700)")
+
+
+def case_aia_degradation() -> None:
+    """aiapy degradation factors against known sensitivity history.
+
+    Anchors: at 2010-06-01 (weeks after first light) 171 A is within 5% of
+    1.0 while 304 A has already dropped to 0.8-1.0 (its rapid early
+    degradation is real and documented); by 2020-01-01, 304 A is below 0.35
+    (>65% sensitivity lost) while 171 A remains in 0.5-0.9.
+    """
+    r0 = run_tool("aia_degradation", date="2010-06-01", channels=[171, 304])
+    r1 = run_tool("aia_degradation", date="2020-01-01", channels=[171, 304])
+    if "error" in (r0.get("status"), r1.get("status")):
+        check("aia.degradation", False, str(r0.get("error") or r1.get("error")))
+        return
+    f0, f1 = r0["degradation_factors"], r1["degradation_factors"]
+    ok = (abs(f0["171"] - 1) < 0.05 and 0.8 <= f0["304"] <= 1.0
+          and f1["304"] < 0.35 and 0.5 <= f1["171"] <= 0.9)
+    check("aia.degradation", ok,
+          f"2010: 171={f0['171']} (~1), 304={f0['304']} (0.8-1.0, early "
+          f"drop is real); 2020: 171={f1['171']} (0.5-0.9), "
+          f"304={f1['304']} (<0.35)")
+
+
+def case_verify_claim() -> None:
+    """Claim verifier behavior: match, mismatch, and refusals."""
+    m = run_tool("verify_claim", claimed_value=-383.0, computed_value=-383.0,
+                 claimed_units="nT", computed_units="nanotesla",
+                 tolerance_percent=1.0, computed_audit_id="test123")
+    bad_units = run_tool("verify_claim", claimed_value=500.0,
+                         computed_value=500.0, claimed_units="km/s",
+                         computed_units="nT", computed_audit_id="test123")
+    no_audit = run_tool("verify_claim", claimed_value=1.0, computed_value=1.0,
+                        claimed_units="nT", computed_units="nT",
+                        computed_audit_id="")
+    mis = run_tool("verify_claim", claimed_value=100.0, computed_value=150.0,
+                   claimed_units="nT", computed_units="nT",
+                   tolerance_percent=10.0, computed_audit_id="test123")
+    ok = (m.get("verdict") == "match"
+          and bad_units.get("verdict") == "refused"
+          and no_audit.get("verdict") == "refused"
+          and mis.get("verdict") == "mismatch")
+    check("verify.claim_logic", ok,
+          f"match={m.get('verdict')}, unit-mismatch={bad_units.get('verdict')}, "
+          f"no-audit={no_audit.get('verdict')}, off-by-50%={mis.get('verdict')}")
+
+
 CASES = {
     "halloween2003": case_halloween_2003,
     "flare20170906": case_flare_20170906,
@@ -317,6 +392,9 @@ CASES = {
     "indices": case_indices,
     "dstmodel": case_dst_model,
     "cmearrival": case_cme_arrival,
+    "extremes": case_extreme_value,
+    "aia": case_aia_degradation,
+    "verify": case_verify_claim,
 }
 
 

@@ -34,3 +34,10 @@
 ## Validation anchors
 - **2017-09-06 X9.3 flare** (AR 12673, peak ~12:02 UT): AIA 131 shows saturated flare core at SOL location S09W34; ribbons clear in 1600 Å; SHARP for HARPNUM 7115 shows the delta-spot. Cross-check timing against GOES XRS peak.
 - **2012-08-31 filament eruption** (~19:00 UT): the famous 304 Å eruption movie; a good end-to-end test of AIA fetching, prep, and movie generation.
+
+## Degradation tooling (added 2026-09-02)
+`aia_degradation(date, channels)` returns per-channel sensitivity factors
+(fraction of 2010 sensitivity; aiapy/SSW series) and `correct_aia_map`
+applies the correction to an AIA FITS. 304 A is the severe case: it fell to
+~0.89 within weeks of first light and ~0.06 by 2020 — never compare 304 A
+intensities across epochs uncorrected. Validation case `aia`.

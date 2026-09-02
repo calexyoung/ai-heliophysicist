@@ -1373,6 +1373,8 @@ name = "helio-agent"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "aiapy", version = "0.10.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "aiapy", version = "0.12.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "astropy" },
     { name = "cdasws" },
     { name = "cdflib" },
@@ -1400,8 +1402,6 @@ dependencies = [
 
 [package.optional-dependencies]
 extra = [
-    { name = "aiapy", version = "0.10.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
-    { name = "aiapy", version = "0.12.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "pysat" },
     { name = "solarmach" },
 ]
@@ -1413,7 +1413,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "aiapy", marker = "extra == 'extra'", specifier = ">=0.8" },
+    { name = "aiapy", specifier = ">=0.8" },
     { name = "astropy", specifier = ">=6.0" },
     { name = "cdasws", specifier = ">=1.8" },
     { name = "cdflib", specifier = ">=1.2" },
