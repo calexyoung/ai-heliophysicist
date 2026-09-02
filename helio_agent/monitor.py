@@ -65,7 +65,10 @@ def cycle(lookback_days: int = 3) -> dict:
     except Exception:  # noqa: BLE001
         conditions["kp_latest"] = None
     try:
-        rec = xray["data"]["xrays-1-day.json"]["latest_records"][0]
+        recs = xray["data"]["xrays-1-day.json"]["latest_records"]
+        # feed interleaves both XRS channels per timestamp; flare class is
+        # defined on the long channel (0.1-0.8 nm)
+        rec = next((r for r in recs if r.get("energy") == "0.1-0.8nm"), recs[0])
         conditions["xray_flux_wm2"] = rec.get("flux")
     except Exception:  # noqa: BLE001
         conditions["xray_flux_wm2"] = None
