@@ -30,3 +30,22 @@ Frames and what they're for:
 - Transform a quantity with two independent tools (e.g., sunpy/astropy vs SpacePy) and compare.
 - Sanity anchors: at equinoxes GSE≈GSM differences are smallest; Bx_GSE must equal Bx_GSM exactly always.
 - For solar positions, overlay the coordinate on an AIA/HMI image with sunpy Map and confirm the feature is where you think it is.
+
+## Tooling notes (added 2026-09-02)
+- `transform_coordinates` rotates any 3-vector CSV between
+  gei/gse/gsm/sm/geo/mag/j2000 (pySPEDAS cotrans; cross-validated against
+  geopack to <1e-4 nT — validation case `cotrans`).
+- `trace_field_line` gives T89+IGRF footpoints and open/closed topology.
+  T89 takes Kp 0-6 and is quiet-to-moderate only — do not trust footpoints
+  during storm main phase (use T96/TS04 class models, not yet wrapped).
+- Rotating OMNI's GSE components with `transform_coordinates` reproduces
+  OMNI's own BY_GSM/BZ_GSM to <0.01 nT rms (1-min) and ~0.03 nT (hourly) -
+  a good end-to-end self-check for any transform pipeline.
+- **Epoch-handling lesson (2026-09-02)**: a wrong time base rotates by the
+  wrong angle and produces plausible-looking garbage. pandas 3 indexes can be
+  datetime64[us], so `.view("int64")/1e9` silently gave 1970-era epochs; and
+  naive `Timestamp.timestamp()` applies the LOCAL timezone. Always derive
+  unix seconds as `(t - Timestamp(0)) / Timedelta(seconds=1)` and treat naive
+  times as UTC. A single-implementation test cannot catch this (both sides
+  shared the bug); the cross-implementation check in validation case
+  `cotrans` exists precisely for it.

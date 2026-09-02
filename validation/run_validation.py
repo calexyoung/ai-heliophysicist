@@ -187,6 +187,73 @@ def case_solar_cycle() -> None:
               "(expected 150-165 in 2024)")
 
 
+def case_cotrans() -> None:
+    """Coordinate transform against an independent implementation.
+
+    Anchor: pySPEDAS cotrans (used by transform_coordinates) must agree with
+    geopack's GSE->GSM rotation to < 0.01 nT on random vectors, and preserve
+    magnitude. Field-line trace: geosynchronous noon footpoints land in the
+    auroral zone (55-75 deg) on a closed line (T89, kp=2).
+    """
+    import numpy as np
+    import pandas as pd
+    from helio_agent.workspace import data_path
+
+    times = pd.date_range("2017-09-06", periods=24, freq="1h")
+    rng = np.random.default_rng(42)
+    vecs = rng.normal(0, 5, (24, 3))
+    df = pd.DataFrame(vecs, columns=["bx", "by", "bz"], index=times)
+    df.index.name = "time"
+    fpath = data_path("_validation_cotrans.csv")
+    df.to_csv(fpath, index_label="time")
+    r = run_tool("transform_coordinates", file=str(fpath),
+                 columns=["bx", "by", "bz"], from_coords="gse",
+                 to_coords="gsm")
+    if r["status"] != "ok":
+        check("cotrans.transform", False, r.get("error", ""))
+        return
+    out = pd.read_csv(r["file"], index_col="time", parse_dates=True)
+    from geopack import geopack
+    gp = np.empty_like(vecs)
+    for i, t in enumerate(times):
+        geopack.recalc((t - pd.Timestamp(0)) / pd.Timedelta(seconds=1))
+        gp[i] = geopack.gsmgse(*vecs[i], -1)
+    py = out[["x_gsm", "y_gsm", "z_gsm"]].values
+    maxdiff = float(np.abs(py - gp).max())
+    mag_ok = np.allclose(np.linalg.norm(py, axis=1),
+                         np.linalg.norm(vecs, axis=1), atol=1e-6)
+    check("cotrans.cross_implementation", maxdiff < 0.01 and mag_ok,
+          f"pyspedas vs geopack max component diff {maxdiff:.2e} nT "
+          "(tolerance 0.01); magnitude preserved: " + str(mag_ok))
+    t = run_tool("trace_field_line", x_gsm_re=6.6, y_gsm_re=0.0,
+                 z_gsm_re=0.0, time="2017-09-06T12:00:00", kp=2)
+    nf = t.get("north_footpoint") or {}
+    ok = (t.get("topology") == "closed"
+          and 55 <= nf.get("geo_lat_deg", 0) <= 75)
+    check("cotrans.field_trace", ok,
+          f"geosync noon footpoint {nf.get('geo_lat_deg')} deg GEO, "
+          f"{t.get('topology')} (expect auroral zone 55-75, closed)")
+
+
+def case_indices() -> None:
+    """Kyoto WDC Dst and GFZ Kp against immutable published values.
+
+    Anchors: Kyoto FINAL Dst 2003-10 minimum -383 nT, 744 hourly records;
+    GFZ definitive Kp reached 9.0 during the 2024-05-10/11 Gannon storm.
+    """
+    r = run_tool("fetch_kyoto_dst", year=2003, month=10, revision="final")
+    ok = (r["status"] == "ok" and r.get("revision") == "final"
+          and r.get("n_records") == 744 and r.get("dst_min_nT") == -383.0)
+    check("indices.kyoto_dst", ok,
+          f"final Dst 2003-10: min {r.get('dst_min_nT')} nT, "
+          f"{r.get('n_records')} records (published: -383, 744)")
+    g = run_tool("fetch_gfz_index", index="Kp", start="2024-05-10",
+                 end="2024-05-12")
+    ok = g["status"] == "ok" and g.get("max_value") == 9.0
+    check("indices.gfz_kp", ok,
+          f"GFZ Kp max {g.get('max_value')} for Gannon storm (published: 9.0)")
+
+
 CASES = {
     "halloween2003": case_halloween_2003,
     "flare20170906": case_flare_20170906,
@@ -195,6 +262,8 @@ CASES = {
     "pyspedas": case_pyspedas_crosscheck,
     "plasmapy": case_plasma_parameters,
     "solarcycle": case_solar_cycle,
+    "cotrans": case_cotrans,
+    "indices": case_indices,
 }
 
 

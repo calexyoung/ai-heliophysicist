@@ -78,8 +78,10 @@ def run_tool(name: str, **kwargs: Any) -> dict:
     Every tool returns a dict; by convention it includes 'status' and, where
     files are produced, an 'artifacts' list of paths.
     """
+    from helio_agent import http as hhttp
     t = get_tool(name)
     start = time.monotonic()
+    hhttp.reset_touched()
     try:
         result = t.func(**kwargs)
         if not isinstance(result, dict):
@@ -90,14 +92,57 @@ def run_tool(name: str, **kwargs: Any) -> dict:
                    if k in ("status", "n_records", "n_results", "message", "summary")}
         audit_id = audit.record(name, kwargs, result["status"], elapsed,
                                 result_summary=summary,
-                                artifacts=result.get("artifacts", []))
+                                artifacts=result.get("artifacts", []),
+                                cache_keys=hhttp.touched_keys())
         result["audit_id"] = audit_id
         return result
     except Exception as exc:  # noqa: BLE001 - tools surface all failure detail
         elapsed = time.monotonic() - start
-        audit_id = audit.record(name, kwargs, "error", elapsed, error=str(exc))
+        audit_id = audit.record(name, kwargs, "error", elapsed, error=str(exc),
+                                cache_keys=hhttp.touched_keys())
         return {"status": "error", "error": f"{type(exc).__name__}: {exc}",
                 "audit_id": audit_id}
+
+
+def replay(entry_id: str, readonly_cache: bool = True) -> dict:
+    """Re-execute an audited tool call and compare artifact checksums.
+
+    With readonly_cache (default) HTTP goes through the cache only, so a
+    replay proves the recorded result is reproducible from recorded inputs;
+    a CacheMiss means the original call predates the cache or bypassed it.
+    Library-managed downloads (cdasws/Fido/pyspedas) hit their own file
+    caches. Artifacts are re-written in place and compared by sha256.
+    """
+    import os
+    e = audit.find_entry(entry_id)
+    if e is None:
+        return {"status": "error", "error": f"no audit entry {entry_id!r}"}
+    old_mode = os.environ.get("HELIO_CACHE_MODE")
+    if readonly_cache:
+        os.environ["HELIO_CACHE_MODE"] = "readonly"
+    try:
+        result = run_tool(e["tool"], **e["args"])
+    finally:
+        if readonly_cache:
+            if old_mode is None:
+                os.environ.pop("HELIO_CACHE_MODE", None)
+            else:
+                os.environ["HELIO_CACHE_MODE"] = old_mode
+    old_hashes = e.get("artifact_sha256") or {}
+    new_hashes = {a: audit.hash_file(a) for a in result.get("artifacts", [])}
+    matches, mismatches = [], []
+    for path, old in old_hashes.items():
+        if old is None:
+            continue
+        (matches if new_hashes.get(path) == old else mismatches).append(path)
+    verdict = "match" if (result.get("status") == e.get("status")
+                          and not mismatches) else "mismatch"
+    return {"status": "ok", "verdict": verdict, "tool": e["tool"],
+            "original_id": entry_id, "replay_id": result.get("audit_id"),
+            "original_git_sha": e.get("git_sha"),
+            "artifacts_matched": matches, "artifacts_mismatched": mismatches,
+            "replay_status": result.get("status"),
+            "replay_error": result.get("error")}
 
 
 def _load_all() -> None:

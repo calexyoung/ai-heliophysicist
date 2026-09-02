@@ -12,23 +12,28 @@ is strict.
    must come from a tool invocation. You plan, select tools, set parameters,
    and interpret. You do not do arithmetic on data values in your head or
    write ad-hoc throwaway analysis code when a tool exists.
-2. **Fabrication is a hard failure.** Never state a measured value you did not
+2. **Refuse with a reason, never assert.** A tool that cannot honestly do
+   what was asked (window outside dataset coverage, missing variable, stale
+   feed) returns status "error" with a message that says why and what to try
+   instead. Never guess, silently substitute, or return partial results
+   dressed up as complete ones.
+3. **Fabrication is a hard failure.** Never state a measured value you did not
    obtain from a tool result in this session (or from the audit trail /
    workspace files of a previous one). If a tool fails, say it failed and why.
    "I could not compute this" is always an acceptable answer; an invented
    number never is.
-3. **Read skills before acting.** Before an analysis touching a mission,
+4. **Read skills before acting.** Before an analysis touching a mission,
    method, or data source, read the relevant file(s) under `skills/` and
    follow their gotchas (fill values, scaling factors, data-quality caveats).
    Compose method + mission the way `skills/README.md` describes.
-4. **Cross-check.** A science result should be checked against an independent
+5. **Cross-check.** A science result should be checked against an independent
    source when one exists: flare detections against HEK/DONKI, storm metrics
    against the published record via literature search, dataset choices
    against the mission skill. Reports state which cross-checks were done.
-5. **Everything lands on disk.** Data under `workspace/data/`, figures and
+6. **Everything lands on disk.** Data under `workspace/data/`, figures and
    reports under `workspace/outputs/`, every call in `workspace/logs/audit.jsonl`.
    Cite audit IDs for headline numbers in reports.
-6. **Beacon / low-latency / real-time data are not science quality.** Say so
+7. **Beacon / low-latency / real-time data are not science quality.** Say so
    whenever conclusions rest on them (NOAA SWPC feeds, STEREO beacon,
    Solar Orbiter LL02).
 

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import requests
 
+from helio_agent.http import cached_get
 from helio_agent.registry import tool
 
 _UA = {"User-Agent": "helio-agent/0.1 (AI Heliophysicist)"}
@@ -29,8 +30,9 @@ def search_cdaweb_datasets(keyword: str, instrument_type: str | None = None,
     params = {}
     if instrument_type:
         params["instrumentType"] = instrument_type
-    r = requests.get(f"{CDAS_BASE}/datasets", params=params,
-                     headers={**_UA, "Accept": "application/json"}, timeout=60)
+    r = cached_get(f"{CDAS_BASE}/datasets", params=params,
+                   headers={"Accept": "application/json"},
+                   timeout=60, ttl_seconds=24 * 3600)
     r.raise_for_status()
     sets = r.json().get("DatasetDescription", [])
     kw = keyword.lower()
@@ -52,8 +54,8 @@ def search_cdaweb_datasets(keyword: str, instrument_type: str | None = None,
 @tool(family="discover")
 def list_cdaweb_variables(dataset: str) -> dict:
     """List the variables (names, units, descriptions) of a CDAWeb dataset ID."""
-    r = requests.get(f"{CDAS_BASE}/datasets/{dataset}/variables",
-                     headers={**_UA, "Accept": "application/json"}, timeout=60)
+    r = cached_get(f"{CDAS_BASE}/datasets/{dataset}/variables",
+                   headers={"Accept": "application/json"}, timeout=60)
     r.raise_for_status()
     variables = [
         {"name": v.get("Name"), "description": v.get("LongDescription") or v.get("ShortDescription")}
@@ -69,9 +71,8 @@ def search_heliodata(query: str, max_results: int = 20) -> dict:
     Uses the alpha HelioData API (api.heliophysics.net). Falls back with a
     clear error if the alpha API is down; CDAWeb search still works then.
     """
-    r = requests.get(f"{HELIODATA_API}/datasets",
-                     params={"search": query, "limit": max_results},
-                     headers=_UA, timeout=60)
+    r = cached_get(f"{HELIODATA_API}/datasets",
+                     params={"search": query, "limit": max_results}, timeout=60)
     r.raise_for_status()
     payload = r.json()
     items = payload if isinstance(payload, list) else payload.get("data") or payload.get("datasets") or []
@@ -159,9 +160,8 @@ def search_donki(start_date: str, end_date: str, kind: str = "FLR") -> dict:
     IPS (interplanetary shocks), SEP, HSS (high speed streams), RBE, MPC.
     Dates: 'YYYY-MM-DD'.
     """
-    r = requests.get(f"{DONKI_BASE}/{kind}",
-                     params={"startDate": start_date, "endDate": end_date},
-                     headers=_UA, timeout=90)
+    r = cached_get(f"{DONKI_BASE}/{kind}",
+                     params={"startDate": start_date, "endDate": end_date}, timeout=90)
     r.raise_for_status()
     if not r.text.strip():
         return {"n_results": 0, "events": [], "message": "DONKI returned no events"}
@@ -204,7 +204,7 @@ def get_noaa_realtime(product: str = "solar_wind") -> dict:
         return {"status": "error", "error": f"unknown product {product!r}; one of {list(urls)}"}
     out = {}
     for url in urls[product]:
-        r = requests.get(url, headers=_UA, timeout=60)
+        r = cached_get(url, timeout=60, ttl_seconds=300)
         r.raise_for_status()
         data = r.json()
         # products/*.json are list-of-lists with header row; json/*.json are dicts

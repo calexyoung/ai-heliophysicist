@@ -24,3 +24,10 @@ OMNI (SPDF; browse at https://omniweb.gsfc.nasa.gov) merges near-Earth solar win
 - Compare OMNI against the underlying L1 dataset (e.g., `WI_H0_MFI`, `AC_H0_SWE`) with an explicit ballistic shift — agreement within minutes and instrument calibration is expected.
 - Kp/Dst in OMNI vs GFZ/Kyoto official values for recent data.
 - For a shock/ICME arrival time, verify against SYM-H sudden commencement.
+
+## Related index sources (added 2026-09-02)
+For Dst and Kp beyond OMNI's copies: `fetch_kyoto_dst` (hourly Dst by
+revision - final/provisional/realtime; always cite the revision) and
+`fetch_gfz_index` (GFZ, the Kp producer: Kp/ap/Ap plus 30- and 60-min
+Hp30/Hp60, which are open-ended above 9 and resolve storm structure Kp
+saturates on - e.g. Hp30 hit 11.3 during the 2024 Gannon storm).

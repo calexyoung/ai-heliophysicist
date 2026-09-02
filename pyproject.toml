@@ -23,6 +23,7 @@ dependencies = [
     "pyspedas>=1.7",
     "plasmapy>=2024.2",
     "seaborn>=0.13",
+    "geopack>=1.0.12",
 ]
 
 [project.optional-dependencies]

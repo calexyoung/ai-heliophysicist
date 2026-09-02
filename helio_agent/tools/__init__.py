@@ -2,6 +2,8 @@
 
 from helio_agent.tools import (  # noqa: F401
     discover,
+    geospace,
+    indices,
     retrieve,
     reduce,
     measure,

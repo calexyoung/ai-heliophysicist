@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 
 import requests
 
+from helio_agent.http import cached_get
 from helio_agent.registry import tool
 from helio_agent.workspace import data_path
 
@@ -26,6 +27,29 @@ def _slug(*parts: str) -> str:
 
 def _series_to_csv(df, path) -> None:
     df.to_csv(path, index_label="time")
+
+
+def _cdaweb_coverage(dataset: str) -> tuple[str, str] | None:
+    """(start, end) ISO coverage of a CDAWeb dataset, from the cached catalog.
+
+    Returns None if the catalog lookup fails — coverage checking must never
+    block a fetch on its own outage.
+    """
+    try:
+        r = cached_get(
+            "https://cdaweb.gsfc.nasa.gov/WS/cdasr/1/dataviews/sp_phys/datasets",
+            params={"idPattern": dataset},
+            headers={"Accept": "application/json"},
+            timeout=60, ttl_seconds=24 * 3600)
+        r.raise_for_status()
+        for d in r.json().get("DatasetDescription", []):
+            if d.get("Id") == dataset:
+                ti = d.get("TimeInterval", {})
+                if ti.get("Start") and ti.get("End"):
+                    return (ti["Start"], ti["End"])
+    except Exception:  # noqa: BLE001
+        return None
+    return None
 
 
 @tool(family="retrieve")
@@ -42,6 +66,16 @@ def fetch_cdaweb_data(dataset: str, variables: list[str], start: str, end: str) 
     import pandas as pd
     from cdasws import CdasWs
     from cdasws.datarepresentation import DataRepresentation
+
+    coverage = _cdaweb_coverage(dataset)
+    if coverage is not None:
+        c_start, c_end = coverage
+        if end <= c_start or start >= c_end:
+            return {"status": "error",
+                    "error": f"refusing: requested window {start}..{end} is "
+                             f"outside {dataset} coverage {c_start}..{c_end}; "
+                             "pick a window inside coverage or a different "
+                             "dataset (search_cdaweb_datasets)"}
 
     cdas = CdasWs()
     status, ds = cdas.get_data(dataset, variables, start, end,
@@ -174,10 +208,10 @@ def fetch_helioviewer_image(date: str, layers: str = "[SDO,AIA,AIA,171,1,100]",
         "x0": 0, "y0": 0, "width": width, "height": height,
         "display": "true", "watermark": "false",
     }
-    r = requests.get("https://api.helioviewer.org/v2/takeScreenshot/",
-                     params=params, headers=_UA, timeout=120)
+    r = cached_get("https://api.helioviewer.org/v2/takeScreenshot/",
+                     params=params, timeout=120)
     r.raise_for_status()
-    if not r.headers.get("Content-Type", "").startswith("image"):
+    if not r.content.startswith(b"\x89PNG"):
         return {"status": "error", "error": f"Helioviewer error: {r.text[:300]}"}
     fname = _slug("helioviewer", date[:19], layers.strip("[]").replace(",", "-")) + ".png"
     fpath = data_path(fname)

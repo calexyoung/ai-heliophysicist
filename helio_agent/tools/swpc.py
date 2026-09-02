@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import requests
 
+from helio_agent.http import cached_get
 from helio_agent.registry import tool
 from helio_agent.workspace import data_path
 
@@ -50,7 +51,7 @@ def fetch_swpc_timeseries(product: str, start: str | None = None,
     if product not in _PRODUCTS:
         return {"status": "error",
                 "error": f"unknown product {product!r}; one of {list(_PRODUCTS)}"}
-    r = requests.get(_PRODUCTS[product], headers=_UA, timeout=90)
+    r = cached_get(_PRODUCTS[product], timeout=90, ttl_seconds=300)
     r.raise_for_status()
     raw = r.json()
 
@@ -114,8 +115,8 @@ def fetch_solar_cycle(start: str = "2008-12", end: str | None = None,
     import numpy as np
     import pandas as pd
 
-    r = requests.get(f"{_BASE}/json/solar-cycle/observed-solar-cycle-indices.json",
-                     headers=_UA, timeout=90)
+    r = cached_get(f"{_BASE}/json/solar-cycle/observed-solar-cycle-indices.json",
+                   timeout=90, ttl_seconds=6 * 3600)
     r.raise_for_status()
     df = pd.DataFrame(r.json())
     df["time"] = pd.to_datetime(df["time-tag"], format="%Y-%m")
@@ -146,8 +147,8 @@ def fetch_solar_cycle(start: str = "2008-12", end: str | None = None,
         result["smoothed_through"] = str(sm.index[-1])[:7]
 
     if include_prediction:
-        rp = requests.get(f"{_BASE}/json/solar-cycle/predicted-solar-cycle.json",
-                          headers=_UA, timeout=90)
+        rp = cached_get(f"{_BASE}/json/solar-cycle/predicted-solar-cycle.json",
+                        timeout=90, ttl_seconds=6 * 3600)
         rp.raise_for_status()
         dp = pd.DataFrame(rp.json())
         dp["time"] = pd.to_datetime(dp["time-tag"], format="%Y-%m")
@@ -167,7 +168,7 @@ def fetch_solar_cycle(start: str = "2008-12", end: str | None = None,
 def get_solar_regions() -> dict:
     """Current NOAA/SWPC numbered sunspot regions: location, magnetic class,
     area, spot count, and recent flare counts. Operational daily analysis."""
-    r = requests.get(f"{_BASE}/json/solar_regions.json", headers=_UA, timeout=60)
+    r = cached_get(f"{_BASE}/json/solar_regions.json", timeout=60, ttl_seconds=3600)
     r.raise_for_status()
     rows = r.json()
     if not rows:

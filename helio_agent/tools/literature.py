@@ -12,6 +12,7 @@ import re
 
 import requests
 
+from helio_agent.http import cached_get
 from helio_agent.registry import tool
 from helio_agent.workspace import data_path
 
@@ -29,10 +30,10 @@ def search_ads(query: str, max_results: int = 10, sort: str = "citation_count de
         return {"status": "error",
                 "error": "ADS_API_TOKEN not set; get a free token at "
                          "https://ui.adsabs.harvard.edu/user/settings/token"}
-    r = requests.get("https://api.adsabs.harvard.edu/v1/search/query",
-                     params={"q": query, "rows": max_results, "sort": sort,
-                             "fl": "bibcode,title,author,year,pub,citation_count,abstract,identifier"},
-                     headers={**_UA, "Authorization": f"Bearer {token}"}, timeout=60)
+    r = cached_get("https://api.adsabs.harvard.edu/v1/search/query",
+                   params={"q": query, "rows": max_results, "sort": sort,
+                           "fl": "bibcode,title,author,year,pub,citation_count,abstract,identifier"},
+                   headers={"Authorization": f"Bearer {token}"}, timeout=60)
     r.raise_for_status()
     docs = r.json()["response"]["docs"]
     papers = []
@@ -57,7 +58,8 @@ def get_bibtex(bibcodes: list[str]) -> dict:
         return {"status": "error", "error": "ADS_API_TOKEN not set"}
     r = requests.post("https://api.adsabs.harvard.edu/v1/export/bibtex",
                       json={"bibcode": bibcodes},
-                      headers={**_UA, "Authorization": f"Bearer {token}"}, timeout=60)
+                      headers={**_UA, "Authorization": f"Bearer {token}"},
+                      timeout=60)
     r.raise_for_status()
     return {"bibtex": r.json()["export"]}
 
@@ -68,10 +70,9 @@ def search_arxiv(query: str, max_results: int = 10, category: str = "astro-ph.SR
     physics.space-ph = space physics."""
     import defusedxml.ElementTree as ET
     q = f"cat:{category} AND all:{query}" if category else f"all:{query}"
-    r = requests.get("https://export.arxiv.org/api/query",
+    r = cached_get("https://export.arxiv.org/api/query",
                      params={"search_query": q, "max_results": max_results,
-                             "sortBy": "relevance"},
-                     headers=_UA, timeout=60)
+                             "sortBy": "relevance"}, timeout=60)
     r.raise_for_status()
     ns = {"a": "http://www.w3.org/2005/Atom"}
     root = ET.fromstring(r.text)
@@ -91,7 +92,7 @@ def search_arxiv(query: str, max_results: int = 10, category: str = "astro-ph.SR
 @tool(family="literature")
 def fetch_arxiv_pdf(arxiv_id: str) -> dict:
     """Download an arXiv paper PDF into the workspace for reading."""
-    r = requests.get(f"https://arxiv.org/pdf/{arxiv_id}", headers=_UA, timeout=120)
+    r = cached_get(f"https://arxiv.org/pdf/{arxiv_id}", timeout=120)
     r.raise_for_status()
     fpath = data_path(f"arxiv_{arxiv_id.replace('/', '_')}.pdf")
     fpath.write_bytes(r.content)

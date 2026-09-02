@@ -4,6 +4,7 @@ Usage:
     helio-agent list [family]
     helio-agent describe <tool>
     helio-agent run <tool> '<json-args>'
+    helio-agent replay <audit-id>
     helio-agent audit [n]
 
 The LLM agent drives tools through `run`; each call is audit-logged.
@@ -50,6 +51,12 @@ def main() -> int:
         result = run_tool(name, **kwargs)
         print(json.dumps(result, indent=2, default=str))
         return 0 if result.get("status") == "ok" else 1
+
+    if cmd == "replay":
+        from helio_agent.registry import replay
+        result = replay(args[1])
+        print(json.dumps(result, indent=2, default=str))
+        return 0 if result.get("verdict") == "match" else 1
 
     if cmd == "audit":
         n = int(args[1]) if len(args) > 1 else 10
