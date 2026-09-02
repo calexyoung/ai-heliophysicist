@@ -7,3 +7,4 @@ workspace/outputs/
 workspace/logs/
 .DS_Store
 .remember/
+workspace/cache/
