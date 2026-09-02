@@ -15,7 +15,7 @@ trusted software base.
 |---|---|---|
 | Scientist | directs the question, owns the result | same |
 | LLM | rented judgment: plans, selects, interprets | same (Claude Code session under `CLAUDE.md`) |
-| Tool layer | 66 tools wrapping HEASoft, XSPEC, CIAO, SAS, Fermitools | 60 tools wrapping sunpy, pyspedas, plasmapy, geopack, cdasws, sscws, hapiclient, cdflib + HDRL/NOAA REST services |
+| Tool layer | 66 tools wrapping HEASoft, XSPEC, CIAO, SAS, Fermitools | 61 tools wrapping sunpy, pyspedas, plasmapy, geopack, cdasws, sscws, hapiclient, cdflib + HDRL/NOAA REST services |
 | Environment | conda env, data trees, outputs, logs | `uv`-managed env; `workspace/{data,outputs,logs}` |
 | Knowledge | 317 skill documents | 43 skill documents (missions / methods / datasources / tools), growing |
 | Assurance | fabrication = hard failure, audit trail, validation vs published results | same: `CLAUDE.md` contract, `audit.jsonl`, `validation/run_validation.py` |

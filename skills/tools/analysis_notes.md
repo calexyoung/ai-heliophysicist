@@ -87,3 +87,13 @@ tiny convert_markdown call before relying on it; unknown ids 400 cleanly.
 - Logarithmic Chart.js axes label ticks verbosely (1.0000000000E-6);
   acceptable, but prefer linear axes where the data allows.
 - Sun News web edition example: unmarkdown.com/u/calexyoung/sun-news-2026-09-02
+
+## Self-hosted export (added 2026-09-02)
+`export_html(markdown_file, template_id="research", theme_mode, out_name)`
+produces a standalone HTML page: template styles inlined via the unmarkdown
+convert API, plus an SRI-pinned client runtime (mermaid 11.12.1, Chart.js
+4.5.1, KaTeX 0.16.18 from cdnjs) that renders mermaid/chart/math blocks.
+Host it anywhere (thesuntoday.org, GitHub Pages) or open locally — no
+unmarkdown.com hosting needed; viewers need network for the CDN scripts.
+Use the hosted publish flow when you want a zero-setup share link, the
+export when the page must live on your own domain.

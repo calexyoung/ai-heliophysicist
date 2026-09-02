@@ -17,7 +17,7 @@ produced it; every tool is anchored to a published result before use.
 
 ```bash
 uv sync                                   # one-time: build the environment
-uv run helio-agent list                   # 60 tools in six families
+uv run helio-agent list                   # 61 tools in six families
 uv run helio-agent run fetch_omni '{"start":"2024-05-10T00:00:00Z","end":"2024-05-14T00:00:00Z"}'
 uv run python validation/run_validation.py  # prove the stack against known results
 uv run helio-agent report sun-news          # today's space-weather report (PDF)

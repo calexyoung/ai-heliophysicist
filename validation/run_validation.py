@@ -423,6 +423,40 @@ def case_repro_20120723() -> None:
     _ = np.asarray  # keep numpy import used if pandas paths change
 
 
+def case_export_html() -> None:
+    """Self-hosted HTML export (export_html) sanity.
+
+    Anchor: a markdown sample with heading + mermaid + math converts to a
+    standalone page containing the inlined template styles, the SRI-pinned
+    client runtime, and the source content. Requires UNMARKDOWN_API_KEY;
+    without it the tool must refuse cleanly (that refusal is what CI checks).
+    """
+    import os
+    from helio_agent.workspace import DATA_DIR, ensure_dirs
+    ensure_dirs()
+    sample = DATA_DIR / "_validation_export.md"
+    sample.write_text("# Export check\n\nInline math $v_A$.\n\n"
+                      "```mermaid\nflowchart LR\n  A --> B\n```\n")
+    r = run_tool("export_html", markdown_file=str(sample),
+                 out_name="_validation_export.html")
+    if not os.environ.get("UNMARKDOWN_API_KEY"):
+        ok = r.get("status") == "error" and "UNMARKDOWN_API_KEY" in r.get("error", "")
+        check("export.refusal_without_key", ok,
+              "no key in this environment; tool must refuse with a reason "
+              f"(got: {r.get('error', r.get('status'))!r}). Full render is "
+              "validated in keyed environments.")
+        return
+    if r.get("status") != "ok":
+        check("export.render", False, r.get("error", ""))
+        return
+    html = open(r["file"]).read()
+    ok = ("Export check" in html and "integrity=\"sha384-" in html
+          and "language-mermaid" in html and "font-family" in html)
+    check("export.render", ok,
+          f"{r['bytes']} bytes; template styles inlined, SRI-pinned runtime "
+          f"present, mermaid block passed through for client render")
+
+
 CASES = {
     "halloween2003": case_halloween_2003,
     "flare20170906": case_flare_20170906,
@@ -439,6 +473,7 @@ CASES = {
     "aia": case_aia_degradation,
     "verify": case_verify_claim,
     "repro20120723": case_repro_20120723,
+    "export": case_export_html,
 }
 
 
