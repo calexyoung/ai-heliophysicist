@@ -1,5 +1,13 @@
 # What helio-agent can teach ai-heliophysicist
 
+> **Status (2026-09-02): implemented.** Tiers 1-3 landed the same day
+> (HTTP cache + replay, coverage refusals, cotrans/tracing, Kyoto/GFZ
+> indices, Dst nowcast + CME arrival with backtests, monitor ledger, saved
+> reports, CI guards, EVT, AIA degradation, verify_claim). Deliberately
+> excluded: HELIO4CAST catalogs (user decision: paper-specific) and
+> agent-evals-in-CI (needs an LLM key in CI). Still open: hindcast
+> machinery over the accumulating ledger. Kept as the design record.
+
 A review of `~/Developer/helio-agent` (v1.1.0, 70 skills, ~930 recorded runs)
 looking for features that would improve this project. helio-agent has a
 different architecture (skill protocol + pipelines + FastAPI/web UI + an

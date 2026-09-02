@@ -63,23 +63,48 @@ tool set.
 
 ## Validation
 
-`validation/run_validation.py` — run on every dependency upgrade or tool change:
+`validation/run_validation.py` — 21 checks in 14 cases, run on every push
+(CI), dependency upgrade, or tool change. Anchor types:
 
-- **halloween2003** — OMNI2 Dst minimum −383 nT at 2003-10-30 ~22:30 UT
-  (Kyoto WDC; Gopalswamy et al. 2005).
-- **flare20170906** — X-flare peaks 09:10 and 12:02 UT from GOES XRS, largest
-  in X8–X12 band (published X9.3 operational scale), plus DONKI cross-check.
-- **rotation2017** — Lomb-Scargle peak near the 27.28 d synodic solar
-  rotation in OMNI solar wind speed.
-- **ephemeris** — ACE mean GSE-X ≈ 1.5×10⁶ km (L1).
+- **Published-event anchors**: Halloween 2003 Dst −383 nT exact; 2017-09-06
+  X-flare timing exact + DONKI cross-check; 2012-07-12 CME arrival within
+  1.9 h of the observed shock; 2015 St. Patrick storm Dst-model skill;
+  March 1989 −589 nT as the 61-year extreme-value record; solar-cycle 24/25
+  smoothed maxima; Kyoto final Dst and GFZ Kp for known storms.
+- **Cross-implementation anchors**: pySPEDAS vs CDAWeb pipelines (0.01%);
+  cotrans vs geopack rotations (10⁻⁴ nT) — this check caught a real
+  pandas-3 epoch bug that single-implementation tests shared.
+- **Analytic anchors**: PlasmaPy Alfvén speed / beta against closed-form
+  values; T89 footpoints in the auroral zone.
+- **Behavioral anchors**: verify_claim's match/mismatch/refusal logic;
+  export_html rendering (and its keyless refusal in CI); the 2012-07-23
+  reproduction case guards the documented L2 plasma gap so a future
+  reprocessing flags the stale caveat instead of hiding it.
+
+Engineering guards live separately in `tests/` (offline, every push):
+schema lock (tool-interface drift fails CI unless deliberately
+regenerated), docs-current (README counts must match the registry), HTTP
+cache behavior (secrets never on disk), user-tool scoping.
+
+## Beyond the original pattern
+
+Adopted from the author's helio-agent harness (see
+`docs/helio_agent_review.md`, now largely implemented): content-addressed
+HTTP cache + replay manifests, coverage-aware refusals, the monitor with a
+scored forecast ledger, saved rerunnable reports, physics models with
+population backtests, extreme-value convention sweeps, and the
+refuse-rather-than-false-mismatch claim verifier.
 
 ## Growth path
 
 - More retrieve targets: Solar Orbiter LL02 and STEREO beacon (URLs in
-  `skills/datasources/solar_orbiter_stereo_lowlatency.md`), JSOC bulk AIA/HMI,
-  Madrigal (ground-based), viresclient (Swarm).
-- pyspedas-backed loaders for MMS/THEMIS burst products (optional-deps group
-  `heavy` is already declared).
+  `skills/datasources/solar_orbiter_stereo_lowlatency.md`), JSOC bulk
+  AIA/HMI, Madrigal (ground-based), viresclient (Swarm).
+- Hindcast machinery over the accumulating forecast ledger
+  (precision/recall, reliability diagrams) once it holds enough verdicts;
+  refinement of the monitor's crude |longitude| ≤ 60° cone test.
+- Higher-fidelity field models (T96/TS04) behind trace_field_line for
+  storm-time work; spectrogram-capable pySPEDAS retrieval.
 - A critic/reviewer role and MCP exposure of the tool registry (the PPTX's
-  MCP direction: CDAWeb/SSCWeb already ship MCP-era clients) so any MCP-aware
-  client can drive the same audited tools.
+  MCP direction: CDAWeb/SSCWeb already ship MCP-era clients) so any
+  MCP-aware client can drive the same audited tools.

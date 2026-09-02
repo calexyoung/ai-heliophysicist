@@ -59,8 +59,13 @@ personal. Route new work by generality, not convenience — the full policy is
 uv run helio-agent list                # all tools by family
 uv run helio-agent describe <tool>     # signature + full docs
 uv run helio-agent run <tool> '<json>' # invoke (audit-logged)
+uv run helio-agent replay <audit-id>   # re-execute a recorded call from cache
 uv run helio-agent audit [n]           # recent audit entries
+uv run helio-agent monitor             # standing watch: CME forecasts + ledger
+uv run helio-agent report sun-news [--date D] [--archive]   # saved daily report
 ```
+
+Human-facing walkthroughs live in docs/USAGE.md.
 
 Six families: discover, retrieve, reduce, measure, literature, report.
 The normal flow of an analysis is discover → retrieve → reduce → measure →
