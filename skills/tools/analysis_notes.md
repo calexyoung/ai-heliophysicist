@@ -42,12 +42,14 @@ Tools: `create_document` (title, content, template_id) →
   unmarkdown.com only — raw HTML pasting loses formatting.
 
 ## Template options (all verified 2026-09-02, rendered with real content)
-Ask the user which format, or use their stated default. Samples below share
-identical content — compare side by side:
+**Default: `research`** (user decision 2026-09-02) — use it without asking.
+Offer the alternatives only when the user asks for a different look or the
+note's character clearly calls for one (e.g. `logbook` for an observing-log
+style event study). Samples share identical content — compare side by side:
 
 | template_id | Character | Sample |
 |---|---|---|
-| `research` | DM Sans/Serif; modern academic; good default for reproductions | [sample](https://unmarkdown.com/u/calexyoung/analysis-note-sample-research) |
+| `research` | **DEFAULT** — DM Sans/Serif; modern academic | [sample](https://unmarkdown.com/u/calexyoung/analysis-note-sample-research) |
 | `lab-report` | Source fonts; structured, scientific-report feel | [sample](https://unmarkdown.com/u/calexyoung/analysis-note-sample-lab-report) |
 | `ieee` | Noto; journal-manuscript styling | [sample](https://unmarkdown.com/u/calexyoung/analysis-note-sample-ieee) |
 | `apa` | APA-manuscript styling; formal reports | [sample](https://unmarkdown.com/u/calexyoung/analysis-note-sample-apa) |
