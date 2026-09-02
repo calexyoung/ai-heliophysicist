@@ -27,19 +27,33 @@ def plot_timeseries(file: str, columns: list[str] | None = None,
                     title: str = "", log_y: bool = False,
                     event_times: list[str] | None = None,
                     event_labels: list[str] | None = None,
+                    series_labels: list[str] | None = None,
+                    y_label: str = "",
                     out_name: str = "timeseries.png") -> dict:
-    """Single-panel time-series plot of one or more columns from a workspace CSV."""
+    """Single-panel time-series plot of one or more columns from a workspace CSV.
+
+    series_labels: legend names for the plotted columns, in the same order
+    (e.g. ["Monthly SSN", "13-month smoothed"]) — finished figures should
+    never show raw column names. y_label: axis label with units.
+    """
     from helio_agent.style import figsize, style_event_lines
     plt = _setup_mpl()
     df = _load_csv(file)
     cols = columns or list(df.columns)[:6]
+    if series_labels and len(series_labels) != len(cols):
+        return {"status": "error",
+                "error": f"series_labels has {len(series_labels)} entries "
+                         f"for {len(cols)} columns"}
     fig, ax = plt.subplots(figsize=figsize("page", 0.42))
-    for c in cols:
-        ax.plot(df.index, df[c], lw=1.2, label=c)
+    for i, c in enumerate(cols):
+        ax.plot(df.index, df[c], lw=1.2,
+                label=series_labels[i] if series_labels else c)
     if log_y:
         ax.set_yscale("log")
     style_event_lines(ax, event_times, event_labels)
     ax.set_xlabel("Time (UTC)")
+    if y_label:
+        ax.set_ylabel(y_label)
     ax.set_title(title or file.rsplit("/", 1)[-1])
     if len(cols) > 1:
         ax.legend(loc="best")
