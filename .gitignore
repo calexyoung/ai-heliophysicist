@@ -8,3 +8,4 @@ workspace/logs/
 .DS_Store
 .remember/
 workspace/cache/
+workspace/monitor_state.json
