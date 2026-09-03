@@ -4,6 +4,7 @@
  "cme_arrival": "b72d786b7ff1c8ab",
  "compute_derived": "d0b69196a8277a32",
  "correct_aia_map": "90b95d107a0c4d58",
+ "create_reproduction_manifest": "4f68c4d3f341d490",
  "cross_correlate": "fe4a4d0b04f2589d",
  "describe_series": "c2e090617fd8df9b",
  "detect_icme": "5ac3ed30b2319b21",
@@ -50,6 +51,7 @@
  "plot_timeseries": "9c9ed73b2a7fb67f",
  "propagation_delay": "2ffeae2b406106f6",
  "radio_bursts": "564a1e81f7c1a324",
+ "render_reproduction_report": "3fd5167a5cb43a28",
  "resample_series": "a174e841c3f4c9bf",
  "save_json": "75fbb89743d7491a",
  "search_ads": "26e2a6c15d311ab6",
@@ -64,6 +66,7 @@
  "superposed_epoch": "f9905813cb10e2d6",
  "trace_field_line": "b1ad80ef748671ad",
  "transform_coordinates": "393c2a172308d9b7",
+ "validate_reproduction_manifest": "d0ae040e5fec651c",
  "verify_claim": "201dd227c0f82953",
  "write_pdf_report": "ce2544c88a77dd08"
 }

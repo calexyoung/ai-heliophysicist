@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-67 core tools in six families. Invoke any tool with
+70 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -13,9 +13,9 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | **discover** (11) | `get_noaa_realtime`, `get_solar_regions`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
 | **retrieve** (14) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
-| **measure** (20) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
+| **measure** (21) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
-| **report** (8) | `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_stack`, `plot_timeseries`, `write_pdf_report` |
+| **report** (10) | `create_reproduction_manifest`, `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_stack`, `plot_timeseries`, `render_reproduction_report`, `write_pdf_report` |
 
 ## discover
 
@@ -892,6 +892,16 @@ during storm main phases; see skills/methods/coordinate_systems.md.
 
 *Source: `helio_agent/tools/geospace.py`*
 
+### `validate_reproduction_manifest`
+
+```python
+validate_reproduction_manifest(file: 'str') -> 'dict'
+```
+
+Validate a reproduction manifest and all of its audit references.
+
+*Source: `helio_agent/reproduction.py`*
+
 ### `verify_claim`
 
 ```python
@@ -963,6 +973,20 @@ physics.space-ph = space physics.
 ## report
 
 Publication-styled figures, statistical plots, PDF reports, and self-hosted HTML export.
+
+### `create_reproduction_manifest`
+
+```python
+create_reproduction_manifest(paper: 'dict', claims: 'list[dict]', out_name: 'str' = 'reproduction.json') -> 'dict'
+```
+
+Create a deterministic, versioned manifest for reproduced paper claims.
+
+Ready claims must include complete data identity, an ordered audited tool
+recipe, and an audit-backed verify_claim result. Method gaps and blocked
+claims remain visible with an explicit reason instead of being omitted.
+
+*Source: `helio_agent/reproduction.py`*
 
 ### `export_html`
 
@@ -1071,6 +1095,16 @@ series_labels: legend names for the plotted columns, in the same order
 never show raw column names. y_label: axis label with units.
 
 *Source: `helio_agent/tools/report.py`*
+
+### `render_reproduction_report`
+
+```python
+render_reproduction_report(file: 'str', out_name: 'str' = 'reproduction.md') -> 'dict'
+```
+
+Render a validated reproduction manifest as deterministic Markdown.
+
+*Source: `helio_agent/reproduction.py`*
 
 ### `write_pdf_report`
 
