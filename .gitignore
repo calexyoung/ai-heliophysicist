@@ -12,3 +12,4 @@ workspace/cache/
 workspace/monitor_state.json
 users/*/workspace/
 graphify-out/
+.gbrain-source
