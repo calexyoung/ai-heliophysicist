@@ -39,7 +39,9 @@ def _load_state() -> dict:
 
 def _save_state(state: dict) -> None:
     STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
-    STATE_FILE.write_text(json.dumps(state, indent=1, default=str))
+    temporary = STATE_FILE.with_suffix(".tmp")
+    temporary.write_text(json.dumps(state, indent=1, default=str))
+    temporary.replace(STATE_FILE)
 
 
 def _now() -> datetime:
@@ -50,11 +52,29 @@ def cycle(lookback_days: int = 3) -> dict:
     state = _load_state()
     now = _now()
     summary: dict = {"cycle_time": now.isoformat(), "new_cmes": [],
-                     "new_forecasts": [], "matured": [], "new_storms": []}
+                     "new_forecasts": [], "matured": [], "new_storms": [],
+                     "failed_sources": []}
+    required_source_failed = False
+
+    def fetch(tool: str, *, required: bool = False, **kwargs) -> dict:
+        nonlocal required_source_failed
+        try:
+            result = run_tool(tool, **kwargs)
+        except Exception as exc:  # noqa: BLE001 - monitor must persist health
+            result = {"status": "error", "error": str(exc)}
+        if result.get("status") != "ok":
+            summary["failed_sources"].append({
+                "tool": tool,
+                "request": kwargs,
+                "error": result.get("error", "source request failed"),
+                "required": required,
+            })
+            required_source_failed = required_source_failed or required
+        return result
 
     # 1. current conditions
-    kp = run_tool("get_noaa_realtime", product="kp")
-    xray = run_tool("get_noaa_realtime", product="xray")
+    kp = fetch("get_noaa_realtime", product="kp")
+    xray = fetch("get_noaa_realtime", product="xray")
     conditions = {}
     try:
         blob = kp["data"]["noaa-planetary-k-index.json"]
@@ -78,8 +98,8 @@ def cycle(lookback_days: int = 3) -> dict:
     end = now.strftime("%Y-%m-%d")
 
     # 2. new CMEs -> forecasts
-    analyses = run_tool("search_donki", start_date=start, end_date=end,
-                        kind="CMEAnalysis")
+    analyses = fetch("search_donki", required=True, start_date=start,
+                     end_date=end, kind="CMEAnalysis")
     by_cme: dict[str, list] = {}
     for a in analyses.get("events", []):
         cid = a.get("associatedCMEID")
@@ -123,9 +143,13 @@ def cycle(lookback_days: int = 3) -> dict:
             continue
         lo = pd.Timestamp(fc["window"][0])
         lo = lo.tz_localize("UTC") if lo.tzinfo is None else lo
-        ips = run_tool("search_donki",
-                       start_date=str(lo.date() - timedelta(days=1)),
-                       end_date=str(hi.date() + timedelta(days=1)), kind="IPS")
+        ips = fetch("search_donki", required=True,
+                    start_date=str(lo.date() - timedelta(days=1)),
+                    end_date=str(hi.date() + timedelta(days=1)), kind="IPS")
+        if ips.get("status") != "ok":
+            # An unavailable observation source is not evidence of a miss.
+            still_pending.append(fc)
+            continue
         hit_time = None
         for ev in ips.get("events", []):
             if ev.get("location") != "Earth" or not ev.get("eventTime"):
@@ -144,7 +168,8 @@ def cycle(lookback_days: int = 3) -> dict:
     state["pending_forecasts"] = still_pending
 
     # 4. new storms
-    gst = run_tool("search_donki", start_date=start, end_date=end, kind="GST")
+    gst = fetch("search_donki", required=True, start_date=start, end_date=end,
+                kind="GST")
     for ev in gst.get("events", []):
         gid = ev.get("gstID")
         if gid and gid not in state["seen_gst_ids"]:
@@ -155,6 +180,11 @@ def cycle(lookback_days: int = 3) -> dict:
     hits = sum(1 for e in ledger if e["verdict"] == "hit")
     summary["ledger_score"] = {"n_scored": len(ledger), "hits": hits,
                                "pending": len(state["pending_forecasts"])}
-    state["last_cycle"] = now.isoformat()
+    summary["status"] = ("error" if required_source_failed else
+                         "degraded" if summary["failed_sources"] else "ok")
+    state["last_attempt"] = now.isoformat()
+    state["last_cycle"] = now.isoformat()  # backward-compatible state field
+    if not required_source_failed:
+        state["last_successful_ingestion"] = now.isoformat()
     _save_state(state)
     return summary

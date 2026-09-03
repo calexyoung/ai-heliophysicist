@@ -72,8 +72,9 @@ def main() -> int:
 
     if cmd == "monitor":
         from helio_agent.monitor import cycle
-        print(json.dumps(cycle(), indent=2, default=str))
-        return 0
+        result = cycle()
+        print(json.dumps(result, indent=2, default=str))
+        return 1 if result.get("status") == "error" else 0
 
     if cmd == "audit":
         n = int(args[1]) if len(args) > 1 else 10
