@@ -59,19 +59,19 @@ skills before acting, cross-check, everything on disk).
 
 | Path | What |
 |---|---|
-| `CLAUDE.md` | The agent's operating contract (the judgment layer's rules) |
-| `helio_agent/` | Tool layer: registry, audit, HTTP cache, CLI, monitor, reports, six tool families |
-| `skills/` | 43 knowledge documents: missions, methods, datasources, software — read before acting |
-| `validation/` | 21 checks anchored to published results (Halloween 2003, 2017 X9.3, 2012-07-23 CME, ...) |
-| `tests/` | Offline CI guards: schema lock, docs-current, cache behavior, user-tool scoping |
-| `workspace/` | Persistent environment: `data/`, `outputs/`, `cache/` (shared), `logs/audit.jsonl` |
-| `users/` | Per-user profiles (`HELIO_AGENT_USER=<name>`): one-off tools/skills/analyses; core stays general — see [users/README.md](users/README.md) |
-| `docs/USAGE.md` | **Detailed usage documentation** — setup, CLI, workflows, troubleshooting |
-| `docs/TOOLS.md` | **Every tool**: signature + docstring, generated from the registry (drift fails CI) |
-| `docs/SKILLS.md` | **Every skill document**, cataloged with its one-line summary (generated) |
-| `docs/MODULES.md` | The `helio_agent` package module by module: registry, audit, cache, monitor, reports, tool modules |
-| `docs/ARCHITECTURE.md` | Full design, mapping to the AI Astrophysicist model |
-| `CHANGELOG.md` | Release history |
+| [`CLAUDE.md`](CLAUDE.md) | The agent's operating contract (the judgment layer's rules) |
+| [`helio_agent/`](helio_agent/) | Tool layer: registry, audit, HTTP cache, CLI, monitor, reports, six tool families |
+| [`skills/`](skills/README.md) | 43 knowledge documents: missions, methods, datasources, software — read before acting |
+| [`validation/`](validation/run_validation.py) | 21 checks anchored to published results (Halloween 2003, 2017 X9.3, 2012-07-23 CME, ...) |
+| [`tests/`](tests/) | Offline CI guards: schema lock, docs-current, cache behavior, user-tool scoping |
+| [`workspace/`](workspace/) | Persistent environment: `data/`, `outputs/`, `cache/` (shared), `logs/audit.jsonl` |
+| [`users/`](users/README.md) | Per-user profiles (`HELIO_AGENT_USER=<name>`): one-off tools/skills/analyses; core stays general — see [users/README.md](users/README.md) |
+| [`docs/USAGE.md`](docs/USAGE.md) | **Detailed usage documentation** — setup, CLI, workflows, troubleshooting |
+| [`docs/TOOLS.md`](docs/TOOLS.md) | **Every tool**: signature + docstring, generated from the registry (drift fails CI) |
+| [`docs/SKILLS.md`](docs/SKILLS.md) | **Every skill document**, cataloged with its one-line summary (generated) |
+| [`docs/MODULES.md`](docs/MODULES.md) | The `helio_agent` package module by module: registry, audit, cache, monitor, reports, tool modules |
+| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Full design, mapping to the AI Astrophysicist model |
+| [`CHANGELOG.md`](CHANGELOG.md) | Release history |
 
 ## Tool families
 
