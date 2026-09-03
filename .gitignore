@@ -11,3 +11,4 @@ workspace/logs/
 workspace/cache/
 workspace/monitor_state.json
 users/*/workspace/
+graphify-out/
