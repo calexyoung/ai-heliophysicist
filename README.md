@@ -19,7 +19,7 @@ produced it; every tool is anchored to a published result before use —
 
 ```bash
 uv sync                                     # one-time: build the environment
-uv run helio-agent list                     # 62 tools in six families
+uv run helio-agent list                     # 63 tools in six families
 uv run helio-agent run fetch_omni '{"start":"2024-05-10T00:00:00Z","end":"2024-05-14T00:00:00Z"}'
 uv run python validation/run_validation.py  # prove the stack against known results
 uv run helio-agent report sun-news          # today's space-weather report (PDF)
@@ -61,7 +61,7 @@ skills before acting, cross-check, everything on disk).
 |---|---|
 | [`CLAUDE.md`](CLAUDE.md) | The agent's operating contract (the judgment layer's rules) |
 | [`helio_agent/`](helio_agent/) | Tool layer: registry, audit, HTTP cache, CLI, monitor, reports, six tool families |
-| [`skills/`](skills/README.md) | 43 knowledge documents: missions, methods, datasources, software — read before acting |
+| [`skills/`](skills/README.md) | 44 knowledge documents: missions, methods, datasources, software — read before acting |
 | [`validation/`](validation/run_validation.py) | 21 checks anchored to published results (Halloween 2003, 2017 X9.3, 2012-07-23 CME, ...) |
 | [`tests/`](tests/) | Offline CI guards: schema lock, docs-current, cache behavior, user-tool scoping |
 | [`workspace/`](workspace/) | Persistent environment: `data/`, `outputs/`, `cache/` (shared), `logs/audit.jsonl` |
@@ -88,7 +88,7 @@ skills before acting, cross-check, everything on disk).
 - **measure** — flare detection + GOES classification, storm metrics,
   Lomb-Scargle, cross-correlation, superposed epoch, field-line tracing
   (T89), Dst nowcast, CME arrival (DBM), extreme-value statistics,
-  plasma parameters (PlasmaPy), ICME/shock/sheath detection, claim verification
+  plasma parameters (PlasmaPy), ICME/shock/sheath detection, SEP radiation-storm characterization, claim verification
 - **literature** — NASA ADS (token via `ADS_API_TOKEN`), arXiv search + PDF fetch, BibTeX
 - **report** — publication-styled time-series/stack/solar-map/orbit plots
   (CVD-validated palette), seaborn statistical plots, PDF reports,

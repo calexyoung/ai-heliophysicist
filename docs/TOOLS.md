@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-62 core tools in six families. Invoke any tool with
+63 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -13,7 +13,7 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | **discover** (11) | `get_noaa_realtime`, `get_solar_regions`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
 | **retrieve** (13) | `fetch_cdaweb_data`, `fetch_gfz_index`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
-| **measure** (16) | `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `linear_fit`, `lomb_scargle`, `model_dst`, `plasma_parameters`, `propagation_delay`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
+| **measure** (17) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `linear_fit`, `lomb_scargle`, `model_dst`, `plasma_parameters`, `propagation_delay`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
 | **report** (8) | `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_stack`, `plot_timeseries`, `write_pdf_report` |
 
@@ -499,6 +499,39 @@ is preserved by construction.
 ## measure
 
 Fit, correlate, model, and quantify. These produce the science numbers — each anchored by a validation case.
+
+### `characterize_sep`
+
+```python
+characterize_sep(file: 'str', flux_10mev_column: 'str', flux_30mev_column: 'str | None' = None, threshold_pfu: 'float' = 10.0, gap_hours: 'float' = 12.0, min_hours: 'float' = 2.0, flare_peak_time: 'str | None' = None, flare_class: 'str | None' = None, flare_lon_deg: 'float | None' = None, vsw_km_s: 'float' = 450.0, threshold_30mev_pfu: 'float' = 1.0, plot: 'bool' = True, out_name: 'str' = 'sep.png') -> 'dict'
+```
+
+Characterize solar energetic particle (radiation storm) events in a
+proton-flux CSV: NOAA S-scale from the >10 MeV peak, onset / end /
+duration, per-channel peak and fluence, spectral hardness ratio, and —
+with flare context — onset physics (delay vs the Parker-spiral
+free-streaming expectation, >30 / >10 MeV velocity dispersion, magnetic
+connection of the flare site).
+
+file: workspace CSV with a 'time' index. Fluxes are integral proton
+fluxes in pfu (protons cm^-2 s^-1 sr^-1): OMNI hourly PR-FLX_101800 /
+PR-FLX_301800 (available through 2020-03 only), or GOES SEISS/EPEAD
+integral channels.
+
+An event is >10 MeV flux >= threshold_pfu (NOAA S1 = 10), samples
+merged across gaps <= gap_hours (decay dips do not split an event), kept
+when >= min_hours long. The primary event `sep` is the FIRST qualifying
+one (prompt injection); `events` lists all in time order.
+
+flare_peak_time (ISO UTC) enables `physics` for the primary event;
+flare_class labels the note; flare_lon_deg (heliographic, west positive)
+adds the connection angle to the Parker footpoint for vsw_km_s.
+threshold_30mev_pfu marks the >30 MeV onset for the dispersion check.
+
+Returns sep, events, n_events, physics, method, note, and the figure
+path when plot (log flux, both channels, threshold, events shaded).
+
+*Source: `helio_agent/tools/sep.py`*
 
 ### `cme_arrival`
 

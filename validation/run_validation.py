@@ -495,6 +495,50 @@ def case_detect_icme() -> None:
           f"rotation {m['icme']['rotation_deg']} deg r2={m['icme']['rotation_r2']}")
 
 
+def case_characterize_sep() -> None:
+    """SEP characterization for the 2017-09-10 X8.2 event (hourly OMNI protons).
+
+    Anchor: NOAA/SWPC S3 radiation storm — GOES >10 MeV onset 2017-09-10
+    16:45 UT, peak 1490 pfu at 2017-09-11 11:45 UT; parent flare X8.2 peak
+    16:06 UT from AR 12673 at S08W88 (a ground-level enhancement, GLE 72,
+    i.e. a well-connected, prompt event). OMNI hourly fluxes are averaged
+    half-hour-midpoint samples from a different sensor chain, so the peak
+    must land within 1 h and 800-1500 pfu (S3 either way), the onset within
+    2 h, and the >30 MeV channel must cross 1 pfu no later than the >10 MeV
+    onset (velocity dispersion). OMNI proton fluxes end 2020-03.
+    """
+    import pandas as pd
+    r = run_tool("fetch_omni", start="2017-09-09T00:00:00Z",
+                 end="2017-09-16T00:00:00Z",
+                 variables=["PR-FLX_101800", "PR-FLX_301800", "V1800"])
+    if r["status"] != "ok":
+        check("sep.fetch", False, r.get("error", ""))
+        return
+    m = run_tool("characterize_sep", file=r["file"], flux_10mev_column="PR-FLX_101800",
+                 flux_30mev_column="PR-FLX_301800",
+                 flare_peak_time="2017-09-10T16:06:00Z", flare_class="X8.2",
+                 flare_lon_deg=88.0, out_name="_validation_sep.png")
+    if m["status"] != "ok" or m["sep"] is None:
+        check("sep.20170910", False, m.get("error") or m.get("note", ""))
+        return
+    def h(a, b):  # tool timestamps are naive UTC
+        return abs((pd.Timestamp(a) - pd.Timestamp(b)).total_seconds()) / 3600
+    sep, ph = m["sep"], m["physics"]
+    d_onset = h(sep["onset"], "2017-09-10 16:45")
+    d_peak = h(sep["peak_10mev"]["time"], "2017-09-11 11:45")
+    peak = sep["peak_10mev"]["value"]
+    ok = (sep["s_scale"] == "S3" and d_onset <= 2 and d_peak <= 1
+          and 800 <= peak <= 1500 and ph is not None
+          and ph["dispersion_minutes"] is not None and ph["dispersion_minutes"] >= 0
+          and 0 < ph["onset_delay_hours"] <= 3)
+    check("sep.20170910", ok,
+          f"{sep['s_scale']}, onset {sep['onset']} ({d_onset:.1f} h off 16:45), peak "
+          f"{peak:g} pfu at {sep['peak_10mev']['time']} ({d_peak:.1f} h off; GOES 1490), "
+          f"hardness {sep['hardness_ratio']}, onset {ph['onset_delay_hours']} h after X8.2 "
+          f"(expect {ph['expected_delay_hours_10mev']} h), >30 MeV led by "
+          f"{ph['dispersion_minutes']} min, connection {ph['connection_angle_deg']} deg")
+
+
 CASES = {
     "halloween2003": case_halloween_2003,
     "flare20170906": case_flare_20170906,
@@ -508,6 +552,7 @@ CASES = {
     "dstmodel": case_dst_model,
     "cmearrival": case_cme_arrival,
     "icme": case_detect_icme,
+    "sep": case_characterize_sep,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

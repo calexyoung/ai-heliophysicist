@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- **`characterize_sep`** (measure): second port from helio-agent
+  (`analysis.characterize_sep` v1.2.0). NOAA S-scale radiation-storm
+  detection on >10 MeV integral proton flux (events merged across
+  `gap_hours`, first event is the primary), per-channel peak and fluence,
+  >30/>10 MeV hardness ratio, and with flare context the onset physics:
+  delay vs Parker-spiral free-streaming expectation, >30 MeV velocity
+  dispersion, connection angle to the Parker footpoint. Log-flux figure.
+  Validation anchor: 2017-09-10 X8.2 / S3 event on hourly OMNI (peak 1208
+  pfu at 11:30 vs GOES 1490 at 11:45; onset within an hour; >30 MeV led by
+  60 min). Twelve offline tests. New skill `skills/methods/sep_analysis.md`
+  (OMNI proton fluxes end 2020-03; the 40 deg connection gate is strict at
+  measured wind speeds).
+
 - **`detect_icme`** (measure): first capability port from helio-agent
   (`analysis.detect_icme` v1.3.0). Low-proton-temperature ICME intervals
   (Lopez 1987 Texp(V)), shock gate against cold slow wind, clock-angle
