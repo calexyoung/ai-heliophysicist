@@ -7,8 +7,10 @@ be traced back to the exact call that produced it.
 from __future__ import annotations
 
 import json
+import math
 import time
 import uuid
+from pathlib import Path
 from typing import Any
 
 from helio_agent.workspace import LOG_DIR, ensure_dirs
@@ -22,6 +24,59 @@ def _jsonable(obj: Any) -> Any:
         return obj
     except (TypeError, ValueError):
         return repr(obj)
+
+
+def canonical_result(obj: Any) -> Any:
+    """Return a stable JSON-safe representation of a tool result."""
+    if isinstance(obj, dict):
+        return {str(k): canonical_result(v) for k, v in sorted(obj.items())
+                if k != "audit_id"}
+    if isinstance(obj, (list, tuple)):
+        return [canonical_result(v) for v in obj]
+    if isinstance(obj, set):
+        return sorted((canonical_result(v) for v in obj), key=repr)
+    if isinstance(obj, Path):
+        return str(obj)
+    if isinstance(obj, float):
+        if math.isnan(obj):
+            return "NaN"
+        if math.isinf(obj):
+            return "Infinity" if obj > 0 else "-Infinity"
+    if obj is None or isinstance(obj, (str, int, float, bool)):
+        return obj
+    item = getattr(obj, "item", None)
+    if callable(item):
+        try:
+            return canonical_result(item())
+        except (TypeError, ValueError):
+            pass
+    return repr(obj)
+
+
+def hash_input_files(args: Any) -> dict[str, str]:
+    """Hash every existing regular-file path found in nested arguments."""
+    found: dict[str, str] = {}
+
+    def visit(value: Any) -> None:
+        if isinstance(value, dict):
+            for child in value.values():
+                visit(child)
+        elif isinstance(value, (list, tuple, set)):
+            for child in value:
+                visit(child)
+        elif isinstance(value, (str, Path)):
+            try:
+                path = Path(value)
+                if path.is_file():
+                    resolved = str(path.resolve())
+                    digest = hash_file(resolved)
+                    if digest is not None:
+                        found[resolved] = digest
+            except (OSError, ValueError):
+                return
+
+    visit(args)
+    return dict(sorted(found.items()))
 
 
 _GIT_SHA: str | None = None
@@ -58,7 +113,9 @@ def hash_file(path: str) -> str | None:
 def record(tool_name: str, args: dict, status: str, elapsed_s: float,
            result_summary: Any = None, error: str | None = None,
            artifacts: list[str] | None = None,
-           cache_keys: list[str] | None = None) -> str:
+           cache_keys: list[str] | None = None,
+           result: Any = None,
+           input_sha256: dict[str, str] | None = None) -> str:
     ensure_dirs()
     entry_id = uuid.uuid4().hex[:12]
     entry = {
@@ -69,11 +126,13 @@ def record(tool_name: str, args: dict, status: str, elapsed_s: float,
         "status": status,
         "elapsed_s": round(elapsed_s, 3),
         "result_summary": _jsonable(result_summary),
+        "result": canonical_result(result),
         "error": error,
         "artifacts": artifacts or [],
         "git_sha": git_sha(),
         "cache_keys": cache_keys or [],
         "artifact_sha256": {a: hash_file(a) for a in (artifacts or [])},
+        "input_sha256": input_sha256 or {},
     }
     with open(AUDIT_FILE, "a") as f:
         f.write(json.dumps(entry) + "\n")

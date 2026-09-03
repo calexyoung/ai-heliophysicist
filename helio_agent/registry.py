@@ -92,6 +92,7 @@ def run_tool(name: str, **kwargs: Any) -> dict:
     from helio_agent import http as hhttp
     t = get_tool(name)
     start = time.monotonic()
+    input_sha256 = audit.hash_input_files(kwargs)
     hhttp.reset_touched()
     try:
         result = t.func(**kwargs)
@@ -104,15 +105,19 @@ def run_tool(name: str, **kwargs: Any) -> dict:
         audit_id = audit.record(name, kwargs, result["status"], elapsed,
                                 result_summary=summary,
                                 artifacts=result.get("artifacts", []),
-                                cache_keys=hhttp.touched_keys())
+                                cache_keys=hhttp.touched_keys(),
+                                result=result, input_sha256=input_sha256)
         result["audit_id"] = audit_id
         return result
     except Exception as exc:  # noqa: BLE001 - tools surface all failure detail
         elapsed = time.monotonic() - start
+        error_result = {"status": "error",
+                        "error": f"{type(exc).__name__}: {exc}"}
         audit_id = audit.record(name, kwargs, "error", elapsed, error=str(exc),
-                                cache_keys=hhttp.touched_keys())
-        return {"status": "error", "error": f"{type(exc).__name__}: {exc}",
-                "audit_id": audit_id}
+                                cache_keys=hhttp.touched_keys(),
+                                result=error_result, input_sha256=input_sha256)
+        error_result["audit_id"] = audit_id
+        return error_result
 
 
 def replay(entry_id: str, readonly_cache: bool = True) -> dict:
@@ -128,6 +133,7 @@ def replay(entry_id: str, readonly_cache: bool = True) -> dict:
     e = audit.find_entry(entry_id)
     if e is None:
         return {"status": "error", "error": f"no audit entry {entry_id!r}"}
+    current_inputs = audit.hash_input_files(e["args"])
     old_mode = os.environ.get("HELIO_CACHE_MODE")
     if readonly_cache:
         os.environ["HELIO_CACHE_MODE"] = "readonly"
@@ -142,16 +148,43 @@ def replay(entry_id: str, readonly_cache: bool = True) -> dict:
     old_hashes = e.get("artifact_sha256") or {}
     new_hashes = {a: audit.hash_file(a) for a in result.get("artifacts", [])}
     matches, mismatches = [], []
-    for path, old in old_hashes.items():
-        if old is None:
-            continue
-        (matches if new_hashes.get(path) == old else mismatches).append(path)
-    verdict = "match" if (result.get("status") == e.get("status")
-                          and not mismatches) else "mismatch"
+    for path in sorted(set(old_hashes) | set(new_hashes)):
+        old = old_hashes.get(path)
+        new = new_hashes.get(path)
+        (matches if old is not None and new == old else mismatches).append(path)
+
+    mismatch_dimensions = []
+    unverifiable_dimensions = []
+    if result.get("status") != e.get("status"):
+        mismatch_dimensions.append("status")
+
+    old_result = e.get("result")
+    if old_result is None:
+        if not old_hashes:
+            unverifiable_dimensions.append("result")
+    elif audit.canonical_result(result) != old_result:
+        mismatch_dimensions.append("result")
+
+    if "input_sha256" not in e:
+        if not old_hashes:
+            unverifiable_dimensions.append("inputs")
+    elif current_inputs != (e.get("input_sha256") or {}):
+        mismatch_dimensions.append("inputs")
+
+    if mismatches:
+        mismatch_dimensions.append("artifacts")
+    if mismatch_dimensions:
+        verdict = "mismatch"
+    elif unverifiable_dimensions:
+        verdict = "unverifiable"
+    else:
+        verdict = "match"
     return {"status": "ok", "verdict": verdict, "tool": e["tool"],
             "original_id": entry_id, "replay_id": result.get("audit_id"),
             "original_git_sha": e.get("git_sha"),
             "artifacts_matched": matches, "artifacts_mismatched": mismatches,
+            "mismatch_dimensions": mismatch_dimensions,
+            "unverifiable_dimensions": unverifiable_dimensions,
             "replay_status": result.get("status"),
             "replay_error": result.get("error")}
 
