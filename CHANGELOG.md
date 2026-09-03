@@ -8,7 +8,10 @@
   otherwise derived from the document's first prose line). `--check` covers
   it, so adding a doc without linking it fails CI the way a stale
   `docs/TOOLS.md` does. Picked up two previously unlinked documents
-  (`helio_agent_review.md`, `helio_agent_merge_analysis.md`).
+  (`helio_agent_review.md`, `helio_agent_merge_analysis.md`). The short
+  pointer line above the index is generated from the same script
+  (`DOC_LEAD`), which refuses to run if it names a document that no longer
+  exists.
 
 ## v0.3.0 — 2026-09-03
 
