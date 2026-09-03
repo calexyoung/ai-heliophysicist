@@ -359,18 +359,21 @@ def case_aia_degradation() -> None:
 
 def case_verify_claim() -> None:
     """Claim verifier behavior: match, mismatch, and refusals."""
-    m = run_tool("verify_claim", claimed_value=-383.0, computed_value=-383.0,
-                 claimed_units="nT", computed_units="nanotesla",
-                 tolerance_percent=1.0, computed_audit_id="test123")
+    measured = run_tool("propagation_delay", solar_wind_speed_kms=500.0)
+    audit_id = measured["audit_id"]
+    value = measured["delay_minutes"]
+    m = run_tool("verify_claim", claimed_value=value, computed_value=value,
+                 claimed_units="min", computed_units="minutes",
+                 tolerance_percent=1.0, computed_audit_id=audit_id)
     bad_units = run_tool("verify_claim", claimed_value=500.0,
-                         computed_value=500.0, claimed_units="km/s",
-                         computed_units="nT", computed_audit_id="test123")
+                         computed_value=value, claimed_units="km/s",
+                         computed_units="min", computed_audit_id=audit_id)
     no_audit = run_tool("verify_claim", claimed_value=1.0, computed_value=1.0,
                         claimed_units="nT", computed_units="nT",
                         computed_audit_id="")
-    mis = run_tool("verify_claim", claimed_value=100.0, computed_value=150.0,
-                   claimed_units="nT", computed_units="nT",
-                   tolerance_percent=10.0, computed_audit_id="test123")
+    mis = run_tool("verify_claim", claimed_value=100.0, computed_value=value,
+                   claimed_units="min", computed_units="minutes",
+                   tolerance_percent=10.0, computed_audit_id=audit_id)
     ok = (m.get("verdict") == "match"
           and bad_units.get("verdict") == "refused"
           and no_audit.get("verdict") == "refused"

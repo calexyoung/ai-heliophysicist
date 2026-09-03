@@ -10,7 +10,9 @@ which tool, which caveats); this tool supplies the honest comparison.
 from __future__ import annotations
 
 import re
+import math
 
+from helio_agent import audit
 from helio_agent.registry import tool
 
 # Units that must never be compared directly (same quantity, different scale
@@ -23,12 +25,26 @@ _NORMALIZE = {
     "hours": "h", "hr": "h", "h": "h", "days": "d", "d": "d",
     "kelvin": "k", "k": "k", "mev": "mev", "kev": "kev", "ev": "ev",
     "degrees": "deg", "deg": "deg",
+    "minutes": "min", "minute": "min", "mins": "min", "min": "min",
 }
 
 
 def _norm_unit(u: str) -> str:
     key = re.sub(r"\s+", " ", u.strip().lower())
     return _NORMALIZE.get(key, key)
+
+
+def _numeric_leaves(value):
+    if isinstance(value, dict):
+        for child in value.values():
+            yield from _numeric_leaves(child)
+    elif isinstance(value, (list, tuple)):
+        for child in value:
+            yield from _numeric_leaves(child)
+    elif isinstance(value, (int, float)) and not isinstance(value, bool):
+        number = float(value)
+        if math.isfinite(number):
+            yield number
 
 
 @tool(family="measure")
@@ -63,6 +79,23 @@ def verify_claim(claimed_value: float, computed_value: float,
         return {"status": "error", "verdict": "refused",
                 "error": "refusing: computed_value must carry the audit_id of "
                          "the tool call that produced it"}
+    entry = audit.find_entry(computed_audit_id)
+    if entry is None:
+        return {"status": "error", "verdict": "refused",
+                "error": f"refusing: audit entry {computed_audit_id!r} was not found"}
+    if entry.get("status") != "ok":
+        return {"status": "error", "verdict": "refused",
+                "error": f"refusing: audit entry {computed_audit_id!r} was not successful"}
+    if "result" not in entry or entry["result"] is None:
+        return {"status": "error", "verdict": "refused",
+                "error": f"refusing: audit entry {computed_audit_id!r} has no full result"}
+    recorded_values = _numeric_leaves(entry["result"])
+    if not any(math.isclose(float(computed_value), value,
+                            rel_tol=1e-12, abs_tol=1e-12)
+               for value in recorded_values):
+        return {"status": "error", "verdict": "refused",
+                "error": f"refusing: computed_value {computed_value!r} is not present "
+                         f"in the recorded result for audit {computed_audit_id!r}"}
     denom = max(abs(claimed_value), abs(computed_value), 1e-30)
     rel = abs(computed_value - claimed_value) / denom * 100
     verdict = "match" if rel <= tolerance_percent else "mismatch"
