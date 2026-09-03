@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- **README docs index is generated**: `scripts/gen_docs.py` now also rewrites
+  the block between the `gen_docs:docs-index` markers in `README.md`, linking
+  every file in `docs/` with a one-line description (curated in `DOC_BLURB`,
+  otherwise derived from the document's first prose line). `--check` covers
+  it, so adding a doc without linking it fails CI the way a stale
+  `docs/TOOLS.md` does. Picked up two previously unlinked documents
+  (`helio_agent_review.md`, `helio_agent_merge_analysis.md`).
+
 ## v0.3.0 — 2026-09-03
 
 - **Deterministic trust hardening**: generated paths are contained after
