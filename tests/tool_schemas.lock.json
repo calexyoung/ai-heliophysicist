@@ -29,6 +29,7 @@
  "get_bibtex": "e01c42d4d7fa234d",
  "get_noaa_realtime": "fc1f8b39814392d2",
  "get_solar_regions": "8163a45b3fe52d02",
+ "hindcast_forecasts": "51c9ff5f91a3a611",
  "interpolate_gaps": "4f284a9a76aca299",
  "linear_fit": "04815a69c8471e0f",
  "list_cdaweb_variables": "68d77472ae3b8c08",

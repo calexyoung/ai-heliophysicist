@@ -23,6 +23,13 @@ Coronal mass ejections are observed in white-light coronagraphs: SOHO/LASCO C2 (
 - Don't fit a quadratic to 3 points. Don't extrapolate coronagraph acceleration to 1 AU.
 - CME-flare association is by time+position coincidence, not causation bookkeeping; be careful assigning a flare to a CME when multiple ARs are active.
 
+## Tool: `hindcast_forecasts` (ported from helio-agent 2026-09-03)
+- Replays the live `helio-agent monitor` arrival rule over a past window: DONKI CMEAnalysis per CME, longitude known and |lon| <= `earth_cone_deg` (60), highest-speed fit, `cme_arrival` drag ensemble window, verified against DONKI Earth IPS shocks +/- `grace_hours` (12). Storm recall against DONKI GST (class from max Kp). Diagnostic only; `monitor_state.json` is untouched.
+- Read hit rate and recall together. May 2024: 56 windows, 52% hit rate, storm recall 4/5, hit MAE 12.5 h; the "high" tier (>= 1000 km/s and |lon| <= 30 deg) was 7/7, "low" 42%. The rule has no speed floor, so slow CMEs around an active period all "hit" the same shock; that inflates hits and is why `min_speed_kms` exists as an experiment knob.
+- DONKI is a living record: analysts add and revise fits and IPS entries for months, so counts drift between runs. Quote the run date and the audit id, and keep assertions to invariants (a named storm covered, a named CME hit).
+- The confidence tiers are helio-agent's 2024 fit; re-verify them here before citing the numbers. The severity prior (min SYM-H from launch speed) was NOT ported: it needs a SYM-H backtest this repo has not run.
+- Typical DBM accuracy is +/- 10 h; a hindcast MAE near that is the model working, not a bug. A MAE far below it usually means the grace window is doing the work.
+
 ## Cross-checks
 - Compare CDAW and DONKI entries for the same event; reconcile plane-of-sky vs radial speed before calling a discrepancy.
 - Predicted arrival vs observed: look for the interplanetary shock / ICME at L1 (see solar_wind_analysis skill) and the sudden commencement in SYM-H.

@@ -587,6 +587,43 @@ def case_radio_bursts() -> None:
           f"{speed:g} km/s; {m['n_bursts']} bursts in window: {m['counts']}")
 
 
+def case_hindcast() -> None:
+    """Forecast-rule hindcast over May 2024 (the Gannon superstorm month).
+
+    Anchor: DONKI records the 2024-05-10 15:00 UT G5 storm (max Kp 9) driven
+    by the 2024-05-08/09 halo CMEs (DONKI CMEAnalysis 1150-1560 km/s from
+    AR 13664 near disk center) with the Earth shock at 16:36 UT on 05-10.
+    The replayed monitor rule must cover that storm with a "high"-confidence
+    window, the 2024-05-08T22:24 CME (1257 km/s) must score a hit within
+    12 h, the high tier must reach >= 70% precision, and the hit MAE must
+    stay within the drag model's stated +/- 15 h. DONKI is a living record;
+    the counts drift as analysts revise fits, so only these invariants are
+    asserted.
+    """
+    m = run_tool("hindcast_forecasts", start="2024-05-01", end="2024-05-31",
+                 out_name="_validation_hindcast.png", table_name="_validation_hindcast.md")
+    if m["status"] != "ok":
+        check("hindcast.may2024", False, m.get("error", ""))
+        return
+    gannon = next((s for s in m["storms"] if s["gst_id"].startswith("2024-05-10")), None)
+    halo = next((f for f in m["forecasts"] if f["cme_id"].startswith("2024-05-08T22:24")), None)
+    high = next((r for r in m["confidence_rows"] if r["confidence"] == "high"), None)
+    ok = (gannon is not None and gannon["forecast"] and gannon["best_confidence"] == "high"
+          and gannon["observed_class"] == "superstorm"
+          and halo is not None and halo["outcome"] == "hit"
+          and abs(halo["timing_error_hours"]) <= 12
+          and high is not None and high["precision"] is not None and high["precision"] >= 0.7
+          and m["hit_mae_hours"] is not None and m["hit_mae_hours"] <= 15)
+    check("hindcast.may2024", ok,
+          f"{m['n_earth_directed']} windows, {m['n_hits']} hits / {m['n_false_alarms']} FA "
+          f"(hit rate {m['hit_rate']}), high-tier precision {high['precision'] if high else None} "
+          f"(n={high['n_windows'] if high else 0}), storm recall {m['n_storms_forecast']}/"
+          f"{m['n_storms']}, hit MAE {m['hit_mae_hours']} h; Gannon covered="
+          f"{gannon['forecast'] if gannon else None} ({gannon['best_confidence'] if gannon else None}), "
+          f"05-08T22:24 halo {halo['outcome'] if halo else None} "
+          f"{halo['timing_error_hours'] if halo else None} h")
+
+
 CASES = {
     "halloween2003": case_halloween_2003,
     "flare20170906": case_flare_20170906,
@@ -602,6 +639,7 @@ CASES = {
     "icme": case_detect_icme,
     "sep": case_characterize_sep,
     "radio": case_radio_bursts,
+    "hindcast": case_hindcast,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

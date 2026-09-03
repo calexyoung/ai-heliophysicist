@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- **`hindcast_forecasts`** (measure): fourth port from helio-agent
+  (`campaign.hindcast` v1.2.0), rewired to THIS repo's monitor rule. Replays
+  the DONKI cone import, Earth-cone test, highest-speed-fit selection and
+  `cme_arrival` drag window over a historical range, scores every window
+  against DONKI Earth IPS shocks (hits / false alarms / timing MAE, split
+  by the empirical alert-confidence tier), and storm recall against DONKI
+  GST. Markdown table + three-panel figure. Validation anchor: May 2024 —
+  the Gannon G5 storm covered by a high-confidence window, the 05-08T22:24
+  halo (1257 km/s) hit within 5 h, high tier 7/7, hit MAE 12.5 h. Ten
+  offline tests on a planted DONKI record. Skill note in
+  `skills/methods/cme_analysis.md`. The severity prior was not ported.
+
 - **`radio_bursts`** (measure) + **`fetch_cdaweb_spectrogram`** (retrieve):
   third port from helio-agent (`analysis.radio_bursts` v1.0.0). The fetcher
   keeps the channel axis of 2-D CDAWeb variables (columns `c<Hz>`; default

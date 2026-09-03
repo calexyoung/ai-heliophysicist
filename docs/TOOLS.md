@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-65 core tools in six families. Invoke any tool with
+66 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -13,7 +13,7 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | **discover** (11) | `get_noaa_realtime`, `get_solar_regions`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
 | **retrieve** (14) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
-| **measure** (18) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `linear_fit`, `lomb_scargle`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
+| **measure** (19) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
 | **report** (8) | `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_stack`, `plot_timeseries`, `write_pdf_report` |
 
@@ -678,6 +678,33 @@ get classes comparable to the operational record; set False for GOES-R
 See skills/missions/goes.md.
 
 *Source: `helio_agent/tools/measure.py`*
+
+### `hindcast_forecasts`
+
+```python
+hindcast_forecasts(start: 'str', end: 'str', min_speed_kms: 'float' = 0.0, earth_cone_deg: 'float' = 60.0, grace_hours: 'float' = 12.0, chunk_days: 'int' = 30, plot: 'bool' = True, out_name: 'str' = 'hindcast.png', table_name: 'str' = 'hindcast.md') -> 'dict'
+```
+
+Score the live monitor's CME-arrival forecast rule over a historical
+window: forecast every Earth-directed DONKI cone-model CME exactly as
+`helio-agent monitor` does (longitude known and within earth_cone_deg,
+highest-speed fit per CME, cme_arrival drag ensemble), verify each window
+against DONKI Earth IPS shocks (+/- grace_hours), and check storm
+coverage against DONKI GST. Diagnostic only; the forward ledger is not
+touched.
+
+start/end: 'YYYY-MM-DD'. min_speed_kms: optional launch-speed floor (the
+live rule has none; set it to explore one). chunk_days: DONKI query span.
+
+Returns forecasts (every window, time order, with outcome "hit" |
+"false_alarm", the matched IPS, timing error and confidence tier),
+n_hits / n_false_alarms / hit_rate / hit_mae_hours, precision by
+confidence tier, storms (each GST with max Kp, class, whether a window
+covered its onset and by which CME), storm_recall, note, and a markdown
+table + three-panel figure when plot. Hundreds of windows over a year:
+quote hit rate and recall together, never one alone.
+
+*Source: `helio_agent/tools/hindcast.py`*
 
 ### `linear_fit`
 
