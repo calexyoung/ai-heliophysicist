@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.3.0 — 2026-09-03
 
 - **Deterministic trust hardening**: generated paths are contained after
   symlink resolution; audits retain canonical results and input hashes;
