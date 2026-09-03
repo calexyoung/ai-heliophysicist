@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+- **`detect_icme`** (measure): first capability port from helio-agent
+  (`analysis.detect_icme` v1.3.0). Low-proton-temperature ICME intervals
+  (Lopez 1987 Texp(V)), shock gate against cold slow wind, clock-angle
+  flux-rope proxy, sheath vs ejecta southward-field attribution, near-miss
+  diagnostics on refusal, four-panel diagnostic figure. Validation anchor:
+  2015 St. Patrick's Day storm vs the Richardson & Cane list (shock within
+  4 min, boundaries within 45 min on 1-min OMNI). Nine offline tests.
+  Skill note in `skills/methods/solar_wind_analysis.md` (hourly OMNI
+  temperature is too patchy for the default gate — use 1-min).
+
 ## v0.2.1 — 2026-09-02
 
 Docs and fixes patch.

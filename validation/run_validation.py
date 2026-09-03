@@ -457,6 +457,44 @@ def case_export_html() -> None:
           f"present, mermaid block passed through for client render")
 
 
+def case_detect_icme() -> None:
+    """ICME detection on the 2015 St. Patrick's Day storm (1-min OMNI).
+
+    Anchor: Richardson & Cane near-Earth ICME list — shock 2015-03-17
+    04:45 UT, ICME 2015-03-17 13:00 to 2015-03-18 05:00 UT (Dst -234 nT).
+    Shock must land within 30 min, the ICME start within 2 h, the end within
+    3 h (catalog boundaries are judgement calls, hours-level disagreement is
+    normal), the driver attribution must be the ejecta (the storm minimum
+    fell inside the cloud), and the pre-shock cold interval of 03-16 must be
+    ignored.
+    """
+    import pandas as pd
+    r = run_tool("fetch_omni", start="2015-03-16T00:00:00Z",
+                 end="2015-03-19T00:00:00Z", resolution="1min",
+                 variables=["flow_speed", "T", "proton_density", "BY_GSM", "BZ_GSM"])
+    if r["status"] != "ok":
+        check("icme.fetch", False, r.get("error", ""))
+        return
+    m = run_tool("detect_icme", file=r["file"], speed_column="flow_speed",
+                 temperature_column="T", by_column="BY_GSM", bz_column="BZ_GSM",
+                 density_column="proton_density", out_name="_validation_icme.png")
+    if m["status"] != "ok" or m["icme"] is None:
+        check("icme.stpatrick2015", False, m.get("error") or m.get("note", ""))
+        return
+    def h(a, b):  # tool timestamps are naive UTC
+        return abs((pd.Timestamp(a) - pd.Timestamp(b)).total_seconds()) / 3600
+    d_shock = h(m["shock_time"], "2015-03-17 04:45")
+    d_start = h(m["icme"]["start"], "2015-03-17 13:00")
+    d_end = h(m["icme"]["end"], "2015-03-18 05:00")
+    ok = (d_shock <= 0.5 and d_start <= 2 and d_end <= 3
+          and m["driver"] == "ejecta" and "pre-shock" in m["note"])
+    check("icme.stpatrick2015", ok,
+          f"shock {m['shock_time']} ({d_shock*60:.0f} min off), ICME "
+          f"{m['icme']['start']} -> {m['icme']['end']} ({d_start:.1f} h / {d_end:.1f} h off "
+          f"R&C 13:00 -> 05:00), driver={m['driver']}, "
+          f"rotation {m['icme']['rotation_deg']} deg r2={m['icme']['rotation_r2']}")
+
+
 CASES = {
     "halloween2003": case_halloween_2003,
     "flare20170906": case_flare_20170906,
@@ -469,6 +507,7 @@ CASES = {
     "indices": case_indices,
     "dstmodel": case_dst_model,
     "cmearrival": case_cme_arrival,
+    "icme": case_detect_icme,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

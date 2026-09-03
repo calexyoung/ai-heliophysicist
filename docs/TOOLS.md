@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-61 core tools in six families. Invoke any tool with
+62 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -13,7 +13,7 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | **discover** (11) | `get_noaa_realtime`, `get_solar_regions`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
 | **retrieve** (13) | `fetch_cdaweb_data`, `fetch_gfz_index`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
-| **measure** (15) | `cme_arrival`, `cross_correlate`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `linear_fit`, `lomb_scargle`, `model_dst`, `plasma_parameters`, `propagation_delay`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
+| **measure** (16) | `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `linear_fit`, `lomb_scargle`, `model_dst`, `plasma_parameters`, `propagation_delay`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
 | **report** (8) | `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_stack`, `plot_timeseries`, `write_pdf_report` |
 
@@ -532,6 +532,31 @@ Positive best_lag means column_b lags column_a. Series are aligned on the
 file's cadence; NaNs pairwise-dropped per lag.
 
 *Source: `helio_agent/tools/measure.py`*
+
+### `detect_icme`
+
+```python
+detect_icme(file: 'str', speed_column: 'str', temperature_column: 'str', by_column: 'str | None' = None, bz_column: 'str | None' = None, density_column: 'str | None' = None, temp_ratio_max: 'float' = 0.5, min_hours: 'float' = 6.0, gap_hours: 'float' = 2.0, min_rotation_deg: 'float' = 90.0, min_rotation_r2: 'float' = 0.8, min_b_perp_nt: 'float' = 8.0, smooth_minutes: 'float' = 30.0, shock_jump_kms: 'float' = 60.0, shock_window_hours: 'float' = 2.0, south_bz_nt: 'float' = 10.0, plot: 'bool' = True, out_name: 'str' = 'icme.png') -> 'dict'
+```
+
+Detect ICME intervals in a solar-wind CSV via the low-proton-temperature
+signature (Tp < temp_ratio_max · Texp(V), Lopez 1987), gated by the first
+shock in the window, with a magnetic-cloud check when BY/BZ (GSM, nT) are
+given and a sheath / driver attribution.
+
+file: workspace CSV with a 'time' index (e.g. from fetch_omni). Speed in
+km/s, temperature in K (OMNI: V1800/T1800 hourly, flow_speed/T 1-min).
+
+Returns icme (the FIRST qualifying interval — the storm driver, or null),
+intervals (all, in time order), shock_time, sheath, ejecta_field, driver
+("sheath" | "ejecta" | "ambiguous" | null), closest (near-miss diagnostics
+when nothing qualified), note, and the diagnostic figure path when plot.
+
+Hourly OMNI temperature is patchy inside clouds; prefer 1-min OMNI or
+Wind/ACE data for interval boundaries, and treat hourly results with
+min_hours relaxed as indicative only.
+
+*Source: `helio_agent/tools/icme.py`*
 
 ### `extreme_value`
 

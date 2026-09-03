@@ -6,6 +6,7 @@ from helio_agent.tools import (  # noqa: F401
     export,
     extremes,
     geospace,
+    icme,
     indices,
     retrieve,
     reduce,
