@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v0.3.1 — 2026-09-03
 
 - **README docs index is generated**: `scripts/gen_docs.py` now also rewrites
   the block between the `gen_docs:docs-index` markers in `README.md`, linking
