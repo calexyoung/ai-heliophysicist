@@ -2,12 +2,14 @@
 
 Compiled 2026-09-03 from NASA ADS via `search_ads`. Fourteen searches: six across
 the Sun-to-Earth chain, then eight sub-topic sweeps widening the
-ionosphere/thermosphere/ground-effects end. **154 unique papers**; the
-**29 with arXiv preprints are downloaded as PDFs**, the rest are
-publisher-gated and listed by bibcode.
+ionosphere/thermosphere/ground-effects end. **142 unique papers**, of which
+**22 have arXiv preprints downloaded as PDFs**; the rest are publisher-gated
+and listed by bibcode.
+
+**Reading order for the PDFs: [reading-order.md](reading-order.md).**
 
 - PDFs: `users/cayoung/workspace/data/arxiv_<id>.pdf`
-- BibTeX for all 154: `refs.bib` (audit `da596130e034`)
+- BibTeX for all papers: `refs.bib` (audit `3df915f71117`)
 - Citation-sorted within each segment; papers appear under every segment that found them.
 
 Downloaded papers are marked **[PDF]**.
@@ -365,7 +367,7 @@ Downloaded papers are marked **[PDF]**.
 
 ## 6e. Scintillation and GNSS
 
-*ADS search audit `9dfdd8c2dc71` — 20 papers, 7 with PDF*
+*ADS search audit `9dfdd8c2dc71` — 14 papers, 2 with PDF*
 
 - **The Solar and Geomagnetic Storms in 2024 May: A Flash Data Report** **[PDF]**  
   Hayakawa, Hisashi (2025), *The Astrophysical Journal* · 156 cites · `2025ApJ...979...49H` · arXiv:2407.07665
@@ -373,22 +375,14 @@ Downloaded papers are marked **[PDF]**.
   Themens, David R. (2024), *Geophysical Research Letters* · 85 cites · `2024GeoRL..5111677T`
 - **The effects of the May 2024 Mother's Day superstorm over the Mediterranean sector: from data to public communication**  
   Spogli, Luca (2024), *Annals of Geophysics* · 61 cites · `2024AnGp...67PA218S`
-- **CHIME/FRB Discovery of the Extremely Active Fast Radio Burst Source FRB 20240114A** **[PDF]**  
-  Shin, Kaitlyn (2026), *The Astrophysical Journal* · 19 cites · `2026ApJ...997..334S` · arXiv:2505.13297
 - **Spatio-Temporal Evolution of Mid-Latitude GPS Scintillation and Position Errors During the May 2024 Solar Storm**  
   Younas, Waqar (2025), *Journal of Geophysical Research (Space Physics)* · 15 cites · `2025JGRA..13033839Y`
 - **On Detection of Super Equatorial Plasma Bubbles in the American Sector During the 10─11 October 2024 Geomagnetic Storm**  
   Zakharenkova, Irina (2025), *Journal of Geophysical Research (Space Physics)* · 15 cites · `2025JGRA..13033709Z`
 - **High latitude observation of the Forbush decrease during the May 2024 solar storms with muon and neutron detectors on Svalbard**  
   Riggi, F. (2025), *Advances in Space Research* · 10 cites · `2025AdSpR..76.1225R`
-- **A broadband study of FRB 20240114A with the Effelsberg 100-m radio telescope** **[PDF]**  
-  Limaye, P. (2026), *Astronomy and Astrophysics* · 8 cites · `2026A&A...709A..47L` · arXiv:2510.08367
-- **The Super Fine-Grained Detector for the T2K neutrino oscillation experiment** **[PDF]**  
-  Abe, S. (2026), *arXiv e-prints* · 8 cites · `2026arXiv260314921A` · arXiv:2603.14921
 - **Analysis of Global Ionospheric Responses to the May 2024 Super Geomagnetic Storm Using Multi-Instrument Observation**  
   Hu, Jiayu (2025), *IEEE Transactions on Geoscience and Remote Sensing* · 8 cites · `2025ITGRS..63S0357H`
-- **CHIME/FRB Discovery and Localization of the Swift-observed FRB 20241228A** **[PDF]**  
-  Curtin, Alice P. (2026), *The Astrophysical Journal* · 7 cites · `2026ApJ...998...97C` · arXiv:2506.10961
 - **Pre-Sunrise Equatorial Plasma Bubble Over Indonesia During the 11 May 2024 Super Geomagnetic Storm**  
   Suraina (2025), *Earth and Space Science* · 6 cites · `2025E&SS...1204152S`
 - **Characteristics of temporal and spatial variation of the electron density in the plasmasphere and ionosphere during the May 2024 super geomagnetic storm**  
@@ -397,16 +391,12 @@ Downloaded papers are marked **[PDF]**.
   Zhang, Jinsheng (2025), *Satellite Navigation* · 5 cites · `2025SatNa...6...26Z`
 - **Observation and modeling of complex transient structure in heliosphere followed by geomagnetic storm on May 10─11, 2024** **[PDF]**  
   Rodkin, Denis (2025), *Advances in Space Research* · 5 cites · `2025AdSpR..76.7230R` · arXiv:2501.07160
-- **New signal of atmospheric tau neutrino appearance: Sub-GeV neutral-current interactions in JUNO** **[PDF]**  
-  Meighen-Berger, Stephan A. (2024), *Physical Review D* · 5 cites · `2024PhRvD.109i2006M` · arXiv:2311.01667
 - **Establishing the first ionospheric observatory in Kenya: Early results from the NORISK project**  
   Cesaroni, C. (2025), *Advances in Space Research* · 5 cites · `2025AdSpR..75.4698C`
 - **Upcoming MSU cubesats for space weather and astrophysical research**  
   Bogomolov, V. V. (2025), *Advances in Space Research* · 4 cites · `2025AdSpR..75.6623B`
 - **Baseline tritium measurements in Thailand's water bodies: Supporting sustainable nuclear energy development**  
   Sudprasert, Wanwisa (2025), *Journal of Environmental Radioactivity* · 4 cites · `2025JEnvR.28207604S`
-- **The SuperFGD for the upgraded T2K near detector — Operation and performance**  
-  Kikawa, T. (2025), *Nuclear Instruments and Methods in Physics Research A* · 4 cites · `2025NIMPA108070616K`
 
 ## 6f. Equatorial plasma bubbles
 
@@ -500,7 +490,7 @@ Downloaded papers are marked **[PDF]**.
 
 ## 6h. Orbital decay and LEO operations
 
-*ADS search audit `fcd4764eea4a` — 20 papers, 5 with PDF*
+*ADS search audit `fcd4764eea4a` — 14 papers, 3 with PDF*
 
 - **The 10 October 2024 geomagnetic storm may have caused the premature reentry of a Starlink satellite** **[PDF]**  
   Oliveira, Denny M. (2025), *Frontiers in Astronomy and Space Sciences* · 25 cites · `2025FrASS..1122139O` · arXiv:2411.01654
@@ -512,10 +502,6 @@ Downloaded papers are marked **[PDF]**.
   Wang, Xin (2025), *Space Weather* · 4 cites · `2025SpWea..2304619W`
 - **A Space Weather Approach for Quasi-Real-Time Assessment of Satellite Orbital Decay During Geomagnetic Storms Based on Two-Line Element Sets**  
   Wu, Yihan (2025), *Space Weather* · 3 cites · `2025SpWea..2304289W`
-- **Doomed Worlds. II. Reassessing Suggestions of Orbital Decay for TrES-5 b** **[PDF]**  
-  Rothmeier, Marvin (2025), *The Planetary Science Journal* · 3 cites · `2025PSJ.....6..292R` · arXiv:2512.13937
-- **Observing Orbital Decay in the Ultracompact Hot Subdwarf Binary System ZTFJ213056.71+442046.5** **[PDF]**  
-  Teckenburg, Paul (2025), *arXiv e-prints* · 3 cites · `2025arXiv251025653T` · arXiv:2510.25653
 - **Thermospheric density from Starlink TLE: data analysis and preliminary results**  
   Yamamoto, Mamoru (2026), *Earth, Planets and Space* · 1 cites · `2026EP&S...78...60Y`
 - **Ionospheric and Thermospheric Effects of Solar Storms on Low Earth Orbit Satellites**  
@@ -524,29 +510,20 @@ Downloaded papers are marked **[PDF]**.
   Llorente de, Andres, F. (2024), *VizieR Online Data Catalog* · 0 cites · `2024yCat..36840028L`
 - **Magnetospheric Observations During the 10 May 2024 Geomagnetic Storm**  
   Sibeck, David G. (2024), *AGU Fall Meeting Abstracts* · 0 cites · `2024AGUFMSH22A..03S`
-- **Transit Archive Project**  
-  Adams, Elisabeth Rose (2024), *NASA XRP proposal* · 0 cites · `2024xrp..prop..166A`
 - **Analysis of thermospheric and ionospheric variations during recent solar storms in 2024 in the framework of the project CASPER**  
   Tieber-Hubmann, Cornelia (2025), *EGU General Assembly Conference Abstracts* · 0 cites · `2025EGUGA..2716238T`
 - **Probing Transit Timing Variations Amid Heteroscedasticity: Lessons from HAT-P-7b and TrES-2b**  
   Basturk, Ozgur (2025), *EPSC-DPS Joint Meeting 2025* · 0 cites · `2025epsc.conf.1287B`
-- **Observing orbital decay in the ultracompact hot subdwarf binary system ZTFJ213056.71+442046.5**  
-  Teckenburg, Paul (2026), *Astronomy and Astrophysics* · 0 cites · `2026A&A...710A.332T`
 - **Re-entry Survivability Analysis of ERS-2 satellite**  
   OMAT, C. (2025), *Romanian Astronomical Journal* · 0 cites · `2025RoAJ...35..119O`
 - **Exploration of dependencies of space weather and geomagnetic proxies with thermospheric density enhancement during geomagnetic storms from 2020 to 2024**  
   Robles González, Víctor (2026), *Advances in Space Research* · 0 cites · `2026AdSpR..77.9633R`
-- **Reassessing possibly doomed worlds**  
-  Adams, Elisabeth (2025), *EPSC-DPS Joint Meeting 2025* · 0 cites · `2025epsc.conf.1050A`
-- **Doomed Worlds II: Reassessing Suggestions of Orbital Decay for TrES-5 b**  
-  Rothmeier, Marvin (2025), *EPSC-DPS Joint Meeting 2025* · 0 cites · `2025epsc.conf..215R`
 - **Quantifying atmospheric density and orbital attenuation during geomagnetic storms based on Swarm-C**  
   Bian, Xiaoyu (2025), *AGU Fall Meeting Abstracts* · 0 cites · `2025AGUFMSA21B2354B`
 
-## Downloaded PDFs (29)
+## Downloaded PDFs (22)
 
 - `arxiv_2309.14570.pdf` — MEMPSEP-I. Forecasting the Probability of Solar Energetic Particle Event Occurrence Using 
-- `arxiv_2311.01667.pdf` — New signal of atmospheric tau neutrino appearance: Sub-GeV neutral-current interactions in
 - `arxiv_2311.03596.pdf` — CORHEL-CME: An Interactive Tool For Modeling Solar Eruptions
 - `arxiv_2404.14959.pdf` — Impacting the dayside Martian ionosphere from above and below: Effects of the impact of CI
 - `arxiv_2406.08617.pdf` — Satellite Drag Analysis During the May 2024 Gannon Geomagnetic Storm
@@ -566,14 +543,8 @@ Downloaded papers are marked **[PDF]**.
 - `arxiv_2501.07160.pdf` — Observation and modeling of complex transient structure in heliosphere followed by geomagn
 - `arxiv_2504.08321.pdf` — Exploring the Origin of Multi-Periodic Pulsations During a White-Light Flare
 - `arxiv_2505.09180.pdf` — The High-Energy Protons of the Ground Level Enhancement (GLE74) Event on 11 May 2024
-- `arxiv_2505.13297.pdf` — CHIME/FRB Discovery of the Extremely Active Fast Radio Burst Source FRB 20240114A
 - `arxiv_2505.13752.pdf` — Tracking reentries of Starlink satellites during the rising phase of solar cycle 25
-- `arxiv_2506.10961.pdf` — CHIME/FRB Discovery and Localization of the Swift-observed FRB 20241228A
 - `arxiv_2507.07009.pdf` — GIC-Related Observations During the May 2024 Geomagnetic Storm in the United States
-- `arxiv_2510.08367.pdf` — A broadband study of FRB 20240114A with the Effelsberg 100-m radio telescope
-- `arxiv_2510.25653.pdf` — Observing Orbital Decay in the Ultracompact Hot Subdwarf Binary System ZTFJ213056.71+44204
-- `arxiv_2512.13937.pdf` — Doomed Worlds. II. Reassessing Suggestions of Orbital Decay for TrES-5 b
-- `arxiv_2603.14921.pdf` — The Super Fine-Grained Detector for the T2K neutrino oscillation experiment
 
 ## Notes
 
@@ -581,7 +552,12 @@ Downloaded papers are marked **[PDF]**.
   call; audit ids are cited per segment above.
 - Segments 1-5 are 12 results each; 6a-6h are 20 each. Segment 6 is the original
   broad sweep, kept so its audit id stays traceable; 6a-6h widen it.
-- Coverage is ADS abstract-keyword matching, citation-sorted. A strong starting
-  set, not an exhaustive survey.
+- **12 off-topic papers were removed after review.** The 6e query term
+  "scintillation" matched scintillator particle detectors and fast-radio-burst
+  scintillation; "orbital decay" in 6h matched exoplanet and binary-star orbital
+  decay. Seven had already been downloaded and their PDFs were deleted. The 6e
+  and 6f counts below are therefore the thinnest in the set.
+- Coverage is ADS abstract-keyword matching, citation-sorted. A starting set,
+  not an exhaustive survey.
 - Publisher-gated papers have no PDF here. Fetch those through institutional
   access using the bibcodes.
