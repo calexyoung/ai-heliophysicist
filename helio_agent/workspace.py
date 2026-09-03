@@ -69,13 +69,23 @@ def ensure_dirs() -> None:
         d.mkdir(parents=True, exist_ok=True)
 
 
+def _workspace_path(base: Path, name: str) -> Path:
+    """Resolve a generated filename without allowing workspace escape."""
+    relative = Path(name)
+    if relative.is_absolute():
+        raise ValueError(f"generated path must be relative, got {name!r}")
+    candidate = base / relative
+    if not candidate.resolve(strict=False).is_relative_to(base.resolve(strict=False)):
+        raise ValueError(f"generated path is outside workspace: {name!r}")
+    candidate.parent.mkdir(parents=True, exist_ok=True)
+    return candidate
+
+
 def output_path(name: str) -> Path:
     """Path for a new output artifact (plot, table, report)."""
-    ensure_dirs()
-    return OUTPUT_DIR / name
+    return _workspace_path(OUTPUT_DIR, name)
 
 
 def data_path(name: str) -> Path:
     """Path for downloaded/cached data."""
-    ensure_dirs()
-    return DATA_DIR / name
+    return _workspace_path(DATA_DIR, name)
