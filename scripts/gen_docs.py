@@ -21,7 +21,7 @@ FAMILY_BLURB = {
     "discover": "Find datasets, spacecraft, events, and imagery in the archives. Read-only; nothing here downloads bulk data.",
     "retrieve": "Fetch data to the persistent workspace. Every retrieval writes a file (usually a UTC-indexed CSV with NaN fills) and returns its path.",
     "reduce": "Turn retrieved files into analysis-ready series and maps. Deterministic transforms; no science judgment embedded.",
-    "measure": "Fit, correlate, model, and quantify. These produce the science numbers — each anchored by a validation case.",
+    "measure": "Fit, correlate, model, and quantify. Scientific methods require an appropriate published, analytic, or cross-implementation anchor; supporting operations are guarded by offline tests and validated composition.",
     "literature": "NASA ADS and arXiv access for context and cross-checking.",
     "report": "Publication-styled figures, statistical plots, PDF reports, and self-hosted HTML export.",
 }

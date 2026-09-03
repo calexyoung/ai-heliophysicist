@@ -525,7 +525,7 @@ is preserved by construction.
 
 ## measure
 
-Fit, correlate, model, and quantify. These produce the science numbers — each anchored by a validation case.
+Fit, correlate, model, and quantify. Scientific methods require an appropriate published, analytic, or cross-implementation anchor; supporting operations are guarded by offline tests and validated composition.
 
 ### `characterize_sep`
 

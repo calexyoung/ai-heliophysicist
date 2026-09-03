@@ -10,7 +10,8 @@ helio_agent/
   __init__.py     package version; re-exports tool/get_tool/list_tools/run_tool
   registry.py     @tool decorator, Tool records, run_tool (audit wrapper), replay, user-tool loading
   audit.py        append-only JSONL manifests (args, status, git sha, cache keys, artifact sha256)
-  http.py         content-addressed HTTP cache (cached_get), modes, TTLs, touched-key tracking
+  http.py         content-addressed HTTP cache (GET/POST), modes, TTLs, touched-key tracking
+  reproduction.py versioned paper manifests, deterministic validation, Markdown rendering
   workspace.py    paths: ROOT/WORKSPACE/DATA/OUTPUT/LOG/CACHE; .env loading; user-profile routing
   style.py        publication figure styling: palette, rcParams, figsize, seaborn theme, event lines
   cli.py          `helio-agent` entry point: list/describe/run/replay/audit/monitor/report
@@ -39,8 +40,10 @@ judgment beyond the deterministic method a tool's docstring states.
   `audit_id`. Exceptions become `status: "error"` results — a tool never
   crashes the agent.
 - `replay(entry_id, readonly_cache=True)` re-executes a recorded call with
-  `HELIO_CACHE_MODE=readonly` and compares artifact sha256s → verdict
-  `match`/`mismatch`.
+  `HELIO_CACHE_MODE=readonly` and compares status, canonical result, pre-run
+  input hashes, artifact path sets, and artifact hashes. Verdicts are
+  `match`, `mismatch`, or `unverifiable` for legacy records lacking enough
+  evidence; the response names each affected dimension.
 - `_load_all()` imports `helio_agent.tools` (core) and, if a user profile is
   active, every `users/<name>/tools/*.py`, tagging those `scope="user:<name>"`
   and refusing name collisions with core tools.
@@ -48,18 +51,21 @@ judgment beyond the deterministic method a tool's docstring states.
 ### `audit.py`
 - `record(...)` appends one JSON line per call to `workspace/logs/audit.jsonl`
   (or the active profile's log): id, timestamp, tool, args, status, elapsed,
-  result summary, error, artifacts, **git_sha** (with `-dirty`),
-  **cache_keys** touched, **artifact_sha256** per file. This is the manifest
-  that `replay` verifies against and that reports cite.
-- `find_entry(id)`, `hash_file(path)`, `git_sha()` helpers.
+  result summary, canonical full **result**, error, artifacts, **git_sha**
+  (with `-dirty`), **cache_keys** touched, **input_sha256** for file inputs,
+  and **artifact_sha256** per output. This is the evidence that `replay`
+  verifies and reproduction manifests cite.
+- `find_entry(id)`, `hash_file(path)`, `hash_input_files(args)`,
+  `canonical_result(value)`, and `git_sha()` helpers.
 
 ### `http.py`
-- `cached_get(url, params, headers, timeout, allow_error, ttl_seconds)` —
-  the single HTTP path for tools that call REST endpoints directly (CDAWeb
+- `cached_request(method, url, params, json_body, headers, ...)` — the HTTP
+  path for tools that call REST endpoints directly; `cached_get(...)` is its
+  compatible GET wrapper. Sources include CDAWeb
   REST, DONKI, NOAA SWPC, Helioviewer, HelioData, arXiv, Kyoto, GFZ, CDN
-  assets). Key = sha256(method, url, sorted *public* params); params named
-  `api_key/apikey/token/key/mailto/authorization` are excluded from the key
-  and never written to disk. Store: `workspace/cache/<2ch>/<key>.json`
+  assets). Key = sha256(method, URL, sorted *public* params, canonical JSON
+  body hash). Credential-like fields are excluded and request bodies are
+  never written to metadata. Store: `workspace/cache/<2ch>/<key>.json`
   (status, url, fetched_at, base64 body).
 - Modes via `HELIO_CACHE_MODE`: `readwrite` (default), `readonly` (a miss
   raises `CacheMiss` — used by replay), `bypass`.
@@ -75,7 +81,18 @@ judgment beyond the deterministic method a tool's docstring states.
   `HELIO_AGENT_USER` set, `WORKSPACE` becomes `users/<name>/workspace`;
   `CACHE_DIR` is always the shared `workspace/cache`.
 - `active_user()`, `user_dir()`, `ensure_dirs()`, `output_path(name)`,
-  `data_path(name)`.
+  `data_path(name)`. Generated names must be relative and remain below their
+  resolved workspace root; traversal, absolute paths, and symlink escapes are
+  refused before parent directories are created.
+
+### `reproduction.py`
+Owns schema-version-1 paper reproduction manifests. `validate_manifest`
+accumulates stable, path-addressed errors and checks required paper/claim/data
+fields, capability/verdict enums, unique IDs, successful recipe audits, and
+agreement with the recorded `verify_claim` result. Three registered tools
+create JSON under workspace data, validate existing JSON, and render a
+deterministic Markdown report under workspace outputs. Extracting claims from
+arbitrary papers remains agent/scientist work, not an automated guarantee.
 
 ### `style.py`
 - `PALETTE` (Okabe–Ito in a CVD-validated order), `EVENT_COLOR`,
@@ -89,16 +106,19 @@ judgment beyond the deterministic method a tool's docstring states.
 Thin dispatcher over the registry: `list [family]` (marks user-scoped tools),
 `describe`, `run` (JSON kwargs), `replay`, `audit [n]`, `monitor`,
 `report <name> [--date] [--archive]`. Exit code 1 on tool error or
-replay mismatch, so shell pipelines can gate on it.
+replay mismatch/unverifiable result, or monitor `error`, so shell pipelines
+can gate on it. Monitor `degraded` remains visible but exits zero.
 
 ### `monitor.py`
 `cycle(lookback_days=3)`: reads Kp and long-channel XRS conditions, groups
 DONKI CME analyses by CME and forecasts the fastest Earth-directed-cone fit
 (|lon| ≤ 60°) via `cme_arrival`, matures pending forecasts whose window +
 12 h grace has passed by searching DONKI Earth IPS arrivals (hit/miss into
-`state["ledger"]`), records new GST ids. State: `monitor_state.json` in the
-active workspace. Every data access is a `run_tool` call, so a cycle is
-reconstructible from the audit trail.
+`state["ledger"]`), records new GST ids. A cycle reports `ok`, `degraded`
+(optional condition feed failed), or `error` (required event ingestion
+failed), with `failed_sources`; unavailable IPS data never becomes a false
+miss. State records attempt and successful-ingestion timestamps and is saved
+by atomic sibling replacement. Every access is audited.
 
 ### `reports.py`
 `sun_news(date, archive)`: the saved daily-report chain — ~16 audited
@@ -132,6 +152,7 @@ first use. Per-tool signatures and docstrings: [TOOLS.md](TOOLS.md).
 | `literature.py` | literature | ADS search (needs `ADS_API_TOKEN`), BibTeX export, arXiv search (defusedxml), arXiv PDF fetch |
 | `report.py` | report | `plot_timeseries`, `plot_stack`, `plot_solar_map`, `plot_orbits`, seaborn `plot_distribution`/`plot_scatter`, `write_pdf_report` (fpdf2) |
 | `export.py` | report | `export_html`: unmarkdown-template or local (markdown-it-py) conversion, SRI-pinned Mermaid/Chart.js/KaTeX runtime, optional hash-verified asset embedding for offline pages |
+| `reproduction.py` | measure, report | create/validate schema-version-1 reproduction manifests and render deterministic audit-linked Markdown summaries |
 
 ### Conventions every tool module follows
 - Heavy imports (sunpy, pyspedas, geopack…) happen *inside* the tool
@@ -148,9 +169,11 @@ first use. Per-tool signatures and docstrings: [TOOLS.md](TOOLS.md).
 
 ## Supporting trees
 
-- `validation/run_validation.py` — 21 live checks in 14 cases; each new
-  tool adds one. `tests/` — offline guards (schema lock, docs-current,
-  cache behavior, user-tool scoping) plus the reference-doc drift check.
+- `validation/run_validation.py` — 28 live checks in 21 cases, directly
+  referencing 29 core tools. Supporting tools use offline guards (schema
+  lock, docs-current, cache/provenance/path behavior, user-tool scoping) and
+  validated composition; a new scientific method still needs an appropriate
+  anchor.
 - `scripts/gen_docs.py` — regenerates TOOLS.md/SKILLS.md; `--check` is run
   by the tests. `scripts/monitor_cron.sh` — the daily monitor wrapper.
 - `skills/` — the knowledge layer (43 documents; catalog in SKILLS.md).

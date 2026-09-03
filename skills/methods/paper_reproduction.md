@@ -25,9 +25,15 @@ comparison.
    computed_audit_id=...)`. It refuses unit mismatches and untraceable
    values; a `mismatch` verdict is a finding to investigate, never an
    immediate "the paper is wrong".
-5. **Report**: per claim — verdict, relative difference, audit ids, and any
-   convention caveats. Unverified claims are listed as unverified, not
-   omitted.
+5. **Record the reproduction** with `create_reproduction_manifest`. A
+   `ready` claim includes paper identity, claimed value/units, complete data
+   identity, the ordered tool recipe with real audit IDs, the computed value,
+   tolerance/verdict, the `verify_claim` audit ID, and caveats. Use
+   `method_gap` or `blocked` plus a reason when deterministic reproduction is
+   not available; never omit such claims.
+6. **Validate and render** with `validate_reproduction_manifest` and
+   `render_reproduction_report`. Treat validation errors as refusals to
+   publish, not warnings to suppress.
 
 ## Gotchas and judgment calls
 - The most common false mismatch sources: GOES SWPC scaling (x0.7), Dst
@@ -38,6 +44,9 @@ comparison.
   at 0.01% is theater.
 - Tolerance defaults to 10%; tighten only when the paper's precision and
   your convention match justify it, and record why.
+- Claim extraction and interpretation are judgment steps. The manifest makes
+  their downstream recipe inspectable; it does not make arbitrary PDF
+  interpretation deterministic or automatically correct.
 
 ## Cross-checks
 - Where possible verify one claim from two independent data paths (e.g.

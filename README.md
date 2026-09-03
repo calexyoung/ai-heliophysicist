@@ -12,14 +12,16 @@ PlasmaPy, geopack, aiapy, hapiclient, cdflib).
 
 **The LLM writes no pipelines and computes no science numbers itself.**
 Every result is audit-logged and traceable to the exact tool call that
-produced it; every tool is anchored to a published result before use —
-21 live validation checks run on every push.
+produced it. The 28-check live suite covers published, analytic, and
+cross-implementation anchors: of 70 tools, 29 are directly exercised there;
+supporting tools are guarded by offline tests, schema locks, and validated
+composition rather than falsely described as individually published anchors.
 
 ## Quick start
 
 ```bash
 uv sync                                     # one-time: build the environment
-uv run helio-agent list                     # 67 tools in six families
+uv run helio-agent list                     # 70 tools in six families
 uv run helio-agent run fetch_omni '{"start":"2024-05-10T00:00:00Z","end":"2024-05-14T00:00:00Z"}'
 uv run python validation/run_validation.py  # prove the stack against known results
 uv run helio-agent report sun-news          # today's space-weather report (PDF)
@@ -46,14 +48,15 @@ skills before acting, cross-check, everything on disk).
   self-hosted HTML, and PDF editions.
 - **Paper reproduction**: extract claims → recompute like-for-like →
   `verify_claim` (refuses unit-mismatched comparisons rather than reporting
-  false mismatches). Worked example: the 2012-07-23 extreme CME
+  false mismatches) → create and render an audit-linked reproduction manifest.
+  Worked example: the 2012-07-23 extreme CME
   ([users/cayoung/analyses/](users/cayoung/analyses/2012-07-23-extreme-cme/analysis.md)).
 - **Publishing**: analysis notes and reports as formatted pages — hosted
   templates (unmarkdown) or fully local/offline HTML with SRI-pinned
   Mermaid/Chart.js/KaTeX (`export_html`).
 - **Reproducibility**: content-addressed HTTP cache with secret-stripped
-  keys; audit entries carry git sha + artifact checksums; `replay` re-runs
-  any recorded call from cache and verifies outputs.
+  GET and POST keys; audit entries carry full canonical results, input and
+  artifact hashes, and git sha; `replay` compares all available dimensions.
 
 ## Layout
 
@@ -62,7 +65,7 @@ skills before acting, cross-check, everything on disk).
 | [`CLAUDE.md`](CLAUDE.md) | The agent's operating contract (the judgment layer's rules) |
 | [`helio_agent/`](helio_agent/) | Tool layer: registry, audit, HTTP cache, CLI, monitor, reports, six tool families |
 | [`skills/`](skills/README.md) | 45 knowledge documents: missions, methods, datasources, software — read before acting |
-| [`validation/`](validation/run_validation.py) | 21 checks anchored to published results (Halloween 2003, 2017 X9.3, 2012-07-23 CME, ...) |
+| [`validation/`](validation/run_validation.py) | 28 live checks across 21 cases; 29 tools are directly exercised, with published, analytic, behavioral, and cross-implementation anchors |
 | [`tests/`](tests/) | Offline CI guards: schema lock, docs-current, cache behavior, user-tool scoping |
 | [`workspace/`](workspace/) | Persistent environment: `data/`, `outputs/`, `cache/` (shared), `logs/audit.jsonl` |
 | [`users/`](users/README.md) | Per-user profiles (`HELIO_AGENT_USER=<name>`): one-off tools/skills/analyses; core stays general — see [users/README.md](users/README.md) |
@@ -92,7 +95,7 @@ skills before acting, cross-check, everything on disk).
 - **literature** — NASA ADS (token via `ADS_API_TOKEN`), arXiv search + PDF fetch, BibTeX
 - **report** — publication-styled time-series/stack/solar-map/orbit plots
   (CVD-validated palette), seaborn statistical plots, PDF reports,
-  self-hosted HTML export
+  self-hosted HTML export, reproduction-manifest creation and rendering
 
 ## Provenance
 

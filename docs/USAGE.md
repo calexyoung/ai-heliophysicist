@@ -210,6 +210,13 @@ shocks into a persistent hit/miss ledger** (`workspace/monitor_state.json`),
 and records new geomagnetic storms. Forecasts are never silently forgotten —
 every one is eventually scored.
 
+The response reports `status: "ok"`, `"degraded"` when optional condition
+feeds fail, or `"error"` when required CME/storm ingestion fails, plus a
+`failed_sources` list. An IPS lookup failure leaves the forecast pending
+rather than recording a false miss. State is replaced atomically and keeps
+separate last-attempt and last-successful-ingestion timestamps. The CLI exits
+nonzero only for `error`.
+
 Run it from cron/launchd daily (see §12). Read the ledger for forecast
 skill; as it accumulates, precision/recall analysis becomes possible.
 
@@ -239,6 +246,37 @@ paper is wrong."
 
 5. **Report** per claim: verdict, difference, audit ids, caveats.
    Unverified claims are listed as unverified, not omitted.
+
+Store the finished claim as a schema-versioned manifest. Replace the two
+audit placeholders with the IDs returned by the measurement and
+`verify_claim` calls above:
+
+```bash
+uv run helio-agent run create_reproduction_manifest '{
+  "paper":{"title":"Russell et al. 2013","doi":"10.1088/2041-8205/770/2/L30"},
+  "claims":[{
+    "id":"c1","statement":"Peak magnetic field was 109 nT","capability":"ready",
+    "claimed":{"value":109.0,"units":"nT"},
+    "data":{"dataset":"STEREO-A IMPACT L2","instrument":"IMPACT/MAG",
+      "processing_level":"L2","cadence":"1 minute","revision":"downloaded revision",
+      "time_window":"2012-07-23T00:00Z/2012-07-25T00:00Z"},
+    "recipe":[{"tool":"find_extrema","args":{"file":"<csv>","column":"BTOTAL"},
+      "audit_id":"<measurement-audit-id>"}],
+    "computed":{"value":109.086,"units":"nT","tolerance_percent":1.0,
+      "verdict":"match","verification_audit_id":"<verification-audit-id>"},
+    "caveats":["Confirm archive revision before publication."]
+  }],"out_name":"papers/russell-2013.json"}'
+
+uv run helio-agent run validate_reproduction_manifest \
+  '{"file":"workspace/data/papers/russell-2013.json"}'
+uv run helio-agent run render_reproduction_report \
+  '{"file":"workspace/data/papers/russell-2013.json","out_name":"papers/russell-2013.md"}'
+```
+
+For claims that cannot be run, retain `id`, `statement`, `capability`,
+`reason`, and `caveats`, using capability `method_gap` or `blocked`; do not
+invent a recipe or computed result. Claim extraction from arbitrary PDFs and
+the choice of like-for-like method remain scientist/agent review steps.
 
 Worked example (3 matches, 1 honestly blocked by an instrument data gap):
 [users/cayoung/analyses/2012-07-23-extreme-cme/](../users/cayoung/analyses/2012-07-23-extreme-cme/analysis.md).
@@ -297,10 +335,12 @@ regen). No → your profile.
 ## 10. Reproducibility: audit, cache, replay
 
 - **Audit trail** (`workspace/logs/audit.jsonl`, per-profile when active):
-  every call records args, status, elapsed, git sha, touched HTTP cache
-  keys, and sha256 of every artifact. Cite audit ids for headline numbers.
+  every call records args, status, elapsed, git sha, touched HTTP cache keys,
+  a canonical full result, hashes of file inputs before execution, and path +
+  sha256 for every artifact. Cite audit IDs for headline numbers.
 - **HTTP cache** (`workspace/cache/`, always shared): content-addressed by
-  sha256(method + URL + public params); credentials never touch keys or
+  sha256(method + URL + public params + canonical request-body hash) for GET
+  and POST. Credentials and request bodies never enter cache metadata or
   disk; real-time feeds carry TTLs so nowcasts never serve stale data.
   Modes via `HELIO_CACHE_MODE`: `readwrite` (default), `readonly` (replay),
   `bypass`.
@@ -308,11 +348,14 @@ regen). No → your profile.
 
 ```bash
 uv run helio-agent replay <audit-id>
-# → verdict "match" if the re-run reproduces artifact checksums from cache alone
+# → "match", "mismatch", or "unverifiable", with compared dimensions
 ```
 
-A `mismatch` means the code or upstream data changed since the recording —
-either way, you know.
+Replay compares status, full result, pre-run input hashes, artifact paths, and
+artifact hashes when recorded. `mismatch` names the changed dimensions;
+`unverifiable` means a legacy entry lacks enough evidence to prove equality.
+Generated `out_name` values must be relative and resolve below the active
+workspace, so traversal, absolute paths, and symlink escapes are refused.
 
 ---
 

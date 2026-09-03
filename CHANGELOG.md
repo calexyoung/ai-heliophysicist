@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- **Deterministic trust hardening**: generated paths are contained after
+  symlink resolution; audits retain canonical results and input hashes;
+  replay compares status/results/inputs/artifact sets and reports
+  `match`/`mismatch`/`unverifiable`; claim verification requires a real
+  successful audit containing the computed value; BibTeX and hosted export
+  POSTs use the replay-safe cache without persisting bodies or secrets;
+  monitor cycles expose `ok`/`degraded`/`error` health and atomically persist
+  state without turning an unavailable IPS feed into a false miss.
+- **Paper reproduction manifests**: three core tools create, validate, and
+  render schema-version-1, audit-linked claim records. Documentation now
+  distinguishes the 29 tools directly exercised by 28 live checks from
+  supporting tools covered through offline tests and validated composition.
+
 - **`magnetogram_metrics`** (measure): fifth port from helio-agent
   (`analysis.magnetogram` v1.0.0). Unsigned/signed flux, max |B| and a
   strong polarity-inversion-line proxy (length + threaded flux) for a

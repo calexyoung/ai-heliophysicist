@@ -15,15 +15,17 @@ trusted software base.
 |---|---|---|
 | Scientist | directs the question, owns the result | same |
 | LLM | rented judgment: plans, selects, interprets | same (Claude Code session under `CLAUDE.md`) |
-| Tool layer | 67 tools wrapping HEASoft, XSPEC, CIAO, SAS, Fermitools | 67 tools wrapping sunpy, pyspedas, plasmapy, geopack, cdasws, sscws, hapiclient, cdflib + HDRL/NOAA REST services |
+| Tool layer | 67 tools wrapping HEASoft, XSPEC, CIAO, SAS, Fermitools | 70 tools wrapping sunpy, pyspedas, plasmapy, geopack, cdasws, sscws, hapiclient, cdflib + HDRL/NOAA REST services |
 | Environment | conda env, data trees, outputs, logs | `uv`-managed env; `workspace/{data,outputs,logs}` |
 | Knowledge | 317 skill documents | 45 skill documents (missions / methods / datasources / tools), growing |
 | Assurance | fabrication = hard failure, audit trail, validation vs published results | same: `CLAUDE.md` contract, `audit.jsonl`, `validation/run_validation.py` |
 
 Core principle preserved: **minimize nondeterminism, maximize validation**.
 The LLM writes no pipelines and computes no science numbers; tools are
-deterministic (same inputs → same outputs) and each is anchored to a
-published result before the agent may trust it.
+deterministic (same inputs → same outputs). Scientific tools need an
+appropriate published, analytic, or cross-implementation anchor before the
+agent may trust their scientific conclusions; supporting tools are covered by
+offline behavioral tests and validated compositions.
 
 ## Domain translation
 
@@ -53,7 +55,8 @@ plan (LLM)
    │    HDRL/NOAA     workspace/data/*.csv   science     workspace/outputs/
    │    catalogs      (UTC-indexed, NaN      numbers      figures + PDF
    │                   for fill values)
-   └── every call → workspace/logs/audit.jsonl (args, status, artifacts, id)
+   └── every call → workspace/logs/audit.jsonl
+       (args, input hashes, full result, status, artifacts + hashes, id)
 ```
 
 The workspace CSV (UTC time index, NaN fill, units in tool result) is the
@@ -63,8 +66,10 @@ tool set.
 
 ## Validation
 
-`validation/run_validation.py` — 21 checks in 14 cases, run on every push
-(CI), dependency upgrade, or tool change. Anchor types:
+`validation/run_validation.py` — 28 checks in 21 cases, run on every push
+(CI), dependency upgrade, or tool change. It directly references 29 of the 70
+core tools; the remaining supporting tools are covered by offline tests,
+schema locks, and use inside validated workflows. Anchor types:
 
 - **Published-event anchors**: Halloween 2003 Dst −383 nT exact; 2017-09-06
   X-flare timing exact + DONKI cross-check; 2012-07-12 CME arrival within
@@ -90,9 +95,10 @@ cache behavior (secrets never on disk), user-tool scoping.
 
 Adopted from the author's helio-agent harness (see
 `docs/helio_agent_review.md`, now largely implemented): content-addressed
-HTTP cache + replay manifests, coverage-aware refusals, the monitor with a
-scored forecast ledger, saved rerunnable reports, physics models with
-population backtests, extreme-value convention sweeps, and the
+GET/POST cache, exact result/input/artifact replay, coverage-aware refusals,
+monitor health plus a scored forecast ledger, saved rerunnable reports,
+versioned paper-reproduction manifests, physics models with population
+backtests, extreme-value convention sweeps, and the
 refuse-rather-than-false-mismatch claim verifier.
 
 ## Growth path

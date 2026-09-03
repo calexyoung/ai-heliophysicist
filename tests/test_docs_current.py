@@ -4,6 +4,7 @@ The README/architecture tool counts drifted three times before this test
 existed. Any change to the registry without a docs update now fails CI.
 """
 
+import ast
 import re
 from pathlib import Path
 
@@ -14,6 +15,20 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def _core_count():
     return sum(1 for t in list_tools() if t.scope == "core")
+
+
+def _directly_validated_tools() -> set[str]:
+    tree = ast.parse((ROOT / "validation" / "run_validation.py").read_text())
+    return {
+        node.args[0].value
+        for node in ast.walk(tree)
+        if (isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id == "run_tool"
+            and node.args
+            and isinstance(node.args[0], ast.Constant)
+            and isinstance(node.args[0].value, str))
+    }
 
 
 def test_readme_tool_count_matches_registry():
@@ -32,6 +47,17 @@ def test_architecture_tool_count_matches_registry():
     m = re.search(r"(\d+) tools wrapping sunpy", arch)
     assert m and int(m.group(1)) == n, (
         f"docs/ARCHITECTURE.md tool count != registry ({n})")
+
+
+def test_readme_distinguishes_direct_validation_from_supporting_tools():
+    direct = _directly_validated_tools()
+    core = {t.name for t in list_tools() if t.scope == "core"}
+    assert direct <= core
+    readme = (ROOT / "README.md").read_text()
+    match = re.search(r"(\d+) are directly exercised", readme)
+    assert match, "README must distinguish directly exercised tools"
+    assert int(match.group(1)) == len(direct)
+    assert "supporting tools" in readme.lower()
 
 
 def test_every_family_documented_in_readme():
