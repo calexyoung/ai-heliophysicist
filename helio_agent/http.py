@@ -75,10 +75,25 @@ def touched_keys() -> list[str]:
     return list(getattr(_local, "keys", []))
 
 
-def cache_key(url: str, params: dict | None = None, method: str = "GET") -> str:
+def _public_json(value):
+    if isinstance(value, dict):
+        return {str(k): _public_json(v) for k, v in sorted(value.items())
+                if str(k).lower() not in SECRET_PARAMS}
+    if isinstance(value, (list, tuple)):
+        return [_public_json(v) for v in value]
+    return value
+
+
+def cache_key(url: str, params: dict | None = None, method: str = "GET",
+              json_body=None) -> str:
     public = {k: str(v) for k, v in sorted((params or {}).items())
               if k.lower() not in SECRET_PARAMS}
-    blob = json.dumps([method.upper(), url, public], separators=(",", ":"))
+    identity = [method.upper(), url, public]
+    if json_body is not None:
+        public_body = json.dumps(_public_json(json_body), sort_keys=True,
+                                 separators=(",", ":"), default=str)
+        identity.append(hashlib.sha256(public_body.encode()).hexdigest())
+    blob = json.dumps(identity, separators=(",", ":"))
     return hashlib.sha256(blob.encode()).hexdigest()
 
 
@@ -93,10 +108,11 @@ def cache_mode() -> str:
     return mode
 
 
-def cached_get(url: str, params: dict | None = None, headers: dict | None = None,
-               timeout: int = 90, allow_error: bool = False,
-               ttl_seconds: float | None = None) -> CachedResponse:
-    """GET with content-addressed caching. See module docstring for modes.
+def cached_request(method: str, url: str, *, params: dict | None = None,
+                   json_body=None, headers: dict | None = None,
+                   timeout: int = 90, allow_error: bool = False,
+                   ttl_seconds: float | None = None) -> CachedResponse:
+    """HTTP request with content-addressed caching. See module docstring.
 
     allow_error: cache non-2xx responses as well (for fallback chains);
     otherwise errors are raised and never cached.
@@ -105,7 +121,8 @@ def cached_get(url: str, params: dict | None = None, headers: dict | None = None
     (readonly mode) ignores TTL — it always uses whatever was recorded.
     """
     import time as _time
-    key = cache_key(url, params)
+    method = method.upper()
+    key = cache_key(url, params, method=method, json_body=json_body)
     keys = getattr(_local, "keys", None)
     if keys is not None:
         keys.append(key)
@@ -123,8 +140,13 @@ def cached_get(url: str, params: dict | None = None, headers: dict | None = None
     if mode == "readonly":
         raise CacheMiss(f"no cached response for {url} (key {key[:12]}...)")
 
-    r = requests.get(url, params=params, headers={**_UA, **(headers or {})},
-                     timeout=timeout)
+    request_headers = {**_UA, **(headers or {})}
+    if method == "GET":
+        r = requests.get(url, params=params, headers=request_headers,
+                         timeout=timeout)
+    else:
+        r = requests.request(method, url, params=params, json=json_body,
+                             headers=request_headers, timeout=timeout)
     if not (200 <= r.status_code < 300) and not allow_error:
         r.raise_for_status()
     if mode == "readwrite":
@@ -142,3 +164,12 @@ def cached_get(url: str, params: dict | None = None, headers: dict | None = None
         }))
     return CachedResponse(status_code=r.status_code, content=r.content,
                           url=r.url, cache_key=key, from_cache=False)
+
+
+def cached_get(url: str, params: dict | None = None, headers: dict | None = None,
+               timeout: int = 90, allow_error: bool = False,
+               ttl_seconds: float | None = None) -> CachedResponse:
+    """Compatibility wrapper for a cached GET request."""
+    return cached_request("GET", url, params=params, headers=headers,
+                          timeout=timeout, allow_error=allow_error,
+                          ttl_seconds=ttl_seconds)

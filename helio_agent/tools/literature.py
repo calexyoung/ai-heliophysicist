@@ -10,9 +10,7 @@ from __future__ import annotations
 import os
 import re
 
-import requests
-
-from helio_agent.http import cached_get
+from helio_agent.http import cached_get, cached_request
 from helio_agent.registry import tool
 from helio_agent.workspace import data_path
 
@@ -56,10 +54,10 @@ def get_bibtex(bibcodes: list[str]) -> dict:
     token = os.environ.get("ADS_API_TOKEN")
     if not token:
         return {"status": "error", "error": "ADS_API_TOKEN not set"}
-    r = requests.post("https://api.adsabs.harvard.edu/v1/export/bibtex",
-                      json={"bibcode": bibcodes},
-                      headers={**_UA, "Authorization": f"Bearer {token}"},
-                      timeout=60)
+    r = cached_request(
+        "POST", "https://api.adsabs.harvard.edu/v1/export/bibtex",
+        json_body={"bibcode": bibcodes},
+        headers={**_UA, "Authorization": f"Bearer {token}"}, timeout=60)
     r.raise_for_status()
     return {"bibtex": r.json()["export"]}
 

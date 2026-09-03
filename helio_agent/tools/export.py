@@ -182,8 +182,6 @@ def export_html(markdown_file: str, template_id: str = "research",
     """
     import re
 
-    import requests
-
     if engine not in ("unmarkdown", "local"):
         return {"status": "error",
                 "error": "refusing: engine must be 'unmarkdown' or 'local'"}
@@ -203,11 +201,13 @@ def export_html(markdown_file: str, template_id: str = "research",
             return {"status": "error",
                     "error": "refusing: UNMARKDOWN_API_KEY not set (.env); "
                              "use engine='local' for key-free offline conversion"}
-        r = requests.post(_API, timeout=120,
-                          headers={"Authorization": f"Bearer {key}",
-                                   "Content-Type": "application/json"},
-                          json={"markdown": md, "template_id": template_id,
-                                "theme_mode": theme_mode, "destination": "generic"})
+        from helio_agent.http import cached_request
+        r = cached_request(
+            "POST", _API, timeout=120,
+            headers={"Authorization": f"Bearer {key}",
+                     "Content-Type": "application/json"},
+            json_body={"markdown": md, "template_id": template_id,
+                       "theme_mode": theme_mode, "destination": "generic"})
         if r.status_code != 200:
             return {"status": "error",
                     "error": f"unmarkdown convert failed ({r.status_code}): {r.text[:200]}"}
