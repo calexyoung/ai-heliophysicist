@@ -41,3 +41,10 @@
 applies the correction to an AIA FITS. 304 A is the severe case: it fell to
 ~0.89 within weeks of first light and ~0.06 by 2020 — never compare 304 A
 intensities across epochs uncorrected. Validation case `aia`.
+
+## Tool: `magnetogram_metrics` (ported from helio-agent 2026-09-03)
+- Input: a full-disk HMI LOS magnetogram FITS. Fetch it with `fetch_vso instrument="HMI" physobs="LOS_magnetic_field"` — without `physobs` the VSO hands back the continuum (`hmi.ic_45s`) first, and the tool refuses non-Gauss files. One 4096x4096 file is ~16 MB; `max_files=1`.
+- Region box in heliographic Stonyhurst degrees (DONKI/HEK flare convention, west positive), projected through the map WCS. Outputs: unsigned and signed flux (Mx), max |B|, strong-PIL length (pixel chain x pixel size) and the flux threaded through it, plus disk unsigned flux.
+- Reference values from AR 12673 at 2017-09-06 11:01 UT (S09W33, 16-deg box): 2.8e22 Mx, max |B| 2255 G, strong PIL 586 Mm threading 3.1e20 Mx; the mirrored quiet box held 1.5e21 Mx and no PIL; full disk 3.1e23 Mx. A delta region shows hundreds of Mm of strong PIL; a simple bipole shows tens or none.
+- Limits: LOS field only, no mu correction (flux is a lower bound away from disk center; at W33 the cos factor is ~0.84), 45 s magnetograms carry ~10 G noise (`noise_g` = 20 clips it), and the PIL is a pixel-chain proxy, not the Schrijver R value. For published-grade AR flux use the SHARP keywords (USFLUX) and cite them.
+- Cross-check the box position against the HEK/DONKI flare location and the NOAA AR number; the box is 8 deg half-width by default and a large region can exceed it.

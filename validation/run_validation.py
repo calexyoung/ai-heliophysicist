@@ -624,6 +624,46 @@ def case_hindcast() -> None:
           f"{halo['timing_error_hours'] if halo else None} h")
 
 
+def case_magnetogram() -> None:
+    """HMI LOS magnetogram metrics for AR 12673 on 2017-09-06 11:01 UT.
+
+    Anchor (order of magnitude, plus a qualitative delta-class check): AR
+    12673, the source of the X9.3 at S09W33, was a compact delta-class
+    region with umbral fields above 2 kG and an unsigned flux of a few
+    10^22 Mx at the time of the flare (Sun & Norton 2017, RNAAS 1, 24; Yang
+    et al. 2017, ApJL 849, L21). The 16-degree box must hold 1e22-1e23 Mx,
+    peak |B| >= 1500 G, a strong-PIL chain >= 100 Mm threading >= 1e20 Mx,
+    and at least 10x the unsigned flux of an equal quiet-Sun box at the
+    mirrored longitude (no PIL there). Full-disk unsigned flux for a
+    declining-phase day must land in 1e23-1e24 Mx. LOS fluxes carry no mu
+    correction, so these are bounds, not a precision comparison.
+    """
+    r = run_tool("fetch_vso", start="2017-09-06T11:00:00", end="2017-09-06T11:20:00",
+                 instrument="HMI", max_files=1, physobs="LOS_magnetic_field")
+    if r["status"] != "ok" or not r["files"]:
+        check("magnetogram.fetch", False, r.get("error", "no file"))
+        return
+    f = r["files"][0]
+    check("magnetogram.fetch", "magnetogram" in f, f.rsplit("/", 1)[-1])
+    m = run_tool("magnetogram_metrics", fits_file=f, lat_deg=-9.0, lon_deg=33.0,
+                 half_deg=8.0, out_name="_validation_magnetogram.png")
+    q = run_tool("magnetogram_metrics", fits_file=f, lat_deg=-9.0, lon_deg=-33.0,
+                 half_deg=8.0, plot=False)
+    if m["status"] != "ok" or q["status"] != "ok":
+        check("magnetogram.ar12673", False, m.get("error") or q.get("error", ""))
+        return
+    a, b = m["region"], q["region"]
+    ok = (1e22 <= a["unsigned_flux_mx"] <= 1e23 and a["max_abs_b_g"] >= 1500
+          and a["pil_length_mm"] >= 100 and a["pil_flux_mx"] >= 1e20
+          and a["unsigned_flux_mx"] >= 10 * b["unsigned_flux_mx"]
+          and 1e23 <= m["disk_unsigned_flux_mx"] <= 1e24)
+    check("magnetogram.ar12673", ok,
+          f"AR box {a['unsigned_flux_mx']:.2e} Mx, max |B| {a['max_abs_b_g']:.0f} G, strong "
+          f"PIL {a['pil_length_mm']:g} Mm ({a['pil_flux_mx']:.2e} Mx); mirrored quiet box "
+          f"{b['unsigned_flux_mx']:.2e} Mx, PIL {b['pil_length_mm']:g} Mm; disk "
+          f"{m['disk_unsigned_flux_mx']:.2e} Mx (published: a few 1e22 Mx, >2 kG, delta)")
+
+
 CASES = {
     "halloween2003": case_halloween_2003,
     "flare20170906": case_flare_20170906,
@@ -640,6 +680,7 @@ CASES = {
     "sep": case_characterize_sep,
     "radio": case_radio_bursts,
     "hindcast": case_hindcast,
+    "magnetogram": case_magnetogram,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

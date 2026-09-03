@@ -167,11 +167,16 @@ def fetch_goes_xrs(start: str, end: str) -> dict:
 @tool(family="retrieve")
 def fetch_vso(start: str, end: str, instrument: str,
               wavelength_angstrom: float | None = None,
-              max_files: int = 4) -> dict:
+              max_files: int = 4, physobs: str | None = None) -> dict:
     """Download solar data files (FITS) from the VSO into the workspace.
 
     Deliberately capped at max_files to avoid accidental bulk downloads;
     raise the cap explicitly for larger pulls.
+
+    physobs: VSO physical-observable filter for instruments that serve
+    several products, e.g. HMI: 'LOS_magnetic_field' (magnetogram),
+    'intensity' (continuum), 'LOS_velocity' (Dopplergram). Without it an
+    HMI query returns whichever product the archive lists first.
     """
     import astropy.units as u
     from sunpy.net import Fido, attrs as a
@@ -179,6 +184,8 @@ def fetch_vso(start: str, end: str, instrument: str,
     query = [a.Time(start, end), a.Instrument(instrument)]
     if wavelength_angstrom is not None:
         query.append(a.Wavelength(wavelength_angstrom * u.angstrom))
+    if physobs is not None:
+        query.append(a.Physobs(physobs))
     res = Fido.search(*query)
     total = sum(len(t) for t in res)
     if total == 0:

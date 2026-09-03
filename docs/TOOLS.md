@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-66 core tools in six families. Invoke any tool with
+67 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -13,7 +13,7 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | **discover** (11) | `get_noaa_realtime`, `get_solar_regions`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
 | **retrieve** (14) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
-| **measure** (19) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
+| **measure** (20) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
 | **report** (8) | `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_stack`, `plot_timeseries`, `write_pdf_report` |
 
@@ -366,13 +366,18 @@ Operational nowcast data: gaps, spikes, and later revisions are normal.
 ### `fetch_vso`
 
 ```python
-fetch_vso(start: 'str', end: 'str', instrument: 'str', wavelength_angstrom: 'float | None' = None, max_files: 'int' = 4) -> 'dict'
+fetch_vso(start: 'str', end: 'str', instrument: 'str', wavelength_angstrom: 'float | None' = None, max_files: 'int' = 4, physobs: 'str | None' = None) -> 'dict'
 ```
 
 Download solar data files (FITS) from the VSO into the workspace.
 
 Deliberately capped at max_files to avoid accidental bulk downloads;
 raise the cap explicitly for larger pulls.
+
+physobs: VSO physical-observable filter for instruments that serve
+several products, e.g. HMI: 'LOS_magnetic_field' (magnetogram),
+'intensity' (continuum), 'LOS_velocity' (Dopplergram). Without it an
+HMI query returns whichever product the archive lists first.
 
 *Source: `helio_agent/tools/retrieve.py`*
 
@@ -731,6 +736,33 @@ Returns the top 5 peaks with periods and false-alarm probabilities.
 Read skills/methods/timing_periodicity.md before interpreting.
 
 *Source: `helio_agent/tools/measure.py`*
+
+### `magnetogram_metrics`
+
+```python
+magnetogram_metrics(fits_file: 'str', lat_deg: 'float | None' = None, lon_deg: 'float | None' = None, half_deg: 'float' = 8.0, noise_g: 'float' = 20.0, strong_g: 'float' = 100.0, plot: 'bool' = True, out_name: 'str' = 'magnetogram.png') -> 'dict'
+```
+
+Quantitative metrics from an HMI LOS magnetogram FITS: total unsigned
+flux (disk + active-region box), signed balance, max |B|, and a
+polarity-inversion-line proxy (strong-PIL length and threaded flux) — the
+measured counterpart of the Mount Wilson delta class. Annotated plot.
+
+fits_file: a full-disk HMI LOS magnetogram (hmi.M_45s / hmi.M_720s, from
+fetch_vso physobs 'LOS_magnetic_field' or a JSOC export). Refuses files
+whose instrument is not HMI or whose units are not Gauss.
+
+lat_deg/lon_deg (heliographic Stonyhurst, west positive, the DONKI
+convention) with half_deg define the region box; omit them for the full
+disk only. |B| below noise_g is ignored in flux sums; strong_g sets the
+strong-field masks whose one-pixel dilations intersect on the PIL.
+
+Returns date_obs, pixel_km, disk_unsigned_flux_mx, region (unsigned /
+signed flux, max |B|, pil_length_mm, pil_flux_mx, n_pixels) or null,
+note, and the figure path when plot. Fluxes are line-of-sight without a
+mu correction: a lower bound away from disk center.
+
+*Source: `helio_agent/tools/magnetogram.py`*
 
 ### `model_dst`
 

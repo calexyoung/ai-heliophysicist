@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- **`magnetogram_metrics`** (measure): fifth port from helio-agent
+  (`analysis.magnetogram` v1.0.0). Unsigned/signed flux, max |B| and a
+  strong polarity-inversion-line proxy (length + threaded flux) for a
+  heliographic box on an HMI LOS magnetogram, plus disk unsigned flux;
+  annotated plot. `fetch_vso` gained `physobs` so an HMI query can ask for
+  the magnetogram instead of the continuum. Validation anchor: AR 12673 on
+  2017-09-06 (2.8e22 Mx, 2255 G, 586 Mm strong PIL vs none in a quiet box).
+  Six offline tests on synthetic bipoles. Skill note in `skills/missions/sdo.md`.
+
 - **`hindcast_forecasts`** (measure): fourth port from helio-agent
   (`campaign.hindcast` v1.2.0), rewired to THIS repo's monitor rule. Replays
   the DONKI cone import, Earth-cone test, highest-speed-fit selection and

@@ -19,7 +19,7 @@ produced it; every tool is anchored to a published result before use —
 
 ```bash
 uv sync                                     # one-time: build the environment
-uv run helio-agent list                     # 66 tools in six families
+uv run helio-agent list                     # 67 tools in six families
 uv run helio-agent run fetch_omni '{"start":"2024-05-10T00:00:00Z","end":"2024-05-14T00:00:00Z"}'
 uv run python validation/run_validation.py  # prove the stack against known results
 uv run helio-agent report sun-news          # today's space-weather report (PDF)
@@ -88,7 +88,7 @@ skills before acting, cross-check, everything on disk).
 - **measure** — flare detection + GOES classification, storm metrics,
   Lomb-Scargle, cross-correlation, superposed epoch, field-line tracing
   (T89), Dst nowcast, CME arrival (DBM), extreme-value statistics,
-  plasma parameters (PlasmaPy), ICME/shock/sheath detection, SEP radiation-storm characterization, type II/III radio bursts, forecast-rule hindcast, claim verification
+  plasma parameters (PlasmaPy), ICME/shock/sheath detection, SEP radiation-storm characterization, type II/III radio bursts, forecast-rule hindcast, HMI magnetogram flux/PIL metrics, claim verification
 - **literature** — NASA ADS (token via `ADS_API_TOKEN`), arXiv search + PDF fetch, BibTeX
 - **report** — publication-styled time-series/stack/solar-map/orbit plots
   (CVD-validated palette), seaborn statistical plots, PDF reports,

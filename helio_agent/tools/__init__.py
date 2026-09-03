@@ -16,6 +16,7 @@ from helio_agent.tools import (  # noqa: F401
     models,
     radio,
     literature,
+    magnetogram,
     report,
     spedas,
     swpc,
