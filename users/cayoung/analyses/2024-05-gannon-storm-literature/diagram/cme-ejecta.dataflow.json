@@ -47,7 +47,21 @@
         ],
         "note": "750 to 1480 km/s in launch order: each CME overtakes the one ahead of it."
       }
-    ]
+    ],
+    "legend": {
+      "mode": "auto",
+      "entries": {
+        "emphasis": {
+          "label": "geoeffective path"
+        },
+        "dashed": {
+          "label": "weak / no storm"
+        },
+        "default": {
+          "label": "eruption / merge"
+        }
+      }
+    }
   },
   "stages": [
     {
@@ -80,64 +94,57 @@
       "id": "cme1",
       "type": "cloud",
       "label": "CME 1 - X1.0",
-      "sublabel": "8 May 05:09 UT",
+      "sublabel": "8 May 05:09 - 750 km/s",
       "stage": 1,
-      "row": 0,
-      "tag": "750 km/s"
+      "row": 0
     },
     {
       "id": "cme2",
       "type": "cloud",
       "label": "CME 2 - M8.7",
-      "sublabel": "8 May 12:03 UT",
+      "sublabel": "8 May 12:03 - 850 km/s",
       "stage": 1,
-      "row": 1,
-      "tag": "850 km/s"
+      "row": 1
     },
     {
       "id": "cme3",
       "type": "cloud",
       "label": "CME 3 - X1.0",
-      "sublabel": "8 May 21:40 UT",
+      "sublabel": "8 May 21:40 - 1240 km/s",
       "stage": 2,
-      "row": 0,
-      "tag": "1240 km/s"
+      "row": 0
     },
     {
       "id": "cme4",
       "type": "cloud",
       "label": "CME 4 - X2.2",
-      "sublabel": "9 May 09:13 UT",
+      "sublabel": "9 May 09:13 - 1480 km/s",
       "stage": 2,
-      "row": 1,
-      "tag": "1480 km/s"
+      "row": 1
     },
     {
       "id": "cme5",
       "type": "cloud",
       "label": "CME 5 - X1.1",
-      "sublabel": "9 May 17:44 UT",
+      "sublabel": "9 May 17:44 - 940 km/s",
       "stage": 1,
-      "row": 3,
-      "tag": "940 km/s"
+      "row": 3
     },
     {
       "id": "cme6",
       "type": "cloud",
       "label": "CME 6 - X3.9",
-      "sublabel": "10 May 06:54 UT",
+      "sublabel": "10 May 06:54 - 1530 km/s",
       "stage": 2,
-      "row": 2,
-      "tag": "1530 km/s"
+      "row": 2
     },
     {
       "id": "cme7",
       "type": "cloud",
       "label": "CME 7 - X5.8",
-      "sublabel": "11 May 01:23 UT",
+      "sublabel": "11 May 01:23 - 1660 km/s",
       "stage": 2,
-      "row": 3,
-      "tag": "1660 km/s"
+      "row": 3
     },
     {
       "id": "ce1",
