@@ -539,6 +539,54 @@ def case_characterize_sep() -> None:
           f"{ph['dispersion_minutes']} min, connection {ph['connection_angle_deg']} deg")
 
 
+def case_radio_bursts() -> None:
+    """WIND/WAVES radio bursts for the 2017-09-06 X9.3 flare.
+
+    Anchor: GOES X9.3 flare 11:53-12:02-12:10 UT from AR 12673; WIND/WAVES
+    recorded an intense type III group at flare onset followed by a
+    decametric-hectometric type II (CME-driven shock, CDAW/DONKI CME speed
+    ~1500-2000 km/s) drifting down through the afternoon (e.g. Gopalswamy et
+    al. 2018, ApJL 863, L39). At the 3-min K0 cadence the type III and type
+    II merge into one burst, so the check is: a burst starting within 10 min
+    of the flare onset, peaking above 40 dB within 15 min of the X-ray peak,
+    spanning >= 2 decades of frequency, classified type III or type II
+    candidate with a drift speed between 1000 and 10000 km/s. 2017-09-10 (the
+    X8.2) is a WI_K0_WAV data gap and cannot serve.
+    """
+    import pandas as pd
+    r = run_tool("fetch_cdaweb_spectrogram", start="2017-09-06T08:00:00Z",
+                 end="2017-09-06T20:00:00Z")
+    if r["status"] != "ok":
+        check("radio.fetch", False, r.get("error", ""))
+        return
+    check("radio.fetch", r["n_channels"] == 76 and r["channel_units"] == "Hz",
+          f"{r['n_records']} spectra x {r['n_channels']} channels "
+          f"({r['channels'][0]:g}-{r['channels'][-1]:g} {r['channel_units']})")
+    m = run_tool("radio_bursts", file=r["file"], out_name="_validation_radio.png")
+    if m["status"] != "ok" or not m["bursts"]:
+        check("radio.20170906", False, m.get("error") or m.get("note", ""))
+        return
+    def mins(a, b):
+        return abs((pd.Timestamp(a) - pd.Timestamp(b)).total_seconds()) / 60
+    flare = [b for b in m["bursts"] if mins(b["start"], "2017-09-06 11:53") <= 10]
+    if not flare:
+        check("radio.20170906", False,
+              f"no burst within 10 min of 11:53; starts {[b['start'][11:16] for b in m['bursts']]}")
+        return
+    b = flare[0]
+    import math
+    decades = math.log10(b["freq_max_hz"] / b["freq_min_hz"])
+    speed = b["inferred_speed_km_s"] or 0
+    ok = (b["peak_db"] >= 40 and mins(b["peak_time"], "2017-09-06 12:02") <= 15
+          and decades >= 2 and b["classification"] in ("type III", "type II candidate")
+          and 1000 <= speed <= 10000)
+    check("radio.20170906", ok,
+          f"burst {b['start'][11:16]}-{b['end'][11:16]} UT, peak {b['peak_db']} dB at "
+          f"{b['peak_time'][11:16]} (X9.3 peak 12:02), {b['freq_max_hz']:.3g}-"
+          f"{b['freq_min_hz']:.3g} Hz ({decades:.1f} decades), {b['classification']} at "
+          f"{speed:g} km/s; {m['n_bursts']} bursts in window: {m['counts']}")
+
+
 CASES = {
     "halloween2003": case_halloween_2003,
     "flare20170906": case_flare_20170906,
@@ -553,6 +601,7 @@ CASES = {
     "cmearrival": case_cme_arrival,
     "icme": case_detect_icme,
     "sep": case_characterize_sep,
+    "radio": case_radio_bursts,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

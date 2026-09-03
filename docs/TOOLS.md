@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-63 core tools in six families. Invoke any tool with
+65 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -11,9 +11,9 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | Family | Tools |
 |---|---|
 | **discover** (11) | `get_noaa_realtime`, `get_solar_regions`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
-| **retrieve** (13) | `fetch_cdaweb_data`, `fetch_gfz_index`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
+| **retrieve** (14) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
-| **measure** (17) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `linear_fit`, `lomb_scargle`, `model_dst`, `plasma_parameters`, `propagation_delay`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
+| **measure** (18) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `linear_fit`, `lomb_scargle`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
 | **report** (8) | `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_stack`, `plot_timeseries`, `write_pdf_report` |
 
@@ -173,6 +173,28 @@ variables: variable names from list_cdaweb_variables, e.g. ['DST1800'].
 start/end: ISO UTC times, e.g. '2003-10-28T00:00:00Z'.
 
 Fill values are replaced with NaN using the CDF FILLVAL attribute.
+
+*Source: `helio_agent/tools/retrieve.py`*
+
+### `fetch_cdaweb_spectrogram`
+
+```python
+fetch_cdaweb_spectrogram(start: 'str', end: 'str', dataset: 'str' = 'WI_K0_WAV', variable: 'str' = 'E_Average') -> 'dict'
+```
+
+Fetch a 2-D (time x channel) CDAWeb variable, keeping the channel axis.
+
+The generic fetch_cdaweb_data flattens 2-D variables into anonymous
+`<var>_<i>` columns; a dynamic spectrum is useless without its frequency
+(or energy) axis. This writes one column per channel named `c<value>`
+from the variable's DEPEND_1 coordinate (e.g. `c268` ... `c10090000` for
+WIND/WAVES frequencies in Hz), so downstream tools recover the axis from
+the header alone.
+
+Default: WIND/WAVES key parameters `WI_K0_WAV` / `E_Average` — dB above
+background at 76 log-spaced frequencies (250 Hz to 10 MHz; RAD1, RAD2 and
+TNR receivers merged), ~3-min cadence, 1994-present. Fill (-1e31) becomes
+NaN. Returns file, channel values and units alongside the record count.
 
 *Source: `helio_agent/tools/retrieve.py`*
 
@@ -734,6 +756,36 @@ Defaults: L1 (~1.5e6 km upstream) to Earth. Crude — assumes radial,
 constant speed; good to ~±10 min for steady wind. See skills/methods/cross_spacecraft.md.
 
 *Source: `helio_agent/tools/measure.py`*
+
+### `radio_bursts`
+
+```python
+radio_bursts(file: 'str', min_db: 'float' = 10.0, min_channels: 'int' = 8, min_freq_hz: 'float' = 20000.0, gap_minutes: 'float' = 15.0, typeiii_min_speed_km_s: 'float' = 5000.0, plot: 'bool' = True, out_name: 'str' = 'radio_bursts.png') -> 'dict'
+```
+
+Detect and classify solar radio bursts (type III electron beams vs type
+II shock candidates) in a dynamic-spectrum CSV, via frequency-drift speeds
+through the Leblanc et al. (1998) density model. Labeled spectrogram plot.
+
+file: spectrogram CSV from fetch_cdaweb_spectrogram — 'time' index, one
+column per frequency channel named c<Hz> (WIND/WAVES WI_K0_WAV E_Average:
+dB above background, 76 channels, ~3-min cadence).
+
+A time is active when >= min_channels channels above min_freq_hz (default
+20 kHz, excluding the TNR plasma-line range) exceed min_db; active times
+within gap_minutes merge into one burst. The log-frequency centroid drift
+from first to last active sample, inverted through Leblanc's n_e(r) for
+fundamental emission, gives inferred_speed_km_s: > typeiii_min_speed_km_s
+is "type III", 200 km/s to that bound "type II candidate", no downward
+drift "unclassified"; single-sample broadband (>= 1 decade) enhancements
+are "type III (impulsive)".
+
+Returns bursts (time order), n_bursts, counts by classification, note, and
+the figure path when plot. The speed is a fundamental-emission, radial,
+model-density estimate: harmonic emission halves the radius, and the
+3-min cadence undersamples type III drifts, so quote it as indicative.
+
+*Source: `helio_agent/tools/radio.py`*
 
 ### `storm_metrics`
 

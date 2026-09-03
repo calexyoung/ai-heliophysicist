@@ -290,3 +290,66 @@ def save_json(name: str, payload: dict | list) -> dict:
     fpath = data_path(fname)
     fpath.write_text(json.dumps(payload, indent=2, default=str))
     return {"file": str(fpath), "artifacts": [str(fpath)]}
+
+
+@tool(family="retrieve")
+def fetch_cdaweb_spectrogram(start: str, end: str, dataset: str = "WI_K0_WAV",
+                             variable: str = "E_Average") -> dict:
+    """Fetch a 2-D (time x channel) CDAWeb variable, keeping the channel axis.
+
+    The generic fetch_cdaweb_data flattens 2-D variables into anonymous
+    `<var>_<i>` columns; a dynamic spectrum is useless without its frequency
+    (or energy) axis. This writes one column per channel named `c<value>`
+    from the variable's DEPEND_1 coordinate (e.g. `c268` ... `c10090000` for
+    WIND/WAVES frequencies in Hz), so downstream tools recover the axis from
+    the header alone.
+
+    Default: WIND/WAVES key parameters `WI_K0_WAV` / `E_Average` — dB above
+    background at 76 log-spaced frequencies (250 Hz to 10 MHz; RAD1, RAD2 and
+    TNR receivers merged), ~3-min cadence, 1994-present. Fill (-1e31) becomes
+    NaN. Returns file, channel values and units alongside the record count.
+    """
+    import numpy as np
+    import pandas as pd
+    from cdasws import CdasWs
+    from cdasws.datarepresentation import DataRepresentation
+
+    coverage = _cdaweb_coverage(dataset)
+    if coverage is not None:
+        c_start, c_end = coverage
+        if end <= c_start or start >= c_end:
+            return {"status": "error",
+                    "error": f"refusing: requested window {start}..{end} is outside "
+                             f"{dataset} coverage {c_start}..{c_end}"}
+    cdas = CdasWs()
+    status, ds = cdas.get_data(dataset, [variable], start, end,
+                               dataRepresentation=DataRepresentation.XARRAY)
+    if ds is None or variable not in ds:
+        return {"status": "error",
+                "error": f"CDAWeb returned no {variable} for {dataset} "
+                         f"(http {status.get('http', {}).get('status_code')}); check "
+                         "dataset ID, variable name (list_cdaweb_variables) and time range"}
+    da = ds[variable]
+    if da.ndim != 2:
+        return {"status": "error",
+                "error": f"{variable} is {da.ndim}-D, not a time x channel spectrogram; "
+                         "use fetch_cdaweb_data for 1-D series"}
+    fill = da.attrs.get("FILLVAL")
+    vals = da.values.astype(float)
+    if fill is not None:
+        vals = np.where(np.isclose(vals, float(fill)), np.nan, vals)
+    vals = np.where(np.abs(vals) >= 1e30, np.nan, vals)
+    chan_dim = da.dims[1]
+    channels = [float(c) for c in ds[chan_dim].values]
+    idx = pd.DatetimeIndex(ds[da.dims[0]].values)
+    cols = [f"c{c:g}" for c in channels]
+    df = pd.DataFrame(vals, index=idx, columns=cols)
+    fname = _slug(dataset, variable, start[:10], end[:10]) + ".csv"
+    fpath = data_path(fname)
+    _series_to_csv(df, fpath)
+    return {"file": str(fpath), "n_records": len(df), "n_channels": len(channels),
+            "channels": channels,
+            "channel_units": str(ds[chan_dim].attrs.get("UNITS", "")),
+            "units": str(da.attrs.get("UNITS", "")),
+            "time_range": [str(df.index[0]), str(df.index[-1])],
+            "artifacts": [str(fpath)]}

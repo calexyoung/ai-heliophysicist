@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- **`radio_bursts`** (measure) + **`fetch_cdaweb_spectrogram`** (retrieve):
+  third port from helio-agent (`analysis.radio_bursts` v1.0.0). The fetcher
+  keeps the channel axis of 2-D CDAWeb variables (columns `c<Hz>`; default
+  WIND/WAVES `WI_K0_WAV` / `E_Average`, 76 channels, 3-min). The detector
+  finds simultaneous multi-channel enhancements, merges them across gaps,
+  inverts the log-frequency centroid drift through the Leblanc et al. 1998
+  density model for a radial speed, and classifies type III (electron beam)
+  vs type II candidate (shock) vs unclassified; labeled dynamic spectrum.
+  Validation anchor: 2017-09-06 X9.3 (burst from 11:58, 52 dB peak at
+  12:10, 6.7 MHz to 30 kHz, 2160 km/s type II candidate). Eleven offline
+  tests. New skill `skills/methods/radio_burst_analysis.md` (K0 cadence
+  merges the type III group into the type II; 2017-09-10 is a WAVES gap).
+
 - **`characterize_sep`** (measure): second port from helio-agent
   (`analysis.characterize_sep` v1.2.0). NOAA S-scale radiation-storm
   detection on >10 MeV integral proton flux (events merged across

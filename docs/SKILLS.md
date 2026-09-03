@@ -2,7 +2,7 @@
 
 *Generated from `skills/` by `scripts/gen_docs.py` — do not edit by hand.*
 
-44 knowledge documents the agent must read before acting
+45 knowledge documents the agent must read before acting
 (see `skills/README.md` for the composition rule: method + mission +
 datasource). Each entry shows the document's own one-line summary.
 
@@ -25,7 +25,7 @@ datasource). Each entry shows the document's own one-line summary.
 | [THEMIS / ARTEMIS](../skills/missions/themis.md) | five NASA probes launched to time substorm onset in Earth's magnetotail; three (THEMIS A/D/E) still orbit Earth, two (ARTEMIS P1/P2, formerly B/C) moved to lunar orbit in 2011. |
 | [Wind](../skills/missions/wind.md) | NASA solar wind spacecraft, at L1 since 2004 (complex orbits before that), with arguably the best-calibrated long-baseline plasma and field measurements at 1 AU. |
 
-## Method recipes (`skills/methods/`, 12)
+## Method recipes (`skills/methods/`, 13)
 
 | Document | Summary |
 |---|---|
@@ -36,6 +36,7 @@ datasource). Each entry shows the document's own one-line summary.
 | [Solar Flare Analysis](../skills/methods/flare_analysis.md) | Classify and time solar flares from GOES XRS soft X-ray flux, then cross-check against catalogs and imagery. |
 | [Geomagnetic Storm Analysis](../skills/methods/geomagnetic_storm_analysis.md) | Characterize storms with Dst/SYM-H and Kp, classify intensity, and attribute the interplanetary driver. |
 | [Paper reproduction](../skills/methods/paper_reproduction.md) | Reproduce a paper's numbers with the tool layer, refusing dishonest comparisons. |
+| [Solar Radio Burst Analysis (type II / type III)](../skills/methods/radio_burst_analysis.md) | Detect and classify type III electron-beam and type II shock bursts in WIND/WAVES dynamic spectra, convert their frequency drift to a source speed, and tie them to the flare and CME. |
 | [Solar Energetic Particle (SEP) Event Analysis](../skills/methods/sep_analysis.md) | Detect and grade radiation storms (NOAA S scale) in >10 MeV proton flux, measure fluence and hardness, and test the onset against flare timing and Parker-spiral connection. |
 | [Solar Wind Analysis](../skills/methods/solar_wind_analysis.md) | Read L1 plasma/field data, distinguish slow/fast wind, and recognize ICME, magnetic cloud, and shock signatures. |
 | [Superposed Epoch Analysis](../skills/methods/superposed_epoch.md) | Stack many events on a common time axis to extract the average behavior and its uncertainty. |
