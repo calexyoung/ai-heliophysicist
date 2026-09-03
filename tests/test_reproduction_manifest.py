@@ -170,6 +170,16 @@ def test_verification_audit_must_agree_with_stored_verdict(
     assert any("does not agree" in error for error in out["errors"])
 
 
+def test_verification_audit_must_agree_with_stored_comparison(
+        tmp_path, valid_manifest):
+    valid_manifest["claims"][0]["computed"]["value"] += 1.0
+    out = run_tool(
+        "validate_reproduction_manifest",
+        file=str(_write(tmp_path, "altered-value.json", valid_manifest)))
+    assert any("computed.value" in error and "does not agree" in error
+               for error in out["errors"])
+
+
 def test_json_and_markdown_rendering_are_deterministic(valid_claim):
     made = run_tool(
         "create_reproduction_manifest",

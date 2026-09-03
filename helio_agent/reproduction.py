@@ -29,6 +29,12 @@ def _number(value: Any) -> bool:
             and math.isfinite(float(value)))
 
 
+def _same_number(left: Any, right: Any) -> bool:
+    return (_number(left) and _number(right)
+            and math.isclose(float(left), float(right),
+                             rel_tol=1e-12, abs_tol=1e-12))
+
+
 def _error_sort_key(error: str) -> tuple[int, str]:
     if error.startswith("claims["):
         try:
@@ -175,6 +181,28 @@ def validate_manifest(manifest: dict) -> list[str]:
             errors.append(
                 f"{base}.computed.verification_audit_id: audit "
                 f"{verification_id!r} is not a verify_claim call")
+        verification_args = verification.get("args", {})
+        comparisons = (
+            (f"{base}.claimed.value", claimed.get("value")
+             if isinstance(claimed, dict) else None,
+             verification_args.get("claimed_value"), True),
+            (f"{base}.claimed.units", claimed.get("units")
+             if isinstance(claimed, dict) else None,
+             verification_args.get("claimed_units"), False),
+            (f"{base}.computed.value", computed.get("value"),
+             verification_args.get("computed_value"), True),
+            (f"{base}.computed.units", computed.get("units"),
+             verification_args.get("computed_units"), False),
+            (f"{base}.computed.tolerance_percent",
+             computed.get("tolerance_percent"),
+             verification_args.get("tolerance_percent"), True),
+        )
+        for path, stored, recorded, numeric in comparisons:
+            agrees = (_same_number(stored, recorded) if numeric
+                      else stored == recorded)
+            if not agrees:
+                errors.append(
+                    f"{path}: does not agree with audit {verification_id!r}")
         result = verification.get("result")
         if not isinstance(result, dict):
             errors.append(
