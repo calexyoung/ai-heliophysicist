@@ -10,6 +10,9 @@ This is the paper [causal-chain.md](causal-chain.md) flagged as the missing
 piece: Hayakawa et al. said the ICME interplay analysis was still underway.
 Every value below is L's unless tagged otherwise. Nothing was computed here.
 
+**Diagram:** [diagram/cme-ejecta.html](diagram/cme-ejecta.html) renders this mapping
+(spec: `diagram/cme-ejecta.dataflow.json`).
+
 ## The source is two regions, not one
 
 L treats the source as a single complex region: NOAA AR 13664, which appeared

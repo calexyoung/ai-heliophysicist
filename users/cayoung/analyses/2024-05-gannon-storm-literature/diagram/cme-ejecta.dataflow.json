@@ -1,0 +1,311 @@
+{
+  "schema_version": 1,
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "May 2024 Gannon Storm: CME to Complex Ejecta",
+    "viewBox": [
+      1070,
+      610
+    ],
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "geoeffective-path",
+        "label": "The storm path",
+        "focus": [
+          "ar",
+          "cme1",
+          "cme2",
+          "cme3",
+          "cme4",
+          "ce1",
+          "earth"
+        ],
+        "note": "CMEs 1-4 accelerate into each other and merge into the ejecta that drove Dst to -412 nT."
+      },
+      {
+        "id": "benign-path",
+        "label": "The batch that missed",
+        "focus": [
+          "cme5",
+          "cme6",
+          "cme7",
+          "ce2",
+          "earth"
+        ],
+        "note": "Same region, same pileup, northward field. Only slight recovery-phase dips."
+      },
+      {
+        "id": "speed-ladder",
+        "label": "Why they pile up",
+        "focus": [
+          "cme1",
+          "cme2",
+          "cme3",
+          "cme4",
+          "ce1"
+        ],
+        "note": "750 to 1480 km/s in launch order: each CME overtakes the one ahead of it."
+      }
+    ]
+  },
+  "stages": [
+    {
+      "label": "Source region"
+    },
+    {
+      "label": "Leading CMEs"
+    },
+    {
+      "label": "Faster CMEs that overtake them"
+    },
+    {
+      "label": "Complex ejecta at 1 AU"
+    },
+    {
+      "label": "Geomagnetic response"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ar",
+      "type": "backend",
+      "label": "AR 13664 + 13668",
+      "sublabel": "merged region",
+      "stage": 0,
+      "row": 1,
+      "tag": "12 X-class"
+    },
+    {
+      "id": "cme1",
+      "type": "cloud",
+      "label": "CME 1 - X1.0",
+      "sublabel": "8 May 05:09 UT",
+      "stage": 1,
+      "row": 0,
+      "tag": "750 km/s"
+    },
+    {
+      "id": "cme2",
+      "type": "cloud",
+      "label": "CME 2 - M8.7",
+      "sublabel": "8 May 12:03 UT",
+      "stage": 1,
+      "row": 1,
+      "tag": "850 km/s"
+    },
+    {
+      "id": "cme3",
+      "type": "cloud",
+      "label": "CME 3 - X1.0",
+      "sublabel": "8 May 21:40 UT",
+      "stage": 2,
+      "row": 0,
+      "tag": "1240 km/s"
+    },
+    {
+      "id": "cme4",
+      "type": "cloud",
+      "label": "CME 4 - X2.2",
+      "sublabel": "9 May 09:13 UT",
+      "stage": 2,
+      "row": 1,
+      "tag": "1480 km/s"
+    },
+    {
+      "id": "cme5",
+      "type": "cloud",
+      "label": "CME 5 - X1.1",
+      "sublabel": "9 May 17:44 UT",
+      "stage": 1,
+      "row": 3,
+      "tag": "940 km/s"
+    },
+    {
+      "id": "cme6",
+      "type": "cloud",
+      "label": "CME 6 - X3.9",
+      "sublabel": "10 May 06:54 UT",
+      "stage": 2,
+      "row": 2,
+      "tag": "1530 km/s"
+    },
+    {
+      "id": "cme7",
+      "type": "cloud",
+      "label": "CME 7 - X5.8",
+      "sublabel": "11 May 01:23 UT",
+      "stage": 2,
+      "row": 3,
+      "tag": "1660 km/s"
+    },
+    {
+      "id": "ce1",
+      "type": "messagebus",
+      "label": "Complex Ejecta 1",
+      "sublabel": "CMEs 1-4 merged",
+      "stage": 3,
+      "row": 0,
+      "tag": "Bs 59 nT south"
+    },
+    {
+      "id": "ce2",
+      "type": "messagebus",
+      "label": "Complex Ejecta 2",
+      "sublabel": "CMEs 5-7 merged",
+      "stage": 3,
+      "row": 3,
+      "tag": "field northward"
+    },
+    {
+      "id": "earth",
+      "type": "external",
+      "label": "Earth / Wind at L1",
+      "sublabel": "Dst -412 nT",
+      "stage": 4,
+      "row": 1,
+      "tag": "largest in 2 decades"
+    }
+  ],
+  "flows": [
+    {
+      "id": "e1",
+      "from": "ar",
+      "to": "cme1",
+      "label": "erupts",
+      "classification": "S17W09",
+      "variant": "default",
+      "labelAt": [
+        232,
+        214
+      ]
+    },
+    {
+      "id": "e2",
+      "from": "ar",
+      "to": "cme2",
+      "label": "erupts",
+      "classification": "S16W10",
+      "variant": "default",
+      "labelAt": [
+        246,
+        338
+      ]
+    },
+    {
+      "id": "e5",
+      "from": "ar",
+      "to": "cme5",
+      "label": "erupts",
+      "classification": "S15W28",
+      "variant": "default"
+    },
+    {
+      "id": "o1",
+      "from": "cme1",
+      "to": "cme3",
+      "label": "overtaken by",
+      "classification": "750 to 1240 km/s",
+      "variant": "emphasis"
+    },
+    {
+      "id": "o2",
+      "from": "cme2",
+      "to": "cme4",
+      "label": "overtaken by",
+      "classification": "850 to 1480 km/s",
+      "variant": "emphasis"
+    },
+    {
+      "id": "o5",
+      "from": "cme5",
+      "to": "cme6",
+      "label": "overtaken by",
+      "classification": "940 to 1530 km/s",
+      "variant": "default",
+      "labelDy": -26
+    },
+    {
+      "id": "o6",
+      "from": "cme5",
+      "to": "cme7",
+      "label": "overtaken by",
+      "classification": "940 to 1660 km/s",
+      "variant": "default",
+      "labelDy": 26,
+      "route": "straight"
+    },
+    {
+      "id": "g1",
+      "from": "cme3",
+      "to": "ce1",
+      "label": "merges in transit",
+      "classification": "batch 1",
+      "variant": "emphasis",
+      "route": "straight",
+      "labelDy": -14
+    },
+    {
+      "id": "g2",
+      "from": "cme4",
+      "to": "ce1",
+      "label": "merges in transit",
+      "classification": "batch 1",
+      "variant": "emphasis",
+      "labelDy": 14
+    },
+    {
+      "id": "g3",
+      "from": "cme6",
+      "to": "ce2",
+      "label": "merges in transit",
+      "classification": "batch 2",
+      "variant": "default",
+      "labelDy": -26
+    },
+    {
+      "id": "g4",
+      "from": "cme7",
+      "to": "ce2",
+      "label": "merges in transit",
+      "classification": "batch 2",
+      "variant": "default",
+      "labelDy": 26,
+      "route": "straight"
+    },
+    {
+      "id": "a1",
+      "from": "ce1",
+      "to": "earth",
+      "label": "shock 16:37 UT 10 May",
+      "classification": "sustained southward field",
+      "variant": "emphasis"
+    },
+    {
+      "id": "a2",
+      "from": "ce2",
+      "to": "earth",
+      "label": "shock 09:09 UT 12 May",
+      "classification": "slight recovery dips only",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Why they pile up",
+      "items": [
+        "Each CME is faster than the one ahead of it: 750, 850, 1240, 1480 km/s",
+        "Earlier CMEs clear the path, so later ones barely decelerate"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Why only the first was geoeffective",
+      "items": [
+        "Tilt swings -60 to +60 deg across CMEs 1-7: Ejecta 1 southward, Ejecta 2 northward",
+        "Liu et al. 2024, ApJL 974, L8. CME 8 omitted: directed W85, missed Earth"
+      ]
+    }
+  ]
+}
