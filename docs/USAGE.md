@@ -1,7 +1,9 @@
 # AI Heliophysicist — Usage Guide
 
 Everything you need to install, drive, extend, and operate the system.
-Architecture and design rationale live in [ARCHITECTURE.md](ARCHITECTURE.md);
+Companion references: [TOOLS.md](TOOLS.md) (every tool, generated),
+[SKILLS.md](SKILLS.md) (every skill document, generated), [MODULES.md](MODULES.md)
+(package internals), [ARCHITECTURE.md](ARCHITECTURE.md) (design rationale);
 the agent's behavioral contract is [../CLAUDE.md](../CLAUDE.md).
 
 ## Contents

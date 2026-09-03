@@ -43,3 +43,12 @@ def test_every_family_documented_in_readme():
 def test_every_tool_has_docstring():
     for t in list_tools():
         assert t.doc.strip(), f"tool {t.name} has no docstring"
+
+
+def test_reference_docs_current():
+    """docs/TOOLS.md and docs/SKILLS.md are generated; they must match the
+    registry and skills tree exactly (regenerate: uv run python scripts/gen_docs.py)."""
+    import subprocess, sys
+    r = subprocess.run([sys.executable, str(ROOT / "scripts" / "gen_docs.py"), "--check"],
+                       capture_output=True, text=True, cwd=ROOT)
+    assert r.returncode == 0, r.stdout + r.stderr

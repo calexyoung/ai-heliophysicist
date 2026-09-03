@@ -31,7 +31,7 @@ Then open this directory in Claude Code: `CLAUDE.md` makes the session the
 AI Heliophysicist (contract: refuse with a reason, no fabrication, read
 skills before acting, cross-check, everything on disk).
 
-**→ Full walkthroughs, CLI reference, and workflows: [docs/USAGE.md](docs/USAGE.md)**
+**→ Walkthroughs: [docs/USAGE.md](docs/USAGE.md) · every tool: [docs/TOOLS.md](docs/TOOLS.md) · every skill: [docs/SKILLS.md](docs/SKILLS.md) · internals: [docs/MODULES.md](docs/MODULES.md)**
 
 ## What it does
 
@@ -67,7 +67,11 @@ skills before acting, cross-check, everything on disk).
 | `workspace/` | Persistent environment: `data/`, `outputs/`, `cache/` (shared), `logs/audit.jsonl` |
 | `users/` | Per-user profiles (`HELIO_AGENT_USER=<name>`): one-off tools/skills/analyses; core stays general — see [users/README.md](users/README.md) |
 | `docs/USAGE.md` | **Detailed usage documentation** — setup, CLI, workflows, troubleshooting |
+| `docs/TOOLS.md` | **Every tool**: signature + docstring, generated from the registry (drift fails CI) |
+| `docs/SKILLS.md` | **Every skill document**, cataloged with its one-line summary (generated) |
+| `docs/MODULES.md` | The `helio_agent` package module by module: registry, audit, cache, monitor, reports, tool modules |
 | `docs/ARCHITECTURE.md` | Full design, mapping to the AI Astrophysicist model |
+| `CHANGELOG.md` | Release history |
 
 ## Tool families
 
