@@ -139,8 +139,9 @@ the ordering was.
 ## What these three do not cover
 
 - Quantitative CME-ICME association. H says in-depth analyses of the ICME
-  interplay were still underway at publication. Read item 8 in the reading
-  order (Liu et al. 2024, `arxiv_2409.11492.pdf`, "A Pileup of Coronal Mass
-  Ejections") for the multipoint imaging plus in situ treatment.
+  interplay were still underway at publication. **Now covered:
+  [cme-icme-association.md](cme-icme-association.md)**, from Liu et al. 2024
+  (`arxiv_2409.11492.pdf`), which maps each numbered halo CME onto the two
+  complex ejecta observed at Wind.
 - Thermosphere and satellite drag: items 15-19.
 - SEP spectra: item 12 (GLE74).
