@@ -162,6 +162,33 @@ axes with inward minor ticks, CVD-validated Okabe-Ito palette, 300 dpi;
 save `.pdf`/`.svg` in `out_name` for editable vector output). See
 `skills/tools/plotting_conventions.md`.
 
+Event physics on the same data, one tool per question:
+
+```bash
+# ICME / shock / sheath boundaries at L1 (use 1-min OMNI for boundaries)
+uv run helio-agent run fetch_omni '{"start":"2015-03-16T00:00:00Z","end":"2015-03-19T00:00:00Z","resolution":"1min","variables":["flow_speed","T","proton_density","BY_GSM","BZ_GSM"]}'
+uv run helio-agent run detect_icme '{"file":"<csv>","speed_column":"flow_speed","temperature_column":"T","by_column":"BY_GSM","bz_column":"BZ_GSM"}'
+
+# SEP radiation storm: S scale, fluence, onset physics vs the parent flare
+uv run helio-agent run fetch_omni '{"start":"2017-09-09T00:00:00Z","end":"2017-09-16T00:00:00Z","variables":["PR-FLX_101800","PR-FLX_301800"]}'
+uv run helio-agent run characterize_sep '{"file":"<csv>","flux_10mev_column":"PR-FLX_101800","flux_30mev_column":"PR-FLX_301800","flare_peak_time":"2017-09-10T16:06:00Z","flare_class":"X8.2","flare_lon_deg":88}'
+
+# type II / III radio bursts in WIND/WAVES (2-D fetch keeps the frequency axis)
+uv run helio-agent run fetch_cdaweb_spectrogram '{"start":"2017-09-06T08:00:00Z","end":"2017-09-06T20:00:00Z"}'
+uv run helio-agent run radio_bursts '{"file":"<csv>"}'
+
+# HMI magnetogram flux and polarity-inversion-line metrics for an active region
+uv run helio-agent run fetch_vso '{"start":"2017-09-06T11:00:00","end":"2017-09-06T11:20:00","instrument":"HMI","physobs":"LOS_magnetic_field","max_files":1}'
+uv run helio-agent run magnetogram_metrics '{"fits_file":"<fits>","lat_deg":-9,"lon_deg":33,"half_deg":8}'
+```
+
+Each returns a `note` with the headline result and its caveats (OMNI proton
+fluxes end 2020-03; WAVES key parameters have whole-day gaps; LOS flux has
+no foreshortening correction). The method skills under `skills/methods/`
+(`solar_wind_analysis`, `sep_analysis`, `radio_burst_analysis`) and
+`skills/missions/sdo.md` carry the craft and the published anchors each
+tool was validated against.
+
 Models when you need them:
 
 ```bash
@@ -218,7 +245,21 @@ separate last-attempt and last-successful-ingestion timestamps. The CLI exits
 nonzero only for `error`.
 
 Run it from cron/launchd daily (see §12). Read the ledger for forecast
-skill; as it accumulates, precision/recall analysis becomes possible.
+skill as it accumulates. For a track record now, replay the same rule over
+history:
+
+```bash
+uv run helio-agent run hindcast_forecasts '{"start":"2024-05-01","end":"2024-05-31"}'
+```
+
+`hindcast_forecasts` re-issues the monitor's window for every Earth-directed
+DONKI cone CME in the range, scores each against observed Earth shocks
+(hits, false alarms, timing MAE, precision by alert-confidence tier) and
+checks which DONKI storms had their onset inside a window (recall). It
+writes a markdown table and a three-panel figure and never touches the
+forward ledger. May 2024: 56 windows, 52% hit rate, storm recall 4/5, MAE
+12.5 h, and every high-confidence window (fast, near disk center) hit.
+Quote hit rate and recall together.
 
 ---
 

@@ -81,7 +81,8 @@ skills before acting, cross-check, everything on disk).
 - **discover** — CDAWeb dataset/variable search, HelioData freetext search,
   SSCWeb spacecraft catalog, VSO search, HEK + DONKI event queries, NOAA SWPC
   real-time conditions + solar regions, pySPEDAS mission/loader listing
-- **retrieve** — CDAWeb/OMNI/GOES-XRS/HAPI/pySPEDAS time series, VSO FITS,
+- **retrieve** — CDAWeb/OMNI/GOES-XRS/HAPI/pySPEDAS time series, CDAWeb
+  spectrograms (channel axis kept), VSO FITS (by physobs),
   Helioviewer imagery, SSCWeb ephemerides, NOAA SWPC operational feeds,
   Kyoto Dst (by revision), GFZ Kp/Hp indices, solar-cycle progression
   → workspace CSVs (UTC index, NaN fills)
@@ -91,7 +92,9 @@ skills before acting, cross-check, everything on disk).
 - **measure** — flare detection + GOES classification, storm metrics,
   Lomb-Scargle, cross-correlation, superposed epoch, field-line tracing
   (T89), Dst nowcast, CME arrival (DBM), extreme-value statistics,
-  plasma parameters (PlasmaPy), ICME/shock/sheath detection, SEP radiation-storm characterization, type II/III radio bursts, forecast-rule hindcast, HMI magnetogram flux/PIL metrics, claim verification
+  plasma parameters (PlasmaPy), ICME/shock/sheath detection, SEP
+  radiation-storm characterization, type II/III radio bursts, forecast-rule
+  hindcast, HMI magnetogram flux/PIL metrics, claim verification
 - **literature** — NASA ADS (token via `ADS_API_TOKEN`), arXiv search + PDF fetch, BibTeX
 - **report** — publication-styled time-series/stack/solar-map/orbit plots
   (CVD-validated palette), seaborn statistical plots, PDF reports,
