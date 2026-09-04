@@ -164,10 +164,38 @@ Re-run audit ids: `fetch_omni` `4abad982788e`, `resample_series`
 `f020a737d85e`, `resample_series` `e25aa995f8ed`, `merge_series`
 `d94d6743d636`, `plot_timeseries` `672a023cf49a`.
 
-Worth stating plainly what this does and does not prove. It shows the chain
-is **deterministic** and that removing the manual step changed nothing — the
-hand-localised index really was bookkeeping. It does **not** re-verify the
-inputs: the HTTP cache is content-addressed, so OMNI and the SWMF archive
-were served from cache rather than re-downloaded. A true cold-cache
-reproduction would need the cache cleared, and against an archived model run
-that stopped in 2025 it should still return the same bytes.
+This shows the chain is **deterministic** and that removing the manual step
+changed nothing — the hand-localised index really was bookkeeping. It does
+not by itself re-verify the inputs, since the HTTP cache is content-addressed
+and served them. So the cold run below was done as well.
+
+### Cold-cache run
+
+`workspace/cache` (160 entries, 350 MB) was moved aside, leaving an empty
+cache directory, and the chain re-run in the normal `readwrite` mode so every
+request had to reach the network. The cache came back with **3 entries**,
+which is the proof that those requests were served remotely rather than from
+disk. The directory was then restored intact.
+
+| Check | Result |
+|---|---|
+| Cache state at start | **empty** (0 files) |
+| Entries written during the run | 3 — the requests that actually hit the network |
+| Published numbers reproduced | **28 of 28**, exactly |
+| `model_dst` skill block | corr 0.965, RMSE 48.0 nT, obs min -436.0, min error 163.2 — unchanged |
+| Merged file, ten shared columns | **max abs difference 0.000e+00**, identical index |
+| Figure | **byte-identical**, SHA-256 `4d585626adf3b642…` |
+
+Cold audit ids: `fetch_omni` `d529f6de8184`, `model_dst` `dcd24e45d268`,
+`fetch_model_output` `9f3b7dd8df31`, `merge_series` `d5930f6bd40d`,
+`plot_timeseries` `fc6f7ddfc31e`.
+
+One thing the cold run exposed that the warm one hid: **`fetch_omni` never
+used our cache at all.** CDAWeb data arrives through `cdasws`, a
+library-managed transfer that the content-addressed HTTP cache does not
+cover — the module docstring says so, and the timings confirm it (a warm
+fetch of the same window took 3.0 s against 5.4 s cold, far too little
+difference for 8641 records to have been on disk). Reproducibility for the
+OMNI half therefore rests on CDAWeb serving the same reanalysis, not on a
+local cache. The SWMF half is an archived run that stopped in December 2025,
+so it is fixed by construction.
