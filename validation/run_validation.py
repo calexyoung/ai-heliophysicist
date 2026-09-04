@@ -749,6 +749,107 @@ def case_omni_reanalysis_pin() -> None:
     check("omni.pin_gannon", ok, detail)
 
 
+def case_hmi_magnetogram_pin() -> None:
+    """Tripwire on the 2017-09-06 HMI magnetogram the AR 12673 work rests on.
+
+    Same exposure as `omnipin`, different transport: `fetch_vso` goes through
+    sunpy's Fido, a library-managed download that this repo's
+    content-addressed HTTP cache does not cover. Nothing local pinned the
+    file, so a JSOC reprocessing or a silently different VSO provider would
+    move `magnetogram.ar12673` and `regions.project` without anyone noticing.
+
+    This pins three layers:
+
+    * **The bytes.** SHA-256 of the FITS. Verified meaningful rather than
+      trivially true: deleting the local copy and re-fetching from VSO on
+      2026-09-04 returned byte-identical data, so the checksum tests the
+      archive, not just the disk.
+    * **The header identity** — T_REC, B0 (CRLT_OBS), roll (CROTA2), plate
+      scale, solar radius and array size. These are what `plot_solar_regions`
+      projects through, and the `regions` case's 0.006 R_sun agreement with
+      analytic spherical geometry depends on CRLT_OBS being 7.234973 deg.
+    * **The derived science**, exactly rather than as the order-of-magnitude
+      bands `magnetogram.ar12673` asserts: disk and AR-box unsigned flux,
+      peak field, PIL length and PIL flux, and the quiet-Sun control box.
+
+    A failure most likely means the archive reissued the file, not that the
+    code broke — the message says which cases and write-ups to revisit.
+    """
+    import hashlib
+
+    import astropy.units as u
+    import sunpy.map
+
+    SHA = "d48aaffef2f13af3360399282d5a18e546ea77a074ee42551d13d3cd9fde6f34"
+    r = run_tool("fetch_vso", start="2017-09-06T11:00:00", end="2017-09-06T11:20:00",
+                 instrument="HMI", max_files=1, physobs="LOS_magnetic_field")
+    if r["status"] != "ok" or not r["files"]:
+        check("hmi.pin_20170906", False, r.get("error", "no file"))
+        return
+    f = r["files"][0]
+    got_sha = hashlib.sha256(open(f, "rb").read()).hexdigest()
+
+    smap = sunpy.map.Map(f)
+    hdr = smap.meta
+    header_want = {"t_rec": "2017.09.06_11:01:30_TAI", "content": "MAGNETOGRAM",
+                   "bunit": "Gauss", "naxis1": 4096, "naxis2": 4096,
+                   "crlt_obs": 7.234973, "crota2": 179.929718,
+                   "cdelt1": 0.504349, "rsun_obs": 952.031921, "quality": 0}
+    hdr_drift = []
+    for k, want in header_want.items():
+        got = hdr.get(k)
+        bad = (abs(got - want) > 1e-6 if isinstance(want, float)
+               else got != want)
+        if bad:
+            hdr_drift.append(f"{k}={got!r} (pinned {want!r})")
+
+    m = run_tool("magnetogram_metrics", fits_file=f, lat_deg=-9.0, lon_deg=33.0,
+                 half_deg=8.0, plot=False)
+    q = run_tool("magnetogram_metrics", fits_file=f, lat_deg=-9.0, lon_deg=-33.0,
+                 half_deg=8.0, plot=False)
+    if m["status"] != "ok" or q["status"] != "ok":
+        check("hmi.pin_20170906", False, m.get("error") or q.get("error", ""))
+        return
+    a, b = m["region"], q["region"]
+
+    def near(got, want, rel=1e-6):
+        return abs(got - want) <= abs(want) * rel
+
+    sci_drift = []
+    for label, got, want in (
+            ("disk flux", m["disk_unsigned_flux_mx"], 3.078544656079647e+23),
+            ("AR flux", a["unsigned_flux_mx"], 2.8428788614316685e+22),
+            ("AR max |B|", a["max_abs_b_g"], 2255.3),
+            ("AR PIL length", a["pil_length_mm"], 585.9),
+            ("AR PIL flux", a["pil_flux_mx"], 3.1439476318200155e+20),
+            ("quiet flux", b["unsigned_flux_mx"], 1.8397019914182611e+21),
+            ("quiet PIL length", b["pil_length_mm"], 0.0)):
+        if not (near(got, want) if want else got == want):
+            sci_drift.append(f"{label} {got:.6g} (pinned {want:.6g})")
+
+    b0 = float(smap.observer_coordinate.lat.to_value(u.deg))
+    ok = (got_sha == SHA and not hdr_drift and not sci_drift)
+    if ok:
+        detail = (f"FITS byte-identical (sha256 {got_sha[:16]}…); header pinned "
+                  f"(T_REC {hdr['t_rec']}, B0 {b0:.4f}°, CROTA2 "
+                  f"{hdr['crota2']}, {hdr['naxis1']}²); AR 12673 box "
+                  f"{a['unsigned_flux_mx']:.4e} Mx, max |B| {a['max_abs_b_g']} G, "
+                  f"PIL {a['pil_length_mm']} Mm ({a['pil_flux_mx']:.4e} Mx); "
+                  f"disk {m['disk_unsigned_flux_mx']:.4e} Mx; quiet control "
+                  f"{b['unsigned_flux_mx']:.4e} Mx, no PIL")
+    else:
+        detail = ("HMI MAGNETOGRAM MOVED — the archive has most likely "
+                  "reissued this file. Re-check magnetogram.ar12673, "
+                  "regions.project and any AR 12673 write-up. ")
+        if got_sha != SHA:
+            detail += f"sha256 {got_sha[:16]}… (pinned {SHA[:16]}…). "
+        if hdr_drift:
+            detail += "header: " + "; ".join(hdr_drift) + ". "
+        if sci_drift:
+            detail += "derived: " + "; ".join(sci_drift)
+    check("hmi.pin_20170906", ok, detail)
+
+
 def case_extreme_value() -> None:
     """POT/GPD on the 61-year hourly Dst record.
 
@@ -1243,6 +1344,7 @@ CASES = {
     "sunspots": case_sunspot_reports,
     "models": case_model_output,
     "omnipin": case_omni_reanalysis_pin,
+    "hmipin": case_hmi_magnetogram_pin,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

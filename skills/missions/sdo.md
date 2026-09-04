@@ -57,3 +57,15 @@ intensities across epochs uncorrected. Validation case `aia`.
 - SWPC nulls `spot_class`/`mag_class` for regions it has stopped classifying — in practice ones rotating off the west limb. Those label by number alone and the count appears in the result `note`; the tool never invents a class.
 - **This is not a detection.** It draws where SWPC says a region is. Confirm against the image, or run `magnetogram_metrics` at the same coordinates for an independent measurement of whether field is actually there.
 - Validation: `uv run python validation/run_validation.py regions`.
+
+## Input pins (added 2026-09-04)
+`fetch_vso` downloads through sunpy's Fido, a **library-managed transfer that the repo's content-addressed HTTP cache does not cover** (see `helio_agent/http.py`). Emptying `workspace/cache` does not make a VSO fetch cold, and nothing local pinned the file — so a JSOC reprocessing would move `magnetogram.ar12673` and `regions.project` silently.
+
+`validation/run_validation.py hmipin` pins the 2017-09-06 11:01 TAI HMI magnetogram in three layers:
+- **Bytes** — SHA-256 `d48aaffe…`. Confirmed meaningful, not trivially true: deleting the local copy and re-fetching from VSO returned byte-identical data, so the checksum tests the archive rather than the disk.
+- **Header** — T_REC, `CRLT_OBS` 7.234973 (B0), `CROTA2` 179.929718, `CDELT1`, `RSUN_OBS`, 4096². The `regions` case's 0.006 R_sun agreement with analytic spherical geometry depends on that B0.
+- **Derived science, exactly** rather than the order-of-magnitude bands `magnetogram.ar12673` asserts: disk flux 3.0785e23 Mx, AR-box flux 2.8429e22 Mx, max |B| 2255.3 G, PIL 585.9 Mm / 3.1439e20 Mx, and the quiet control box at 1.8397e21 Mx with no PIL.
+
+Each layer was verified to trip by perturbing it. A failure most likely means the archive reissued the file, not that the code broke.
+
+Note Fido does **not** skip a download when the file is already present (a repeat fetch still takes ~7 s), so these pins re-verify the remote copy on every validation run.
