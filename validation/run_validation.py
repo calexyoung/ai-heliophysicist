@@ -517,6 +517,50 @@ def case_sunspot_reports() -> None:
               "(the edited class is not a straight vote of these — that is "
               "why get_solar_regions stays the authority)")
 
+    # --- the position-epoch anchor (regression: markers were 14.5 deg west) ---
+    import re as _re
+
+    import numpy as _np
+
+    def _lon(loc):
+        m = _re.match(r"[NS]\d+([EW])(\d+)$", loc or "")
+        return None if not m else float(m.group(2)) * (1 if m.group(1) == "W" else -1)
+
+    H, D = [], []
+    for k in r["reports"]:
+        rl, cl = _lon(k.get("report_location")), _lon(k.get("location"))
+        if rl is None or cl is None or not k.get("obs_time"):
+            continue
+        hh = int(k["obs_time"][11:13]) + int(k["obs_time"][14:16]) / 60
+        H.append(hh)
+        D.append(cl - rl)
+    if len(H) < 50:
+        check("sunspots.position_epoch", False, f"only {len(H)} usable pairs")
+    else:
+        A = _np.vstack([_np.array(H), _np.ones(len(H))]).T
+        (slope, inter), *_ = _np.linalg.lstsq(A, _np.array(D), rcond=None)
+        rate = -slope * 24
+        epoch = inter / (rate / 24)
+        rms = float((_np.array(D) - A @ [slope, inter]).std())
+        ok3 = 23.0 <= epoch <= 25.5 and 13.0 <= rate <= 16.0 and rms < 1.0
+        check("sunspots.position_epoch", ok3,
+              f"SWPC corrects station longitudes to {epoch:.2f} h after 0000 UT "
+              f"on the report date (i.e. 2400 UT that day) at {rate:.2f} deg/day, "
+              f"rms {rms:.2f} deg over {len(H)} pairs — so `location` LEADS "
+              "`observed_date` by 24 h. get_solar_regions must expose that as "
+              "coordinates_epoch; using observed_date shifts every marker "
+              f"~{rate:.0f} deg west")
+
+    epoch_tool = run_tool("get_solar_regions")
+    if epoch_tool["status"] == "ok":
+        import pandas as _pd
+        gap = (_pd.Timestamp(epoch_tool["coordinates_epoch"]).tz_localize(None)
+               - _pd.Timestamp(epoch_tool["observed_date"])).total_seconds() / 3600
+        check("sunspots.epoch_exposed", abs(gap - 24.0) < 0.01,
+              f"get_solar_regions reports coordinates_epoch "
+              f"{epoch_tool['coordinates_epoch']} = observed_date "
+              f"{epoch_tool['observed_date']} + {gap:.0f} h")
+
     stale = run_tool("get_sunspot_reports", date="1999-01-01")
     check("sunspots.window_refusal",
           stale["status"] == "error" and "rolling" in stale.get("error", ""),

@@ -42,8 +42,12 @@ from helio_agent.workspace import output_path
 _HALE = {"A": "α", "B": "β", "G": "γ", "D": "δ", "BG": "βγ", "BD": "βδ",
          "GD": "γδ", "BGD": "βγδ", "AD": "αδ"}
 
-# Synodic equatorial rotation as seen from Earth (deg/day).
-_SYNODIC_DEG_PER_DAY = 13.2
+# Rotation rate SWPC itself uses when it corrects station positions forward
+# to 2400 UT: 14.50 deg/day, fitted from 389 Report_Location/Location pairs
+# in /json/sunspot_report.json (residual rms 0.27 deg). Slightly faster than
+# the 13.2 deg/day synodic equatorial rate, and it is the right number for
+# estimating how far a SWPC-sourced marker drifts.
+_SYNODIC_DEG_PER_DAY = 14.5
 
 
 def hale_greek(code: str | None) -> str | None:
@@ -120,7 +124,8 @@ def plot_solar_regions(fits_file: str, regions: list[dict] | None = None,
       and `mag_class` (Mount Wilson) are used for the label when present.
       Defaults to the live `get_solar_regions` summary.
     region_time: ISO UTC epoch the coordinates refer to. Taken from
-      `get_solar_regions`' observed_date when regions are fetched here. If the
+      `get_solar_regions`' **coordinates_epoch** when regions are fetched here
+      — that is 2400 UT of the report day, not its date stamp. If the
       map is more than `max_age_hours` from it the call is REFUSED, because
       solar rotation (~13.2 deg/day) would put every marker off its spot;
       the error names the gap and the implied drift.
@@ -159,7 +164,11 @@ def plot_solar_regions(fits_file: str, regions: list[dict] | None = None,
             return {"status": "error",
                     "error": f"could not fetch current regions: {got.get('error')}"}
         regions = got.get("regions") or []
-        region_time = region_time or got.get("observed_date")
+        # NOT observed_date: SWPC rotates positions forward to 2400 UT of the
+        # report day, so the coordinates lead that date stamp by 24 h. Using
+        # observed_date silently puts every marker ~14.5 deg too far west.
+        region_time = region_time or got.get("coordinates_epoch") \
+            or got.get("observed_date")
     if not regions:
         return {"status": "error",
                 "error": "no regions to plot — SWPC reported none, or `regions` was empty"}

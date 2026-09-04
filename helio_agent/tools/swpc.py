@@ -165,10 +165,39 @@ def fetch_solar_cycle(start: str = "2008-12", end: str | None = None,
     return result
 
 
+def coordinates_epoch(observed_date: str) -> str:
+    """The UT instant SWPC region `location` values actually refer to.
+
+    SWPC rotates every station measurement forward to the end of the report
+    day, so a summary stamped `2026-09-04` carries positions valid at
+    2026-09-04 2400 UT — i.e. 2026-09-05 0000 UT. Returned as an ISO
+    timestamp so callers match images against the right moment.
+    """
+    from datetime import datetime, timedelta, timezone
+    d = datetime.fromisoformat(str(observed_date)[:10]).replace(tzinfo=timezone.utc)
+    return (d + timedelta(hours=24)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
 @tool(family="discover")
 def get_solar_regions() -> dict:
     """Current NOAA/SWPC numbered sunspot regions: location, magnetic class,
-    area, spot count, and recent flare counts. Operational daily analysis."""
+    area, spot count, and recent flare counts. Operational daily analysis.
+
+    **`location` is the position at 2400 UT of `observed_date`, not 0000 UT.**
+    SWPC rotates each station's measurement forward to the end of the report
+    day, so the coordinates lead the date stamp by a full 24 hours. Use
+    `coordinates_epoch` — returned here for exactly this reason — whenever
+    the positions are matched against an image or another dataset. Plotting
+    them on an image taken at 0000 UT of `observed_date` puts every region
+    about 14.5 degrees too far WEST, roughly a quarter of a solar radius at
+    disk centre.
+
+    Determined from the feed itself, not assumed: fitting `Location` against
+    `Report_Location` and `Obstime` over 389 station reports gives a
+    correction epoch of 24.07 h after 0000 UT on the observation date and a
+    rotation rate of 14.50 deg/day, with 0.27 deg residual rms (the reported
+    longitudes are integers). See `get_sunspot_reports` for the raw pairs.
+    """
     r = cached_get(f"{_BASE}/json/solar_regions.json", timeout=60, ttl_seconds=3600)
     r.raise_for_status()
     rows = r.json()
@@ -187,5 +216,9 @@ def get_solar_regions() -> dict:
          "x_flares": row.get("x_xray_events")}
         for row in rows if row["observed_date"] == latest_date
     ]
-    return {"observed_date": latest_date, "n_results": len(regions),
-            "regions": regions}
+    return {"observed_date": latest_date,
+            "coordinates_epoch": coordinates_epoch(latest_date),
+            "coordinates_epoch_note":
+                "`location` is the position at 2400 UT of observed_date, not "
+                "0000 UT. Match images against coordinates_epoch.",
+            "n_results": len(regions), "regions": regions}

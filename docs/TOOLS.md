@@ -44,6 +44,21 @@ get_solar_regions() -> 'dict'
 Current NOAA/SWPC numbered sunspot regions: location, magnetic class,
 area, spot count, and recent flare counts. Operational daily analysis.
 
+**`location` is the position at 2400 UT of `observed_date`, not 0000 UT.**
+SWPC rotates each station's measurement forward to the end of the report
+day, so the coordinates lead the date stamp by a full 24 hours. Use
+`coordinates_epoch` — returned here for exactly this reason — whenever
+the positions are matched against an image or another dataset. Plotting
+them on an image taken at 0000 UT of `observed_date` puts every region
+about 14.5 degrees too far WEST, roughly a quarter of a solar radius at
+disk centre.
+
+Determined from the feed itself, not assumed: fitting `Location` against
+`Report_Location` and `Obstime` over 389 station reports gives a
+correction epoch of 24.07 h after 0000 UT on the observation date and a
+rotation rate of 14.50 deg/day, with 0.27 deg residual rms (the reported
+longitudes are integers). See `get_sunspot_reports` for the raw pairs.
+
 *Source: `helio_agent/tools/swpc.py`*
 
 ### `get_sunspot_reports`
@@ -1193,7 +1208,8 @@ regions: SWPC-shaped records, each needing `region` plus either
   and `mag_class` (Mount Wilson) are used for the label when present.
   Defaults to the live `get_solar_regions` summary.
 region_time: ISO UTC epoch the coordinates refer to. Taken from
-  `get_solar_regions`' observed_date when regions are fetched here. If the
+  `get_solar_regions`' **coordinates_epoch** when regions are fetched here
+  — that is 2400 UT of the report day, not its date stamp. If the
   map is more than `max_age_hours` from it the call is REFUSED, because
   solar rotation (~13.2 deg/day) would put every marker off its spot;
   the error names the gap and the implied drift.

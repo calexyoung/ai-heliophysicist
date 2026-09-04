@@ -40,3 +40,12 @@ xl = df[df['energy'] == '0.1-0.8nm']   # long channel for flare class
 - Records with a null `Region` (unnumbered groups) are dropped and counted in `skipped_unnumbered`; `ValidSpotClass = 0` rows are excluded. `Quality` (1-4) is the station's own confidence, not accuracy — `min_quality` defaults to 0 because filtering quietly narrows the disagreement this tool exists to show.
 - Rolling window only. A date outside it refuses and names the coverage; older data needs a different archive.
 - Validation: `uv run python validation/run_validation.py sunspots`.
+
+### The position-epoch trap (cost a wrong figure on 2026-09-04)
+**SWPC region `location` is the position at 2400 UT of `observed_date`, not 0000 UT.** Every station measurement is rotated forward to the end of the report day, so the coordinates lead the date stamp by a full 24 hours. Plot them on an image taken at 0000 UT of that date and every region sits **~14.5° too far west** — about a quarter of a solar radius near disk centre, and obvious to anyone who knows the Sun.
+
+Determined from the feed, not assumed: regressing `Location` against `Report_Location` and `Obstime` over 388 station reports gives a correction epoch of **24.07 h** after 0000 UT and a rotation rate of **14.50°/day**, rms 0.27° (reported longitudes are integers). Pinned by `validation/run_validation.py sunspots`.
+
+- `get_solar_regions` exposes `coordinates_epoch` for this; `plot_solar_regions` uses it automatically. Never match an image against `observed_date`.
+- Note 14.50°/day is SWPC's own correction rate, faster than the 13.2°/day synodic equatorial value — use it when estimating drift for SWPC-sourced positions.
+- **Cleanest option: skip the correction entirely.** `get_sunspot_reports` returns `report_location` with `obs_time` — the raw measurement at a known instant. Match an image to `obs_time` and there is no epoch to get wrong.

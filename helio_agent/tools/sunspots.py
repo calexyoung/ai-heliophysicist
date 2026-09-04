@@ -23,6 +23,12 @@ an arbitrary pick.
 
 Gotchas
 -------
+* **Two different longitudes per row.** `location` is SWPC's value rotated
+  forward to 2400 UT of the observation day; `report_location` is the raw
+  measurement, valid at `obs_time`. Matching an image wants
+  `report_location` + `obs_time`, which carries no correction to get wrong.
+  Fitting one against the other over 389 reports is what pinned SWPC's
+  correction epoch at 24.07 h and its rotation rate at 14.50 deg/day.
 * Rolling window of roughly one month. Anything older needs a different
   archive; this feed is not history.
 * Records with a null `Region` (unnumbered spot groups) are dropped and
@@ -137,10 +143,20 @@ def get_sunspot_reports(date: str | None = None, region: int | None = None,
             continue
         if region is not None and int(d["Region"]) != int(region):
             continue
+        t = str(d.get("Obstime") or "").zfill(4)
+        obs_time = (f"{d['Obsdate'][:10]}T{t[:2]}:{t[2:]}:00Z"
+                    if len(t) == 4 and t.isdigit() else None)
         kept.append({
             "date": d["Obsdate"][:10], "region": int(d["Region"]),
             "observatory": d.get("Observatory"), "quality": d.get("Quality"),
-            "location": d.get("Location"), "spot_class": d.get("Spotclass"),
+            # `location` is SWPC's value rotated forward to 2400 UT of `date`;
+            # `report_location` is what the station actually measured, valid at
+            # `obs_time`. Use the latter to match an image — it needs no
+            # rotation correction, so it cannot be mis-epoched.
+            "location": d.get("Location"),
+            "report_location": d.get("Report_Location"),
+            "obs_time": obs_time,
+            "spot_class": d.get("Spotclass"),
             "mag_class": d.get("Magclass"), "area": d.get("Area"),
             "number_spots": d.get("Numspot"),
         })
