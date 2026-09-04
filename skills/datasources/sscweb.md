@@ -29,3 +29,8 @@ result = ssc.get_locations(['ace', 'dscovr'],
 - Cross-check a position against the mission's own SPICE kernels (spiceypy) or the ephemeris in the mission's CDF support data (many CDAWeb datasets carry position variables).
 - L1 spacecraft sanity check: ACE/Wind/DSCOVR should sit near X_GSE ~ +230-260 Re with |Y|,|Z| up to ~40-100 Re halo excursions.
 - For conjunction claims, verify with a second field model and state both.
+
+## Input pin (added 2026-09-04)
+`fetch_spacecraft_ephemeris` goes through `sscws`, a library-managed transfer the repo's HTTP cache does not cover. SSCWeb **recomputes positions from orbit files that get revised**, so a predictive-to-definitive switch would move `ephemeris.ace_l1` with nothing to notice.
+
+`validation/run_validation.py libpins` pins the ACE 2017-09-05 query: CSV SHA-256 `a2266bd5…` (the whole trajectory, not a summary statistic), 121 points, the three column names, and the mean GSE X/Y/Z to 1e-9 relative. Verified meaningful by deleting the CSV and re-querying SSCWeb, which rewrote it identically. Verified to trip by perturbing the checksum.

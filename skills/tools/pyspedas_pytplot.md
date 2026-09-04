@@ -66,3 +66,14 @@ colab.research.google.com and search the 'spedas' GitHub org):
   curated map (30+ notebooks, basic per-instrument through advanced
   multi-spacecraft techniques).
 - github.com/spedas/themis-examples — see skills/missions/themis.md.
+
+## Input pin, and where the CDFs actually live (added 2026-09-04)
+**The download cache follows the active user profile.** With `HELIO_AGENT_USER` set, `fetch_pyspedas` writes to `users/<name>/workspace/data/pyspedas/...`, not the shared `workspace/data/pyspedas/...`. A stale copy in the shared tree is not what a profiled run reads — worth knowing before concluding a file is missing or cached.
+
+pyspedas **re-checks the remote index on every call** (log line "Downloading remote index" then "File is current"), so it verifies against SPDF even when the file is local. It is not a blind local cache.
+
+`validation/run_validation.py libpins` pins ACE/MFI 2017-09-06..08 at both ends:
+- **Source CDFs** by SHA-256, which also pins the version suffix `_v02`. SPDF bumps that on reprocessing, so a new version cannot slip past — the case additionally fails if any unexpected `_v*` file appears. Verified meaningful by deleting both CDFs and re-downloading: SPDF returned byte-identical files.
+- **Derived CSV** by SHA-256 plus record count and mean |B| 6.901996 nT, which catches a change in pyspedas's own calibration or variable handling that left the CDFs untouched.
+
+Both layers, and a simulated `_v02` to `_v03` version bump, were verified to trip.

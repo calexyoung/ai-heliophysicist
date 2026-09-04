@@ -942,6 +942,111 @@ def case_radio_spectrogram_pin() -> None:
     check("radio.pin_20170906", ok, detail)
 
 
+def case_library_transport_pins() -> None:
+    """Tripwires on the last two transports the HTTP cache does not cover:
+    SSCWeb (via `sscws`) and SPDF (via `pyspedas`).
+
+    `helio_agent/http.py` names four library-managed transports. `omnipin`,
+    `hmipin` and `radiopin` cover cdasws and Fido; these are the rest.
+
+    **SSCWeb ephemeris.** `fetch_spacecraft_ephemeris` writes the whole
+    trajectory to CSV, so the file hashes the entire series. Confirmed
+    meaningful: deleting the CSV and re-querying SSCWeb rewrote it
+    identically. Worth pinning because SSCWeb recomputes positions from orbit
+    files that get revised — a predictive-to-definitive switch would move
+    `ephemeris.ace_l1` silently.
+
+    **pySPEDAS.** Pinned at both ends. The *source CDFs* are checksummed,
+    which also pins their version suffix (`_v02`): SPDF bumps that on
+    reprocessing, so a new version cannot slip through. Confirmed meaningful
+    by deleting both CDFs and re-downloading — SPDF returned byte-identical
+    files. Then the *derived CSV* is checksummed too, which catches a change
+    in pyspedas's own calibration or variable handling that left the CDFs
+    untouched. pyspedas re-checks the remote index on every call ("File is
+    current"), so this re-verifies the archive rather than the disk.
+
+    Note the CDFs live under the **active user profile**
+    (`users/<name>/workspace/data/pyspedas/...`), not the shared workspace —
+    a stale copy in the shared tree is not what a profiled run reads.
+    """
+    import hashlib
+    from pathlib import Path
+
+    import pandas as pd
+
+    EPH_SHA = "a2266bd5b8efb679871b1365ca0c1e92b59134c6eddd5d6007b58cf18c244c6b"
+    e = run_tool("fetch_spacecraft_ephemeris", spacecraft=["ace"],
+                 start="2017-09-05T00:00:00Z", end="2017-09-06T00:00:00Z")
+    if e["status"] != "ok":
+        check("ephemeris.pin_ace", False, e.get("error", ""))
+    else:
+        got = hashlib.sha256(open(e["file"], "rb").read()).hexdigest()
+        df = pd.read_csv(e["file"], index_col="time", parse_dates=True)
+        drift = []
+        if got != EPH_SHA:
+            drift.append(f"sha256 {got[:16]}… (pinned {EPH_SHA[:16]}…)")
+        if e["n_records"] != 121:
+            drift.append(f"{e['n_records']} records (pinned 121)")
+        if list(df.columns) != ["ace_x_km", "ace_y_km", "ace_z_km"]:
+            drift.append(f"columns {list(df.columns)}")
+        for label, val, want in (("x", df["ace_x_km"].mean(), 1427236.326961),
+                                 ("y", df["ace_y_km"].mean(), 146992.064814),
+                                 ("z", df["ace_z_km"].mean(), -146500.374464)):
+            if abs(val - want) > abs(want) * 1e-9:
+                drift.append(f"mean GSE {label} {val:.6f} (pinned {want:.6f})")
+        check("ephemeris.pin_ace", not drift,
+              (f"SSCWeb ACE 2017-09-05 unchanged: sha256 {got[:16]}…, "
+               f"{e['n_records']} points, mean GSE X {df['ace_x_km'].mean():.1f} km")
+              if not drift else
+              ("SSCWEB EPHEMERIS MOVED — orbit files were most likely revised "
+               "(predictive to definitive). Re-check ephemeris.ace_l1. "
+               + "; ".join(drift)))
+
+    CSV_SHA = "65ca9573957a0559b281ae0408fd722a7a6a876ea47dfe408295e947f3cba19b"
+    CDF_SHA = {
+        "ac_h3_mfi_20170906_v02.cdf":
+            "918093b8639e4d84adf8c3c0554e1c3781eb03c8451d970ae3740621a9c8198d",
+        "ac_h3_mfi_20170907_v02.cdf":
+            "32493beb40f35e903cd94c0b539e1a7e44ce79e7ac787884577943cd95691a48",
+    }
+    p = run_tool("fetch_pyspedas", mission="ace", instrument="mfi",
+                 start="2017-09-06", end="2017-09-08")
+    if p["status"] != "ok":
+        check("pyspedas.pin_ace_mfi", False, p.get("error", ""))
+        return
+    from helio_agent.workspace import data_path
+    cdf_dir = Path(data_path("pyspedas")) / "ace/mag/level_2_cdaweb/mfi_h3/2017"
+    drift = []
+    for name, want in CDF_SHA.items():
+        f = cdf_dir / name
+        if not f.is_file():
+            drift.append(f"{name} absent (a new version suffix would do this)")
+            continue
+        got = hashlib.sha256(f.read_bytes()).hexdigest()
+        if got != want:
+            drift.append(f"{name} sha256 {got[:16]}… (pinned {want[:16]}…)")
+    extra = sorted(x.name for x in cdf_dir.glob("ac_h3_mfi_2017090[67]_v*.cdf")
+                   if x.name not in CDF_SHA)
+    if extra:
+        drift.append(f"unexpected version(s) present: {extra}")
+    csv_got = hashlib.sha256(open(p["file"], "rb").read()).hexdigest()
+    if csv_got != CSV_SHA:
+        drift.append(f"derived CSV sha256 {csv_got[:16]}… (pinned {CSV_SHA[:16]}…)")
+    if p["n_records"] != 172800:
+        drift.append(f"{p['n_records']} records (pinned 172800)")
+    mag = pd.read_csv(p["file"], index_col="time", parse_dates=True)["Magnitude"]
+    if abs(float(mag.mean()) - 6.901996) > 1e-6:
+        drift.append(f"mean |B| {mag.mean():.6f} nT (pinned 6.901996)")
+    check("pyspedas.pin_ace_mfi", not drift,
+          (f"SPDF ACE/MFI 2017-09-06..08 unchanged: both source CDFs "
+           f"byte-identical at _v02, derived CSV sha256 {csv_got[:16]}… over "
+           f"{p['n_records']} records, mean |B| {mag.mean():.4f} nT")
+          if not drift else
+          ("PYSPEDAS INPUT MOVED — SPDF most likely reprocessed ACE/MFI, or "
+           "pyspedas changed its calibration. Re-check pyspedas.crosscheck. "
+           + "; ".join(drift)))
+
+
 def case_extreme_value() -> None:
     """POT/GPD on the 61-year hourly Dst record.
 
@@ -1438,6 +1543,7 @@ CASES = {
     "omnipin": case_omni_reanalysis_pin,
     "hmipin": case_hmi_magnetogram_pin,
     "radiopin": case_radio_spectrogram_pin,
+    "libpins": case_library_transport_pins,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,
