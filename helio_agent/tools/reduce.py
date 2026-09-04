@@ -10,6 +10,28 @@ from helio_agent.registry import tool
 from helio_agent.workspace import data_path
 
 
+def to_naive_utc(df, label: str = ""):
+    """Return (df, from_tz) with the time index as naive UTC.
+
+    Workspace CSVs are naive UTC by convention — `fetch_omni`, `fetch_vso`
+    and the rest all write that way — but a HAPI server hands back offset
+    timestamps, so a model series can arrive tz-aware. pandas refuses to
+    join a tz-aware index to a naive one, which is how a routine
+    model-vs-observation merge turns into a hand-edit.
+
+    Anything tz-aware is converted to UTC first and only then stripped, so a
+    non-UTC index is corrected rather than reinterpreted. `from_tz` is None
+    when nothing changed, so callers can report the conversion instead of
+    doing it silently.
+    """
+    tz = getattr(df.index, "tz", None)
+    if tz is None:
+        return df, None
+    out = df.copy()
+    out.index = out.index.tz_convert("UTC").tz_localize(None)
+    return out, str(tz)
+
+
 def _load_csv(file: str):
     import pandas as pd
     return pd.read_csv(file, index_col="time", parse_dates=True)
@@ -54,13 +76,44 @@ def resample_series(file: str, cadence: str, method: str = "mean",
 
 @tool(family="reduce")
 def merge_series(files: list[str], how: str = "outer", out_name: str = "merged.csv") -> dict:
-    """Join multiple time-series CSVs on their time index (outer join by default)."""
-    dfs = [_load_csv(f) for f in files]
+    """Join multiple time-series CSVs on their time index (outer join by default).
+
+    Timezone-aware indices are converted to UTC and made naive before the
+    join, because pandas cannot join a tz-aware index to a naive one and the
+    workspace convention is naive UTC. Every conversion is listed in
+    `tz_normalized` — the merge never changes a time zone quietly.
+
+    Refuses on duplicate column names across files rather than letting
+    pandas raise or silently suffix them: the fix is to rename upstream so
+    the merged file stays readable.
+    """
+    if not files:
+        return {"status": "error", "error": "give at least one file to merge"}
+    dfs, converted = [], []
+    for f in files:
+        d, from_tz = to_naive_utc(_load_csv(f))
+        if from_tz:
+            converted.append({"file": f.rsplit("/", 1)[-1], "from_tz": from_tz})
+        dfs.append(d)
+    seen, clash = set(), set()
+    for d in dfs:
+        clash |= seen & set(d.columns)
+        seen |= set(d.columns)
+    if clash:
+        return {"status": "error",
+                "error": f"column name(s) {sorted(clash)} appear in more than "
+                         "one file; rename upstream (model tools namespace "
+                         "their columns, e.g. swmf_dst) so the merge stays "
+                         "unambiguous"}
     df = dfs[0].join(dfs[1:], how=how)
     fpath = data_path(out_name)
     df.to_csv(fpath, index_label="time")
+    note = None
+    if converted:
+        note = ("converted to naive UTC before joining: "
+                + ", ".join(f"{c['file']} (was {c['from_tz']})" for c in converted))
     return {"file": str(fpath), "n_records": len(df), "columns": list(df.columns),
-            "artifacts": [str(fpath)]}
+            "tz_normalized": converted, "note": note, "artifacts": [str(fpath)]}
 
 
 @tool(family="reduce")

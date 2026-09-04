@@ -617,6 +617,15 @@ merge_series(files: 'list[str]', how: 'str' = 'outer', out_name: 'str' = 'merged
 
 Join multiple time-series CSVs on their time index (outer join by default).
 
+Timezone-aware indices are converted to UTC and made naive before the
+join, because pandas cannot join a tz-aware index to a naive one and the
+workspace convention is naive UTC. Every conversion is listed in
+`tz_normalized` — the merge never changes a time zone quietly.
+
+Refuses on duplicate column names across files rather than letting
+pandas raise or silently suffix them: the fix is to rename upstream so
+the merged file stays readable.
+
 *Source: `helio_agent/tools/reduce.py`*
 
 ### `resample_series`

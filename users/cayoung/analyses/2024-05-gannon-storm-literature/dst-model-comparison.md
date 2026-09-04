@@ -41,12 +41,18 @@ the 1-min value the models come out proportionally worse (SWMF 61%, analytic
 | daily means | `resample_series` | `8efbf4596d36` |
 | figure | `plot_timeseries` | `7cbed49a2bac` |
 
-One step was **not** a tool call: the SWMF CSV carries a UTC-aware index and
-the OMNI CSV a naive one, and `merge_series` cannot join those, so the SWMF
-index was localised to naive UTC in a one-line pandas step before the merge.
-No value was altered — it is index bookkeeping — but it is a gap in the tool
-layer rather than something the chain did for itself, and it is recorded here
-rather than left implicit.
+One step was **not** a tool call when this was first run: the SWMF CSV
+carried a UTC-aware index and the OMNI CSV a naive one, `merge_series` could
+not join those, and the SWMF index was localised in a one-line pandas step.
+No value was altered — index bookkeeping — but it was a gap in the tool layer.
+
+**That gap has since been closed.** `fetch_hapi` now writes naive UTC like
+every other retrieve tool, and `merge_series` converts any tz-aware index to
+UTC before stripping it, listing every conversion in `tz_normalized` so it is
+never silent. Re-running the chain needs no hand editing and reproduces the
+same values (observed minimum -436.03 nT, SWMF -308.4 nT). The manual step is
+recorded here because it is what actually happened, not because it is still
+required.
 
 ## 1. Minima
 

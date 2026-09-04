@@ -333,8 +333,14 @@ def fetch_hapi(server: str, dataset: str, parameters: str, start: str, end: str)
                 "error": f"{dataset} returned no rows for {start}..{end}"}
     tcol = df.columns[0]
     df[tcol] = pd.to_datetime(df[tcol].str.decode("utf-8", errors="ignore")
-                              if df[tcol].dtype == object else df[tcol])
+                              if df[tcol].dtype == object else df[tcol],
+                              utc=True)
     df = df.set_index(tcol)
+    # Workspace CSVs are naive UTC by convention (fetch_omni, fetch_vso, ...).
+    # HAPI hands back offset timestamps, and a tz-aware index cannot be joined
+    # to a naive one, so normalise here rather than leaving every downstream
+    # merge to discover it.
+    df.index = df.index.tz_convert("UTC").tz_localize(None)
     fname = _slug("hapi", dataset, start[:10]) + ".csv"
     fpath = data_path(fname)
     _series_to_csv(df, fpath)

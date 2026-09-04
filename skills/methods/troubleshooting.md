@@ -31,3 +31,10 @@ Read when a query returns nothing, numbers look insane, timestamps don't line up
 - Reproduce one known event end-to-end (e.g., a famous storm) as a pipeline smoke test.
 - Pull the same interval from a second route (HAPI vs REST vs pyspedas) and diff.
 - Plot raw data with fills unmasked once — seeing where the sentinels sit teaches you the dataset's failure modes.
+
+## Timezones: workspace CSVs are naive UTC
+Every retrieve tool writes a **naive UTC** time index — `fetch_omni`, `fetch_vso`, `fetch_cdaweb_data`, and now `fetch_hapi`. HAPI servers return offset timestamps (`2024-05-09 00:00:03+00:00`), so before 2026-09-04 `fetch_hapi` leaked tz-aware indices into the workspace and pandas refused to join them to anything else. That turned a routine model-vs-observation merge into a hand-edit.
+
+- `merge_series` now converts any tz-aware index to UTC **and then** strips it, reporting each conversion in `tz_normalized`. Conversion order matters: dropping a `+02:00` offset without converting first would shift the series by two hours.
+- It also refuses duplicate column names across files rather than letting pandas suffix them silently — rename upstream. The model tools namespace their columns (`swmf_dst`) for exactly this reason.
+- If you write a CSV yourself, match the convention: naive UTC, `index_label="time"`.
