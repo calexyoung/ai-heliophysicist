@@ -144,3 +144,30 @@ The difference is in the recovery: the analytic model's bias stays flat while
 SWMF's grows to +52 nT by 05-14, because it lets the ring current go too
 early. For this storm, a two-parameter integral from 2000 beat a global MHD
 simulation where it mattered least, and matched it where it mattered most.
+
+## Reproduction record — 2026-09-04
+
+The whole chain was re-run from `fetch_omni` after the timezone fix landed,
+with no hand editing at any step, and checked value by value against what is
+published above.
+
+| Check | Result |
+|---|---|
+| `merge_series` conversions needed | **none** — `tz_normalized: []`, because `fetch_hapi` now writes naive UTC at source |
+| Published numbers reproduced | **28 of 28**, exactly — three minima and their times, two correlations and their lags, six residual statistics, twelve daily means |
+| `model_dst` skill block | corr 0.965, RMSE 48.0 nT, obs min -436.0 nT, min error 163.2 nT — unchanged |
+| Merged file, all ten shared columns | **max abs difference 0.000e+00**, identical index, identical NaN pattern |
+| Figure | **byte-identical** (SHA-256 `4d585626adf3b642…`) |
+
+Re-run audit ids: `fetch_omni` `4abad982788e`, `resample_series`
+`b65ad883f66d`, `model_dst` `cfa2662ba740`, `fetch_model_output`
+`f020a737d85e`, `resample_series` `e25aa995f8ed`, `merge_series`
+`d94d6743d636`, `plot_timeseries` `672a023cf49a`.
+
+Worth stating plainly what this does and does not prove. It shows the chain
+is **deterministic** and that removing the manual step changed nothing — the
+hand-localised index really was bookkeeping. It does **not** re-verify the
+inputs: the HTTP cache is content-addressed, so OMNI and the SWMF archive
+were served from cache rather than re-downloaded. A true cold-cache
+reproduction would need the cache cleared, and against an archived model run
+that stopped in 2025 it should still return the same bytes.
