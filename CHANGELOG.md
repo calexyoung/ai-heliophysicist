@@ -1,5 +1,79 @@
 # Changelog
 
+## v0.4.0 — 2026-09-04
+
+Six new tools, one bug that had been silently misplacing every active region,
+and input pins on all four data transports the HTTP cache cannot reach.
+70 tools to 76; validation 28 checks to 49; tests 104 to 206.
+
+### Fixed
+
+- **SWPC region positions are valid at 2400 UT, not 0000 UT.** SWPC rotates
+  each station measurement forward to the end of the report day, so
+  `location` leads `observed_date` by a full 24 hours. Anything plotting
+  those coordinates against a same-date image put every region **~14.5° too
+  far west** — a quarter of a solar radius at disk centre. Measured rather
+  than assumed: regressing `Location` against `Report_Location` and `Obstime`
+  over 388 station reports gives a correction epoch of 24.07 h at
+  14.50°/day, rms 0.27°. `get_solar_regions` now returns
+  `coordinates_epoch`; `plot_solar_regions` uses it and refuses a mismatched
+  image. Two validation checks pin the derivation.
+- **`fetch_hapi` could not read most of ISWA.** ISWA declares
+  `"type": "float"`, which the HAPI spec does not define, so `hapiclient`
+  dies building its dtype. `fetch_hapi` now falls back to reading the
+  server's `/data` CSV directly and reports the path in `reader`; conformant
+  servers still go through `hapiclient`.
+- **`merge_series` refused to join timezone-aware and naive indices.** It now
+  converts to UTC *before* stripping the offset — a `+02:00` stamp lands on
+  02:00 UTC, not 04:00 — and lists every conversion in `tz_normalized`.
+  `fetch_hapi` also writes naive UTC now, matching every other retrieve tool.
+  `merge_series` additionally refuses duplicate column names across files
+  instead of letting pandas suffix them into an unreadable frame.
+
+### Added
+
+- **`fetch_goes_protons`** — GOES integral proton flux, 1986 to present.
+  Measured EPEAD channels through 2020-03-04; after that the GOES-R archive
+  has no >10 MeV integral channel at all, so a piecewise power law through
+  the SGPS differential spectrum is integrated instead and flagged
+  `derived`. The SGPS bands overlap and leave gaps, so a naive rectangular
+  sum runs 1.25x high at >10 MeV — the power-law integral lands at 0.95x.
+- **`plot_solar_regions`** — NOAA regions annotated onto any solar map,
+  projected through the map's own WCS so B0 and P are handled by sunpy.
+  Validated against the analytic identity
+  `r/R = sin(arccos(sin φ sin B0 + cos φ cos B0 cos λ))` to better than
+  0.006 R_sun.
+- **`flare_probability`** — per-region C/M/X from the McIntosh class, since
+  SWPC publishes whole-disk probabilities only. Poisson complement on
+  McCloskey, Gallagher & Bloomfield (2016) Tables 5, 7 and 9. All three
+  McIntosh letters are read, each from its own table, and **never
+  multiplied**: they are marginal distributions, not factors of a joint one.
+  The components can disagree tenfold, which is reported as
+  `component_span`.
+- **`get_sunspot_reports`** — raw per-observatory sunspot reports, ~1 month
+  deep. Observatories disagree on the McIntosh class for **65% of
+  region-days**, and a Zurich-letter tie leaves `zurich_consensus` None
+  rather than picking between letters that can differ fourfold in flare
+  probability.
+- **`list_model_outputs` / `fetch_model_output`** — CCMC SWMF and ENLIL
+  output via ISWA. Coverage is read live because catalog presence is not
+  currency: every SWMF Dst run has stopped, and a stale run is refused
+  unless `allow_stale`. ENLIL on this server is historical only; the tool
+  says so and points at DONKI.
+
+### Validation
+
+- Six new **input pins** covering the four library-managed transports
+  `helio_agent/http.py` names, none of which the content-addressed HTTP
+  cache reaches: `omnipin` (cdasws/OMNI), `hmipin` (Fido/VSO, upstream FITS
+  checksum), `radiopin` (cdasws/WAVES, full-array CSV checksum) and
+  `libpins` (sscws, and pyspedas pinned at both the source CDFs — including
+  their version suffix — and the derived CSV). Each layer was verified to
+  trip by perturbing it. Before these, an upstream reprocessing would have
+  moved published numbers with nothing to notice.
+- New cases for the model tools, the McIntosh three-component read, the
+  SWPC position epoch, and the station-report consensus.
+
 ## v0.3.1 — 2026-09-03
 
 - **README docs index is generated**: `scripts/gen_docs.py` now also rewrites
