@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-71 core tools in six families. Invoke any tool with
+72 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -15,7 +15,7 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
 | **measure** (21) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
-| **report** (10) | `create_reproduction_manifest`, `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_stack`, `plot_timeseries`, `render_reproduction_report`, `write_pdf_report` |
+| **report** (11) | `create_reproduction_manifest`, `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_solar_regions`, `plot_stack`, `plot_timeseries`, `render_reproduction_report`, `write_pdf_report` |
 
 ## discover
 
@@ -1107,6 +1107,41 @@ plot_solar_map(fits_file: 'str', out_name: 'str' = 'solar_map.png', clip_percent
 Render a solar FITS file (AIA/HMI/LASCO/...) with the proper colormap.
 
 *Source: `helio_agent/tools/report.py`*
+
+### `plot_solar_regions`
+
+```python
+plot_solar_regions(fits_file: 'str', regions: 'list[dict] | None' = None, region_time: 'str | None' = None, label: 'str' = 'class', max_age_hours: 'float' = 12.0, clip_percent: 'float' = 99.5, out_name: 'str' = 'solar_regions.png') -> 'dict'
+```
+
+Render a solar FITS with NOAA active regions marked and labelled.
+
+Positions are projected through the map's WCS, so the B0 tilt and P angle
+are handled properly rather than assumed away -- unlike a flat
+lat/lon-to-disk sketch, which is off by up to ~7 degrees of tilt.
+
+fits_file: any solar map sunpy can read (HMI continuum or magnetogram,
+  AIA, ...) -- e.g. from `fetch_vso`.
+regions: SWPC-shaped records, each needing `region` plus either
+  `location` ('N12E52') or `lat_deg`/`lon_deg`; `spot_class` (McIntosh)
+  and `mag_class` (Mount Wilson) are used for the label when present.
+  Defaults to the live `get_solar_regions` summary.
+region_time: ISO UTC epoch the coordinates refer to. Taken from
+  `get_solar_regions`' observed_date when regions are fetched here. If the
+  map is more than `max_age_hours` from it the call is REFUSED, because
+  solar rotation (~13.2 deg/day) would put every marker off its spot;
+  the error names the gap and the implied drift.
+label: 'class' (AR number + McIntosh/Hale, default), 'number', or 'full'
+  (adds area in millionths).
+
+Returns the figure path, `annotated` (per region: pixel x/y, lat/lon,
+classes, label), `off_disk` (regions past the limb, with longitude),
+the map and region epochs, `age_hours` and `drift_deg`.
+
+This plots where SWPC reports a region, not where a spot is detected.
+Nothing here verifies a spot exists at the marker.
+
+*Source: `helio_agent/tools/regions.py`*
 
 ### `plot_stack`
 

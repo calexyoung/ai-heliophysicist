@@ -305,6 +305,83 @@ def case_cme_arrival() -> None:
           "tolerance 10 h); window contains observed: " + str(lo <= obs <= hi))
 
 
+def case_plot_solar_regions() -> None:
+    """Region annotation on the 2017-09-06 HMI magnetogram.
+
+    Anchor (analytic, and stronger than a citation): for a region at
+    heliographic (lat, lon) seen with the observer at heliographic latitude
+    B0, the projected distance from disk centre is r/R = sin(arccos(sin lat
+    sin B0 + cos lat cos B0 cos lon)). Three regions spanning the disk must
+    match that identity to better than 0.01 R_sun. The residual is expected
+    and small: the identity assumes an orthographic view from infinity while
+    the map's WCS carries SDO's finite distance.
+
+    The same three coordinates plotted on a flat lat/lon sketch that ignores
+    B0 (+7.24 deg on this date) land up to 151 pixels — 0.08 R_sun — off,
+    which is the whole reason this tool exists.
+
+    AR 12673 is the X9.3 source at S09W33, Fkc / beta-gamma-delta (SWPC
+    region summary for 2017-09-06); the magnetogram case measures >2 kG and
+    a delta-class PIL at those same coordinates independently.
+    """
+    import glob
+    import math
+
+    import astropy.units as u
+    import sunpy.map
+
+    r = run_tool("fetch_vso", start="2017-09-06T11:00:00", end="2017-09-06T11:20:00",
+                 instrument="HMI", max_files=1, physobs="LOS_magnetic_field")
+    if r["status"] != "ok" or not r["files"]:
+        check("regions.fetch", False, r.get("error", "no file"))
+        return
+    f = r["files"][0]
+    regs = [{"region": 12673, "location": "S09W33", "spot_class": "Fkc",
+             "mag_class": "BGD"},
+            {"region": 12674, "location": "N14W12", "spot_class": "Dai",
+             "mag_class": "B"},
+            {"region": 12675, "location": "N08E60", "spot_class": "Hsx",
+             "mag_class": "A"},
+            {"region": 99999, "location": "S10W120"}]
+    m = run_tool("plot_solar_regions", fits_file=f, regions=regs,
+                 region_time="2017-09-06T11:01:30", out_name="_validation_regions.png")
+    if m["status"] != "ok":
+        check("regions.project", False, m.get("error", ""))
+        return
+
+    smap = sunpy.map.Map(f)
+    b0 = math.radians(float(smap.observer_coordinate.lat.to_value(u.deg)))
+    cx, cy = smap.world_to_pixel(smap.center)
+    cx, cy = cx.to_value(u.pix), cy.to_value(u.pix)
+    rpix = float((smap.rsun_obs / smap.scale[0]).to_value(u.pix))
+    worst, naive_worst = 0.0, 0.0
+    for e in m["annotated"]:
+        lat, lon = math.radians(e["lat_deg"]), math.radians(e["lon_deg"])
+        cos_ca = math.sin(lat) * math.sin(b0) + math.cos(lat) * math.cos(b0) * math.cos(lon)
+        r_an = math.sin(math.acos(cos_ca))
+        r_wcs = math.hypot(e["pixel_x"] - cx, e["pixel_y"] - cy) / rpix
+        worst = max(worst, abs(r_an - r_wcs))
+        naive = math.sin(math.acos(math.cos(lat) * math.cos(lon)))
+        naive_worst = max(naive_worst, abs(naive - r_an) * rpix)
+
+    limb = [e["region"] for e in m["off_disk"]]
+    ar73 = next((e for e in m["annotated"] if e["region"] == 12673), None)
+    ok = (len(m["annotated"]) == 3 and limb == [99999] and worst < 0.01
+          and ar73 is not None and ar73["hale_greek"] == "βγδ"
+          and "Fkc/βγδ" in ar73["label"] and m["age_hours"] < 0.1)
+    check("regions.project", ok,
+          f"3 on disk + W120 behind the limb; worst |analytic - WCS| "
+          f"{worst:.5f} R_sun (gate 0.01); a B0-blind sketch would miss by "
+          f"{naive_worst:.0f} px; AR12673 labelled {ar73['label'] if ar73 else '?'!r}")
+
+    stale = run_tool("plot_solar_regions", fits_file=f, regions=regs[:1],
+                     region_time="2017-09-04T11:00:00", out_name="_validation_regions.png")
+    ok2 = (stale["status"] == "error" and "max_age_hours" in stale["error"]
+           and "rotation" in stale["error"])
+    check("regions.stale_refusal", ok2,
+          stale.get("error", "")[:150] if ok2 else f"expected refusal, got {stale['status']}")
+
+
 def case_extreme_value() -> None:
     """POT/GPD on the 61-year hourly Dst record.
 
@@ -794,6 +871,7 @@ CASES = {
     "radio": case_radio_bursts,
     "hindcast": case_hindcast,
     "magnetogram": case_magnetogram,
+    "regions": case_plot_solar_regions,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,
