@@ -9,6 +9,7 @@ and listed by bibcode.
 **Reading order for the PDFs: [reading-order.md](reading-order.md).**
 **Sun-to-Earth causal chain from the top three: [causal-chain.md](causal-chain.md).**
 **CME-to-ICME association: [cme-icme-association.md](cme-icme-association.md).**
+**In-situ reduction (computed, not cited): [insitu-icme-detection.md](insitu-icme-detection.md).**
 
 - PDFs: `users/cayoung/workspace/data/arxiv_<id>.pdf`
 - BibTeX for all papers: `refs.bib` (audit `3df915f71117`)
