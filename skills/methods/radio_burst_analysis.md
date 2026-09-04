@@ -23,3 +23,14 @@ Radio bursts are the earliest remote signature that an eruption has released par
 - SEP association: a DH type II is the best single predictor of a large SEP event (Gopalswamy et al. 2008); pair with `characterize_sep` on the same day.
 - In-situ arrival: if the burst is a type II and a shock arrives at L1 1-3 days later (`detect_icme`), the mean transit speed brackets the radio speed from below.
 - Literature (`search_ads`) for the event's published burst timing; CDAW keeps a type II list (Wind/WAVES DH type II catalog) with start/end frequencies to compare `freq_max_hz`/`freq_min_hz`.
+
+## Input pin (added 2026-09-04)
+`fetch_cdaweb_spectrogram` pulls through `cdasws`, a library-managed transfer the repo's HTTP cache does not cover — so a CDAWeb reprocessing would move `radio.20170906` silently. `validation/run_validation.py radiopin` pins it.
+
+Unlike OMNI, the whole reduced spectrum can be fingerprinted: the tool writes the full time x channel array to CSV, and that file is a deterministic function of the response. Confirmed by deleting the local CSV and re-fetching — the rewritten file hashed identically.
+
+Pinned: CSV SHA-256 `b7123ec0…`, the channel axis (76 channels, 268 Hz to 10085542 Hz), 240 records, and the derived burst list — six bursts with counts `{type II candidate: 2, unclassified: 3, type III: 1}` and the flare-associated burst at 11:58:30-16:19:30 UT, 52.0 dB at 12:10:30, 6.65 MHz down to 29857 Hz, 2160 km/s.
+
+**Also pinned: `radio_bursts` sees 45 channels, not the file's 76** — it drops channels that are all-fill across the window. A change in that reduction would move every burst boundary, so it is asserted rather than left implicit.
+
+Each layer was verified to trip by perturbing it.

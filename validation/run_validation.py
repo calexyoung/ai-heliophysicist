@@ -850,6 +850,98 @@ def case_hmi_magnetogram_pin() -> None:
     check("hmi.pin_20170906", ok, detail)
 
 
+def case_radio_spectrogram_pin() -> None:
+    """Tripwire on the WIND/WAVES spectrogram behind the 2017-09-06 radio case.
+
+    Third transport, third exposure. `fetch_cdaweb_spectrogram` pulls through
+    `cdasws` like `fetch_omni`, so there is no upstream file to checksum and
+    the HTTP cache does not cover it. But unlike OMNI, the tool writes the
+    whole reduced spectrum to CSV, and that file is a deterministic function
+    of the CDAWeb response — so the **entire 240 x 76 array** can be
+    fingerprinted rather than a handful of extrema.
+
+    Verified the fingerprint is meaningful rather than trivially true: the
+    local CSV was deleted and the window re-fetched from CDAWeb, and the
+    rewritten file hashed identically.
+
+    Pinned: the CSV SHA-256, the channel axis (76 channels, 268 Hz to
+    10085542 Hz), the record count, and the derived burst list — six bursts,
+    their classifications, and the parameters of the flare-associated one
+    (11:58:30-16:19:30 UT, 52.0 dB at 12:10:30, 6.65 MHz down to 29857 Hz,
+    2160 km/s), which `radio.20170906` checks against the published X9.3
+    timing (Gopalswamy et al. 2018, ApJL 863, L39).
+
+    Note `radio_bursts` reports 45 channels against the file's 76: it drops
+    channels that are all-fill in the window. That reduction is pinned too,
+    since a change there would silently move every burst boundary.
+    """
+    import hashlib
+
+    SHA = "b7123ec0ed808ea02808ff300e209aaca01ecfc09be32af4d0f37398c18d4df6"
+    r = run_tool("fetch_cdaweb_spectrogram", start="2017-09-06T08:00:00Z",
+                 end="2017-09-06T20:00:00Z")
+    if r["status"] != "ok":
+        check("radio.pin_20170906", False, r.get("error", ""))
+        return
+    got_sha = hashlib.sha256(open(r["file"], "rb").read()).hexdigest()
+
+    axis_drift = []
+    for label, got, want in (("n_records", r["n_records"], 240),
+                             ("n_channels", r["n_channels"], 76),
+                             ("first channel", r["channels"][0], 268.0),
+                             ("last channel", r["channels"][-1], 10085542.0),
+                             ("units", r["channel_units"], "Hz")):
+        if got != want:
+            axis_drift.append(f"{label}={got!r} (pinned {want!r})")
+
+    m = run_tool("radio_bursts", file=r["file"], plot=False)
+    if m["status"] != "ok":
+        check("radio.pin_20170906", False, m.get("error", ""))
+        return
+    bursts = m["bursts"]
+    sci_drift = []
+    if len(bursts) != 6:
+        sci_drift.append(f"{len(bursts)} bursts (pinned 6)")
+    want_counts = {"type II candidate": 2, "unclassified": 3, "type III": 1}
+    if m["counts"] != want_counts:
+        sci_drift.append(f"counts {m['counts']} (pinned {want_counts})")
+    if m["n_channels"] != 45:
+        sci_drift.append(f"{m['n_channels']} non-fill channels (pinned 45)")
+    flare = next((b for b in bursts if b["start"] == "2017-09-06 11:58:30"), None)
+    if flare is None:
+        sci_drift.append("the 11:58:30 flare-associated burst is gone")
+    else:
+        for label, got, want in (("end", flare["end"], "2017-09-06 16:19:30"),
+                                 ("peak_db", flare["peak_db"], 52.0),
+                                 ("peak_time", flare["peak_time"], "2017-09-06 12:10:30"),
+                                 ("freq_max", flare["freq_max_hz"], 6653980.0),
+                                 ("freq_min", flare["freq_min_hz"], 29857.0),
+                                 ("speed", flare["inferred_speed_km_s"], 2160.0),
+                                 ("class", flare["classification"], "type II candidate")):
+            if got != want:
+                sci_drift.append(f"flare burst {label}={got!r} (pinned {want!r})")
+
+    ok = (got_sha == SHA and not axis_drift and not sci_drift)
+    if ok:
+        detail = (f"WI_K0_WAV 2017-09-06 08:00-20:00 unchanged: CSV sha256 "
+                  f"{got_sha[:16]}… over {r['n_records']}x{r['n_channels']} "
+                  f"({r['channels'][0]:g}-{r['channels'][-1]:g} Hz); "
+                  f"{len(bursts)} bursts {m['counts']}; flare burst "
+                  f"{flare['start'][11:]}-{flare['end'][11:]} UT, "
+                  f"{flare['peak_db']} dB at {flare['peak_time'][11:]}, "
+                  f"{flare['inferred_speed_km_s']:g} km/s")
+    else:
+        detail = ("RADIO SPECTROGRAM MOVED — CDAWeb has most likely reissued "
+                  "WI_K0_WAV for this window. Re-check radio.20170906. ")
+        if got_sha != SHA:
+            detail += f"sha256 {got_sha[:16]}… (pinned {SHA[:16]}…). "
+        if axis_drift:
+            detail += "axis: " + "; ".join(axis_drift) + ". "
+        if sci_drift:
+            detail += "derived: " + "; ".join(sci_drift)
+    check("radio.pin_20170906", ok, detail)
+
+
 def case_extreme_value() -> None:
     """POT/GPD on the 61-year hourly Dst record.
 
@@ -1345,6 +1437,7 @@ CASES = {
     "models": case_model_output,
     "omnipin": case_omni_reanalysis_pin,
     "hmipin": case_hmi_magnetogram_pin,
+    "radiopin": case_radio_spectrogram_pin,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,
