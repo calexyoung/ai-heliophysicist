@@ -12,10 +12,12 @@ PlasmaPy, geopack, aiapy, hapiclient, cdflib).
 
 **The LLM writes no pipelines and computes no science numbers itself.**
 Every result is audit-logged and traceable to the exact tool call that
-produced it. The 28-check live suite covers published, analytic, and
+produced it. The 49-check live suite covers published, analytic, and
 cross-implementation anchors: of 76 tools, 39 are directly exercised there;
 supporting tools are guarded by offline tests, schema locks, and validated
 composition rather than falsely described as individually published anchors.
+Six of those checks pin the *inputs* themselves, so an upstream
+reprocessing fails loudly instead of silently moving published numbers.
 
 ## Quick start
 
@@ -60,6 +62,12 @@ skills before acting, cross-check, everything on disk).
 - **Reproducibility**: content-addressed HTTP cache with secret-stripped
   GET and POST keys; audit entries carry full canonical results, input and
   artifact hashes, and git sha; `replay` compares all available dimensions.
+- **Pinned inputs**: the cache cannot cover library-managed transfers
+  (cdasws, sunpy Fido, sscws, pyspedas), so six validation checks pin those
+  archives directly — upstream file checksums where the archive is
+  byte-stable, full-array or derived-value fingerprints where it is not.
+  A reprocessing at CDAWeb, VSO, SSCWeb or SPDF fails the suite and names
+  the write-ups to re-run.
 
 ## Layout
 
@@ -67,8 +75,8 @@ skills before acting, cross-check, everything on disk).
 |---|---|
 | [`CLAUDE.md`](CLAUDE.md) | The agent's operating contract (the judgment layer's rules) |
 | [`helio_agent/`](helio_agent/) | Tool layer: registry, audit, HTTP cache, CLI, monitor, reports, six tool families |
-| [`skills/`](skills/README.md) | 45 knowledge documents: missions, methods, datasources, software — read before acting |
-| [`validation/`](validation/run_validation.py) | 28 live checks across 21 cases; 29 tools are directly exercised, with published, analytic, behavioral, and cross-implementation anchors |
+| [`skills/`](skills/README.md) | 46 knowledge documents: missions, methods, datasources, software — read before acting |
+| [`validation/`](validation/run_validation.py) | 49 live checks across 30 cases; 39 tools are directly exercised, with published, analytic, behavioral, cross-implementation, and input-pin anchors |
 | [`tests/`](tests/) | Offline CI guards: schema lock, docs-current, cache behavior, user-tool scoping |
 | [`workspace/`](workspace/) | Persistent environment: `data/`, `outputs/`, `cache/` (shared), `logs/audit.jsonl` |
 | [`users/`](users/README.md) | Per-user profiles (`HELIO_AGENT_USER=<name>`): one-off tools/skills/analyses; core stays general — see [users/README.md](users/README.md) |
@@ -96,12 +104,17 @@ skills before acting, cross-check, everything on disk).
 
 - **discover** — CDAWeb dataset/variable search, HelioData freetext search,
   SSCWeb spacecraft catalog, VSO search, HEK + DONKI event queries, NOAA SWPC
-  real-time conditions + solar regions, pySPEDAS mission/loader listing
+  real-time conditions + solar regions, raw per-observatory sunspot reports
+  (which disagree on the McIntosh class for 65% of region-days, and say so),
+  CCMC model-product catalog with live staleness, pySPEDAS mission/loader
+  listing
 - **retrieve** — CDAWeb/OMNI/GOES-XRS/HAPI/pySPEDAS time series, CDAWeb
-  spectrograms (channel axis kept), VSO FITS (by physobs),
+  spectrograms (channel axis kept), GOES integral proton flux 1986-present
+  (measured pre-2020, reconstructed from the SGPS spectrum after, and
+  flagged), CCMC SWMF/ENLIL model output via ISWA, VSO FITS (by physobs),
   Helioviewer imagery, SSCWeb ephemerides, NOAA SWPC operational feeds,
   Kyoto Dst (by revision), GFZ Kp/Hp indices, solar-cycle progression
-  → workspace CSVs (UTC index, NaN fills)
+  → workspace CSVs (naive-UTC index, NaN fills)
 - **reduce** — series description, resampling, merging, gap-aware
   interpolation, derived columns, time shifting, solar map loading,
   coordinate transforms (GSE/GSM/SM/GEO/MAG...), AIA degradation correction
@@ -110,11 +123,15 @@ skills before acting, cross-check, everything on disk).
   (T89), Dst nowcast, CME arrival (DBM), extreme-value statistics,
   plasma parameters (PlasmaPy), ICME/shock/sheath detection, SEP
   radiation-storm characterization, type II/III radio bursts, forecast-rule
-  hindcast, HMI magnetogram flux/PIL metrics, claim verification
+  hindcast, HMI magnetogram flux/PIL metrics, per-region flare probability
+  from the McIntosh class (three components reported separately, never
+  multiplied), claim verification
 - **literature** — NASA ADS (token via `ADS_API_TOKEN`), arXiv search + PDF fetch, BibTeX
 - **report** — publication-styled time-series/stack/solar-map/orbit plots
-  (CVD-validated palette), seaborn statistical plots, PDF reports,
-  self-hosted HTML export, reproduction-manifest creation and rendering
+  (CVD-validated palette), NOAA active regions annotated onto a solar map
+  through its own WCS (so B0 and P are handled, not approximated away),
+  seaborn statistical plots, PDF reports, self-hosted HTML export,
+  reproduction-manifest creation and rendering
 
 ## Provenance
 
