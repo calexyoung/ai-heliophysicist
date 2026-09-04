@@ -382,6 +382,75 @@ def case_plot_solar_regions() -> None:
           stale.get("error", "")[:150] if ok2 else f"expected refusal, got {stale['status']}")
 
 
+def case_flare_probability() -> None:
+    """Per-region flare probabilities from the McIntosh classification.
+
+    Anchor: McCloskey, Gallagher & Bloomfield (2016), Sol. Phys. 291, 1711,
+    Table 5 (arXiv:1607.00903) — 24-hour flaring rates for sunspot groups
+    within +/-75 deg longitude, indexed by yesterday's and today's modified
+    Zurich class. Four published cells must come back exactly: D->D and F->F
+    at 0.68 and 2.43 flares/24 h for >=C1.0, H->D at 0.89 (upward evolution
+    flares more than persistence, the paper's headline), and F->F at 0.07 for
+    >=X1.0. Probabilities are the Poisson complement 1 - exp(-rate), so
+    D->D must give 0.4934.
+
+    Structure the table must also satisfy: rates rise monotonically A < C <
+    D < E < F for >=C1.0 persistence, and P(>=C) >= P(>=M) >= P(>=X) for
+    every class. Empty bins (E -> A has no groups) refuse rather than
+    returning zero.
+    """
+    import math
+
+    cells = [("Dxx", "Dxx", "C", 0.68), ("Fxx", "Fxx", "C", 2.43),
+             ("Dxx", "Hxx", "C", 0.89), ("Fxx", "Fxx", "X", 0.07)]
+    bad = []
+    for now, prev, lvl, want in cells:
+        r = run_tool("flare_probability", mcintosh_class=now, previous_class=prev)
+        if r["status"] != "ok":
+            bad.append(f"{prev[0]}->{now[0]} {lvl}: {r.get('error')}")
+            continue
+        got = r["levels"][lvl]["rate_per_24h"]
+        if abs(got - want) > 1e-9:
+            bad.append(f"{prev[0]}->{now[0]} >={lvl}1.0: got {got}, table says {want}")
+
+    dd = run_tool("flare_probability", mcintosh_class="Dxx")
+    poisson_ok = abs(dd["levels"]["C"]["probability"] - (1 - math.exp(-0.68))) < 5e-5
+
+    rates, mono_ok = [], True
+    for z in ("Axx", "Cxx", "Dxx", "Exx", "Fxx"):
+        r = run_tool("flare_probability", mcintosh_class=z)
+        rates.append(r["levels"]["C"]["rate_per_24h"])
+        p = [r["levels"][k]["probability"] for k in ("C", "M", "X")]
+        mono_ok = mono_ok and p[0] >= p[1] >= p[2]
+    rising = all(a < b for a, b in zip(rates, rates[1:]))
+
+    empty = run_tool("flare_probability", mcintosh_class="Axx", previous_class="Exx")
+    junk = run_tool("flare_probability", mcintosh_class="Zxx")
+    refuses = (empty["status"] == "error" and "no groups" in empty["error"]
+               and junk["status"] == "error" and "Zurich" in junk["error"])
+
+    ok = not bad and poisson_ok and rising and mono_ok and refuses
+    check("flareprob.mccloskey2016", ok,
+          "; ".join(bad) if bad else
+          f">=C1.0 persistence rates A..F {rates} rise monotonically; D->D "
+          f"P={dd['levels']['C']['probability']} = 1-exp(-0.68); H->D 0.89 > "
+          f"D->D 0.68 (upward evolution flares more); C>=M>=X ordering holds; "
+          f"empty bin and bad class both refuse")
+
+    hax = run_tool("flare_probability", mcintosh_class="Hax", lon_deg=79.0)
+    honest = (hax["status"] == "ok"
+              and hax["levels"]["C"]["rate_resolved"] is True
+              and hax["levels"]["X"]["rate_resolved"] is False
+              and hax["outside_calibration"] is True
+              and hax["assumed_no_evolution"] is True
+              and any("Hale" in c for c in hax["caveats"]))
+    check("flareprob.honesty", honest,
+          f"Hax at W79: C resolved, X not (upper limit "
+          f"{hax['levels']['X']['probability_range'][1]:.3f}), flagged outside "
+          f"the +/-75 deg calibration, no-evolution assumption declared, and "
+          f"the Hale-class blindness stated in caveats")
+
+
 def case_extreme_value() -> None:
     """POT/GPD on the 61-year hourly Dst record.
 
@@ -872,6 +941,7 @@ CASES = {
     "hindcast": case_hindcast,
     "magnetogram": case_magnetogram,
     "regions": case_plot_solar_regions,
+    "flareprob": case_flare_probability,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

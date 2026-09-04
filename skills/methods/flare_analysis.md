@@ -29,3 +29,14 @@ Use this skill any time the task involves identifying, timing, ranking, or class
 - Compare your class/times against the SWPC event list, HEK FL entries, and DONKI FLR — they should agree within a class subdivision and a few minutes.
 - Confirm the source region with AIA 131/1600 Å imagery (Helioviewer is fine for this) — a flare with no visible AIA brightening at the reported time is a red flag.
 - For large flares, an associated CME in LASCO within ~1 hour and an SEP event (for well-connected west-limb flares) are corroborating context.
+
+## Tool: `flare_probability` (added 2026-09-04)
+- Per-region C/M/X probabilities from the McIntosh class. **SWPC publishes whole-disk probabilities only** (`/json/solar_probabilities.json`); there is no per-region feed, so this has to be computed.
+- Method: Poisson complement `P = 1 - exp(-rate * hours/24)` on the historical 24-hour flaring rates of **McCloskey, Gallagher & Bloomfield 2016, Sol. Phys. 291, 1711, Table 5** (arXiv:1607.00903, PDF in the workspace).
+- The table is indexed by **evolution**, a (yesterday's class -> today's class) pair, which is the paper's actual result: a group that grew H -> D flares at 0.89 per 24 h against 0.68 for one already at D. Pass `previous_class` to use it; omit it and the tool takes the diagonal and sets `assumed_no_evolution`. Yesterday's classes are available from SWPC `/json/sunspot_report.json`, which carries ~1 month of per-region `Spotclass` — no tool wraps it yet.
+- **Only the first (modified Zurich) letter is resolved.** Hsx and Hax return identical numbers; the penumbral and compactness components have their own tables in the paper (7 and 9) and combining all three is not something Table 5 supports.
+- **Hale class is ignored entirely**, so a δ region scores the same as a simple one of the same Zurich class — and δ is the single strongest predictor of a big flare. Never present these as a forecast.
+- Where a rate is not separated from zero at 1σ the tool sets `rate_resolved: false`; quote `probability_range` upper bound, not the central value. Several source cells are `0.00 ± 1.00` (one group), caught by `well_sampled`.
+- `lon_deg` flags regions outside the ±75° band the rates were calibrated over.
+- **Expect it to undershoot SWPC.** On 2026-09-04 the three classifiable regions combined to C 26% / M 4% against SWPC's C 60% / M 20%. Two reasons, both real: four west-limb regions had no class and scored nothing, and AR4524 had just produced an M flare while its class-based M probability was 1%. Class climatology cannot see recent activity; forecasters weight it heavily.
+- Validation: `uv run python validation/run_validation.py flareprob` — four published cells reproduced exactly, monotonicity, and the refusal paths.

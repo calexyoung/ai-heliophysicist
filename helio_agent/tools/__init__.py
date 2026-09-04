@@ -5,6 +5,7 @@ from helio_agent.tools import (  # noqa: F401
     discover,
     export,
     extremes,
+    flareprob,
     geospace,
     hindcast,
     icme,

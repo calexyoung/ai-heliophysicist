@@ -28,6 +28,7 @@
  "fetch_vso": "c361db1b331d9542",
  "find_extrema": "c942bf1f7849d560",
  "find_flares": "3b1d3d2ebc5db4b7",
+ "flare_probability": "3bfa735925adb950",
  "get_bibtex": "e01c42d4d7fa234d",
  "get_noaa_realtime": "fc1f8b39814392d2",
  "get_solar_regions": "8163a45b3fe52d02",

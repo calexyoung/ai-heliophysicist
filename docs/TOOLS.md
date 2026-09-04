@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-72 core tools in six families. Invoke any tool with
+73 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -13,7 +13,7 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | **discover** (11) | `get_noaa_realtime`, `get_solar_regions`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
 | **retrieve** (15) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
-| **measure** (21) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
+| **measure** (22) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `flare_probability`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
 | **report** (11) | `create_reproduction_manifest`, `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_solar_regions`, `plot_stack`, `plot_timeseries`, `render_reproduction_report`, `write_pdf_report` |
 
@@ -722,6 +722,41 @@ get classes comparable to the operational record; set False for GOES-R
 See skills/missions/goes.md.
 
 *Source: `helio_agent/tools/measure.py`*
+
+### `flare_probability`
+
+```python
+flare_probability(mcintosh_class: 'str', previous_class: 'str | None' = None, window_hours: 'float' = 24.0, lon_deg: 'float | None' = None) -> 'dict'
+```
+
+C / M / X flare probability for one sunspot group from its McIntosh class.
+
+Poisson probabilities built on the historical 24-hour flaring rates of
+McCloskey, Gallagher & Bloomfield (2016), Sol. Phys. 291, 1711, Table 5.
+
+mcintosh_class: the group's class now, e.g. 'Hax', 'Cao', 'Fkc'. Only the
+  first letter (modified Zurich) is used — the source table resolves that
+  component alone, so 'Hsx' and 'Hax' return identical numbers.
+previous_class: the class ~24 h earlier. The table is indexed by
+  evolution, so this genuinely changes the answer (H -> D flares at 0.89
+  per 24 h for >=C1.0 against 0.68 for D -> D). Omit it and the tool
+  assumes no evolution, i.e. the table's diagonal, and says so.
+window_hours: forecast window (24 by default).
+lon_deg: heliographic longitude, west positive. Only used to flag a region
+  outside the +/-75 deg band the rates were calibrated over.
+
+Returns per level (`C`, `M`, `X`): rate_per_24h and its uncertainty,
+`probability`, and a `probability_range` from rate +/- sigma. Also
+`zurich`, `previous_zurich`, `assumed_no_evolution`, `well_sampled`,
+`caveats`, and `citation`.
+
+This is class climatology, not a forecast: it knows nothing about the
+region's magnetic complexity or its recent flaring, and ignores Hale
+class entirely — so a delta region reads the same as a simple one of the
+same Zurich type. Refuses rather than guessing when the class is not a
+valid Zurich letter or when the source table has no groups in that bin.
+
+*Source: `helio_agent/tools/flareprob.py`*
 
 ### `hindcast_forecasts`
 

@@ -80,20 +80,25 @@ def _instrument_label(smap) -> str:
 
 
 def _label(rec: dict, mode: str) -> str:
+    """Build a marker label. A record may carry a `note` string — anything the
+    caller computed elsewhere, e.g. flare probabilities from
+    `flare_probability` — which is appended so this module never has to
+    recompute or import a number it does not own."""
     num = f"AR{rec['region']}"
+    note = str(rec.get("note") or "").strip()
     if mode == "number":
-        return num
+        return f"{num}  {note}".strip() if note else num
     mc, hale = rec.get("spot_class"), hale_greek(rec.get("mag_class"))
     if mode == "class":
-        if mc and hale:
-            return f"{num}  {mc}/{hale}"
-        return num
+        head = f"{num}  {mc}/{hale}" if (mc and hale) else num
+        return f"{head}\n{note}" if note else head
     parts = [num]
     if mc or hale:
         parts.append(f"{mc or '-'}/{hale or '-'}")
     if rec.get("area_millionths"):
         parts.append(f"{rec['area_millionths']}µH")
-    return "  ".join(parts)
+    head = "  ".join(parts)
+    return f"{head}\n{note}" if note else head
 
 
 @tool(family="report")
