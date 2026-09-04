@@ -13,7 +13,7 @@ PlasmaPy, geopack, aiapy, hapiclient, cdflib).
 **The LLM writes no pipelines and computes no science numbers itself.**
 Every result is audit-logged and traceable to the exact tool call that
 produced it. The 28-check live suite covers published, analytic, and
-cross-implementation anchors: of 73 tools, 32 are directly exercised there;
+cross-implementation anchors: of 74 tools, 34 are directly exercised there;
 supporting tools are guarded by offline tests, schema locks, and validated
 composition rather than falsely described as individually published anchors.
 
@@ -21,7 +21,7 @@ composition rather than falsely described as individually published anchors.
 
 ```bash
 uv sync                                     # one-time: build the environment
-uv run helio-agent list                     # 73 tools in six families
+uv run helio-agent list                     # 74 tools in six families
 uv run helio-agent run fetch_omni '{"start":"2024-05-10T00:00:00Z","end":"2024-05-14T00:00:00Z"}'
 uv run python validation/run_validation.py  # prove the stack against known results
 uv run helio-agent report sun-news          # today's space-weather report (PDF)

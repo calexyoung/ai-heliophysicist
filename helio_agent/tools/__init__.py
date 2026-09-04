@@ -22,6 +22,7 @@ from helio_agent.tools import (  # noqa: F401
     magnetogram,
     report,
     spedas,
+    sunspots,
     swpc,
     verify,
 )

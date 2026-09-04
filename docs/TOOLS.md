@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-73 core tools in six families. Invoke any tool with
+74 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -10,7 +10,7 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 
 | Family | Tools |
 |---|---|
-| **discover** (11) | `get_noaa_realtime`, `get_solar_regions`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
+| **discover** (12) | `get_noaa_realtime`, `get_solar_regions`, `get_sunspot_reports`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
 | **retrieve** (15) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
 | **measure** (22) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `flare_probability`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
@@ -45,6 +45,37 @@ Current NOAA/SWPC numbered sunspot regions: location, magnetic class,
 area, spot count, and recent flare counts. Operational daily analysis.
 
 *Source: `helio_agent/tools/swpc.py`*
+
+### `get_sunspot_reports`
+
+```python
+get_sunspot_reports(date: 'str | None' = None, region: 'int | None' = None, min_quality: 'int' = 0) -> 'dict'
+```
+
+Raw per-observatory sunspot classifications from SWPC (~1 month deep).
+
+Unlike `get_solar_regions`, which gives SWPC's single edited class per
+region, this returns every station's independent report plus a consensus
+that shows the disagreement instead of hiding it.
+
+date: 'YYYY-MM-DD' observation date. Defaults to the latest in the feed.
+  Pass 'all' for the whole window (needed to walk a region's evolution).
+region: NOAA region number to filter to (e.g. 4524).
+min_quality: drop station reports below this `Quality` (1-4). Default 0
+  keeps everything — filtering narrows the observed spread, so it should
+  be a deliberate act.
+
+Returns `dates` (every observation date in the feed), `reports` (the raw
+rows), and `consensus`: one entry per (date, region) with `n_reports`,
+the distinct `classes` and `mag_classes` with their observatories,
+`zurich_votes`, `zurich_consensus` (None on a tie), `zurich_agreement`
+(fraction backing the winner), and `tie`.
+
+Operational real-time data, and less processed than the edited summary:
+for a region's authoritative class use `get_solar_regions`; use this for
+yesterday's class and for how uncertain today's really is.
+
+*Source: `helio_agent/tools/sunspots.py`*
 
 ### `list_cdaweb_variables`
 

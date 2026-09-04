@@ -31,3 +31,12 @@ xl = df[df['energy'] == '0.1-0.8nm']   # long channel for flare class
 - Flare classes vs the SWPC event list and (later) GOES science data.
 - RTSW vs OMNI/L1 science data once available (expect small differences).
 - Kp vs GFZ Potsdam definitive values after a few days.
+
+## Tool: `get_sunspot_reports` (added 2026-09-04)
+- Wraps `/json/sunspot_report.json`: the **raw per-observatory** sunspot classifications (HOL, SVI, LEA), rolling ~1 month, about 400 rows. `get_solar_regions` is the **edited** daily summary — one authoritative class per region. Use the edited product for "the" class; use this for history and for how uncertain that class is.
+- Two uses: **yesterday's Zurich class** for `flare_probability` (whose rates are evolution-indexed), and an honest spread on today's class.
+- **Observatories disagree a lot**: 65% of region-days carry more than one McIntosh class, 35% more than one Mount Wilson class, and 19% are Zurich ties. A tie leaves `zurich_consensus` None rather than picking — the two candidates can differ by 4x in flare probability.
+- The edited summary is **not** a straight vote of these reports. On 2026-09-04 both stations reported AR 4523 as `Hsx` while the edited summary said `Cao`. Do not reconstruct the edited class from station reports.
+- Records with a null `Region` (unnumbered groups) are dropped and counted in `skipped_unnumbered`; `ValidSpotClass = 0` rows are excluded. `Quality` (1-4) is the station's own confidence, not accuracy — `min_quality` defaults to 0 because filtering quietly narrows the disagreement this tool exists to show.
+- Rolling window only. A date outside it refuses and names the coverage; older data needs a different archive.
+- Validation: `uv run python validation/run_validation.py sunspots`.

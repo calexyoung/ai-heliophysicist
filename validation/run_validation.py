@@ -451,6 +451,78 @@ def case_flare_probability() -> None:
           f"the Hale-class blindness stated in caveats")
 
 
+def case_sunspot_reports() -> None:
+    """SWPC raw station reports and their consensus.
+
+    This is a rolling ~1-month operational feed, so there is no fixed
+    published value to pin. The anchors are therefore invariants of the
+    product plus a cross-source check, which is what can honestly be
+    asserted about live data:
+
+    (i) every consensus is internally consistent — the Zurich votes sum to
+    at most the report count, the agreement fraction equals the winner's
+    share, and a tie always leaves zurich_consensus None rather than
+    picking one of two letters that can differ by 3x in flare probability;
+    (ii) region numbers in the latest station reports overlap the edited
+    daily summary from get_solar_regions, which is the independent product
+    built from these same observations;
+    (iii) a date outside the window refuses and names the coverage.
+
+    The disagreement this exposes is the point: observatories differ on the
+    McIntosh class for a large fraction of region-days, and the Zurich
+    letter — the only one the flare rates use — is not exempt.
+    """
+    r = run_tool("get_sunspot_reports", date="all")
+    if r["status"] != "ok":
+        check("sunspots.fetch", False, r.get("error", ""))
+        return
+
+    bad = []
+    for c in r["consensus"]:
+        votes = c["zurich_votes"]
+        if sum(votes.values()) > c["n_reports"]:
+            bad.append(f"{c['date']} AR{c['region']}: votes exceed reports")
+        if c["tie"] and c["zurich_consensus"] is not None:
+            bad.append(f"{c['date']} AR{c['region']}: tie resolved to "
+                       f"{c['zurich_consensus']}")
+        if votes and not c["tie"]:
+            top = max(votes.values())
+            if c["zurich_consensus"] is None:
+                bad.append(f"{c['date']} AR{c['region']}: no consensus without a tie")
+            elif abs(c["zurich_agreement"] - top / sum(votes.values())) > 1e-3:
+                bad.append(f"{c['date']} AR{c['region']}: agreement mismatch")
+        if c["zurich_agreement"] is not None and not 0 < c["zurich_agreement"] <= 1:
+            bad.append(f"{c['date']} AR{c['region']}: agreement out of range")
+
+    n = len(r["consensus"])
+    n_dis = sum(1 for c in r["consensus"] if c["classes_disagree"])
+    n_tie = sum(1 for c in r["consensus"] if c["tie"])
+    ok = not bad and n > 0
+    check("sunspots.consensus", ok, "; ".join(bad[:3]) if bad else
+          f"{n} region-days over {r['coverage'][0]}..{r['coverage'][1]}, all "
+          f"consistent; {n_dis} ({n_dis / n:.0%}) have observatories "
+          f"disagreeing on the McIntosh class and {n_tie} are Zurich ties "
+          f"left unresolved")
+
+    today = run_tool("get_sunspot_reports")
+    summary = run_tool("get_solar_regions")
+    if today["status"] == "ok" and summary["status"] == "ok":
+        station = {c["region"] for c in today["consensus"]}
+        edited = {g["region"] for g in summary["regions"] if g.get("spot_class")}
+        overlap = station & edited
+        ok2 = bool(station) and bool(edited) and len(overlap) >= 1
+        check("sunspots.vs_edited_summary", ok2,
+              f"station reports cover AR{sorted(station)}, edited summary "
+              f"classifies AR{sorted(edited)}, {len(overlap)} in common "
+              "(the edited class is not a straight vote of these — that is "
+              "why get_solar_regions stays the authority)")
+
+    stale = run_tool("get_sunspot_reports", date="1999-01-01")
+    check("sunspots.window_refusal",
+          stale["status"] == "error" and "rolling" in stale.get("error", ""),
+          stale.get("error", "")[:130])
+
+
 def case_extreme_value() -> None:
     """POT/GPD on the 61-year hourly Dst record.
 
@@ -942,6 +1014,7 @@ CASES = {
     "magnetogram": case_magnetogram,
     "regions": case_plot_solar_regions,
     "flareprob": case_flare_probability,
+    "sunspots": case_sunspot_reports,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,
