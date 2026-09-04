@@ -437,6 +437,31 @@ def case_flare_probability() -> None:
           f"D->D 0.68 (upward evolution flares more); C>=M>=X ordering holds; "
           f"empty bin and bad class both refuse")
 
+    tri = run_tool("flare_probability", mcintosh_class="Fkc", previous_class="Dai")
+    cr = tri["levels"]["C"]["component_rates"]
+    comp_ok = (cr["zurich"]["previous"] == "D" and cr["zurich"]["letter"] == "F"
+               and abs(cr["zurich"]["rate_per_24h"] - 2.67) < 1e-9
+               and cr["penumbral"]["previous"] == "A" and cr["penumbral"]["letter"] == "K"
+               and abs(cr["penumbral"]["rate_per_24h"] - 1.80) < 1e-9
+               and cr["compactness"]["previous"] == "I" and cr["compactness"]["letter"] == "C"
+               and abs(cr["compactness"]["rate_per_24h"] - 3.29) < 1e-9)
+    hax = run_tool("flare_probability", mcintosh_class="Hax")["levels"]["C"]
+    hsx = run_tool("flare_probability", mcintosh_class="Hsx")["levels"]["C"]
+    sep_ok = (hax["components"]["penumbral"] > hsx["components"]["penumbral"]
+              and hax["components"]["zurich"] == hsx["components"]["zurich"])
+    prod = 1.0
+    for v in tri["levels"]["C"]["components"].values():
+        prod *= v
+    not_multiplied = abs(tri["levels"]["C"]["probability"] - prod) > 1e-6
+    check("flareprob.three_components", comp_ok and sep_ok and not_multiplied,
+          f"Dai->Fkc reads all three tables independently: Zurich D->F 2.67, "
+          f"penumbral A->K 1.80, compactness I->C 3.29 flares/24 h (Tables 5, "
+          f"7, 9). Hax vs Hsx now separate on the penumbral letter "
+          f"({hax['components']['penumbral']:.2f} vs "
+          f"{hsx['components']['penumbral']:.2f}) while sharing the Zurich "
+          "value, and the components are never multiplied — they are marginal "
+          "distributions, not factors of a joint table")
+
     hax = run_tool("flare_probability", mcintosh_class="Hax", lon_deg=79.0)
     honest = (hax["status"] == "ok"
               and hax["levels"]["C"]["rate_resolved"] is True

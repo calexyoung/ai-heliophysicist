@@ -33,3 +33,13 @@ data, meta = hapi(server, dataset, params,
 - Pull the same interval from the native interface (cdasws for CDAWeb) and diff values — should be identical.
 - Check `/info` cadence and coverage against what you received (gap vs truncation).
 - Validate an unfamiliar server with a known dataset/event before trusting it in a pipeline.
+
+## ISWA (CCMC) HAPI server — added 2026-09-04
+`https://iswa.ccmc.gsfc.nasa.gov/IswaSystemWebApp/hapi` (also reachable as `iswa.gsfc.nasa.gov/IswaSystemWebApp/hapi` and `iswa.ccmc.gsfc.nasa.gov/hapi`). **Works through the existing `fetch_hapi` tool with no new code.**
+
+- **322 datasets.** The distinctive content is CCMC *model output* the repo has nothing else for: WSA-ENLIL, SWMF (2008/2011/2023 real-time Dst, magnetopause standoff, field at GOES and THEMIS), OpenGGCM, Tsyganenko field at GEO. Plus real-time GOES X-ray/particle/magnetometer, ACE EPAM/SIS, and IMAP I-ALiRT.
+- Parameter names are ISWA's own — `goesp_xray_flux_P1M` is `Short_Wave` / `Long_Wave`, **not** the GOES `xrsa`/`xrsb` or SWPC `A_FLUX`/`B_FLUX`. Hit `/info?id=<dataset>` first; a wrong name fails with `HAPIError: Parameter ... is not in metadata`.
+- Coverage is long for the RT feeds: `goesp_xray_flux_P1M` runs 2010-04-13 to the current minute.
+- **Real-time and model output, not a science archive** (contract point 7). Cross-check against GOES science data or OMNI before quoting.
+- Cross-check that passed: ISWA `goesp_xray_flux_P1M` peaked at 1.238e-5 W/m^2 at 2026-09-04 07:53 UT — M1.24 at 07:53, matching SpaceWeatherLive's independent flare list exactly.
+- Note the SDO images on `sdo.gsfc.nasa.gov` and the ISWA data feeds are **JPG/PNG browse products, not FITS** — no WCS, so they cannot back `plot_solar_regions` or any measurement.

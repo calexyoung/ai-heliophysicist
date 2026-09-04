@@ -10,36 +10,46 @@ import math
 import pytest
 
 from helio_agent.registry import run_tool
-from helio_agent.tools.flareprob import (_RATES, _ZURICH, poisson_probability,
-                                         zurich_class)
+from helio_agent.tools.flareprob import (_COMPACT, _PENUMBRAL, _RATES_COM,
+                                         _RATES_PEN, _RATES_ZUR, _ZURICH,
+                                         poisson_probability, zurich_class)
 
 
-def test_table_shape_is_complete():
-    """Three levels, seven starting classes, seven ending columns each."""
-    assert set(_RATES) == {"C", "M", "X"}
-    for lvl, rows in _RATES.items():
-        assert set(rows) == set(_ZURICH), lvl
+@pytest.mark.parametrize("table,alphabet", [
+    (_RATES_ZUR, _ZURICH), (_RATES_PEN, _PENUMBRAL), (_RATES_COM, _COMPACT),
+])
+def test_table_shape_is_complete(table, alphabet):
+    """Three levels, one row per starting class, one column per ending class."""
+    assert set(table) == {"C", "M", "X"}
+    for lvl, rows in table.items():
+        assert set(rows) == set(alphabet), lvl
         for start, row in rows.items():
-            assert len(row) == len(_ZURICH), f"{lvl} {start}"
+            assert len(row) == len(alphabet), f"{lvl} {start}"
 
 
-def test_empty_bins_are_identical_across_levels():
+@pytest.mark.parametrize("table,alphabet", [
+    (_RATES_ZUR, _ZURICH), (_RATES_PEN, _PENUMBRAL), (_RATES_COM, _COMPACT),
+])
+def test_empty_bins_are_identical_across_levels(table, alphabet):
     """A bin with no groups has no rate at any flare level — if the C table
     says a transition was never observed, M and X must agree."""
-    for start in _ZURICH:
-        for i in range(len(_ZURICH)):
-            missing = {lvl: _RATES[lvl][start][i] is None for lvl in ("C", "M", "X")}
-            assert len(set(missing.values())) == 1, (start, _ZURICH[i], missing)
+    for start in alphabet:
+        for i in range(len(alphabet)):
+            missing = {lvl: table[lvl][start][i] is None for lvl in ("C", "M", "X")}
+            assert len(set(missing.values())) == 1, (start, alphabet[i], missing)
 
 
-def test_rates_decrease_with_flare_magnitude():
+@pytest.mark.parametrize("table,alphabet", [
+    (_RATES_ZUR, _ZURICH), (_RATES_PEN, _PENUMBRAL), (_RATES_COM, _COMPACT),
+])
+def test_rates_decrease_with_flare_magnitude(table, alphabet):
     """A group cannot produce X flares faster than M, or M faster than C."""
-    for start in _ZURICH:
-        for i in range(len(_ZURICH)):
-            if _RATES["C"][start][i] is None:
+    for start in alphabet:
+        for i in range(len(alphabet)):
+            if table["C"][start][i] is None:
                 continue
-            c, m, x = (_RATES[lvl][start][i][0] for lvl in ("C", "M", "X"))
-            assert c >= m >= x, (start, _ZURICH[i], c, m, x)
+            c, m, x = (table[lvl][start][i][0] for lvl in ("C", "M", "X"))
+            assert c >= m >= x, (start, alphabet[i], c, m, x)
 
 
 @pytest.mark.parametrize("cls,expect", [
@@ -60,12 +70,12 @@ def test_poisson_probability():
     assert 0.0 <= poisson_probability(3.5, 24) <= 1.0
 
 
-def test_penumbral_and_compactness_letters_do_not_change_the_answer():
-    """Documented limitation: only the first letter is resolved, so these
-    must agree exactly — the tool must not imply a precision it lacks."""
+def test_headline_probability_stays_the_zurich_value():
+    """`probability` is documented as the Zurich figure; the other letters
+    live in `components` and must not silently move the headline."""
     a = run_tool("flare_probability", mcintosh_class="Hax")
     b = run_tool("flare_probability", mcintosh_class="Hsx")
-    assert a["levels"] == b["levels"]
+    assert a["levels"]["C"]["probability"] == b["levels"]["C"]["probability"]
 
 
 def test_window_scales_the_probability():
@@ -93,3 +103,57 @@ def test_refusals_are_explicit(kwargs, fragment):
     r = run_tool("flare_probability", **kwargs)
     assert r["status"] == "error"
     assert fragment in r["error"], r["error"]
+
+
+def test_all_three_mcintosh_letters_are_read():
+    """Hax and Hsx differ in the penumbral letter, and that letter has its own
+    table — so they must no longer be identical (they were, when only the
+    Zurich component was used)."""
+    a = run_tool("flare_probability", mcintosh_class="Hax")
+    s = run_tool("flare_probability", mcintosh_class="Hsx")
+    ca, cs = a["levels"]["C"]["components"], s["levels"]["C"]["components"]
+    assert ca["zurich"] == cs["zurich"]           # same first letter
+    assert ca["compactness"] == cs["compactness"]  # same third letter
+    assert ca["penumbral"] > cs["penumbral"]       # 'a' flares more than 's'
+    assert a["levels"]["C"]["component_span"] != s["levels"]["C"]["component_span"]
+
+
+def test_components_are_reported_not_multiplied():
+    """Three marginal tables must never be combined into a product — that
+    would imply independence the source does not establish."""
+    r = run_tool("flare_probability", mcintosh_class="Fkc")
+    c = r["levels"]["C"]
+    prod = 1.0
+    for v in c["components"].values():
+        prod *= v
+    assert abs(c["probability"] - prod) > 1e-6
+    assert c["probability"] == c["components"]["zurich"]
+    lo, hi = c["component_span"]
+    assert lo <= c["probability"] <= hi
+
+
+def test_component_span_brackets_every_available_component():
+    r = run_tool("flare_probability", mcintosh_class="Cao")
+    c = r["levels"]["C"]
+    vals = [v for v in c["components"].values() if v is not None]
+    assert c["component_span"] == [min(vals), max(vals)]
+
+
+def test_short_class_still_works_with_missing_letters():
+    """'H' alone has no penumbral or compactness letter; those come back
+    unavailable with a reason rather than silently defaulting."""
+    r = run_tool("flare_probability", mcintosh_class="H")
+    assert r["status"] == "ok"
+    cr = r["levels"]["C"]["component_rates"]
+    assert cr["zurich"]["available"] is True
+    assert cr["penumbral"]["available"] is False
+    assert "no valid penumbral letter" in cr["penumbral"]["reason"]
+
+
+def test_evolution_applies_per_component():
+    """Each letter is looked up with its own previous letter."""
+    r = run_tool("flare_probability", mcintosh_class="Dki", previous_class="Hsx")
+    cr = r["levels"]["C"]["component_rates"]
+    assert cr["zurich"]["previous"] == "H" and cr["zurich"]["letter"] == "D"
+    assert cr["penumbral"]["previous"] == "S" and cr["penumbral"]["letter"] == "K"
+    assert cr["compactness"]["previous"] == "X" and cr["compactness"]["letter"] == "I"
