@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-74 core tools in six families. Invoke any tool with
+76 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -10,8 +10,8 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 
 | Family | Tools |
 |---|---|
-| **discover** (12) | `get_noaa_realtime`, `get_solar_regions`, `get_sunspot_reports`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
-| **retrieve** (15) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
+| **discover** (13) | `get_noaa_realtime`, `get_solar_regions`, `get_sunspot_reports`, `list_cdaweb_variables`, `list_model_outputs`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
+| **retrieve** (16) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_model_output`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
 | **measure** (22) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `flare_probability`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
@@ -101,6 +101,26 @@ list_cdaweb_variables(dataset: 'str') -> 'dict'
 List the variables (names, units, descriptions) of a CDAWeb dataset ID.
 
 *Source: `helio_agent/tools/discover.py`*
+
+### `list_model_outputs`
+
+```python
+list_model_outputs(model: 'str | None' = None) -> 'dict'
+```
+
+CCMC model products on ISWA, with live coverage and a staleness flag.
+
+Coverage is read from the ISWA server on every call rather than baked in,
+because presence in the catalog does not mean a product is still running:
+SWMF2023's Dst log stopped in 2025-12 while its geomagnetic-index log is
+current. Each entry reports `stale` (no data in 30 days) so a dead run is
+never mistaken for a nowcast.
+
+model: 'swmf' or 'enlil' to filter. Returns `products`, each with the
+ISWA dataset id, the run version, coverage, `stale`, `days_behind`, and
+the column names `fetch_model_output` will produce.
+
+*Source: `helio_agent/tools/models_iswa.py`*
 
 ### `list_pyspedas_loaders`
 
@@ -323,6 +343,11 @@ server: e.g. 'https://cdaweb.gsfc.nasa.gov/hapi'.
 parameters: comma-separated parameter names ('' for all).
 Useful for sources not covered by a dedicated tool.
 
+Falls back to reading the server's /data CSV directly when hapiclient
+cannot build a dtype from the declared metadata — some servers (ISWA)
+declare a `float` type the HAPI spec does not define. The result's
+`reader` field says which path was used.
+
 *Source: `helio_agent/tools/retrieve.py`*
 
 ### `fetch_helioviewer_image`
@@ -356,6 +381,33 @@ provisional -> realtime and report which one answered). Final values are
 immutable; provisional/real-time get revised — always cite the revision.
 
 *Source: `helio_agent/tools/indices.py`*
+
+### `fetch_model_output`
+
+```python
+fetch_model_output(model: 'str', product: 'str', start: 'str', end: 'str', run: 'str | None' = None, satellite: 'str | None' = None, allow_stale: 'bool' = False) -> 'dict'
+```
+
+Fetch a CCMC model time series from ISWA into a workspace CSV.
+
+model / product: see `list_model_outputs`. SWMF products are 'dst'
+  (ring-current Dst plus cross-polar-cap potentials), 'geoindices'
+  (Kp, AE, AL, AO, AU), 'standoff' (magnetopause standoff in Re, and
+  whether geosynchronous orbit is outside it), 'goes_field' and 'themis'
+  (modelled field and plasma at those spacecraft).
+run: model version ('2023', '2011', '2008'). Default picks the newest run
+  whose coverage contains the window, and the result says which.
+satellite: required for 'goes_field' ('13'/'14'/'15') and 'themis'
+  ('A'..'E').
+allow_stale: a product with no data for 30 days is refused unless this is
+  set — a dead real-time run must not be passed off as a nowcast.
+
+Columns are renamed to `swmf_*` / `enlil_*` so model output can be merged
+against observations without colliding. **This is simulation output.**
+Real-time MHD underpredicts extreme storms: for 2024-05-10 SWMF2023 gives
+a Dst minimum of -316 nT against an observed SYM-H of -518 nT.
+
+*Source: `helio_agent/tools/models_iswa.py`*
 
 ### `fetch_omni`
 

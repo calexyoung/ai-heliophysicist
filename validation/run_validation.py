@@ -592,6 +592,77 @@ def case_sunspot_reports() -> None:
           stale.get("error", "")[:130])
 
 
+def case_model_output() -> None:
+    """CCMC SWMF real-time model output via ISWA, against a measured storm.
+
+    Anchor: the 2024-05-10 Gannon storm, whose observed SYM-H minimum is
+    -518 nT at 2024-05-11 02:14 UT (Hajra et al. 2024, ApJ; reproduced from
+    1-min OMNI by this repo's storm_metrics). SWMF's real-time run is a
+    magnetohydrodynamic simulation driven by L1 data as it arrived, and
+    real-time MHD is known to underpredict great storms: the modelled Dst
+    minimum must reach beyond -200 nT (so the model does see a great storm),
+    land within 6 h of the observed minimum, and sit between 40% and 85% of
+    the observed depth. Getting the timing while missing the depth is the
+    documented behaviour, and the tool's note says so.
+
+    Also checks the plumbing this needed: ISWA declares a `float` parameter
+    type that the HAPI spec does not define, which makes hapiclient raise
+    inside its dtype construction, so fetch_hapi must fall back to reading
+    the server's CSV directly — and must still use hapiclient where the
+    metadata is conformant.
+    """
+    import pandas as pd
+
+    r = run_tool("fetch_model_output", model="swmf", product="dst",
+                 start="2024-05-10T00:00:00Z", end="2024-05-12T12:00:00Z",
+                 allow_stale=True)
+    if r["status"] != "ok":
+        check("models.swmf_gannon", False, r.get("error", ""))
+    else:
+        d = pd.read_csv(r["file"], index_col=0, parse_dates=True)
+        mn = float(d["swmf_dst"].min())
+        t_mn = pd.Timestamp(d["swmf_dst"].idxmin()).tz_localize(None)
+        dt_h = abs((t_mn - pd.Timestamp("2024-05-11 02:14")).total_seconds()) / 3600
+        frac = mn / -518.0
+        ok = (r["is_model_output"] and mn <= -200 and dt_h <= 6
+              and 0.40 <= frac <= 0.85)
+        check("models.swmf_gannon", ok,
+              f"SWMF run {r['run']} Dst minimum {mn:.0f} nT at {t_mn} — "
+              f"{dt_h:.1f} h from the observed SYM-H minimum and "
+              f"{frac * 100:.0f}% of its -518 nT depth (real-time MHD "
+              f"underpredicts great storms); {r['n_records']} samples")
+
+    iswa = "https://iswa.ccmc.gsfc.nasa.gov/IswaSystemWebApp/hapi"
+    fl = run_tool("fetch_hapi", server=iswa, dataset="SWMF2023_RT_GEOIndices_P1M",
+                  parameters="KP,AE", start="2024-05-10T00:00:00Z",
+                  end="2024-05-10T06:00:00Z")
+    db = run_tool("fetch_hapi", server=iswa, dataset="goesp_xray_flux_P1M",
+                  parameters="Short_Wave,Long_Wave",
+                  start="2024-05-10T00:00:00Z", end="2024-05-10T06:00:00Z")
+    ok2 = (fl["status"] == "ok" and "direct-csv" in fl.get("reader", "")
+           and db["status"] == "ok" and db.get("reader") == "hapiclient")
+    check("models.hapi_float_fallback", ok2,
+          f"ISWA float-typed dataset read via {fl.get('reader')} "
+          f"({fl.get('n_records')} rows); spec-conformant double-typed dataset "
+          f"still via {db.get('reader')} ({db.get('n_records')} rows)")
+
+    stale = run_tool("fetch_model_output", model="swmf", product="dst",
+                     start="2024-05-10T00:00:00Z", end="2024-05-12T00:00:00Z")
+    enlil = run_tool("fetch_model_output", model="enlil", product="kp",
+                     start="2026-01-01T00:00:00Z", end="2026-01-02T00:00:00Z")
+    live = run_tool("list_model_outputs", model="swmf")
+    n_live = sum(1 for e in live["products"]
+                 if e.get("available") and not e.get("stale"))
+    ok3 = (stale["status"] == "error" and "not a nowcast" in stale["error"]
+           and enlil["status"] == "error" and "covers" in enlil["error"]
+           and live["status"] == "ok" and n_live >= 1)
+    check("models.staleness_and_enlil", ok3,
+          f"a stopped real-time run is refused as a nowcast unless "
+          f"allow_stale; ENLIL is refused with its real coverage "
+          f"(historical only on this server); list_model_outputs finds "
+          f"{n_live} live SWMF product(s) of {len(live['products'])}")
+
+
 def case_extreme_value() -> None:
     """POT/GPD on the 61-year hourly Dst record.
 
@@ -1084,6 +1155,7 @@ CASES = {
     "regions": case_plot_solar_regions,
     "flareprob": case_flare_probability,
     "sunspots": case_sunspot_reports,
+    "models": case_model_output,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

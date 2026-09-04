@@ -264,6 +264,39 @@ def fetch_spacecraft_ephemeris(spacecraft: list[str], start: str, end: str,
             "artifacts": [str(fpath)]}
 
 
+def _hapi_csv_fallback(server: str, dataset: str, parameters: str,
+                       start: str, end: str):
+    """Read a HAPI server's /data CSV directly, bypassing hapiclient.
+
+    Needed because hapiclient builds its numpy dtype straight from the
+    declared parameter types and crashes on anything outside the HAPI spec's
+    `double` / `integer` / `string` / `isotime`. ISWA (CCMC) declares
+    `float`, which is not a HAPI type, so hapiclient raises `IndexError:
+    tuple index out of range` inside `_compute_dt` for those datasets — a
+    server-side spec violation, not a bad request. The CSV itself is
+    well-formed, so parsing it directly recovers the data.
+    """
+    import pandas as pd
+
+    info = cached_get(f"{server.rstrip('/')}/info", params={"id": dataset},
+                      timeout=60, ttl_seconds=3600)
+    info.raise_for_status()
+    meta = info.json()
+    declared = [p["name"] for p in meta.get("parameters", [])]
+    wanted = [p.strip() for p in parameters.split(",") if p.strip()]
+    names = ([declared[0]] + [n for n in wanted if n != declared[0]]
+             if wanted else declared)
+    r = cached_get(f"{server.rstrip('/')}/data",
+                   params={"id": dataset, "parameters": ",".join(names[1:]) or None,
+                           "time.min": start, "time.max": end, "format": "csv"},
+                   timeout=180)
+    r.raise_for_status()
+    from io import StringIO
+    df = pd.read_csv(StringIO(r.text), header=None)
+    df.columns = names[:len(df.columns)]
+    return df, meta
+
+
 @tool(family="retrieve")
 def fetch_hapi(server: str, dataset: str, parameters: str, start: str, end: str) -> dict:
     """Fetch time series from any HAPI-compliant server into a CSV.
@@ -271,14 +304,33 @@ def fetch_hapi(server: str, dataset: str, parameters: str, start: str, end: str)
     server: e.g. 'https://cdaweb.gsfc.nasa.gov/hapi'.
     parameters: comma-separated parameter names ('' for all).
     Useful for sources not covered by a dedicated tool.
+
+    Falls back to reading the server's /data CSV directly when hapiclient
+    cannot build a dtype from the declared metadata — some servers (ISWA)
+    declare a `float` type the HAPI spec does not define. The result's
+    `reader` field says which path was used.
     """
     import pandas as pd
-    from hapiclient import hapi
 
-    data, meta = hapi(server, dataset, parameters, start, end)
-    names = [p["name"] for p in meta["parameters"]]
-    df = pd.DataFrame(data)
-    df.columns = names[:len(df.columns)]
+    reader = "hapiclient"
+    try:
+        from hapiclient import hapi
+        data, meta = hapi(server, dataset, parameters, start, end)
+        names = [p["name"] for p in meta["parameters"]]
+        df = pd.DataFrame(data)
+        df.columns = names[:len(df.columns)]
+    except Exception as exc:  # noqa: BLE001
+        try:
+            df, meta = _hapi_csv_fallback(server, dataset, parameters, start, end)
+            reader = f"direct-csv (hapiclient failed: {type(exc).__name__})"
+        except Exception as exc2:  # noqa: BLE001
+            return {"status": "error",
+                    "error": f"HAPI fetch failed for {dataset}: hapiclient "
+                             f"{type(exc).__name__}: {exc}; direct CSV "
+                             f"{type(exc2).__name__}: {exc2}"}
+    if df.empty:
+        return {"status": "error",
+                "error": f"{dataset} returned no rows for {start}..{end}"}
     tcol = df.columns[0]
     df[tcol] = pd.to_datetime(df[tcol].str.decode("utf-8", errors="ignore")
                               if df[tcol].dtype == object else df[tcol])
@@ -287,7 +339,7 @@ def fetch_hapi(server: str, dataset: str, parameters: str, start: str, end: str)
     fpath = data_path(fname)
     _series_to_csv(df, fpath)
     return {"file": str(fpath), "n_records": len(df), "columns": list(df.columns),
-            "artifacts": [str(fpath)]}
+            "reader": reader, "artifacts": [str(fpath)]}
 
 
 @tool(family="retrieve")

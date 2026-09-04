@@ -15,6 +15,7 @@ from helio_agent.tools import (  # noqa: F401
     reduce,
     measure,
     models,
+    models_iswa,
     protons,
     radio,
     regions,
