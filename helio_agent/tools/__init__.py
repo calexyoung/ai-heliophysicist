@@ -14,6 +14,7 @@ from helio_agent.tools import (  # noqa: F401
     reduce,
     measure,
     models,
+    protons,
     radio,
     literature,
     magnetogram,

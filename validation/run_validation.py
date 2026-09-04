@@ -542,6 +542,115 @@ def case_characterize_sep() -> None:
           f"{ph['dispersion_minutes']} min, connection {ph['connection_angle_deg']} deg")
 
 
+def case_goes_protons() -> None:
+    """GOES integral proton flux: the measured legacy archive, the derived
+    GOES-R reconstruction, and a two-spacecraft cross-check.
+
+    Anchor 1 (measured): NOAA/SWPC put the 2017-09-10 S3 radiation storm's
+    GOES >10 MeV peak at 1490 pfu on 2017-09-11 11:45 UT. This reads the
+    same EPEAD 'cpflux' archive SWPC did, so it must land within 200 pfu and
+    30 minutes -- far tighter than the OMNI-based sep case, which sees a
+    different sensor chain.
+
+    Anchor 2 (method): the GOES-R era has no archived >10 MeV integral
+    channel, so fetch_goes_protons integrates the SGPS differential
+    spectrum. Checked against SWPC's own operational 7-day feed on a window
+    two days back (NCEI lags ~1 day, SWPC keeps 7, so the overlap always
+    exists). p_gt10 must sit within 0.7-1.4x of the operational value and
+    the passthrough p_gt500 within 0.9-1.1x. p_gt30 and above are NOT
+    checked here: at quiet background they run 2-3x low by construction
+    (GCR above ~390 MeV is unsampled), which the tool's note states.
+
+    Anchor 3 (independent instrument): GOES-16 (GOES-East) and GOES-18
+    (GOES-West) are separate spacecraft with separate SGPS units. Across the
+    2024-05-10 Gannon SEP event their derived >10 MeV series must track each
+    other to within 30% in the median while the event is above 50 pfu, and
+    both must reach S2 (>=100 pfu). Instantaneous peaks are deliberately NOT
+    compared: the prompt onset is strongly anisotropic, and the two
+    spacecraft sit at different magnetic local times, so GOES-16 reads about
+    twice GOES-18 for the ~1 h spike while the rest of the event agrees to a
+    few percent. That spread is physics, not a reduction error.
+    """
+    from datetime import datetime, timedelta, timezone
+
+    import pandas as pd
+    import requests
+
+    # --- anchor 1: measured legacy archive, 2017-09-10 S3 event ---
+    r = run_tool("fetch_goes_protons", start="2017-09-09T00:00:00Z",
+                 end="2017-09-16T00:00:00Z", satellite="goes13")
+    if r["status"] != "ok":
+        check("protons.legacy20170910", False, r.get("error", ""))
+    else:
+        df = pd.read_csv(r["file"], index_col=0, parse_dates=True)
+        peak, t_peak = df["p_gt10"].max(), df["p_gt10"].idxmax()
+        d_min = abs((t_peak - pd.Timestamp("2017-09-11 11:45")).total_seconds()) / 60
+        ok = (not r["derived"] and abs(peak - 1490) <= 200 and d_min <= 30
+              and df["p_gt100"].max() > df["p_gt10"].max() * 1e-3)
+        check("protons.legacy20170910", ok,
+              f"measured >10 MeV peak {peak:.0f} pfu at {t_peak} "
+              f"({d_min:.0f} min off 11:45; SWPC 1490), >100 MeV peak "
+              f"{df['p_gt100'].max():.1f} pfu, {r['n_records']} samples "
+              f"from {r['source']}")
+
+    # --- anchor 2: derived GOES-R vs the SWPC operational feed ---
+    feed = ("https://services.swpc.noaa.gov/json/goes/primary/"
+            "integral-protons-7-day.json")
+    try:
+        rows = requests.get(feed, timeout=90).json()
+    except Exception as exc:  # noqa: BLE001
+        check("protons.derived_vs_swpc", False, f"SWPC feed unreachable: {exc}")
+        rows = None
+    if rows:
+        sat = f"goes{sorted({d['satellite'] for d in rows})[-1]}"
+        b = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0,
+                                               microsecond=0) - timedelta(days=2)
+        a = b - timedelta(days=2)
+        g = run_tool("fetch_goes_protons", start=a.strftime("%Y-%m-%dT00:00:00Z"),
+                     end=b.strftime("%Y-%m-%dT00:00:00Z"), satellite=sat)
+        if g["status"] != "ok":
+            check("protons.derived_vs_swpc", False, g.get("error", ""))
+        else:
+            d = pd.read_csv(g["file"], index_col=0, parse_dates=True)
+            ratios = {}
+            for lbl, col in ((">=10 MeV", "p_gt10"), (">=500 MeV", "p_gt500")):
+                sw = pd.Series({pd.Timestamp(x["time_tag"]).tz_localize(None):
+                                x["flux"] for x in rows if x["energy"] == lbl})
+                sw = sw.sort_index().resample("5min").mean()
+                m = pd.concat([d[col].rename("o"), sw.rename("s")], axis=1,
+                              sort=True).dropna()
+                ratios[col] = float((m["o"] / m["s"]).median()) if len(m) else float("nan")
+            ok = (g["derived"] and 0.7 <= ratios["p_gt10"] <= 1.4
+                  and 0.9 <= ratios["p_gt500"] <= 1.1)
+            check("protons.derived_vs_swpc", ok,
+                  f"{sat} {a:%Y-%m-%d}..{b:%Y-%m-%d}: derived/operational "
+                  f">10 MeV {ratios['p_gt10']:.2f}x, >500 MeV passthrough "
+                  f"{ratios['p_gt500']:.2f}x")
+
+    # --- anchor 3: GOES-16 vs GOES-18 on the 2024-05-10 Gannon SEP ---
+    series = {}
+    for sat in ("goes16", "goes18"):
+        g = run_tool("fetch_goes_protons", start="2024-05-10T00:00:00Z",
+                     end="2024-05-13T00:00:00Z", satellite=sat)
+        if g["status"] != "ok":
+            check("protons.gannon2024", False, f"{sat}: {g.get('error', '')}")
+            return
+        series[sat] = pd.read_csv(g["file"], index_col=0,
+                                  parse_dates=True)["p_gt10"]
+    both = pd.concat([series["goes16"].rename("g16"),
+                      series["goes18"].rename("g18")], axis=1, sort=True).dropna()
+    event = both[both["g18"] >= 50.0]
+    ratio = float((event["g16"] / event["g18"]).median()) if len(event) else float("nan")
+    peaks = {s: float(v.max()) for s, v in series.items()}
+    ok = (0.7 <= ratio <= 1.3 and len(event) >= 50
+          and min(peaks.values()) >= 100)  # both reach S2
+    check("protons.gannon2024", ok,
+          f"GOES-16 vs GOES-18 over the event ({len(event)} samples above 50 "
+          f"pfu): median >10 MeV ratio {ratio:.2f}x; peaks "
+          f"{peaks['goes16']:.0f} / {peaks['goes18']:.0f} pfu (both S2; the "
+          f"prompt spike is anisotropic)")
+
+
 def case_radio_bursts() -> None:
     """WIND/WAVES radio bursts for the 2017-09-06 X9.3 flare.
 
@@ -681,6 +790,7 @@ CASES = {
     "cmearrival": case_cme_arrival,
     "icme": case_detect_icme,
     "sep": case_characterize_sep,
+    "protons": case_goes_protons,
     "radio": case_radio_bursts,
     "hindcast": case_hindcast,
     "magnetogram": case_magnetogram,

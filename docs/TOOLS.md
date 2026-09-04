@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-70 core tools in six families. Invoke any tool with
+71 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -11,7 +11,7 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | Family | Tools |
 |---|---|
 | **discover** (11) | `get_noaa_realtime`, `get_solar_regions`, `list_cdaweb_variables`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
-| **retrieve** (14) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
+| **retrieve** (15) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
 | **measure** (21) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
@@ -212,6 +212,45 @@ SN (sunspot number), Fobs (F10.7). start/end: ISO dates or datetimes.
 Keyless JSON API; status column 'def' = definitive, 'nowcast' = may revise.
 
 *Source: `helio_agent/tools/indices.py`*
+
+### `fetch_goes_protons`
+
+```python
+fetch_goes_protons(start: 'str', end: 'str', resolution: 'str' = '5min', satellite: 'str | None' = None, sensor: 'str' = 'max') -> 'dict'
+```
+
+Fetch GOES integral proton flux (pfu) for the NOAA S-scale channels.
+
+Writes a CSV indexed by 'time' with columns p_gt1, p_gt5, p_gt10, p_gt30,
+p_gt50, p_gt60, p_gt100 in pfu (protons cm^-2 s^-1 sr^-1) -- the columns
+characterize_sep expects, e.g. flux_10mev_column='p_gt10'. GOES-R files
+also carry p_gt500, the measured >500 MeV integral channel.
+
+Two eras, and the result says which was used:
+
+* start before 2020-03-05 -> GOES 8-15 EPEAD 'cpflux', a **measured,
+  archival** integral product (5-minute only; resolution='1min' is an
+  error here, not a downgrade). derived=False.
+* start after -> GOES 16-19 SEISS/SGPS L2, whose archive has no >10 MeV
+  integral channel, so a piecewise power law through the 13 differential
+  channels is integrated above each threshold. derived=True; these are
+  reconstructed values, not the SWPC operational product. Against SWPC's
+  operational feed at quiet background, p_gt1..p_gt10 agree to ~15%
+  while p_gt30 and above run 2-3x low (GCR above the SGPS differential
+  range) -- read those as a lower bound outside an SEP event.
+
+resolution: '1min' or '5min' (GOES-R only offers both; legacy is 5min).
+satellite: 'goes13', 'goes16', ... Default picks the highest-numbered
+  spacecraft that covers the whole window.
+sensor: 'max' (default, the larger of the two oppositely-looking
+  telescopes per sample -- SWPC alerting practice), 'mean', 'east'/'west'
+  (legacy detector labels), or 'unit0'/'unit1' (GOES-R -X/+X telescopes,
+  in file order; see the file's sgps_mx/px_instrument_id attributes).
+
+A window straddling 2020-03-04 is refused: it would mix instruments and
+mix measured with derived values in one file.
+
+*Source: `helio_agent/tools/protons.py`*
 
 ### `fetch_goes_xrs`
 

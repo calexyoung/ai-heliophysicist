@@ -202,7 +202,8 @@ def characterize_sep(file: str, flux_10mev_column: str,
         return {"status": "error",
                 "error": f"no valid {flux_10mev_column} samples in the window (all fill) — "
                          "this dataset may not cover the event's era (OMNI proton "
-                         "fluxes end 2020-03; use GOES integral channels after that)"}
+                         "fluxes end 2020-03; use fetch_goes_protons for GOES "
+                         "integral channels, which cover 1986 to the present)"}
     flare_peak = None
     if flare_peak_time:
         flare_peak = _parse_flare_time(flare_peak_time)

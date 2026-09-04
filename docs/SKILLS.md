@@ -2,7 +2,7 @@
 
 *Generated from `skills/` by `scripts/gen_docs.py` — do not edit by hand.*
 
-45 knowledge documents the agent must read before acting
+46 knowledge documents the agent must read before acting
 (see `skills/README.md` for the composition rule: method + mission +
 datasource). Each entry shows the document's own one-line summary.
 
@@ -43,12 +43,13 @@ datasource). Each entry shows the document's own one-line summary.
 | [Timing and Periodicity Analysis](../skills/methods/timing_periodicity.md) | Find and validate periodic signals in solar and solar-wind time series, including gappy data. |
 | [Troubleshooting Data Retrieval and Processing](../skills/methods/troubleshooting.md) | Failure signatures in heliophysics data work, and whether to retry, fix, or re-plan. |
 
-## Data source guides (`skills/datasources/`, 11)
+## Data source guides (`skills/datasources/`, 12)
 
 | Document | Summary |
 |---|---|
 | [CDAWeb](../skills/datasources/cdaweb.md) | NASA's Coordinated Data Analysis Web — the workhorse archive for heliophysics in-situ time series. |
 | [DONKI](../skills/datasources/donki.md) | NASA CCMC's Space Weather Database Of Notifications, Knowledge, Information — human-curated space weather event catalog with linkages. |
+| [NOAA NCEI GOES Particle Archives](../skills/datasources/goes_ncei.md) | The science-quality GOES proton record, in two incompatible halves: measured integral channels through 2020-03-04, and a differential-only GOES-R archive after it. |
 | [HAPI (Heliophysics Application Programmer's Interface)](../skills/datasources/hapi.md) | A standard REST interface for time-series data adopted by many heliophysics servers — one client, many archives. |
 | [HEK (Heliophysics Event Knowledgebase)](../skills/datasources/hek.md) | Searchable catalog of solar events and features (flares, CMEs, active regions, coronal holes...) hosted at LMSAL. |
 | [Helio Data Portal (helio.data.nasa.gov)](../skills/datasources/heliodata.md) | NASA's new unified heliophysics data discovery portal — search >7800 datasets across the division from one place. |
