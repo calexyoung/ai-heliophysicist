@@ -195,3 +195,13 @@ made this the largest storm in two decades was in the sheath, not the ejecta.
 Every headline number above reproduces the published record, which is the
 point of running it: the tool chain, on public data, gets the same answer as
 the papers.
+
+## Input pin
+
+Every number above comes from one CDAWeb fetch of 1-min OMNI, and that fetch
+does not pass through this repo's HTTP cache — CDAWeb data arrives via
+`cdasws`, a library-managed transfer. So a reprocessing upstream would move
+these values silently. `validation/run_validation.py omnipin` pins the window:
+8641 records, the valid-sample counts including the 32.6% plasma gap noted
+above, and the SYM-H / Bz / |B| / speed extrema with their timestamps. It
+fails loudly and names this file if the reanalysis changes.

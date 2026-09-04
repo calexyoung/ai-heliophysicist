@@ -13,7 +13,7 @@ PlasmaPy, geopack, aiapy, hapiclient, cdflib).
 **The LLM writes no pipelines and computes no science numbers itself.**
 Every result is audit-logged and traceable to the exact tool call that
 produced it. The 28-check live suite covers published, analytic, and
-cross-implementation anchors: of 76 tools, 37 are directly exercised there;
+cross-implementation anchors: of 76 tools, 39 are directly exercised there;
 supporting tools are guarded by offline tests, schema locks, and validated
 composition rather than falsely described as individually published anchors.
 

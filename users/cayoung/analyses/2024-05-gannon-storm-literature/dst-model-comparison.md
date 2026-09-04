@@ -199,3 +199,10 @@ difference for 8641 records to have been on disk). Reproducibility for the
 OMNI half therefore rests on CDAWeb serving the same reanalysis, not on a
 local cache. The SWMF half is an archived run that stopped in December 2025,
 so it is fixed by construction.
+
+**That exposure is now pinned.** `validation/run_validation.py omnipin`
+fetches this exact window and asserts the record and valid-sample counts, the
+SYM-H, Bz, |B| and speed extrema with their timestamps, and the hourly SYM-H
+minimum the comparison above uses. If CDAWeb reissues OMNI the case fails with
+"OMNI REANALYSIS MOVED" and names which write-ups to re-run. Verified to
+actually trip by perturbing a pinned value.

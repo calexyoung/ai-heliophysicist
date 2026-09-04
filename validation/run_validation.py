@@ -663,6 +663,92 @@ def case_model_output() -> None:
           f"{n_live} live SWMF product(s) of {len(live['products'])}")
 
 
+def case_omni_reanalysis_pin() -> None:
+    """Tripwire on the 1-min OMNI reanalysis the Gannon analyses rest on.
+
+    The cold-cache reproduction on 2026-09-04 showed that `fetch_omni` does
+    not go through the content-addressed HTTP cache at all — CDAWeb data
+    arrives via `cdasws`, a library-managed transfer, as `helio_agent/http.py`
+    states. So nothing local pins those inputs: if CDAWeb reprocesses OMNI,
+    every number in
+    `users/cayoung/analyses/2024-05-gannon-storm-literature/` moves and
+    nothing would notice. This case notices.
+
+    Anchors, all independently corroborated in the literature rather than
+    only by this repo: SYM-H minimum -518 nT at 2024-05-11 02:14 UT and peak
+    southward Bz -47.9 nT at 00:36 UT are both quoted by Hajra, Tsurutani,
+    Lakhina, Lu & Du (2024, ApJ) for this storm; peak |B| near 70 nT matches
+    their wave-compressed sheath figure of ~71 nT.
+
+    Also pinned: the record and valid-sample counts, which are the most
+    sensitive thing to a reprocessing — a third of the plasma record in this
+    window is absent, and that gap pattern is quoted in the write-ups.
+
+    A failure here is not necessarily a bug. It most likely means CDAWeb
+    reissued OMNI, in which case the analyses need re-running and their
+    numbers updating, deliberately.
+    """
+    import pandas as pd
+
+    window = dict(start="2024-05-09T00:00:00Z", end="2024-05-15T00:00:00Z")
+    r = run_tool("fetch_omni", resolution="1min",
+                 variables=["F", "BY_GSM", "BZ_GSM", "flow_speed",
+                            "proton_density", "T", "SYM_H", "Pressure"],
+                 **window)
+    if r["status"] != "ok":
+        check("omni.pin_gannon", False, r.get("error", ""))
+        return
+
+    df = pd.read_csv(r["file"], index_col=0, parse_dates=True)
+    counts = {c: int(df[c].notna().sum()) for c in df.columns}
+    expect_counts = {"F": 7557, "BY_GSM": 7557, "BZ_GSM": 7557,
+                     "flow_speed": 5824, "proton_density": 5824, "T": 5824,
+                     "SYM_H": 8641, "Pressure": 5824}
+    count_drift = {c: (counts.get(c), n) for c, n in expect_counts.items()
+                   if counts.get(c) != n}
+
+    extrema, drift = {}, []
+    for col, mode, want_v, want_t in (
+            ("SYM_H", "min", -518.0, "2024-05-11 02:14:00"),
+            ("BZ_GSM", "min", -47.85, "2024-05-11 00:36:00"),
+            ("F", "max", 69.99, "2024-05-11 00:06:00"),
+            ("flow_speed", "max", 1025.9, "2024-05-12 01:17:00")):
+        e = run_tool("find_extrema", file=r["file"], column=col, mode=mode)
+        extrema[col] = (e["value"], str(e["time"]))
+        if abs(e["value"] - want_v) > 0.01 or str(e["time"]) != want_t:
+            drift.append(f"{col} {mode}: {e['value']:.2f} at {e['time']} "
+                         f"(pinned {want_v} at {want_t})")
+
+    h = run_tool("resample_series", file=r["file"], cadence="1h",
+                 out_name="_validation_omni_1h.csv")
+    hm = run_tool("find_extrema", file=h["file"], column="SYM_H", mode="min")
+    hourly_ok = (abs(hm["value"] - (-436.0333)) < 0.01
+                 and str(hm["time"]) == "2024-05-11 02:00:00"
+                 and h["n_records"] == 145)
+
+    ok = (r["n_records"] == 8641 and not count_drift and not drift and hourly_ok)
+    detail = (f"1-min OMNI 2024-05-09..15 unchanged: {r['n_records']} records, "
+              f"SYM-H min {extrema['SYM_H'][0]:.1f} nT at {extrema['SYM_H'][1]} "
+              f"(Hajra 2024: -518 at 02:14), Bz min {extrema['BZ_GSM'][0]:.2f} nT "
+              f"at {extrema['BZ_GSM'][1]} (Hajra: 47.9 at 00:36), |B| max "
+              f"{extrema['F'][0]:.2f} nT, V max {extrema['flow_speed'][0]:.1f} "
+              f"km/s; plasma coverage {counts['flow_speed']}/{r['n_records']} "
+              f"({100 * (1 - counts['flow_speed'] / r['n_records']):.1f}% missing); "
+              f"hourly SYM-H min -436.0 at 02:00")
+    if not ok:
+        detail = ("OMNI REANALYSIS MOVED — CDAWeb has most likely reissued "
+                  "this window. Re-run and update the write-ups in "
+                  "users/cayoung/analyses/2024-05-gannon-storm-literature/. "
+                  + "; ".join(drift)
+                  + (f" count drift {count_drift}" if count_drift else "")
+                  + (f" n_records {r['n_records']} (pinned 8641)"
+                     if r["n_records"] != 8641 else "")
+                  + ("" if hourly_ok else
+                     f" hourly SYM-H min {hm['value']:.2f} at {hm['time']} "
+                     f"over {h['n_records']} rows (pinned -436.03 at 02:00, 145)"))
+    check("omni.pin_gannon", ok, detail)
+
+
 def case_extreme_value() -> None:
     """POT/GPD on the 61-year hourly Dst record.
 
@@ -1156,6 +1242,7 @@ CASES = {
     "flareprob": case_flare_probability,
     "sunspots": case_sunspot_reports,
     "models": case_model_output,
+    "omnipin": case_omni_reanalysis_pin,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,
