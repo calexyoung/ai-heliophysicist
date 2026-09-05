@@ -228,7 +228,8 @@ for key, ev, det in TRK:
 add("")
 add("**The Earth-directed CME cannot be measured by plane-of-sky "
     "height-time, and that is the physics, not a shortcoming.** "
-    f"`track_cme_front` refuses it: in C3, **{fmt(g('S3_track_c3_x18','halo_fraction_peak'),3)}** "
+    "`track_cme_front` refuses it: in C3, "
+    f"**{(g('S3_track_c3_x18','halo_fraction_peak') or 0) * 100:.0f}%** "
     "of position angles brighten simultaneously. A full halo leaves no "
     "quiet reference annulus, so azimuthal contrast has nothing to "
     "measure against — which is exactly *why* the CME was Earth-directed, "
@@ -265,9 +266,12 @@ for e in sorted(g("S3_donki_cme", "events", default=[]),
         f"{fmt(e.get('longitude'),3)} | {fmt(e.get('latitude'),3)} | "
         f"{fmt(e.get('halfAngle'),3)} | {e.get('type')} |")
 add("\nThe two fastest belong to the 9 October 02:12 CME, at longitude "
-    "8–19° and latitude 9–13° — which matches AR 13848's N13W08 to within "
-    "the fit uncertainty, and confirms the association independently of "
-    "the flare timing.\n")
+    "8–19° and latitude 9–13° — matching AR 13848's N13W08 to within the "
+    "fit uncertainty. That is consistent with the association, but it is "
+    "**not** an independent confirmation: DONKI's cone fits are made by "
+    "analysts who know where the flare was, so the source location can "
+    "enter the fit as a prior. The independent check is the timing — the "
+    "CME appears in the coronagraph 16 minutes after the X1.8 peak.\n")
 L.extend(embed("S3_fig_c3_x18", "LASCO C3 running difference, 9 October. "
                                 "The disturbance fills every position "
                                 "angle — the visual signature of the halo "
@@ -301,9 +305,12 @@ if sep:
         "conclusion from a second direction: >30 MeV peaks at "
         f"{str(sep.get('peak_30mev',{}).get('time'))[:16]} — near the flare, "
         "as a prompt component should — while >10 MeV peaks a day later at "
-        "the shock. Shock acceleration is efficient at 10 MeV and much less "
-        "so at 30, so the low-energy channel gets a second, larger peak that "
-        "the high-energy one does not.\n")
+        "the shock. The standard reading is that shock acceleration is "
+        "efficient at 10 MeV and much less so at 30, giving the low-energy "
+        "channel a second and larger peak the high-energy one does not get. "
+        "This analysis measures the 26-hour separation; it does not "
+        "establish the mechanism, which would need the spectral evolution "
+        "through the event rather than two peak times.\n")
     add("The tool reaches the same conclusion from the connection geometry, "
         "independently of that timing: "
         f"`well_connected: {phy.get('well_connected')}`, with a Parker "
@@ -416,9 +423,15 @@ add(f"The Kyoto **{g('S1_dst_kyoto','revision')}** hourly Dst minimum is "
     f"`{aud('S1_dst_kyoto')}`) against a 1-minute SYM-H minimum of "
     f"**{fmt(st6.get('dst_min_nT'),4)} nT**. Both are correct. Hourly Dst "
     "from four stations averages away the sharp minimum that SYM-H's "
-    "six-station 1-minute index resolves, so Dst is always the shallower "
-    "number. **§8 turns on this distinction** — one published SYM-H value "
-    "matches the Dst series rather than the SYM-H series.\n")
+    "six-station 1-minute index resolves, so Dst is usually — not always — "
+    "the shallower number.\n")
+add("Checked across the 19 intense storms in `../dst-model-saturation/`: "
+    "the 1-minute SYM-H minimum is deeper than the hourly Dst minimum in "
+    "**17**, equal in 1 (2015-03-17), and *shallower* in 1 (1999-10-22, "
+    "Dst −237 against SYM-H −228 nT). The gap runs from 0 to 112 nT and is "
+    "widest for May 2024 — the index distinction matters most for exactly "
+    "the events people write about. **§8 turns on it**: one published SYM-H "
+    "value matches the Dst series rather than the SYM-H series.\n")
 add("### Sheath or ejecta?\n")
 ic = ST.get("S6_icme", {})
 core = ic.get("icme") or {}
@@ -455,9 +468,12 @@ if core:
     add("**But do not read a pattern into two events — that was tested and "
         "it does not generalise.** `../sheath-vs-ejecta/` runs the same "
         "attribution over all 40 storms below Dst −200 nT since 1981 and "
-        "finds 10 sheath against 8 ejecta: close to even. Sheath-driving "
-        "does dominate at the deep end (8 of 10 below −250 nT against 2 of "
-        "9 between −250 and −200), which is a known result — Gonzalez et "
+        "finds **8 sheath against 8 ejecta** — exactly even — on the 1995+ "
+        "sample where L1 coverage is complete. (A 1981-start count reads "
+        "10 against 8, but 19 of its 21 unattributable storms predate Wind "
+        "and ACE, so it mixes two observing eras.) Sheath-driving does "
+        "dominate at the deep end, **6 of 8 below −250 nT against 2 of 9 "
+        "between −250 and −200**, which is a known result — Gonzalez et "
         "al. (2011) treat superintense storms as a separate category for "
         "exactly this reason. That study also found three defects in "
         "`detect_icme` that this section's numbers depend on; they are "
@@ -486,14 +502,23 @@ if ok("S6_model_dst"):
     add(f"- Model minimum {fmt(md.get('model_min_nT'),4)} nT against an "
         f"observed hourly minimum of {fmt(sk.get('obs_min_nT'),4)} nT — "
         f"**a {fmt(sk.get('min_error_nT'),3)} nT miss at the peak**\n")
-    add("**The comparison with May 2024 is the interesting part.** The same "
-        "model on the same index missed May's peak by **163 nT**; here it "
-        f"misses by **{fmt(sk.get('min_error_nT'),3)} nT**. The "
-        "O'Brien–McPherron coupling function was fitted on ordinary storms "
-        "and saturates on the largest ones: at −334 nT it is still inside "
-        "its calibrated range, at −518 nT it is not. A shallower storm "
-        "being better predicted is not a coincidence — it is the "
-        "saturation showing itself.\n")
+    add("**The comparison with May 2024 needs care.** The same model on the "
+        "same index missed May's peak by **163 nT**; here it misses by "
+        f"**{fmt(sk.get('min_error_nT'),3)} nT**. It is tempting to read "
+        "that as the O'Brien–McPherron coupling function saturating outside "
+        "its calibrated range — and `../dst-model-saturation/` tested "
+        "exactly that against 19 storms from 1995 on.\n")
+    add("**The depth effect is real but weaker than this pair suggests.** "
+        "Peak error does grow with storm depth: −0.43 ± 0.15 nT per nT "
+        "(2.9σ, Pearson r −0.58), median miss rising 34 → 96 → 136 nT "
+        "across shallower-than-−250, −300-to-−250 and ≤ −300 nT bands. But "
+        "the **fractional** error is flat within uncertainty "
+        "(1.2σ), so the model is not getting proportionally worse on the "
+        "biggest storms — it misses by more because they are bigger. And "
+        "October's 43.5 nT is the *smallest* error in its depth band, where "
+        "the median is 136 nT. This particular pair exaggerates a real "
+        "effect by pairing an unusually well-predicted deep storm with an "
+        "ordinary one.\n")
 
 # ---------------------------------------------------------------- S7
 add("\n## 7. Timing, and where everyone was\n")

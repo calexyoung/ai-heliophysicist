@@ -1,0 +1,968 @@
+{
+ "hourly_20031120": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20031120_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20031120_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "11660d6d39a0"
+ },
+ "model_20031120": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20031120_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -325.6,
+  "time_of_model_min": "2003-11-20 18:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20031120_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.977,
+   "rmse_nT": 24.9,
+   "obs_min_nT": -461.3,
+   "min_error_nT": 135.7
+  },
+  "status": "ok",
+  "audit_id": "206e58e0f3ee"
+ },
+ "hourly_20240511": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20240511_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20240511_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "baf1cd67783c"
+ },
+ "model_20240511": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20240511_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -272.9,
+  "time_of_model_min": "2024-05-11 04:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20240511_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.969,
+   "rmse_nT": 41.7,
+   "obs_min_nT": -436.0,
+   "min_error_nT": 163.2
+  },
+  "status": "ok",
+  "audit_id": "7a6bfc134d20"
+ },
+ "hourly_20010331": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20010331_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20010331_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "1500f7463d7b"
+ },
+ "model_20010331": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20010331_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -246.5,
+  "time_of_model_min": "2001-03-31 08:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20010331_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.958,
+   "rmse_nT": 29.3,
+   "obs_min_nT": -412.0,
+   "min_error_nT": 165.5
+  },
+  "status": "ok",
+  "audit_id": "1030e967916a"
+ },
+ "hourly_20031030": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20031030_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20031030_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "af6dbeae4804"
+ },
+ "model_20031030": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20031030_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -292.3,
+  "time_of_model_min": "2003-10-30 00:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20031030_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.78,
+   "rmse_nT": 58.1,
+   "obs_min_nT": -374.5,
+   "min_error_nT": 82.2
+  },
+  "status": "ok",
+  "audit_id": "3faee59a1477"
+ },
+ "hourly_20041108": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20041108_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20041108_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "03584e0af188"
+ },
+ "model_20041108": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20041108_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -291.1,
+  "time_of_model_min": "2004-11-08 05:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20041108_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.949,
+   "rmse_nT": 32.6,
+   "obs_min_nT": -379.3,
+   "min_error_nT": 88.2
+  },
+  "status": "ok",
+  "audit_id": "227001989140"
+ },
+ "hourly_20241011": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20241011_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20241011_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "ac71198eae94"
+ },
+ "model_20241011": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20241011_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -290.5,
+  "time_of_model_min": "2024-10-11 03:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20241011_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.921,
+   "rmse_nT": 27.1,
+   "obs_min_nT": -334.0,
+   "min_error_nT": 43.5
+  },
+  "status": "ok",
+  "audit_id": "5fa2c5d554ac"
+ },
+ "hourly_20000716": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000716_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000716_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "6db809d231c7"
+ },
+ "model_20000716": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000716_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -349.9,
+  "time_of_model_min": "2000-07-15 22:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000716_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.966,
+   "rmse_nT": 17.7,
+   "obs_min_nT": -296.3,
+   "min_error_nT": -53.6
+  },
+  "status": "ok",
+  "audit_id": "7d9ecf561cb1"
+ },
+ "hourly_20000407": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000407_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000407_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "b0bc62422ff4"
+ },
+ "model_20000407": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000407_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -196.6,
+  "time_of_model_min": "2000-04-07 00:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000407_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.97,
+   "rmse_nT": 23.2,
+   "obs_min_nT": -292.7,
+   "min_error_nT": 96.1
+  },
+  "status": "ok",
+  "audit_id": "f71fd43c1801"
+ },
+ "hourly_20011106": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20011106_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20011106_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "e7f3ff2f23ac"
+ },
+ "model_20011106": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20011106_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -77.0,
+  "time_of_model_min": "2001-11-07 04:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20011106_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.773,
+   "rmse_nT": 61.9,
+   "obs_min_nT": -299.4,
+   "min_error_nT": 222.4
+  },
+  "status": "ok",
+  "audit_id": "d372b9c686d4"
+ },
+ "hourly_20010411": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20010411_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20010411_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "e5cf8f1707b5"
+ },
+ "model_20010411": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20010411_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -167.0,
+  "time_of_model_min": "2001-04-12 00:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20010411_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.92,
+   "rmse_nT": 19.1,
+   "obs_min_nT": -246.3,
+   "min_error_nT": 79.2
+  },
+  "status": "ok",
+  "audit_id": "585a1f7c3a4e"
+ },
+ "hourly_20050515": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20050515_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20050515_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "6c96035b2dee"
+ },
+ "model_20050515": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20050515_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -199.1,
+  "time_of_model_min": "2005-05-15 09:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20050515_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.904,
+   "rmse_nT": 18.9,
+   "obs_min_nT": -270.7,
+   "min_error_nT": 71.6
+  },
+  "status": "ok",
+  "audit_id": "faeeb7e76fd6"
+ },
+ "hourly_19991022": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19991022_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19991022_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "43dd1dd64dfc"
+ },
+ "model_19991022": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19991022_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -172.4,
+  "time_of_model_min": "1999-10-22 06:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19991022_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.958,
+   "rmse_nT": 13.3,
+   "obs_min_nT": -206.3,
+   "min_error_nT": 33.9
+  },
+  "status": "ok",
+  "audit_id": "fd20f2fc7d48"
+ },
+ "hourly_20000812": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000812_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000812_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "806366f97cfe"
+ },
+ "model_20000812": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000812_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -215.9,
+  "time_of_model_min": "2000-08-12 10:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000812_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.941,
+   "rmse_nT": 20.4,
+   "obs_min_nT": -225.0,
+   "min_error_nT": 9.1
+  },
+  "status": "ok",
+  "audit_id": "0468b28e8a37"
+ },
+ "hourly_20150317": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20150317_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20150317_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "dd36e4ffa6f9"
+ },
+ "model_20150317": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20150317_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -170.9,
+  "time_of_model_min": "2015-03-17 23:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20150317_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.955,
+   "rmse_nT": 16.3,
+   "obs_min_nT": -215.4,
+   "min_error_nT": 44.5
+  },
+  "status": "ok",
+  "audit_id": "1670fd22216d"
+ },
+ "hourly_20011124": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20011124_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20011124_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "b056fd517a6f"
+ },
+ "model_20011124": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20011124_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -136.6,
+  "time_of_model_min": "2001-11-24 16:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20011124_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.94,
+   "rmse_nT": 29.2,
+   "obs_min_nT": -213.3,
+   "min_error_nT": 76.7
+  },
+  "status": "ok",
+  "audit_id": "5179ea12764d"
+ },
+ "hourly_20230424": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20230424_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20230424_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "08ac587c12f0"
+ },
+ "model_20230424": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20230424_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -225.1,
+  "time_of_model_min": "2023-04-24 06:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20230424_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.917,
+   "rmse_nT": 21.1,
+   "obs_min_nT": -214.1,
+   "min_error_nT": -10.9
+  },
+  "status": "ok",
+  "audit_id": "247dcaa2549f"
+ },
+ "hourly_19980925": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19980925_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19980925_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "46bc301ddeee"
+ },
+ "model_19980925": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19980925_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -176.2,
+  "time_of_model_min": "1998-09-25 11:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19980925_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.872,
+   "rmse_nT": 22.0,
+   "obs_min_nT": -195.7,
+   "min_error_nT": 19.4
+  },
+  "status": "ok",
+  "audit_id": "29e5d660dc25"
+ },
+ "hourly_19980504": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19980504_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19980504_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "c8dca554f65e"
+ },
+ "model_19980504": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19980504_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -192.9,
+  "time_of_model_min": "1998-05-04 05:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_19980504_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.93,
+   "rmse_nT": 21.1,
+   "obs_min_nT": -222.3,
+   "min_error_nT": 29.3
+  },
+  "status": "ok",
+  "audit_id": "7de453a1ef90"
+ },
+ "hourly_20000917": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000917_1h.csv",
+  "n_records": 193,
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000917_1h.csv"
+  ],
+  "status": "ok",
+  "audit_id": "0feda2b942bb"
+ },
+ "model_20000917": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000917_1h_dstmodel.csv",
+  "n_records": 193,
+  "model": "O'Brien & McPherron (2000), pressure-corrected",
+  "model_min_nT": -105.5,
+  "time_of_model_min": "2000-09-17 23:00:00",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/dstsat_20000917_1h_dstmodel.csv"
+  ],
+  "skill": {
+   "corr": 0.879,
+   "rmse_nT": 20.6,
+   "obs_min_nT": -173.3,
+   "min_error_nT": 67.8
+  },
+  "status": "ok",
+  "audit_id": "f9c94bea2287"
+ },
+ "_rows": [
+  {
+   "time": "2003-11-20 20:30:00",
+   "dst_hourly_kyoto": -422.0,
+   "obs_min": -461.3,
+   "model_min": -325.6,
+   "min_error": 135.7,
+   "corr": 0.977,
+   "rmse": 24.9
+  },
+  {
+   "time": "2024-05-11 02:30:00",
+   "dst_hourly_kyoto": -406.0,
+   "obs_min": -436.0,
+   "model_min": -272.9,
+   "min_error": 163.2,
+   "corr": 0.969,
+   "rmse": 41.7
+  },
+  {
+   "time": "2001-03-31 08:30:00",
+   "dst_hourly_kyoto": -387.0,
+   "obs_min": -412.0,
+   "model_min": -246.5,
+   "min_error": 165.5,
+   "corr": 0.958,
+   "rmse": 29.3
+  },
+  {
+   "time": "2003-10-30 22:30:00",
+   "dst_hourly_kyoto": -383.0,
+   "obs_min": -374.5,
+   "model_min": -292.3,
+   "min_error": 82.2,
+   "corr": 0.78,
+   "rmse": 58.1
+  },
+  {
+   "time": "2004-11-08 06:30:00",
+   "dst_hourly_kyoto": -374.0,
+   "obs_min": -379.3,
+   "model_min": -291.1,
+   "min_error": 88.2,
+   "corr": 0.949,
+   "rmse": 32.6
+  },
+  {
+   "time": "2024-10-11 01:30:00",
+   "dst_hourly_kyoto": -333.0,
+   "obs_min": -334.0,
+   "model_min": -290.5,
+   "min_error": 43.5,
+   "corr": 0.921,
+   "rmse": 27.1
+  },
+  {
+   "time": "2000-07-16 00:30:00",
+   "dst_hourly_kyoto": -300.0,
+   "obs_min": -296.3,
+   "model_min": -349.9,
+   "min_error": -53.6,
+   "corr": 0.966,
+   "rmse": 17.7
+  },
+  {
+   "time": "2000-04-07 00:30:00",
+   "dst_hourly_kyoto": -292.0,
+   "obs_min": -292.7,
+   "model_min": -196.6,
+   "min_error": 96.1,
+   "corr": 0.97,
+   "rmse": 23.2
+  },
+  {
+   "time": "2001-11-06 06:30:00",
+   "dst_hourly_kyoto": -292.0,
+   "obs_min": -299.4,
+   "model_min": -77.0,
+   "min_error": 222.4,
+   "corr": 0.773,
+   "rmse": 61.9
+  },
+  {
+   "time": "2001-04-11 23:30:00",
+   "dst_hourly_kyoto": -271.0,
+   "obs_min": -246.3,
+   "model_min": -167.0,
+   "min_error": 79.2,
+   "corr": 0.92,
+   "rmse": 19.1
+  },
+  {
+   "time": "2005-05-15 08:30:00",
+   "dst_hourly_kyoto": -247.0,
+   "obs_min": -270.7,
+   "model_min": -199.1,
+   "min_error": 71.6,
+   "corr": 0.904,
+   "rmse": 18.9
+  },
+  {
+   "time": "1999-10-22 06:30:00",
+   "dst_hourly_kyoto": -237.0,
+   "obs_min": -206.3,
+   "model_min": -172.4,
+   "min_error": 33.9,
+   "corr": 0.958,
+   "rmse": 13.3
+  },
+  {
+   "time": "2000-08-12 09:30:00",
+   "dst_hourly_kyoto": -234.0,
+   "obs_min": -225.0,
+   "model_min": -215.9,
+   "min_error": 9.1,
+   "corr": 0.941,
+   "rmse": 20.4
+  },
+  {
+   "time": "2015-03-17 22:30:00",
+   "dst_hourly_kyoto": -234.0,
+   "obs_min": -215.4,
+   "model_min": -170.9,
+   "min_error": 44.5,
+   "corr": 0.955,
+   "rmse": 16.3
+  },
+  {
+   "time": "2001-11-24 16:30:00",
+   "dst_hourly_kyoto": -221.0,
+   "obs_min": -213.3,
+   "model_min": -136.6,
+   "min_error": 76.7,
+   "corr": 0.94,
+   "rmse": 29.2
+  },
+  {
+   "time": "2023-04-24 05:30:00",
+   "dst_hourly_kyoto": -213.0,
+   "obs_min": -214.1,
+   "model_min": -225.1,
+   "min_error": -10.9,
+   "corr": 0.917,
+   "rmse": 21.1
+  },
+  {
+   "time": "1998-09-25 09:30:00",
+   "dst_hourly_kyoto": -207.0,
+   "obs_min": -195.7,
+   "model_min": -176.2,
+   "min_error": 19.4,
+   "corr": 0.872,
+   "rmse": 22.0
+  },
+  {
+   "time": "1998-05-04 05:30:00",
+   "dst_hourly_kyoto": -205.0,
+   "obs_min": -222.3,
+   "model_min": -192.9,
+   "min_error": 29.3,
+   "corr": 0.93,
+   "rmse": 21.1
+  },
+  {
+   "time": "2000-09-17 23:30:00",
+   "dst_hourly_kyoto": -201.0,
+   "obs_min": -173.3,
+   "model_min": -105.5,
+   "min_error": 67.8,
+   "corr": 0.879,
+   "rmse": 20.6
+  }
+ ],
+ "_fits": {
+  "abs_slope": -0.432,
+  "abs_err": 0.149,
+  "abs_sigma": 2.9,
+  "abs_audit": "e219187516cd",
+  "frac_slope": -0.00052,
+  "frac_err": 0.00043,
+  "frac_sigma": 1.2,
+  "frac_audit": "f582dab37efc",
+  "pearson": -0.576,
+  "scatter_audit": "633e9ad79d55"
+ },
+ "symh1m_20031120": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -490.0,
+  "time": "2003-11-20 18:17:00",
+  "status": "ok",
+  "audit_id": "7263578d4dc2"
+ },
+ "symh1m_20240511": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -518.0,
+  "time": "2024-05-11 02:14:00",
+  "status": "ok",
+  "audit_id": "f55b8dde77d0"
+ },
+ "symh1m_20010331": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -437.0,
+  "time": "2001-03-31 08:06:00",
+  "status": "ok",
+  "audit_id": "cf6e936ea0e5"
+ },
+ "symh1m_20031030": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -432.0,
+  "time": "2003-10-30 22:55:00",
+  "status": "ok",
+  "audit_id": "b50d63d8107d"
+ },
+ "symh1m_20041108": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -394.0,
+  "time": "2004-11-08 05:55:00",
+  "status": "ok",
+  "audit_id": "38c02db24b22"
+ },
+ "symh1m_20241011": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -390.0,
+  "time": "2024-10-10 23:14:00",
+  "status": "ok",
+  "audit_id": "6487dcc1f560"
+ },
+ "symh1m_20000716": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -347.0,
+  "time": "2000-07-15 21:54:00",
+  "status": "ok",
+  "audit_id": "05b415b8ee65"
+ },
+ "symh1m_20000407": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -320.0,
+  "time": "2000-04-07 00:09:00",
+  "status": "ok",
+  "audit_id": "d72922840733"
+ },
+ "symh1m_20011106": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -320.0,
+  "time": "2001-11-06 04:06:00",
+  "status": "ok",
+  "audit_id": "f32be7bedaf9"
+ },
+ "symh1m_20010411": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -280.0,
+  "time": "2001-04-11 23:57:00",
+  "status": "ok",
+  "audit_id": "3c41d518f139"
+ },
+ "symh1m_20050515": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -305.0,
+  "time": "2005-05-15 08:20:00",
+  "status": "ok",
+  "audit_id": "f3d6e6931931"
+ },
+ "symh1m_19991022": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -228.0,
+  "time": "1999-10-22 07:12:00",
+  "status": "ok",
+  "audit_id": "e0f0bdfe399b"
+ },
+ "symh1m_20000812": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -235.0,
+  "time": "2000-08-12 10:06:00",
+  "status": "ok",
+  "audit_id": "151ac9868c0d"
+ },
+ "symh1m_20150317": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -234.0,
+  "time": "2015-03-17 22:47:00",
+  "status": "ok",
+  "audit_id": "9a4494ff8873"
+ },
+ "symh1m_20011124": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -234.0,
+  "time": "2001-11-24 12:37:00",
+  "status": "ok",
+  "audit_id": "ceb76903cdce"
+ },
+ "symh1m_20230424": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -233.0,
+  "time": "2023-04-24 04:03:00",
+  "status": "ok",
+  "audit_id": "cf69abd72f4c"
+ },
+ "symh1m_19980925": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -217.0,
+  "time": "1998-09-25 06:53:00",
+  "status": "ok",
+  "audit_id": "94627edb9fb4"
+ },
+ "symh1m_19980504": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -272.0,
+  "time": "1998-05-04 05:18:00",
+  "status": "ok",
+  "audit_id": "2f60009da41f"
+ },
+ "symh1m_20000917": {
+  "column": "SYM_H",
+  "mode": "min",
+  "value": -203.0,
+  "time": "2000-09-18 00:24:00",
+  "status": "ok",
+  "audit_id": "fd91bc0832ab"
+ },
+ "_symh_vs_dst": [
+  {
+   "time": "2003-11-20 20:30:00",
+   "dst": -422.0,
+   "symh_1min": -490.0,
+   "diff": -68.0
+  },
+  {
+   "time": "2024-05-11 02:30:00",
+   "dst": -406.0,
+   "symh_1min": -518.0,
+   "diff": -112.0
+  },
+  {
+   "time": "2001-03-31 08:30:00",
+   "dst": -387.0,
+   "symh_1min": -437.0,
+   "diff": -50.0
+  },
+  {
+   "time": "2003-10-30 22:30:00",
+   "dst": -383.0,
+   "symh_1min": -432.0,
+   "diff": -49.0
+  },
+  {
+   "time": "2004-11-08 06:30:00",
+   "dst": -374.0,
+   "symh_1min": -394.0,
+   "diff": -20.0
+  },
+  {
+   "time": "2024-10-11 01:30:00",
+   "dst": -333.0,
+   "symh_1min": -390.0,
+   "diff": -57.0
+  },
+  {
+   "time": "2000-07-16 00:30:00",
+   "dst": -300.0,
+   "symh_1min": -347.0,
+   "diff": -47.0
+  },
+  {
+   "time": "2000-04-07 00:30:00",
+   "dst": -292.0,
+   "symh_1min": -320.0,
+   "diff": -28.0
+  },
+  {
+   "time": "2001-11-06 06:30:00",
+   "dst": -292.0,
+   "symh_1min": -320.0,
+   "diff": -28.0
+  },
+  {
+   "time": "2001-04-11 23:30:00",
+   "dst": -271.0,
+   "symh_1min": -280.0,
+   "diff": -9.0
+  },
+  {
+   "time": "2005-05-15 08:30:00",
+   "dst": -247.0,
+   "symh_1min": -305.0,
+   "diff": -58.0
+  },
+  {
+   "time": "1999-10-22 06:30:00",
+   "dst": -237.0,
+   "symh_1min": -228.0,
+   "diff": 9.0
+  },
+  {
+   "time": "2000-08-12 09:30:00",
+   "dst": -234.0,
+   "symh_1min": -235.0,
+   "diff": -1.0
+  },
+  {
+   "time": "2015-03-17 22:30:00",
+   "dst": -234.0,
+   "symh_1min": -234.0,
+   "diff": 0.0
+  },
+  {
+   "time": "2001-11-24 16:30:00",
+   "dst": -221.0,
+   "symh_1min": -234.0,
+   "diff": -13.0
+  },
+  {
+   "time": "2023-04-24 05:30:00",
+   "dst": -213.0,
+   "symh_1min": -233.0,
+   "diff": -20.0
+  },
+  {
+   "time": "1998-09-25 09:30:00",
+   "dst": -207.0,
+   "symh_1min": -217.0,
+   "diff": -10.0
+  },
+  {
+   "time": "1998-05-04 05:30:00",
+   "dst": -205.0,
+   "symh_1min": -272.0,
+   "diff": -67.0
+  },
+  {
+   "time": "2000-09-17 23:30:00",
+   "dst": -201.0,
+   "symh_1min": -203.0,
+   "diff": -2.0
+  }
+ ]
+}

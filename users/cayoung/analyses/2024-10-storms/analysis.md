@@ -91,7 +91,7 @@ This is where October differs sharply from May 2024, and the difference is geome
 | 3 Oct X9.0 | LASCO C2 | **refused** — halo fraction 0.75 |
 | 3 Oct X9.0 | LASCO C3 | tracked: 9 points, 4.25 → 10.25 R⊙, halo fraction 0.42 |
 
-**The Earth-directed CME cannot be measured by plane-of-sky height-time, and that is the physics, not a shortcoming.** `track_cme_front` refuses it: in C3, **1** of position angles brighten simultaneously. A full halo leaves no quiet reference annulus, so azimuthal contrast has nothing to measure against — which is exactly *why* the CME was Earth-directed, and exactly why the community fits halos with cone or GCS models instead (audit `826625356077`).
+**The Earth-directed CME cannot be measured by plane-of-sky height-time, and that is the physics, not a shortcoming.** `track_cme_front` refuses it: in C3, **100%** of position angles brighten simultaneously. A full halo leaves no quiet reference annulus, so azimuthal contrast has nothing to measure against — which is exactly *why* the CME was Earth-directed, and exactly why the community fits halos with cone or GCS models instead (audit `826625356077`).
 
 **The 3 October X9.0 CME, which was not aimed at us, tracks cleanly.** In C3 (3.9–29 R⊙, against C2's 2.4–5.8) it gives 9 height points from 4.25 to 10.25 R⊙ and a plane-of-sky speed of **667.9 ± 14.9 km s⁻¹** with r² 0.9965 (audits `4aabf56da163`, `3b9d7ba428e9`).
 
@@ -110,7 +110,7 @@ For the halo events the speeds have to come from cone fits (audit `1a7e67fea137`
 | 2024-10-08T08:54Z | **1124** | 32 | -50 | 45 | O |
 | 2024-10-09T19:07Z | **1109** | 113 | 16 | 26 | O |
 
-The two fastest belong to the 9 October 02:12 CME, at longitude 8–19° and latitude 9–13° — which matches AR 13848's N13W08 to within the fit uncertainty, and confirms the association independently of the flare timing.
+The two fastest belong to the 9 October 02:12 CME, at longitude 8–19° and latitude 9–13° — matching AR 13848's N13W08 to within the fit uncertainty. That is consistent with the association, but it is **not** an independent confirmation: DONKI's cone fits are made by analysts who know where the flare was, so the source location can enter the fit as a prior. The independent check is the timing — the CME appears in the coronagraph 16 minutes after the X1.8 peak.
 
 
 ![LASCO C3 running difference, 9 October. The disturbance fills every position angle — the visual signature of the halo that the tracker refuses.](figures/s3_fig_c3_x18.png)
@@ -131,7 +131,7 @@ The two fastest belong to the 9 October 02:12 CME, at longitude 8–19° and lat
 
 **The >10 MeV peak arrives after the shock, not with the flare.** It peaks at 15:15 UT on 10 October, about half an hour after the shock reaches Earth at 14:46 — this is a shock-associated (ESP) enhancement riding in with the CME, not the prompt flare component.
 
-**The two energies peak 26 hours apart**, which is the same conclusion from a second direction: >30 MeV peaks at 2024-10-09 13:00 — near the flare, as a prompt component should — while >10 MeV peaks a day later at the shock. Shock acceleration is efficient at 10 MeV and much less so at 30, so the low-energy channel gets a second, larger peak that the high-energy one does not.
+**The two energies peak 26 hours apart**, which is the same conclusion from a second direction: >30 MeV peaks at 2024-10-09 13:00 — near the flare, as a prompt component should — while >10 MeV peaks a day later at the shock. The standard reading is that shock acceleration is efficient at 10 MeV and much less so at 30, giving the low-energy channel a second and larger peak the high-energy one does not get. This analysis measures the 26-hour separation; it does not establish the mechanism, which would need the spectral evolution through the event rather than two peak times.
 
 The tool reaches the same conclusion from the connection geometry, independently of that timing: `well_connected: False`, with a Parker footpoint at 54.6° and a connection angle of 46.6° from the flare site. Onset lagged the flare by **2.9 h** against 0.95 h expected for a well-connected event along a 1.14 AU spiral. A poorly connected source needs cross-field transport or a widening shock to deliver particles, and both take time.
 
@@ -219,7 +219,9 @@ The refusal is kept in the record. Wind SWE (`WI_H1_SWE`, non-linear proton fits
 
 ### SYM-H is not Dst, and the difference is 57 nT here
 
-The Kyoto **provisional** hourly Dst minimum is **-333 nT** (audit `a591d70ac36e`) against a 1-minute SYM-H minimum of **-390 nT**. Both are correct. Hourly Dst from four stations averages away the sharp minimum that SYM-H's six-station 1-minute index resolves, so Dst is always the shallower number. **§8 turns on this distinction** — one published SYM-H value matches the Dst series rather than the SYM-H series.
+The Kyoto **provisional** hourly Dst minimum is **-333 nT** (audit `a591d70ac36e`) against a 1-minute SYM-H minimum of **-390 nT**. Both are correct. Hourly Dst from four stations averages away the sharp minimum that SYM-H's six-station 1-minute index resolves, so Dst is usually — not always — the shallower number.
+
+Checked across the 19 intense storms in `../dst-model-saturation/`: the 1-minute SYM-H minimum is deeper than the hourly Dst minimum in **17**, equal in 1 (2015-03-17), and *shallower* in 1 (1999-10-22, Dst −237 against SYM-H −228 nT). The gap runs from 0 to 112 nT and is widest for May 2024 — the index distinction matters most for exactly the events people write about. **§8 turns on it**: one published SYM-H value matches the Dst series rather than the SYM-H series.
 
 ### Sheath or ejecta?
 
@@ -236,7 +238,7 @@ The sheath delivers 5.0× the southward field-time of the ejecta. `magnetic_clou
 
 **This is the second superstorm in a row driven by the sheath rather than the ejecta**, the May 2024 event being the first. It has a forecasting consequence: sheath Bz is not predictable from a cone-model fit of the CME, so the quantity that drove both storms is the one current forecasts cannot supply.
 
-**But do not read a pattern into two events — that was tested and it does not generalise.** `../sheath-vs-ejecta/` runs the same attribution over all 40 storms below Dst −200 nT since 1981 and finds 10 sheath against 8 ejecta: close to even. Sheath-driving does dominate at the deep end (8 of 10 below −250 nT against 2 of 9 between −250 and −200), which is a known result — Gonzalez et al. (2011) treat superintense storms as a separate category for exactly this reason. That study also found three defects in `detect_icme` that this section's numbers depend on; they are fixed, and the attribution above is the corrected one.
+**But do not read a pattern into two events — that was tested and it does not generalise.** `../sheath-vs-ejecta/` runs the same attribution over all 40 storms below Dst −200 nT since 1981 and finds **8 sheath against 8 ejecta** — exactly even — on the 1995+ sample where L1 coverage is complete. (A 1981-start count reads 10 against 8, but 19 of its 21 unattributable storms predate Wind and ACE, so it mixes two observing eras.) Sheath-driving does dominate at the deep end, **6 of 8 below −250 nT against 2 of 9 between −250 and −200**, which is a known result — Gonzalez et al. (2011) treat superintense storms as a separate category for exactly this reason. That study also found three defects in `detect_icme` that this section's numbers depend on; they are fixed, and the attribution above is the corrected one.
 
 The window holds 2 detected shocks (2024-10-10 14:13, 2024-10-11 05:58); the sheath is bounded by the one that drives this ejecta, at **2024-10-10 14:13** — within half an hour of DONKI's catalogued arrival at 14:46, from a detector that never sees the catalogue.
 
@@ -256,7 +258,9 @@ The window holds 2 detected shocks (2024-10-10 14:13, 2024-10-11 05:58); the she
 - Correlation **0.884**, RMSE **35.1 nT**
 - Model minimum -290.5 nT against an observed hourly minimum of -334 nT — **a 43.5 nT miss at the peak**
 
-**The comparison with May 2024 is the interesting part.** The same model on the same index missed May's peak by **163 nT**; here it misses by **43.5 nT**. The O'Brien–McPherron coupling function was fitted on ordinary storms and saturates on the largest ones: at −334 nT it is still inside its calibrated range, at −518 nT it is not. A shallower storm being better predicted is not a coincidence — it is the saturation showing itself.
+**The comparison with May 2024 needs care.** The same model on the same index missed May's peak by **163 nT**; here it misses by **43.5 nT**. It is tempting to read that as the O'Brien–McPherron coupling function saturating outside its calibrated range — and `../dst-model-saturation/` tested exactly that against 19 storms from 1995 on.
+
+**The depth effect is real but weaker than this pair suggests.** Peak error does grow with storm depth: −0.43 ± 0.15 nT per nT (2.9σ, Pearson r −0.58), median miss rising 34 → 96 → 136 nT across shallower-than-−250, −300-to-−250 and ≤ −300 nT bands. But the **fractional** error is flat within uncertainty (1.2σ), so the model is not getting proportionally worse on the biggest storms — it misses by more because they are bigger. And October's 43.5 nT is the *smallest* error in its depth band, where the median is 136 nT. This particular pair exaggerates a real effect by pairing an unusually well-predicted deep storm with an ordinary one.
 
 
 ## 7. Timing, and where everyone was
