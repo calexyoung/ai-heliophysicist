@@ -1,5 +1,56 @@
 # Changelog
 
+## v0.5.0 — 2026-09-05
+
+The forecast rule changed on evidence, the monitor got a plain-language
+guide, and every tool in the registry now has a worked, audit-logged example
+with real figures. Validation 49 checks to 50; tests 206.
+
+### Changed
+
+- **The Earth-directed cone is 45 degrees, down from 60.** The live ledger
+  had reached 0 hits in 3 scored, every miss an eruption that never arrived —
+  two of them launched 48–59° off the Sun–Earth line. A four-month hindcast
+  (163 windows, 12 storms) shows 45° cuts false alarms 74 → 55 while covering
+  exactly the same 9/12 storms. Tighter is *not* safe: 30°, or any
+  launch-speed floor, takes June 2025 to zero recall by dropping the
+  249 km/s CME at 41° that drove its only covered storm. Recall neutrality is
+  now pinned by `hindcast.recall_neutral`, and `hindcast_forecasts` defaults
+  its cone to the monitor's constant so the replay cannot drift from the
+  deployed rule. Ledger note: forecasts issued before this change score
+  against the old rule until they clear.
+- **The monitor cycle log lives beside its state** in the active profile's
+  workspace instead of a hardcoded shared path, and `monitor_cron.sh`
+  resolves `HELIO_AGENT_USER` explicitly (no profile hardcoded), logging the
+  resolved profile and workspace at the top of every cycle. Verified under
+  `env -i` the way launchd invokes it.
+
+### Added
+
+- **`docs/EXAMPLES.md`** — one real, executed invocation for each of the 77
+  tools (coverage asserted at build), all 46 skills mapped to the examples
+  that exercise them, and the Python API of every supporting module. Built by
+  `scripts/gen_examples.py`, which runs everything against live archives and
+  embeds each call's audit id; 16 figures/artifacts committed under
+  `docs/examples/`. Not a CI step.
+- **`docs/MONITOR.md`** — the standing watch in plain language: what a cycle
+  does, how to read the scorecard (a miss with an empty arrival means
+  *nothing arrived*, which is a different failure from wrong timing), and the
+  worked example behind the 45° threshold.
+
+### Fixed
+
+- `run_tool` could not invoke any tool with a `name` parameter (`save_json`);
+  its first argument is now positional-only.
+- `plot_solar_map` crashed on HMI magnetograms whose sunpy plot settings
+  carry a norm; it now passes an explicit `Normalize`, signed for
+  magnetograms.
+- `superposed_epoch` crashed on timezone-aware epoch strings against the
+  naive-UTC workspace convention; aware epochs are converted.
+- `search_heliodata` adapted to an upstream break: the alpha HelioData API
+  now answers 405 to any query parameter, so the tool fetches the bare
+  catalog (cached a day) and filters client-side.
+
 ## v0.4.0 — 2026-09-04
 
 Six new tools, one bug that had been silently misplacing every active region,
