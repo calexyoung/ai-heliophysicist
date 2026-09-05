@@ -46,9 +46,10 @@ plausible answer and a different one. Validation 64 checks to 66; tests 216.
 ### Corrected
 
 - **The claim that intense storms are generally sheath-driven is withdrawn.**
-  Across all 40 storms below Dst −200 nT since 1981 the split is **10 sheath,
-  8 ejecta, 1 ambiguous** — close to even. Sheath-driving does dominate at the
-  deep end (**8 of 10 below −250 nT against 2 of 9 between −250 and −200**),
+  Across the storms below Dst −200 nT with usable L1 coverage the split is
+  **8 sheath, 8 ejecta, 1 ambiguous** — exactly even. Sheath-driving does
+  dominate at the deep end (**6 of 8 below −250 nT against 2 of 9 between
+  −250 and −200**),
   and that trend is established in the literature: Gonzalez et al. (2011) treat
   superintense storms as a separate category for exactly this reason, and Zhang
   et al. (2004) find only ~30% of storms driven by magnetic clouds.
@@ -67,9 +68,31 @@ plausible answer and a different one. Validation 64 checks to 66; tests 216.
 - **`users/cayoung/analyses/sheath-vs-ejecta/`** — the study, its retraction,
   and what each fix did to the answer.
 - **`skills/methods/geomagnetic_storm_analysis.md`** — when a driver
-  attribution can be quoted and when it cannot, including that **21 of 40
-  intense storms have no ejecta signature at all**, so any such statistic
-  describes the half that does, selected non-randomly.
+  attribution can be quoted and when it cannot, the era restriction below,
+  and the two threshold artefacts that exclude real ejecta (2003-11-20's is
+  5.3 h against a 6 h minimum; 2001-11-06 has a 50 h ejecta but no detected
+  shock).
+
+### On the sample
+
+The population figures above are for **1995 onward**, and the restriction
+matters. Of 40 declustered storms below −200 nT since 1981, 21 produce no
+attribution — but **19 of those 21 are pre-1995**. Before Wind (1994) and ACE
+(1997) OMNI 1-min plasma is sparse, and the ejecta test needs a proton
+temperature series. Those are not storms with ambiguous drivers; they are
+storms nobody measured at one-minute cadence. Restricted to 1995 onward the
+sample is **17 of 19 attributable (89%)**, with no meaningful selection loss.
+
+A 1981-start statistic would mix two observing eras: on that basis the split
+reads 10 sheath / 8 ejecta, the difference carried by two sparsely-sampled
+pre-1995 events. The modern sample is the one to quote, and it is the one
+quoted above.
+
+**Threshold-robust.** Re-running the modern sample with `min_hours` 6→4,
+`shock_jump_kms` 60→40, or `temp_ratio_max` 0.5→0.6 moves the overall split
+by at most one storm and never makes the population sheath-dominated — the
+relaxations pull in opposite directions. The depth trend is steadier still:
+**6 sheath against 2–3 ejecta below −250 nT under every setting tested.**
 
 ## v0.6.0 — 2026-09-05
 
