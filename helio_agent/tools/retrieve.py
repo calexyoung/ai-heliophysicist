@@ -284,6 +284,112 @@ def fetch_aia_synoptic(date: str, wavelength_angstrom: int = 171,
             "files": files, "artifacts": files}
 
 
+_AIA_L1_SERIES = {"euv": "aia.lev1_euv_12s", "uv": "aia.lev1_uv_24s",
+                  "vis": "aia.lev1_vis_1h"}
+_AIA_L1_BAND = {94: "euv", 131: "euv", 171: "euv", 193: "euv", 211: "euv",
+                304: "euv", 335: "euv", 1600: "uv", 1700: "uv", 4500: "vis"}
+
+
+@tool(family="retrieve")
+def fetch_aia_level1(date: str, wavelength_angstrom: int = 171,
+                     n_frames: int = 1, jsoc_email: str | None = None) -> dict:
+    """Fetch full-resolution AIA level-1 FITS straight from JSOC via drms.
+
+    4096x4096 at ~0.6 arcsec/pix — the native product, against the
+    1024x1024 / ~2.4 arcsec/pix of `fetch_aia_synoptic`. Use this when the
+    science needs native resolution or the level-1 calibration chain (loop
+    widths, pixel photometry, precise flare morphology); use the synoptic
+    route for context imaging, where it is ~10x smaller and much faster.
+
+    Level 1 is NOT level 1.5: it is neither registered to solar north nor
+    plate-scale normalised (CROTA2 is small but nonzero). Run
+    `aiapy.calibrate.register` before comparing channels pixel to pixel, and
+    `correct_aia_map` for the degradation correction.
+
+    **Requires a JSOC-registered email address.** JSOC gates its export
+    endpoint on one; register at http://jsoc.stanford.edu/ajax/register_email.html
+    Pass it as `jsoc_email` or set `JSOC_EMAIL` in the project .env. Without
+    it the tool refuses rather than silently falling back to a lower-
+    resolution product.
+
+    Uses method 'url_quick' with protocol 'as-is', which serves files already
+    on disk at JSOC and returns immediately; a request that JSOC would have
+    to stage is reported as such rather than waited on.
+    """
+    import os
+    from datetime import timedelta
+
+    email = (jsoc_email or os.environ.get("JSOC_EMAIL", "")).strip()
+    if not email:
+        return {"status": "error",
+                "error": ("JSOC export needs a registered email; pass "
+                          "jsoc_email or set JSOC_EMAIL in .env. Register at "
+                          "http://jsoc.stanford.edu/ajax/register_email.html . "
+                          "For context imagery without an account, use "
+                          "fetch_aia_synoptic (level 1.5, 1024x1024).")}
+    wave = int(wavelength_angstrom)
+    band = _AIA_L1_BAND.get(wave)
+    if band is None:
+        return {"status": "error",
+                "error": (f"no AIA level-1 series for {wave} A; available: "
+                          f"{sorted(_AIA_L1_BAND)}")}
+    if n_frames < 1:
+        return {"status": "error", "error": "n_frames must be >= 1"}
+    try:
+        t0 = datetime.fromisoformat(date.replace("Z", "+00:00"))
+    except ValueError as exc:
+        return {"status": "error", "error": f"unparseable date: {exc}"}
+    if t0.tzinfo is not None:
+        t0 = t0.astimezone(timezone.utc).replace(tzinfo=None)
+
+    cadence_s = {"euv": 12, "uv": 24, "vis": 3600}[band]
+    span_s = cadence_s * int(n_frames)
+    query = (f"{_AIA_L1_SERIES[band]}[{t0:%Y-%m-%dT%H:%M:%S}Z/{span_s}s]"
+             f"[{wave}]{{image}}")
+
+    import drms
+    client = drms.Client(email=email)
+    try:
+        req = client.export(query, method="url_quick", protocol="as-is")
+    except Exception as exc:  # noqa: BLE001
+        return {"status": "error", "error": f"JSOC export refused: {exc}",
+                "query": query}
+    if req.status != 0 or len(req.urls) == 0:
+        return {"status": "error", "query": query,
+                "error": (f"JSOC returned status {req.status} with "
+                          f"{len(req.urls)} url(s); 'as-is' only serves files "
+                          "already staged at JSOC. Retry, or use "
+                          "fetch_aia_synoptic.")}
+
+    out_dir = data_path("aia_level1")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    files, records = [], []
+    for _, row in req.urls.iterrows():
+        rec = str(row["record"])
+        stamp = re.search(r"\[(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})Z\]", rec)
+        name = _slug("AIA_lev1",
+                     (stamp.group(1).replace(":", "").replace("-", "")
+                      if stamp else f"{t0:%Y%m%dT%H%M%S}"),
+                     f"{wave:04d}") + ".fits"
+        dest = out_dir / name
+        if not dest.exists():
+            r = requests.get(str(row["url"]), headers=_UA, timeout=300)
+            if r.status_code != 200 or not r.content.startswith(b"SIMPLE"):
+                continue
+            dest.write_bytes(r.content)
+        files.append(str(dest))
+        records.append(rec)
+    if not files:
+        return {"status": "error", "query": query,
+                "error": "JSOC listed records but no FITS could be downloaded"}
+    return {"n_requested": int(n_frames), "n_downloaded": len(files),
+            "wavelength_angstrom": wave, "series": _AIA_L1_SERIES[band],
+            "query": query, "records": records,
+            "level": "1 (4096x4096, ~0.6 arcsec/pix; NOT registered — run "
+                     "aiapy.calibrate.register for level 1.5)",
+            "files": files, "artifacts": files}
+
+
 @tool(family="retrieve")
 def fetch_helioviewer_image(date: str, layers: str = "[SDO,AIA,AIA,171,1,100]",
                             width: int = 1024, height: int = 1024,

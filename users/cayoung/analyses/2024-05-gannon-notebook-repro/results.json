@@ -2786,6 +2786,8 @@
   "n_found": 32,
   "n_downloaded": 16,
   "files": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948240.fts",
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948241.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948242.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948243.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948244.fts",
@@ -2799,11 +2801,11 @@
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948252.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948253.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948254.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948255.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948256.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948257.fts"
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948255.fts"
   ],
   "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948240.fts",
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948241.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948242.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948243.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948244.fts",
@@ -2817,22 +2819,20 @@
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948252.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948253.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948254.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948255.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948256.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948257.fts"
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948255.fts"
   ],
   "status": "ok",
-  "audit_id": "d0f7f9c6e6ef"
+  "audit_id": "39996a2410a9"
  },
  "S4_fig_cme1": {
   "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/repro_lasco_cme1.png",
   "n_frames": 16,
-  "n_differences": 14,
+  "n_differences": 15,
   "n_panels": 6,
   "instrument": "LASCO C2",
-  "start": "2024-05-08 06:00:05.457000",
-  "end": "2024-05-08 08:54:08.442000",
-  "median_cadence_min": 11.999033333333333,
+  "start": "2024-05-08 05:36:06.672000",
+  "end": "2024-05-08 08:36:05.954000",
+  "median_cadence_min": 11.999866666666666,
   "exposure_times_s": [
    25.092,
    25.093,
@@ -2841,22 +2841,22 @@
    25.098,
    25.099,
    25.184,
-   25.387,
    25.496,
-   26.096,
-   100.191
+   26.096
   ],
-  "note": "Each frame divided by its own exposure time before differencing (11 distinct exposure(s) present; raw differencing would have produced brightness artefacts here).",
+  "note": "Each frame divided by its own exposure time before differencing (9 distinct exposure(s) present; raw differencing would have produced brightness artefacts here).",
   "artifacts": [
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/repro_lasco_cme1.png"
   ],
   "status": "ok",
-  "audit_id": "4e0ebe99b921"
+  "audit_id": "a00c89ae4bb7"
  },
  "S4_lasco_cme2": {
-  "n_found": 27,
+  "n_found": 29,
   "n_downloaded": 16,
   "files": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948388.fts",
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948389.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948390.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948391.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948392.fts",
@@ -2870,11 +2870,11 @@
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948400.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948401.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948402.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948403.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948404.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948405.fts"
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948403.fts"
   ],
   "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948388.fts",
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948389.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948390.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948391.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948392.fts",
@@ -2888,12 +2888,10 @@
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948400.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948401.fts",
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948402.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948403.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948404.fts",
-   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948405.fts"
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/vso/22948403.fts"
   ],
   "status": "ok",
-  "audit_id": "da03e9b3d35a"
+  "audit_id": "b6cebd55b17d"
  },
  "S4_fig_cme2": {
   "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/repro_lasco_cme2.png",
@@ -2901,8 +2899,8 @@
   "n_differences": 15,
   "n_panels": 6,
   "instrument": "LASCO C2",
-  "start": "2024-05-09 09:36:05.570000",
-  "end": "2024-05-09 12:36:05.553000",
+  "start": "2024-05-09 09:12:10.486000",
+  "end": "2024-05-09 12:12:05.469000",
   "median_cadence_min": 11.999883333333335,
   "exposure_times_s": [
    25.092,
@@ -2920,7 +2918,7 @@
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/repro_lasco_cme2.png"
   ],
   "status": "ok",
-  "audit_id": "9410cdea4917"
+  "audit_id": "c3037d0349b4"
  },
  "S4_donki_cme": {
   "n_results": 16,
@@ -4273,5 +4271,244 @@
   ],
   "status": "ok",
   "audit_id": "4f396182d540"
+ },
+ "S2_l1_cme1_171": {
+  "n_requested": 1,
+  "n_downloaded": 1,
+  "wavelength_angstrom": 171,
+  "series": "aia.lev1_euv_12s",
+  "query": "aia.lev1_euv_12s[2024-05-08T05:10:00Z/12s][171]{image}",
+  "records": [
+   "aia.lev1_euv_12s[2024-05-08T05:09:59Z][171]{image_lev1}"
+  ],
+  "level": "1 (4096x4096, ~0.6 arcsec/pix; NOT registered \u2014 run aiapy.calibrate.register for level 1.5)",
+  "files": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/aia_level1/AIA_lev1_20240508T050959_0171.fits"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/aia_level1/AIA_lev1_20240508T050959_0171.fits"
+  ],
+  "status": "ok",
+  "audit_id": "5116ed7753e2"
+ },
+ "S2_l1_map_cme1_171": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/aia_level1/AIA_lev1_20240508T050959_0171.fits",
+  "observatory": "SDO",
+  "instrument": "AIA 3",
+  "detector": "AIA",
+  "wavelength": "171.0 Angstrom",
+  "date": "2024-05-08T05:10:09.350",
+  "dimensions": [
+   4096,
+   4096
+  ],
+  "scale_arcsec_per_pix": [
+   0.599488974,
+   0.599488974
+  ],
+  "status": "ok",
+  "audit_id": "984f5ed8174f"
+ },
+ "S2_l1_fig_cme1_171": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/repro_aia_l1_cme1_171.png",
+  "instrument": "AIA 3",
+  "date": "2024-05-08T05:10:09.350",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/repro_aia_l1_cme1_171.png"
+  ],
+  "status": "ok",
+  "audit_id": "a418f56de977"
+ },
+ "S4_track_cme1": {
+  "n_frames": 16,
+  "n_differences": 15,
+  "n_detections": 5,
+  "position_angle_deg": 210.0,
+  "position_angle_source": "auto (monotonic outward track, 5 detections)",
+  "sector_width_deg": 30.0,
+  "n_sigma": 5.0,
+  "search_r_rsun": [
+   2.4,
+   5.8
+  ],
+  "instrument": "LASCO C2",
+  "px_per_rsun": 79.87,
+  "rsun_arcsec": 950.39,
+  "rsun_source": "computed from date (Earth-based observer assumed; ~1% systematic for SOHO at L1)",
+  "halo_fraction_peak": 0.38,
+  "times": [
+   "2024-05-08 05:48:05.464000",
+   "2024-05-08 06:00:05.457000",
+   "2024-05-08 06:12:05.449000",
+   "2024-05-08 06:24:07.241000",
+   "2024-05-08 06:36:05.433000"
+  ],
+  "heights_rsun": [
+   2.95,
+   3.55,
+   4.05,
+   4.45,
+   4.75
+  ],
+  "monotonic": true,
+  "rejected": [
+   {
+    "time": "2024-05-08 06:48:05.625000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-08 07:00:05.517000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-08 07:12:06.609000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-08 07:24:05.402000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-08 07:36:06.394000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-08 07:48:05.485000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-08 08:00:05.778000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-08 08:12:05.570000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-08 08:24:05.462000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-08 08:36:05.954000",
+    "reason": "no 3-bin run above threshold"
+   }
+  ],
+  "note": "Plane-of-sky leading edge of a RUNNING-DIFFERENCE front: the outermost radius where the differenced, exposure-normalised profile stays above 5.0 sigma for 3 consecutive 0.1 Rsun bins. Feed times/heights_rsun to cme_height_time. Compare against a cone-model fit before quoting as physical.",
+  "status": "ok",
+  "audit_id": "26a7eceb7bab"
+ },
+ "S4_fit_cme1": {
+  "speed_km_s": 434.7,
+  "speed_error_km_s": 32.9,
+  "r_squared": 0.9831,
+  "acceleration_m_s2": -134.04,
+  "n_points": 5,
+  "height_range_rsun": [
+   2.95,
+   4.75
+  ],
+  "extrapolated_launch_1rsun": "2024-05-08 04:53:24.809122026+00:00",
+  "plane_of_sky": true,
+  "note": "Plane-of-sky linear fit (the CDAW catalogue convention). For an Earth-directed halo this is a LOWER BOUND on the radial speed \u2014 compare with a cone/GCS fit such as DONKI CMEAnalysis. The launch time is an extrapolation of the linear fit back to 1 Rsun, not an observation.",
+  "status": "ok",
+  "audit_id": "fb5dca15916c"
+ },
+ "S4_track_cme2": {
+  "n_frames": 16,
+  "n_differences": 15,
+  "n_detections": 3,
+  "position_angle_deg": 240.0,
+  "position_angle_source": "auto (monotonic outward track, 3 detections)",
+  "sector_width_deg": 30.0,
+  "n_sigma": 5.0,
+  "search_r_rsun": [
+   2.4,
+   5.8
+  ],
+  "instrument": "LASCO C2",
+  "px_per_rsun": 79.85,
+  "rsun_arcsec": 950.17,
+  "rsun_source": "computed from date (Earth-based observer assumed; ~1% systematic for SOHO at L1)",
+  "halo_fraction_peak": 0.46,
+  "times": [
+   "2024-05-09 09:24:05.479000",
+   "2024-05-09 09:36:05.570000",
+   "2024-05-09 09:48:05.463000"
+  ],
+  "heights_rsun": [
+   3.05,
+   3.85,
+   4.85
+  ],
+  "monotonic": true,
+  "rejected": [
+   {
+    "time": "2024-05-09 10:00:05.457000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 10:12:06.248000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 10:24:05.439000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 10:36:05.632000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 10:48:05.424000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 11:00:05.417000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 11:12:07.308000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 11:24:05.400000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 11:36:05.493000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 11:48:07.285000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 12:00:05.477000",
+    "reason": "no 3-bin run above threshold"
+   },
+   {
+    "time": "2024-05-09 12:12:05.469000",
+    "reason": "no 3-bin run above threshold"
+   }
+  ],
+  "note": "Plane-of-sky leading edge of a RUNNING-DIFFERENCE front: the outermost radius where the differenced, exposure-normalised profile stays above 5.0 sigma for 3 consecutive 0.1 Rsun bins. Feed times/heights_rsun to cme_height_time. Compare against a cone-model fit before quoting as physical.",
+  "status": "ok",
+  "audit_id": "058a6b9a5875"
+ },
+ "S4_fit_cme2": {
+  "speed_km_s": 869.6,
+  "speed_error_km_s": 55.9,
+  "r_squared": 0.9959,
+  "acceleration_m_s2": null,
+  "n_points": 3,
+  "height_range_rsun": [
+   3.05,
+   4.85
+  ],
+  "extrapolated_launch_1rsun": "2024-05-09 08:57:12.184695111+00:00",
+  "plane_of_sky": true,
+  "note": "Plane-of-sky linear fit (the CDAW catalogue convention). For an Earth-directed halo this is a LOWER BOUND on the radial speed \u2014 compare with a cone/GCS fit such as DONKI CMEAnalysis. The launch time is an extrapolation of the linear fit back to 1 Rsun, not an observation.",
+  "status": "ok",
+  "audit_id": "504ed39d6417"
  }
 }

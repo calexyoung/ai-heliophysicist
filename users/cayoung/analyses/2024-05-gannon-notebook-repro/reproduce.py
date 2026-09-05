@@ -158,6 +158,18 @@ def run(st, only=None, fresh=()):
               fits_file=f["files"][0],
               out_name=f"repro_aia_{tag}_{wave}.png")
 
+    # Native-resolution comparison for one channel. JSOC level 1 is 4096^2
+    # at ~0.6 arcsec/pix against the synoptic 1024^2 at ~2.4, and each frame
+    # is ~12 MB, so this is deliberately one channel rather than all six:
+    # the point is to show the route works and what it buys, not to re-shoot
+    # the survey at 16x the size.
+    l1 = R("S2_l1_cme1_171", "fetch_aia_level1", date="2024-05-08T05:10:00",
+           wavelength_angstrom=171)
+    if l1.get("status") == "ok" and l1.get("files"):
+        R("S2_l1_map_cme1_171", "load_solar_map", fits_file=l1["files"][0])
+        R("S2_l1_fig_cme1_171", "plot_solar_map", fits_file=l1["files"][0],
+          out_name="repro_aia_l1_cme1_171.png")
+
     # ---------------- S3: HMI magnetogram of AR 13664 ----------------------
     print("S3 SDO/HMI")
     hmi = R("S3_hmi", "fetch_vso", start="2024-05-08T05:09:00",
@@ -178,8 +190,13 @@ def run(st, only=None, fresh=()):
 
     # ---------------- S4: LASCO coronagraph, CME kinematics ----------------
     print("S4 SOHO/LASCO")
-    for tag, t0, t1 in (("cme1", "2024-05-08T06:00:00", "2024-05-08T12:00:00"),
-                        ("cme2", "2024-05-09T09:30:00", "2024-05-09T15:30:00")):
+    # Windows start just after each flare peak (05:09 and 09:13 UT), not an
+    # hour later: C2 spans only 2.4-5.8 Rsun, so a front that is already at
+    # the outer edge when the sequence opens cannot be tracked. Opening at
+    # the eruption took CME 1 from 3 usable height points to 5, and turned
+    # CME 2 from an untrackable non-monotonic scatter into a clean track.
+    for tag, t0, t1 in (("cme1", "2024-05-08T05:36:00", "2024-05-08T11:30:00"),
+                        ("cme2", "2024-05-09T09:12:00", "2024-05-09T15:00:00")):
         lz = R(f"S4_lasco_{tag}", "fetch_vso", start=t0, end=t1,
                instrument="LASCO", detector="C2", max_files=16)
         if lz.get("files"):
@@ -189,6 +206,18 @@ def run(st, only=None, fresh=()):
               out_name=f"repro_lasco_{tag}.png")
     # DONKI cone-model fits: the real measured speeds (the notebook's own
     # height-time routine drew its heights from np.random.uniform).
+    # Measure the front instead of accepting a catalogue number. The
+    # notebook's speed cell fits np.random.uniform output; this tracks the
+    # leading edge through the difference frames and fits that.
+    for tag, key in (("cme1", "S4_lasco_cme1"), ("cme2", "S4_lasco_cme2")):
+        src = st.get(key, {})
+        if not src.get("files"):
+            continue
+        trk = R(f"S4_track_{tag}", "track_cme_front", files=src["files"])
+        if trk.get("status") == "ok" and len(trk.get("times", [])) >= 3:
+            R(f"S4_fit_{tag}", "cme_height_time", times=trk["times"],
+              heights_rsun=trk["heights_rsun"])
+
     R("S4_donki_cme", "search_donki", start_date="2024-05-08",
       end_date="2024-05-10", kind="CMEAnalysis")
 

@@ -8,7 +8,7 @@ Every figure and every number below was recomputed through audited tools by [`re
 
 | Notebook | Here | Why it matters |
 |---|---|---|
-| CME speeds from `np.random.uniform(3, 6)` heights | DONKI cone-model fits, plus a real `cme_height_time` fit tool that refuses to invent heights | The notebook's "speed estimate" was random numbers; its printed speeds came from prose, not from its own code |
+| CME speeds from `np.random.uniform(3, 6)` heights | The front is **tracked** frame by frame (`track_cme_front`) and the heights fitted (`cme_height_time`), then compared against DONKI cone fits | The notebook's "speed estimate" was random numbers. Measured plane-of-sky: 434.7 and 869.6 km s⁻¹ |
 | HMI flux calculation raised `'arcsec2 / pix2' and 'cm2' are not convertible`, fell back to "typical values" | `magnetogram_metrics` computes the flux, PIL length and peak field | The notebook's quoted magnetic numbers were never computed from the data it downloaded |
 | `sm.coord_table.to_pandas()` raised; fell back to "STEREO-A ~25°, Solar Orbiter ~45°" | `plot_heliospheric_config` returns the table | **Solar Orbiter was 167.6° from Earth, not 45°** — the far side of the Sun |
 | Flare classes read from a typed table | `find_flares` on GOES-18 science data, cross-checked against DONKI and HEK | Reproduces every class, and surfaces a 12th X-flare the AR-scoped table omits |
@@ -54,11 +54,14 @@ Independent cross-checks: DONKI FLR for 05-08, 05-09 and 05-14 (audits `02afc435
 ![GOES-18 XRS both channels across the storm week, with the two CME-driving flares marked. Notebook figure 1.](figures/s1_fig_overview.png)
 *GOES-18 XRS both channels across the storm week, with the two CME-driving flares marked. Notebook figure 1.*
 
+
 ![CME 1 driver: the X1.0 of 2024-05-08.](figures/s1_fig_cme1.png)
 *CME 1 driver: the X1.0 of 2024-05-08.*
 
+
 ![CME 2 driver: the X2.2 of 2024-05-09.](figures/s1_fig_cme2.png)
 *CME 2 driver: the X2.2 of 2024-05-09.*
+
 
 ## 2. SDO/AIA — the eruptions in the EUV corona
 
@@ -66,9 +69,24 @@ The notebook fetches AIA 94/171/304 Å at each flare peak through `sunpy.net.Fid
 
 The failing route is kept in the record as a probe: **0 of 6 VSO AIA fetches succeeded.** One consequence was fixed in the core tools — `fetch_vso` used to return `status: "ok"` with an empty file list when the provider timed out, which reads as "no such data exists". It now returns an error naming the provider.
 
-### The replacement route
+### Two replacement routes
 
-`fetch_aia_synoptic` (added for this reproduction) pulls the JSOC synoptic archive over plain static HTTP: ~1.3 MB per frame, seconds per request. The trade is real and stated: **level 1.5 synoptic, 1024×1024 at ~2.4 arcsec/pix**, against level 1 at 4096² and ~0.6. Right for morphology and eruption context — the notebook's actual use — wrong for fine loop widths or pixel-level photometry.
+`fetch_aia_synoptic` pulls the JSOC synoptic archive over plain static HTTP: ~1.3 MB per frame, seconds per request, **level 1.5 at 1024×1024 / ~2.4 arcsec/pix**. That is the survey product used for the six panels below — right for morphology and eruption context, which is the notebook's actual use.
+
+`fetch_aia_level1` goes to JSOC through `drms` for the **native product, 4096×4096 at ~0.6 arcsec/pix**, when the science needs resolution or the level-1 calibration chain. It requires a JSOC-registered export email (`JSOC_EMAIL` in `.env`); without one it refuses by name rather than silently handing back a 16× smaller image under the same call.
+
+Both routes were run on the same instant to show what the difference buys:
+
+| Route | Level | Dimensions | Plate scale | Frame size | Audit |
+|---|---|---|---|---|---|
+| `fetch_aia_synoptic` | 1.5 | 1024×1024 | ~2.4 arcsec/pix | ~1.3 MB | `db882ed7650d` |
+| `fetch_aia_level1` | 1 | 4096×4096 | 0.599 arcsec/pix | ~12 MB | `5116ed7753e2` |
+
+JSOC record: `aia.lev1_euv_12s[2024-05-08T05:09:59Z][171]{image_lev1}` from series `aia.lev1_euv_12s`. **Level 1 is not level 1.5**: the frame is neither registered to solar north nor plate-scale normalised, so `aiapy.calibrate.register` has to run before any pixel-to-pixel channel comparison. Only 171 Å was re-shot at native resolution — the point is to establish the route and its cost, not to repeat the survey at 16× the size.
+
+
+![AIA 171 Å at 2024-05-08 05:10 UT, JSOC level 1, 4096×4096. Compare with the 1024×1024 synoptic frame of the same instant below.](figures/s2_l1_fig_cme1_171.png)
+*AIA 171 Å at 2024-05-08 05:10 UT, JSOC level 1, 4096×4096. Compare with the 1024×1024 synoptic frame of the same instant below.*
 
 | Wavelength | What it shows | Degradation factor at 2024-05-08 |
 |---|---|---|
@@ -82,20 +100,26 @@ Those factors are the fraction of 2010 launch sensitivity still remaining (corre
 ![CME 1 — X1.0, 2024-05-08 05:10 UT, AIA 94 Å.](figures/s2_fig_cme1_94.png)
 *CME 1 — X1.0, 2024-05-08 05:10 UT, AIA 94 Å.*
 
+
 ![CME 1 — X1.0, 2024-05-08 05:10 UT, AIA 171 Å.](figures/s2_fig_cme1_171.png)
 *CME 1 — X1.0, 2024-05-08 05:10 UT, AIA 171 Å.*
+
 
 ![CME 1 — X1.0, 2024-05-08 05:10 UT, AIA 304 Å.](figures/s2_fig_cme1_304.png)
 *CME 1 — X1.0, 2024-05-08 05:10 UT, AIA 304 Å.*
 
+
 ![CME 2 — X2.2, 2024-05-09 09:14 UT, AIA 94 Å.](figures/s2_fig_cme2_94.png)
 *CME 2 — X2.2, 2024-05-09 09:14 UT, AIA 94 Å.*
+
 
 ![CME 2 — X2.2, 2024-05-09 09:14 UT, AIA 171 Å.](figures/s2_fig_cme2_171.png)
 *CME 2 — X2.2, 2024-05-09 09:14 UT, AIA 171 Å.*
 
+
 ![CME 2 — X2.2, 2024-05-09 09:14 UT, AIA 304 Å.](figures/s2_fig_cme2_304.png)
 *CME 2 — X2.2, 2024-05-09 09:14 UT, AIA 304 Å.*
+
 
 ## 3. SDO/HMI — the magnetic field of AR 13664
 
@@ -114,23 +138,43 @@ Measured max |B| of 2156 G against the notebook's stated 2500 G. The measurement
 ![HMI line-of-sight magnetogram, 2024-05-08 05:09 UT. AR 13664 is the large bipolar complex south of disk centre.](figures/s3_fig_full.png)
 *HMI line-of-sight magnetogram, 2024-05-08 05:09 UT. AR 13664 is the large bipolar complex south of disk centre.*
 
+
 ![Region and quiet-control boxes with the strong-PIL mask that produced the numbers above.](figures/s3_metrics.png)
 *Region and quiet-control boxes with the strong-PIL mask that produced the numbers above.*
+
 
 ## 4. SOHO/LASCO — the CMEs
 
 **The notebook's second failure of method.** Its CME speed estimate builds a height-time array from `np.random.uniform(3, 6)` — random numbers — fits a line through it, and the speeds it prints (950 and 1100 km s⁻¹) come from its prose, not from that fit.
 
-Two things replace it here. `plot_coronagraph_sequence` builds a real running difference from the C2 frames, and `cme_height_time` does a genuine linear fit that **refuses** fewer than three points or non-monotonic heights, so it cannot be fed noise and return a speed.
+Here the front is **measured**. `track_cme_front` locates the leading edge in each running-difference frame — outermost radius where the exposure-normalised profile stays above 5σ for three consecutive 0.1 R⊙ bins, with the noise taken from the same radius at other position angles — and `cme_height_time` fits those heights. Neither tool will accept invented input: the fit refuses fewer than three points or non-monotonic heights, and it exercised that refusal on the first pass here — see the window note below.
+
+### Measured height-time
+
+| CME | PA (°) | Points | Heights (R⊙) | Plane-of-sky speed | r² | Fit → 1 R⊙ | Driving flare |
+|---|---|---|---|---|---|---|---|
+| CME 1 (05-08) | 210 | 5 | 2.95 → 4.75 | **434.7 ± 32.9 km s⁻¹** | 0.9831 | 2024-05-08 04:53:24 | X1.0 started 04:37, peaked 05:09 |
+| CME 2 (05-09) | 240 | 3 | 3.05 → 4.85 | **869.6 ± 55.9 km s⁻¹** | 0.9959 | 2024-05-09 08:57:12 | X2.2 started 08:45, peaked 09:13 |
+
+Audits: `26a7eceb7bab`/`fb5dca15916c` and `058a6b9a5875`/`504ed39d6417`. The position angles were chosen automatically, by scoring sectors on monotonic outward motion rather than on scatter.
+
+**The launch-time column is the check that the tracker found the eruption and not a streamer.** The fit extrapolates back to 1 R⊙ at 04:53:24 for CME 1 and 08:57:12 for CME 2 — each within minutes of its flare's onset. The tracker never sees the X-ray data, so that agreement is independent, not circular.
+
+**Two things had to be got right, and both failed the other way first.** The noise reference has to be the same radius at other position angles: an outer-annulus σ is contaminated once the CME reaches it, which inflated the noise 4.6× and suppressed every detection. And the search window has to open at the eruption, not an hour later — C2 sees only 2.4–5.8 R⊙, so a front already at the outer edge cannot be tracked. Opening at the flare peak took CME 1 from 3 height points to 5 and turned CME 2 from an untrackable non-monotonic scatter into a clean track. Both details are recorded in `skills/methods/cme_analysis.md`.
 
 
-**2024-05-08:** 16 LASCO C2 frames → 14 differences at 12 min cadence (audit `4e0ebe99b921`). 11 distinct exposure times were present (25.092–100.191 s), so each frame is divided by its own exposure before differencing — raw differencing here would have rendered the shutter, not the CME.
+### Plane-of-sky against cone model — the comparison that matters
 
-**2024-05-09:** 16 LASCO C2 frames → 15 differences at 12 min cadence (audit `9410cdea4917`). 9 distinct exposure times were present (25.092–26.196 s), so each frame is divided by its own exposure before differencing — raw differencing here would have rendered the shutter, not the CME.
+| CME | Measured plane-of-sky | DONKI cone fit (same CME) | Notebook |
+|---|---|---|---|
+| CME 1 | **434.7 km s⁻¹** | 729–870 km s⁻¹ (2 fits) | 950 km s⁻¹ |
+| CME 2 | **869.6 km s⁻¹** | 1330–1561 km s⁻¹ (2 fits) | 1100 km s⁻¹ |
 
-### CME speeds from the cone-model record
+**Every measured plane-of-sky speed lands below its cone fit, and that is the expected result, not a discrepancy.** Both of these are Earth-directed halos, so the plane-of-sky projection sees the front edge-on and understates the radial speed — the measurement is a lower bound by construction. A plane-of-sky speed coming out *above* a cone fit would have meant the tracker had locked onto something other than the front. `run_validation.py cmetrack` pins that inequality.
 
-Rather than invent heights, the speeds come from DONKI's cone-model fits to the actual coronagraph data (audit `490c41d2c198`, 16 analyses):
+So the notebook's 950 and 1100 km s⁻¹ are defensible numbers for the radial speed — they sit inside the cone-model distribution — but its own code could not have produced them, and they are not what a plane-of-sky fit measures. The two quantities are not interchangeable, which is the part the notebook elides.
+
+Full cone-model record (audit `490c41d2c198`, 16 analyses; the `type` column is DONKI's own quality flag):
 
 | Time at 21.5 R⊙ | Speed (km s⁻¹) | Lon (°) | Lat (°) | Half-angle (°) | Type |
 |---|---|---|---|---|---|
@@ -143,14 +187,14 @@ Rather than invent heights, the speeds come from DONKI's cone-model fits to the 
 | 2024-05-09T01:43Z | **1130** | 12 | -16 | 40 | O |
 | 2024-05-10T10:35Z | **1018** | 31 | -2 | 41 | O |
 
-The notebook's 950 and 1100 km s⁻¹ are inside this distribution, so its numbers are defensible — but they were asserted, not derived, and its own code could not have produced them. Cone-model speeds are plane-of-sky-corrected fits with their own large uncertainty; the `type` column (C, O, R, S) records DONKI's own quality flag.
-
 
 ![LASCO C2 running difference, 2024-05-08. Exposure-normalised.](figures/s4_fig_cme1.png)
 *LASCO C2 running difference, 2024-05-08. Exposure-normalised.*
 
+
 ![LASCO C2 running difference, 2024-05-09.](figures/s4_fig_cme2.png)
 *LASCO C2 running difference, 2024-05-09.*
+
 
 ## 5. In-situ solar wind — every route, compared
 
@@ -283,8 +327,10 @@ Hajra et al. (2024) describe a **three-step main phase of ~9 h total** — this 
 ![The standard storm stack: |B|, Bz, speed, density, pressure, SYM-H. OMNI 1-min.](figures/s6_fig_stack.png)
 *The standard storm stack: |B|, Bz, speed, density, pressure, SYM-H. OMNI 1-min.*
 
+
 ![ICME interval detection on the same series.](figures/s6_icme.png)
 *ICME interval detection on the same series.*
+
 
 ### Can the storm be predicted from the solar wind?
 
@@ -318,14 +364,17 @@ Note the **footpoint** column: a body's Parker-spiral footpoint is not its own l
 ![Constellation with 400 km s⁻¹ spirals (nominal slow wind).](figures/s7_config_nominal.png)
 *Constellation with 400 km s⁻¹ spirals (nominal slow wind).*
 
+
 ![The same instant with 1000 km s⁻¹ spirals. The spirals straighten and every footpoint moves — connectivity during the storm was not the nominal connectivity.](figures/s7_config_storm.png)
 *The same instant with 1000 km s⁻¹ spirals. The spirals straighten and every footpoint moves — connectivity during the storm was not the nominal connectivity.*
+
 
 Spacecraft trajectories over the same week come from `fetch_spacecraft_ephemeris` (7,801 records in Gse, audit `3450b7d437c2`).
 
 
 ![ACE, DSCOVR, Wind and STEREO-A trajectories.](figures/s7_fig_orbits.png)
 *ACE, DSCOVR, Wind and STEREO-A trajectories.*
+
 
 ## 8. CME arrival — forecast against observation
 
@@ -349,10 +398,10 @@ For context: the L1→Earth ballistic delay at 700 km s⁻¹ is **35.7 minutes**
 
 Five things in the original no longer run, or never ran:
 
-1. **AIA through VSO times out.** The `sdo7.nascom.nasa.gov` export provider does not answer. Use the JSOC synoptic archive (`fetch_aia_synoptic` here) and accept level-1.5 1024², or go to JSOC through `drms` for level 1. HMI and LASCO through VSO are fine.
+1. **AIA through VSO times out.** The `sdo7.nascom.nasa.gov` export provider does not answer. Two routes replace it, both used here: `fetch_aia_synoptic` (JSOC synoptic archive, level 1.5 at 1024², no credentials, seconds per frame) and `fetch_aia_level1` (JSOC via `drms`, native 4096² level 1, needs a registered JSOC export email). HMI and LASCO through VSO are unaffected.
 2. **The HMI flux cell raises a units error** (`'arcsec2 / pix2' and 'cm2' are not convertible`). Pixel area has to be converted through the plate scale and the solar distance before multiplying by field strength. `magnetogram_metrics` does this.
 3. **`sm.coord_table.to_pandas()` raises** in current solarmach; the table is already DataFrame-like. The hard-coded values it falls back to are wrong by 120°+ for Solar Orbiter, so this failure is not cosmetic.
-4. **The CME speed cell uses `np.random.uniform`** and never produced the speeds the notebook prints. Any reproduction has to replace it with real height-time measurements or a catalogue.
+4. **The CME speed cell uses `np.random.uniform`** and never produced the speeds the notebook prints. Replaced here by a real measurement: `track_cme_front` locates the leading edge in each difference frame and `cme_height_time` fits it. Note the search window must open at the flare peak — C2 sees only 2.4–5.8 R⊙, so a sequence starting an hour late catches a front already leaving the field.
 5. **DSCOVR plasma for 2024 is not on CDAWeb as science data** (`DSCOVR_H1_FC` ends 2019). SWPC real-time data exists, but is not science quality.
 
 ## Capabilities added to helio-agent for this reproduction
@@ -361,14 +410,16 @@ Five things in the original no longer run, or never ran:
 |---|---|---|
 | `plot_coronagraph_sequence` | Exposure-normalised running-difference panels from a coronagraph FITS sequence | `run_validation.py corona` |
 | `cme_height_time` | Linear height-time fit that refuses <3 points or non-monotonic heights | `run_validation.py corona` |
+| `track_cme_front` | Measures the leading edge per frame so the fit has real input; azimuthal noise reference, monotonicity-scored sector choice, explicit halo detection | `run_validation.py cmetrack` |
 | `plot_heliospheric_config` | solarmach constellation and Parker spirals, returning the position table | `run_validation.py corona` |
-| `fetch_aia_synoptic` | JSOC synoptic AIA, replacing the dead VSO export route | `run_validation.py aiasyn` |
+| `fetch_aia_synoptic` | JSOC synoptic AIA (level 1.5, 1024²), replacing the dead VSO export route with no credentials needed | `run_validation.py aiasyn` |
+| `fetch_aia_level1` | Native 4096² level-1 AIA from JSOC via `drms`; refuses by name without a registered export email rather than substituting the smaller product | `run_validation.py aial1` |
 | `fetch_vso(detector=...)` | LASCO C2/C3 and SECCHI COR1/COR2/EUVI selection, so a sequence does not interleave two fields of view | `run_validation.py corona` |
 | `fetch_vso` errors on an empty download | A provider timeout used to return `status: ok` with no files, which reads as "no such data" | — |
 
 ## Provenance
 
-95 audited tool invocations, 88 successful. Every audit id above resolves against `workspace/logs/audit.jsonl` and can be re-executed with `uv run helio-agent replay <id>`. Regenerate with:
+102 audited tool invocations, 95 successful. Every audit id above resolves against `workspace/logs/audit.jsonl` and can be re-executed with `uv run helio-agent replay <id>`. Regenerate with:
 
 ```bash
 HELIO_AGENT_USER=cayoung uv run python \

@@ -54,3 +54,22 @@ Coronal mass ejections are observed in white-light coronagraphs: SOHO/LASCO C2 (
 **The asymmetry that decides it.** A false alarm costs attention; a missed storm costs the mission. So recall neutrality is the constraint on this threshold, not precision — pinned by `hindcast.recall_neutral`, which fails if the cone moves off 45 or if the narrower rule stops being recall-neutral.
 
 **A ceiling neither threshold touches.** May 2024's 05-02 storm (Kp 6.67) and June 2025's 06-01 storm (Kp 8.0, severe) are missed by *every* setting including the loosest. No catalogued Earth-directed CME covers them, so they are most likely CIR / high-speed-stream driven — structurally outside what a CME-arrival rule can catch. Overall recall is capped near 0.75 by that, not by the cone. Quote hit rate and recall together, never one alone.
+
+## Tool: `track_cme_front` (added 2026-09-05)
+Measures the leading edge frame by frame so `cme_height_time` has something real to fit. Before this, a height-time fit needed heights typed in by hand — which is how the source notebook ended up fitting `np.random.uniform` output.
+
+**Method.** Each frame is divided by its own exposure and differenced against the previous one, remapped to heliocentric radius through the WCS, and reduced to a radial profile inside a position-angle sector. Edge = outermost radius where the profile stays above `n_sigma` for three consecutive 0.1 R☉ bins.
+
+**Three choices that are not obvious, each of which failed the other way first:**
+
+1. **The noise reference is the same radius at other position angles**, not an outer annulus and not the whole frame. An outer-annulus σ is contaminated the moment the CME reaches it — on the 2024-05-08 halo that inflated the noise 4.6× and suppressed every detection. A whole-frame MAD is dominated by the bright inner corona, which left the front at 3–5σ against a 5σ threshold. The azimuthal reference cancels both the radial brightness gradient and the frame-wide floor.
+2. **The sector statistic is the 90th percentile, not the median.** The front is a thin arc inside a 30° bin; a median averages it away. Measured: median profile peaked at 1.0 where the 90th percentile reached 4.9.
+3. **Auto sector selection scores monotonicity first, detection count second, span last.** Scoring by span alone rewards a noisy sector whose "edge" jumps around — the opposite of a tracked front. On the 2024-05-14 limb CME the span-first rule picked PA 30° (non-monotonic, wrong side of the Sun); monotonicity-first picks PA 225°.
+
+**Halo events.** A halo brightens every position angle at once, so no quiet reference annulus remains. `halo_fraction_peak` reports the fraction of position angles brightening; above ~0.75 the refusal message says so explicitly and points at cone/GCS instead. This is geometry, not a threshold that wants lowering. Even below that, a halo is only trackable in its **early** frames, before the disturbance fills the field: on 2024-05-08 the front is measurable from 06:12 to 06:36 UT and gone by 07:12.
+
+**Validated result (2024-05-08 halo, `run_validation.py cmetrack`):** PA 225°, 3.75 → 4.75 R☉, plane-of-sky **483 ± 55 km s⁻¹**, r² 0.987. Two independent checks: it lands **below** DONKI's cone fit (729 km s⁻¹), as an edge-on halo must; and the linear fit extrapolates to 1 R☉ at 05:05 UT against an X1.0 peak at 05:09 — the tracker never sees the flare, so that agreement is not circular.
+
+**Field-of-view limit.** C2 spans 2.4–5.8 R☉ at ~12-min cadence, so a CME faster than ~1500 km s⁻¹ crosses it in under two frames and cannot be tracked there. The 2024-05-14 X8.7 event is the example: heights sit at the outer edge from the first detection. Use C3 (3.9–29 R☉) for fast events, and expect the deceleration term to be real rather than a fit artefact.
+
+**Always compare against a cone or GCS fit.** The bright edge in a running difference is where brightness *changed* most, which is the front only if the front is the fastest-moving feature; a streamer deflection can imitate one.

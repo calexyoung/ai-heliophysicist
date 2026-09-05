@@ -55,6 +55,7 @@ def embed(key, caption=""):
     out = [f"\n![{caption or key}]({f})"]
     if caption:
         out.append(f"*{caption}*")
+    out.append("")   # tables/paragraphs that follow need the blank line
     return out
 
 
@@ -76,10 +77,14 @@ add("Every figure and every number below was recomputed through audited "
 add("## What the reproduction changes\n")
 add("| Notebook | Here | Why it matters |")
 add("|---|---|---|")
-add("| CME speeds from `np.random.uniform(3, 6)` heights | DONKI cone-model "
-    "fits, plus a real `cme_height_time` fit tool that refuses to invent "
-    "heights | The notebook's \"speed estimate\" was random numbers; its "
-    "printed speeds came from prose, not from its own code |")
+add("| CME speeds from `np.random.uniform(3, 6)` heights | The front is "
+    "**tracked** frame by frame (`track_cme_front`) and the heights fitted "
+    "(`cme_height_time`), then compared against DONKI cone fits | The "
+    "notebook's \"speed estimate\" was random numbers. Measured "
+    "plane-of-sky: "
+    + (f"{fmt(g('S4_fit_cme1','speed_km_s'),4)} and "
+       f"{fmt(g('S4_fit_cme2','speed_km_s'),4)} km s⁻¹"
+       if ok("S4_fit_cme1") else "—") + " |")
 add("| HMI flux calculation raised `'arcsec2 / pix2' and 'cm2' are not "
     "convertible`, fell back to \"typical values\" | `magnetogram_metrics` "
     "computes the flux, PIL length and peak field | The notebook's quoted "
@@ -169,13 +174,43 @@ add(f"The failing route is kept in the record as a probe: "
     "return `status: \"ok\"` with an empty file list when the provider timed "
     "out, which reads as \"no such data exists\". It now returns an error "
     "naming the provider.\n")
-add("### The replacement route\n")
-add("`fetch_aia_synoptic` (added for this reproduction) pulls the JSOC "
-    "synoptic archive over plain static HTTP: ~1.3 MB per frame, seconds "
-    "per request. The trade is real and stated: **level 1.5 synoptic, "
-    "1024×1024 at ~2.4 arcsec/pix**, against level 1 at 4096² and ~0.6. "
-    "Right for morphology and eruption context — the notebook's actual use "
-    "— wrong for fine loop widths or pixel-level photometry.\n")
+add("### Two replacement routes\n")
+add("`fetch_aia_synoptic` pulls the JSOC synoptic archive over plain static "
+    "HTTP: ~1.3 MB per frame, seconds per request, **level 1.5 at 1024×1024 "
+    "/ ~2.4 arcsec/pix**. That is the survey product used for the six panels "
+    "below — right for morphology and eruption context, which is the "
+    "notebook's actual use.\n")
+add("`fetch_aia_level1` goes to JSOC through `drms` for the **native "
+    "product, 4096×4096 at ~0.6 arcsec/pix**, when the science needs "
+    "resolution or the level-1 calibration chain. It requires a "
+    "JSOC-registered export email (`JSOC_EMAIL` in `.env`); without one it "
+    "refuses by name rather than silently handing back a 16× smaller image "
+    "under the same call.\n")
+if ok("S2_l1_cme1_171"):
+    _m = ST.get("S2_l1_map_cme1_171", {})
+    _dim = _m.get("dimensions") or []
+    _sc = (_m.get("scale_arcsec_per_pix") or [None])[0]
+    add("Both routes were run on the same instant to show what the "
+        "difference buys:\n")
+    add("| Route | Level | Dimensions | Plate scale | Frame size | Audit |")
+    add("|---|---|---|---|---|---|")
+    add("| `fetch_aia_synoptic` | 1.5 | 1024×1024 | ~2.4 arcsec/pix | "
+        f"~1.3 MB | `{aud('S2_aia_cme1_171')}` |")
+    add("| `fetch_aia_level1` | 1 | "
+        f"{_dim[0] if _dim else '—'}×{_dim[1] if len(_dim)>1 else '—'} | "
+        f"{fmt(_sc,3) if _sc else '—'} arcsec/pix | ~12 MB | "
+        f"`{aud('S2_l1_cme1_171')}` |")
+    add(f"\nJSOC record: `{(g('S2_l1_cme1_171','records', default=['—']) or ['—'])[0]}` "
+        f"from series `{g('S2_l1_cme1_171','series')}`. **Level 1 is not "
+        "level 1.5**: the frame is neither registered to solar north nor "
+        "plate-scale normalised, so `aiapy.calibrate.register` has to run "
+        "before any pixel-to-pixel channel comparison. Only 171 Å was "
+        "re-shot at native resolution — the point is to establish the route "
+        "and its cost, not to repeat the survey at 16× the size.\n")
+    L.extend(embed("S2_l1_fig_cme1_171",
+                   "AIA 171 Å at 2024-05-08 05:10 UT, JSOC level 1, "
+                   "4096×4096. Compare with the 1024×1024 synoptic frame "
+                   "of the same instant below."))
 add("| Wavelength | What it shows | Degradation factor at 2024-05-08 |")
 add("|---|---|---|")
 for wave, what in ((94, "6 MK flare plasma — the flaring core itself"),
@@ -247,26 +282,84 @@ add("**The notebook's second failure of method.** Its CME speed estimate "
     "builds a height-time array from `np.random.uniform(3, 6)` — random "
     "numbers — fits a line through it, and the speeds it prints "
     "(950 and 1100 km s⁻¹) come from its prose, not from that fit.\n")
-add("Two things replace it here. `plot_coronagraph_sequence` builds a real "
-    "running difference from the C2 frames, and `cme_height_time` does a "
-    "genuine linear fit that **refuses** fewer than three points or "
-    "non-monotonic heights, so it cannot be fed noise and return a speed.\n")
-for tag, when in (("cme1", "2024-05-08"), ("cme2", "2024-05-09")):
-    s = ST.get(f"S4_fig_{tag}", {})
-    if not isinstance(s, dict) or s.get("status") == "error":
+add("Here the front is **measured**. `track_cme_front` locates the leading "
+    "edge in each running-difference frame — outermost radius where the "
+    "exposure-normalised profile stays above 5σ for three consecutive "
+    "0.1 R⊙ bins, with the noise taken from the same radius at other "
+    "position angles — and `cme_height_time` fits those heights. Neither "
+    "tool will accept invented input: the fit refuses fewer than three "
+    "points or non-monotonic heights, and it exercised that refusal on the "
+    "first pass here — see the window note below.\n")
+add("### Measured height-time\n")
+add("| CME | PA (°) | Points | Heights (R⊙) | Plane-of-sky speed | r² | "
+    "Fit → 1 R⊙ | Driving flare |")
+add("|---|---|---|---|---|---|---|---|")
+FLARE = {"cme1": "X1.0 started 04:37, peaked 05:09",
+         "cme2": "X2.2 started 08:45, peaked 09:13"}
+for tag, name in (("cme1", "CME 1 (05-08)"), ("cme2", "CME 2 (05-09)")):
+    t, f2 = ST.get(f"S4_track_{tag}", {}), ST.get(f"S4_fit_{tag}", {})
+    if not (ok(f"S4_track_{tag}") and ok(f"S4_fit_{tag}")):
         continue
-    add(f"\n**{when}:** {s.get('n_frames')} {s.get('instrument')} frames → "
-        f"{s.get('n_differences')} differences at "
-        f"{fmt(s.get('median_cadence_min'),3)} min cadence "
-        f"(audit `{aud(f'S4_fig_{tag}')}`). "
-        f"{len(s.get('exposure_times_s') or [])} distinct exposure times were "
-        f"present ({min(s['exposure_times_s'])}–{max(s['exposure_times_s'])} s), "
-        "so each frame is divided by its own exposure before differencing — "
-        "raw differencing here would have rendered the shutter, not the CME.")
-add("\n### CME speeds from the cone-model record\n")
-add("Rather than invent heights, the speeds come from DONKI's cone-model "
-    f"fits to the actual coronagraph data (audit `{aud('S4_donki_cme')}`, "
-    f"{g('S4_donki_cme','n_results')} analyses):\n")
+    hs = t.get("heights_rsun", [])
+    add(f"| {name} | {fmt(t.get('position_angle_deg'),3)} | "
+        f"{t.get('n_detections')} | {hs[0]} → {hs[-1]} | "
+        f"**{fmt(f2.get('speed_km_s'),4)} ± {fmt(f2.get('speed_error_km_s'),3)} "
+        f"km s⁻¹** | {fmt(f2.get('r_squared'),4)} | "
+        f"{str(f2.get('extrapolated_launch_1rsun'))[:19]} | "
+        f"{FLARE[tag]} |")
+add(f"\nAudits: `{aud('S4_track_cme1')}`/`{aud('S4_fit_cme1')}` and "
+    f"`{aud('S4_track_cme2')}`/`{aud('S4_fit_cme2')}`. The position angles "
+    "were chosen automatically, by scoring sectors on monotonic outward "
+    "motion rather than on scatter.\n")
+add("**The launch-time column is the check that the tracker found the "
+    "eruption and not a streamer.** The fit extrapolates back to 1 R⊙ at "
+    f"{str(g('S4_fit_cme1','extrapolated_launch_1rsun'))[11:19]} for CME 1 "
+    f"and {str(g('S4_fit_cme2','extrapolated_launch_1rsun'))[11:19]} for "
+    "CME 2 — each within minutes of its flare's onset. The tracker never "
+    "sees the X-ray data, so that agreement is independent, not circular.\n")
+add("**Two things had to be got right, and both failed the other way "
+    "first.** The noise reference has to be the same radius at other "
+    "position angles: an outer-annulus σ is contaminated once the CME "
+    "reaches it, which inflated the noise 4.6× and suppressed every "
+    "detection. And the search window has to open at the eruption, not an "
+    "hour later — C2 sees only 2.4–5.8 R⊙, so a front already at the outer "
+    "edge cannot be tracked. Opening at the flare peak took CME 1 from 3 "
+    "height points to 5 and turned CME 2 from an untrackable non-monotonic "
+    "scatter into a clean track. Both details are recorded in "
+    "`skills/methods/cme_analysis.md`.\n")
+_cone = [e.get("speed") for e in g("S4_donki_cme", "events", default=[])
+         if isinstance(e.get("speed"), (int, float))]
+_pos = [g("S4_fit_cme1", "speed_km_s"), g("S4_fit_cme2", "speed_km_s")]
+_pos = [v for v in _pos if isinstance(v, (int, float))]
+add("\n### Plane-of-sky against cone model — the comparison that matters\n")
+add("| CME | Measured plane-of-sky | DONKI cone fit (same CME) | Notebook |")
+add("|---|---|---|---|")
+_CONE_ID = {"cme1": "2024-05-08T05", "cme2": "2024-05-09T09"}
+_NB = {"cme1": "950", "cme2": "1100"}
+for tag, name in (("cme1", "CME 1"), ("cme2", "CME 2")):
+    sp = g(f"S4_fit_{tag}", "speed_km_s")
+    c = [e.get("speed") for e in g("S4_donki_cme", "events", default=[])
+         if isinstance(e.get("speed"), (int, float))
+         and str(e.get("associatedCMEID", "")).startswith(_CONE_ID[tag])]
+    add(f"| {name} | **{fmt(sp,4)} km s⁻¹** | "
+        + (f"{fmt(min(c),4)}–{fmt(max(c),4)} km s⁻¹ ({len(c)} fits)"
+           if c else "—")
+        + f" | {_NB[tag]} km s⁻¹ |")
+add("\n**Every measured plane-of-sky speed lands below its cone fit, and "
+    "that is the expected result, not a discrepancy.** Both of these are "
+    "Earth-directed halos, so the plane-of-sky projection sees the front "
+    "edge-on and understates the radial speed — the measurement is a lower "
+    "bound by construction. A plane-of-sky speed coming out *above* a cone "
+    "fit would have meant the tracker had locked onto something other than "
+    "the front. `run_validation.py cmetrack` pins that inequality.\n")
+add("So the notebook's 950 and 1100 km s⁻¹ are defensible numbers for the "
+    "radial speed — they sit inside the cone-model distribution — but its "
+    "own code could not have produced them, and they are not what a "
+    "plane-of-sky fit measures. The two quantities are not "
+    "interchangeable, which is the part the notebook elides.\n")
+add("Full cone-model record (audit "
+    f"`{aud('S4_donki_cme')}`, {g('S4_donki_cme','n_results')} analyses; "
+    "the `type` column is DONKI's own quality flag):\n")
 add("| Time at 21.5 R⊙ | Speed (km s⁻¹) | Lon (°) | Lat (°) | Half-angle (°) | Type |")
 add("|---|---|---|---|---|---|")
 for e in sorted(g("S4_donki_cme", "events", default=[]),
@@ -274,11 +367,7 @@ for e in sorted(g("S4_donki_cme", "events", default=[]),
     add(f"| {e.get('time21_5')} | **{fmt(e.get('speed'),4)}** | "
         f"{fmt(e.get('longitude'),3)} | {fmt(e.get('latitude'),3)} | "
         f"{fmt(e.get('halfAngle'),3)} | {e.get('type')} |")
-add("\nThe notebook's 950 and 1100 km s⁻¹ are inside this distribution, so "
-    "its numbers are defensible — but they were asserted, not derived, and "
-    "its own code could not have produced them. Cone-model speeds are "
-    "plane-of-sky-corrected fits with their own large uncertainty; the "
-    "`type` column (C, O, R, S) records DONKI's own quality flag.\n")
+add("")
 L.extend(embed("S4_fig_cme1", "LASCO C2 running difference, 2024-05-08. "
                               "Exposure-normalised."))
 L.extend(embed("S4_fig_cme2", "LASCO C2 running difference, 2024-05-09."))
@@ -613,9 +702,11 @@ add(f"For context: the L1→Earth ballistic delay at 700 km s⁻¹ is "
 add("\n## What needs updating to reproduce this notebook today\n")
 add("Five things in the original no longer run, or never ran:\n")
 add("1. **AIA through VSO times out.** The `sdo7.nascom.nasa.gov` export "
-    "provider does not answer. Use the JSOC synoptic archive "
-    "(`fetch_aia_synoptic` here) and accept level-1.5 1024², or go to JSOC "
-    "through `drms` for level 1. HMI and LASCO through VSO are fine.")
+    "provider does not answer. Two routes replace it, both used here: "
+    "`fetch_aia_synoptic` (JSOC synoptic archive, level 1.5 at 1024², no "
+    "credentials, seconds per frame) and `fetch_aia_level1` (JSOC via "
+    "`drms`, native 4096² level 1, needs a registered JSOC export email). "
+    "HMI and LASCO through VSO are unaffected.")
 add("2. **The HMI flux cell raises a units error** "
     "(`'arcsec2 / pix2' and 'cm2' are not convertible`). Pixel area has to "
     "be converted through the plate scale and the solar distance before "
@@ -625,8 +716,11 @@ add("3. **`sm.coord_table.to_pandas()` raises** in current solarmach; the "
     "to are wrong by 120°+ for Solar Orbiter, so this failure is not "
     "cosmetic.")
 add("4. **The CME speed cell uses `np.random.uniform`** and never produced "
-    "the speeds the notebook prints. Any reproduction has to replace it "
-    "with real height-time measurements or a catalogue.")
+    "the speeds the notebook prints. Replaced here by a real measurement: "
+    "`track_cme_front` locates the leading edge in each difference frame "
+    "and `cme_height_time` fits it. Note the search window must open at the "
+    "flare peak — C2 sees only 2.4–5.8 R⊙, so a sequence starting an hour "
+    "late catches a front already leaving the field.")
 add("5. **DSCOVR plasma for 2024 is not on CDAWeb as science data** "
     "(`DSCOVR_H1_FC` ends 2019). SWPC real-time data exists, but is not "
     "science quality.\n")
@@ -637,10 +731,17 @@ add("| `plot_coronagraph_sequence` | Exposure-normalised running-difference "
     "panels from a coronagraph FITS sequence | `run_validation.py corona` |")
 add("| `cme_height_time` | Linear height-time fit that refuses <3 points or "
     "non-monotonic heights | `run_validation.py corona` |")
+add("| `track_cme_front` | Measures the leading edge per frame so the fit "
+    "has real input; azimuthal noise reference, monotonicity-scored sector "
+    "choice, explicit halo detection | `run_validation.py cmetrack` |")
 add("| `plot_heliospheric_config` | solarmach constellation and Parker "
     "spirals, returning the position table | `run_validation.py corona` |")
-add("| `fetch_aia_synoptic` | JSOC synoptic AIA, replacing the dead VSO "
-    "export route | `run_validation.py aiasyn` |")
+add("| `fetch_aia_synoptic` | JSOC synoptic AIA (level 1.5, 1024²), "
+    "replacing the dead VSO export route with no credentials needed | "
+    "`run_validation.py aiasyn` |")
+add("| `fetch_aia_level1` | Native 4096² level-1 AIA from JSOC via `drms`; "
+    "refuses by name without a registered export email rather than "
+    "substituting the smaller product | `run_validation.py aial1` |")
 add("| `fetch_vso(detector=...)` | LASCO C2/C3 and SECCHI COR1/COR2/EUVI "
     "selection, so a sequence does not interleave two fields of view | "
     "`run_validation.py corona` |")

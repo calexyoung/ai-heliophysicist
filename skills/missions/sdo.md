@@ -78,3 +78,12 @@ Note Fido does **not** skip a download when the file is already present (a repea
 - Channels carried: 94, 131, 171, 193, 211, 304, 335, 1600, 1700, 4500. **193, not 195** — asking for 195 (the EIT/EUVI line) is refused by name rather than fetched and failed.
 - `aia_degradation` still applies: the synoptic product is not degradation-corrected, so a multi-year intensity comparison still needs the correction factor.
 - Validation: `uv run python validation/run_validation.py aiasyn`.
+
+## Tool: `fetch_aia_level1` (added 2026-09-05)
+- Full-resolution AIA straight from JSOC through `drms`: 4096×4096 at ~0.6 arcsec/pix, the native product. Use it when the science needs native resolution or the level-1 calibration chain (loop widths, pixel photometry, precise flare morphology). `fetch_aia_synoptic` is ~10× smaller and much faster, and is the right choice for context imaging.
+- **Needs a JSOC-registered email** (`JSOC_EMAIL` in `.env`, or the `jsoc_email` argument). Registered for this repo on 2026-09-05. Without it the tool refuses by name — it does **not** fall back to the synoptic product, because silently returning a 16× smaller image under the same call is exactly the substitution the contract forbids.
+- Uses `method="url_quick"`, `protocol="as-is"`: JSOC serves files already on disk and answers immediately, no export queue. A record JSOC would have to stage is reported as such rather than waited on. One 171 Å frame is ~12 MB and downloads in ~20 s.
+- **Level 1 is not level 1.5.** The file is neither registered to solar north nor plate-scale normalised — `CROTA2` is small but nonzero (0.019° on the validated frame). Run `aiapy.calibrate.register` before comparing channels pixel to pixel, and `correct_aia_map` for degradation. A `CROTA2` of exactly 0 means someone already registered it.
+- Series are chosen by channel: `aia.lev1_euv_12s` (94–335 Å), `aia.lev1_uv_24s` (1600/1700), `aia.lev1_vis_1h` (4500). 195 Å is not an AIA channel and is refused by name.
+- Check `QUALITY` in the header before using a frame; 0 is clean.
+- Validation: `uv run python validation/run_validation.py aial1` (skips cleanly when `JSOC_EMAIL` is unset).

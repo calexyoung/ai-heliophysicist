@@ -1047,6 +1047,79 @@ def case_library_transport_pins() -> None:
            + "; ".join(drift)))
 
 
+def case_track_cme_front() -> None:
+    """Measuring the 2024-05-08 halo front, not reading it off a catalogue.
+
+    LASCO C2, 06:00-10:00 UT on 2024-05-08, the halo behind the first Gannon
+    shock. Anchors, in order of what each one would catch:
+
+    - The auto sector picker must land on a MONOTONIC outward track. It
+      scores monotonicity first and span last on purpose: scoring by span
+      alone rewards a noisy sector whose "edge" jumps around, which is the
+      opposite of a tracked front, and that is what the first version did.
+    - The fitted plane-of-sky speed must be BELOW the DONKI cone-model speed
+      for the same CME. This is the physics anchor: a halo is seen edge-on,
+      so the plane-of-sky projection understates the radial speed. A
+      measurement that came out ABOVE the cone fit would mean the tracker
+      had locked onto something other than the front.
+    - The linear fit's extrapolation back to 1 Rsun must land near the
+      driving X1.0 flare peak (05:09 UT). The tracker never sees the flare,
+      so agreement is an independent check that the front is the eruption.
+    - A sequence of fewer than 3 frames must be refused rather than fitted.
+    """
+    lasco = run_tool("fetch_vso", start="2024-05-08T06:00:00",
+                     end="2024-05-08T10:00:00", instrument="LASCO",
+                     detector="C2", max_files=16)
+    if lasco["status"] != "ok" or len(lasco.get("files", [])) < 6:
+        check("track_cme.fetch", False, lasco.get("error", "too few frames"))
+        return
+
+    short = run_tool("track_cme_front", files=lasco["files"][:2])
+    check("track_cme.refusal",
+          short["status"] == "error" and "at least 3" in short["error"],
+          short.get("error", "")[:90])
+
+    trk = run_tool("track_cme_front", files=lasco["files"])
+    if trk["status"] != "ok":
+        check("track_cme.track", False, trk.get("error", ""))
+        return
+    heights = trk["heights_rsun"]
+    ok_track = (trk["monotonic"] and trk["n_detections"] >= 3
+                and heights[-1] > heights[0])
+    check("track_cme.track", ok_track,
+          f"PA {trk['position_angle_deg']:.0f} deg [{trk['position_angle_source']}], "
+          f"{trk['n_detections']} detections, "
+          f"{heights[0]:.2f} -> {heights[-1]:.2f} Rsun, halo fraction "
+          f"{trk['halo_fraction_peak']:.2f}")
+
+    fit = run_tool("cme_height_time", times=trk["times"],
+                   heights_rsun=heights)
+    if fit["status"] != "ok":
+        check("track_cme.speed", False, fit.get("error", ""))
+        return
+
+    donki = run_tool("search_donki", start_date="2024-05-08",
+                     end_date="2024-05-09", kind="CMEAnalysis")
+    cone = [e.get("speed") for e in donki.get("events", [])
+            if isinstance(e.get("speed"), (int, float))
+            and str(e.get("associatedCMEID", "")).startswith("2024-05-08T05")]
+    cone_min = min(cone) if cone else None
+
+    launch = str(fit.get("extrapolated_launch_1rsun", ""))
+    near_flare = launch.startswith("2024-05-08 0") and launch[11:13] in ("04", "05")
+    ok_speed = (300 <= fit["speed_km_s"] <= 700
+                and fit["r_squared"] > 0.95
+                and (cone_min is None or fit["speed_km_s"] < cone_min)
+                and near_flare)
+    check("track_cme.speed", ok_speed,
+          f"plane-of-sky {fit['speed_km_s']:.0f} +/- "
+          f"{fit['speed_error_km_s']:.0f} km/s (r^2 {fit['r_squared']:.3f})"
+          + (f", below the DONKI cone fit at {cone_min:.0f} km/s as an "
+             "edge-on halo must be" if cone_min else "")
+          + f"; fit extrapolates to 1 Rsun at {launch[:19]}, "
+            "the X1.0 peaked 05:09")
+
+
 def case_coronagraph_and_config() -> None:
     """The two capabilities the May 2024 notebook reproduction needed.
 
@@ -1162,6 +1235,67 @@ def case_aia_synoptic() -> None:
     check("aia_synoptic.refusal",
           bad["status"] == "error" and "195" in bad["error"],
           bad.get("error", "")[:100])
+
+
+def case_aia_level1() -> None:
+    """JSOC level-1 AIA, on the same X1.0 frame as `aiasyn`.
+
+    The point of the case is that the two routes are NOT interchangeable,
+    and the header proves which one you got. Anchors:
+
+    - 4096x4096 at CDELT1 ~0.6 arcsec/pix and LVL_NUM 1.0. The synoptic
+      route returns 1024x1024 at ~2.4 and LVL_NUM 1.5; getting those numbers
+      here would mean a silent fallback to the smaller product.
+    - The same T_OBS minute as the synoptic frame, so the two routes are
+      demonstrably serving the same instant rather than drifting apart.
+    - Level 1 is NOT registered: CROTA2 is small but nonzero. A CROTA2 of
+      exactly 0 would mean the file had already been through `register`.
+    - No JSOC email must refuse by name, not fall back to a lower-resolution
+      product. Refusing is the contract; substituting silently is the bug.
+
+    Skips (rather than fails) when JSOC_EMAIL is unset, so a fresh clone
+    without credentials still gets a clean run.
+    """
+    import os
+
+    from astropy.io import fits
+
+    bad = run_tool("fetch_aia_level1", date="2024-05-08T05:10:00",
+                   wavelength_angstrom=171, jsoc_email="")
+    if os.environ.get("JSOC_EMAIL"):
+        # the tool falls back to the env var, so exercise the refusal by
+        # asking for a channel that has no level-1 series at all
+        bad = run_tool("fetch_aia_level1", date="2024-05-08T05:10:00",
+                       wavelength_angstrom=195)
+        check("aia_level1.refusal",
+              bad["status"] == "error" and "195" in bad["error"],
+              bad.get("error", "")[:100])
+    else:
+        check("aia_level1.refusal",
+              bad["status"] == "error" and "JSOC" in bad["error"],
+              bad.get("error", "")[:120])
+        print("SKIP  aia_level1.header: JSOC_EMAIL unset")
+        return
+
+    r = run_tool("fetch_aia_level1", date="2024-05-08T05:10:00",
+                 wavelength_angstrom=171)
+    if r["status"] != "ok" or not r.get("files"):
+        check("aia_level1.header", False, r.get("error", ""))
+        return
+    with fits.open(r["files"][0]) as hdul:
+        hdr = hdul[1].header
+        shape = hdul[1].data.shape
+    cdelt = float(hdr.get("CDELT1", 0))
+    lvl = float(hdr.get("LVL_NUM", 0))
+    crota = abs(float(hdr.get("CROTA2", 0)))
+    ok_l1 = (shape == (4096, 4096) and 0.55 < cdelt < 0.65 and lvl == 1.0
+             and 0 < crota < 1 and str(hdr.get("T_OBS", "")).startswith(
+                 "2024-05-08T05:10"))
+    check("aia_level1.header", ok_l1,
+          f"{shape[0]}x{shape[1]} at {cdelt:.3f} arcsec/pix, LVL_NUM {lvl}, "
+          f"CROTA2 {crota:.4f} deg (nonzero — not yet registered), "
+          f"T_OBS {hdr.get('T_OBS')}; the synoptic route serves the same "
+          "instant at 1024x1024 / ~2.4 arcsec/pix")
 
 
 def case_extreme_value() -> None:
@@ -1701,6 +1835,8 @@ CASES = {
     "libpins": case_library_transport_pins,
     "corona": case_coronagraph_and_config,
     "aiasyn": case_aia_synoptic,
+    "aial1": case_aia_level1,
+    "cmetrack": case_track_cme_front,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

@@ -13,7 +13,7 @@ PlasmaPy, geopack, aiapy, hapiclient, cdflib).
 **The LLM writes no pipelines and computes no science numbers itself.**
 Every result is audit-logged and traceable to the exact tool call that
 produced it. The 53-check live suite covers published, analytic, and
-cross-implementation anchors: of 80 tools, 43 are directly exercised there;
+cross-implementation anchors: of 82 tools, 46 are directly exercised there;
 supporting tools are guarded by offline tests, schema locks, and validated
 composition rather than falsely described as individually published anchors.
 Six of those checks pin the *inputs* themselves, so an upstream
@@ -23,7 +23,7 @@ reprocessing fails loudly instead of silently moving published numbers.
 
 ```bash
 uv sync                                     # one-time: build the environment
-uv run helio-agent list                     # 80 tools in six families
+uv run helio-agent list                     # 82 tools in six families
 uv run helio-agent run fetch_omni '{"start":"2024-05-10T00:00:00Z","end":"2024-05-14T00:00:00Z"}'
 uv run python validation/run_validation.py  # prove the stack against known results
 uv run helio-agent report sun-news          # today's space-weather report (PDF)

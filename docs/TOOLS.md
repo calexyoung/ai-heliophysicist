@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-80 core tools in six families. Invoke any tool with
+82 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -11,9 +11,9 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | Family | Tools |
 |---|---|
 | **discover** (13) | `get_noaa_realtime`, `get_solar_regions`, `get_sunspot_reports`, `list_cdaweb_variables`, `list_model_outputs`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
-| **retrieve** (17) | `fetch_aia_synoptic`, `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_model_output`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
+| **retrieve** (18) | `fetch_aia_level1`, `fetch_aia_synoptic`, `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_model_output`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
-| **measure** (23) | `characterize_sep`, `cme_arrival`, `cme_height_time`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `flare_probability`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
+| **measure** (24) | `characterize_sep`, `cme_arrival`, `cme_height_time`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `flare_probability`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `track_cme_front`, `validate_reproduction_manifest`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
 | **report** (13) | `create_reproduction_manifest`, `export_html`, `plot_coronagraph_sequence`, `plot_distribution`, `plot_heliospheric_config`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_solar_regions`, `plot_stack`, `plot_timeseries`, `render_reproduction_report`, `write_pdf_report` |
 
@@ -225,6 +225,37 @@ wavelength_angstrom: for narrowband imagers (AIA: 94,131,171,193,211,304,335,160
 ## retrieve
 
 Fetch data to the persistent workspace. Every retrieval writes a file (usually a UTC-indexed CSV with NaN fills) and returns its path.
+
+### `fetch_aia_level1`
+
+```python
+fetch_aia_level1(date: 'str', wavelength_angstrom: 'int' = 171, n_frames: 'int' = 1, jsoc_email: 'str | None' = None) -> 'dict'
+```
+
+Fetch full-resolution AIA level-1 FITS straight from JSOC via drms.
+
+4096x4096 at ~0.6 arcsec/pix — the native product, against the
+1024x1024 / ~2.4 arcsec/pix of `fetch_aia_synoptic`. Use this when the
+science needs native resolution or the level-1 calibration chain (loop
+widths, pixel photometry, precise flare morphology); use the synoptic
+route for context imaging, where it is ~10x smaller and much faster.
+
+Level 1 is NOT level 1.5: it is neither registered to solar north nor
+plate-scale normalised (CROTA2 is small but nonzero). Run
+`aiapy.calibrate.register` before comparing channels pixel to pixel, and
+`correct_aia_map` for the degradation correction.
+
+**Requires a JSOC-registered email address.** JSOC gates its export
+endpoint on one; register at http://jsoc.stanford.edu/ajax/register_email.html
+Pass it as `jsoc_email` or set `JSOC_EMAIL` in the project .env. Without
+it the tool refuses rather than silently falling back to a lower-
+resolution product.
+
+Uses method 'url_quick' with protocol 'as-is', which serves files already
+on disk at JSOC and returns immediately; a request that JSOC would have
+to stage is reported as such rather than waited on.
+
+*Source: `helio_agent/tools/retrieve.py`*
 
 ### `fetch_aia_synoptic`
 
@@ -1129,6 +1160,51 @@ T89 is a quiet-to-moderate empirical model — do not trust footpoints
 during storm main phases; see skills/methods/coordinate_systems.md.
 
 *Source: `helio_agent/tools/geospace.py`*
+
+### `track_cme_front`
+
+```python
+track_cme_front(files: 'list[str]', position_angle_deg: 'float | None' = None, sector_width_deg: 'float' = 30.0, n_sigma: 'float' = 5.0, r_min_rsun: 'float | None' = None, r_max_rsun: 'float | None' = None) -> 'dict'
+```
+
+Track a CME leading edge through a coronagraph sequence, frame by frame.
+
+Measures the front so `cme_height_time` has something real to fit. Each
+frame is divided by its own exposure time and differenced against the
+previous one (same discipline as `plot_coronagraph_sequence`), remapped
+to heliocentric radius through the frame WCS, and reduced to a median
+radial profile inside a position-angle sector. The leading edge is the
+OUTERMOST radius where that profile stays above `n_sigma` times the
+noise for three consecutive radial bins — a single hot pixel or a cosmic
+ray cannot set the edge.
+
+position_angle_deg: sector centre, degrees counter-clockwise from solar
+  north (the standard coronagraph convention). Leave None to auto-select
+  the sector with the largest outward excursion across the sequence; the
+  chosen angle is reported either way, so an auto choice is inspectable.
+sector_width_deg: full width of the sector. Narrow sectors are noisier;
+  wide ones average over structure moving at different speeds.
+n_sigma: detection threshold, in units of the per-frame noise, estimated
+  as 1.4826 x the median absolute deviation of the whole differenced
+  frame. A plain standard deviation over an outer annulus is not usable
+  here: once the CME reaches that annulus it inflates its own noise
+  floor and suppresses the detection.
+r_min_rsun / r_max_rsun: radial search bounds. Default to the detector's
+  own field (C2: 2.2-6, C3: 3.7-30), which keeps the occulter edge and
+  the frame corners out of the measurement.
+
+Refuses rather than guessing when: fewer than 3 frames survive, the WCS
+carries no solar radius, or fewer than 3 frames yield a detection.
+Returns per-frame times and heights ready to hand to `cme_height_time`,
+plus the detections it rejected and why.
+
+**This is a plane-of-sky measurement of a running-difference front.**
+The bright edge in a difference image is where the brightness CHANGED
+most, which is the front only if the front is the fastest-moving
+feature; a streamer deflection can masquerade as one. Always compare the
+result against a cone-model fit before quoting it as physical.
+
+*Source: `helio_agent/tools/coronagraph.py`*
 
 ### `validate_reproduction_manifest`
 
