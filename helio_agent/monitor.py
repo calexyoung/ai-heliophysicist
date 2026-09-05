@@ -96,8 +96,33 @@ def cycle(lookback_days: int = 3) -> dict:
         recs = xray["data"]["xrays-1-day.json"]["latest_records"]
         # feed interleaves both XRS channels per timestamp; flare class is
         # defined on the long channel (0.1-0.8 nm)
-        rec = next((r for r in recs if r.get("energy") == "0.1-0.8nm"), recs[0])
-        conditions["xray_flux_wm2"] = rec.get("flux")
+        long_ch = [r for r in recs if r.get("energy") == "0.1-0.8nm"] or recs
+        # A flux of exactly 0.0 is not a measurement: quiet-Sun background is
+        # ~1e-8 W/m^2 (A class), so zero means the feed is dropping records,
+        # not that the Sun went out. SWPC served zeros on BOTH GOES-18 and
+        # GOES-19 for ~2 h on 2026-09-05. Take the newest positive sample and
+        # report its age instead of passing the zero through as a condition.
+        rec = next((r for r in long_ch
+                    if isinstance(r.get("flux"), (int, float))
+                    and r["flux"] > 0), None)
+        if rec is None:
+            conditions["xray_flux_wm2"] = None
+            conditions["xray_note"] = (
+                f"all {len(long_ch)} long-channel sample(s) the monitor sees "
+                "are zero — a dropout, not a quiet Sun (quiet background is "
+                "~1e-8 W/m^2). fetch_swpc_json returns only the newest few "
+                "records, so this says the feed is dropping now, not that it "
+                "has no data. Check services.swpc.noaa.gov xrays-1-day.json "
+                "for the last good value.")
+        else:
+            conditions["xray_flux_wm2"] = rec.get("flux")
+            conditions["xray_time"] = rec.get("time_tag")
+            n_zero = sum(1 for r in long_ch
+                         if r.get("flux") == 0.0)
+            if n_zero:
+                conditions["xray_note"] = (
+                    f"{n_zero} zero-flux sample(s) in the feed skipped; "
+                    f"quoting the newest positive one ({rec.get('time_tag')})")
     except Exception:  # noqa: BLE001
         conditions["xray_flux_wm2"] = None
     summary["conditions"] = conditions
