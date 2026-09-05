@@ -390,6 +390,236 @@ def fetch_aia_level1(date: str, wavelength_angstrom: int = 171,
             "files": files, "artifacts": files}
 
 
+_NOAA_SW = "https://archive.data.noaa.gov/satellite-spaceweather"
+_DSCOVR_L2 = {
+    "faraday_cup": ("DSCOVR/DSCOVR/FC/f1m", "f1m"),
+    "magnetometer": ("DSCOVR/DSCOVR/MAG/m1m", "m1m"),
+}
+
+
+def _noaa_list(prefix: str) -> list[str]:
+    """Keys under an archive.data.noaa.gov prefix (S3 path-style listing)."""
+    import xml.etree.ElementTree as ET
+
+    keys, token = [], None
+    for _ in range(20):
+        params = {"list-type": "2", "prefix": prefix, "max-keys": "1000"}
+        if token:
+            params["continuation-token"] = token
+        r = cached_get(f"{_NOAA_SW}/", params=params, timeout=90)
+        r.raise_for_status()
+        root = ET.fromstring(r.content)
+        ns = {"s3": "http://s3.amazonaws.com/doc/2006-03-01/"}
+        keys += [e.text for e in root.findall(".//s3:Contents/s3:Key", ns)
+                 if e.text]
+        trunc = root.find("s3:IsTruncated", ns)
+        token_el = root.find("s3:NextContinuationToken", ns)
+        if trunc is None or trunc.text != "true" or token_el is None:
+            break
+        token = token_el.text
+    return keys
+
+
+@tool(family="retrieve")
+def fetch_dscovr_l2(start: str, end: str, product: str = "faraday_cup",
+                    variables: list[str] | None = None,
+                    keep_suspect: bool = False) -> dict:
+    """Fetch DSCOVR Level-2 science data from the NOAA NCEI archive.
+
+    **This is the science-quality DSCOVR route, and it is not CDAWeb.**
+    CDAWeb's only DSCOVR plasma product (`DSCOVR_H1_FC`) stops in June 2019,
+    and its magnetometer product (`DSCOVR_H0_MAG`) carries GSE and RTN but
+    no GSM — so neither can answer "what was Bz at L1 during a 2024 storm".
+    NOAA's own archive carries both, Level 2, through the present.
+
+    product:
+      'faraday_cup'  — proton and alpha speed, density, temperature, and
+                       velocity vectors in GSE and GSM (1-minute averages).
+      'magnetometer' — bt, b{x,y,z} in GSE **and GSM**, with angles.
+
+    variables: subset to keep. Default is the physically useful set for the
+    product; pass names explicitly for anything else (the files also carry
+    ~60 per-sample quality flags).
+
+    keep_suspect: each sample carries `overall_quality` (0 normal, 1
+    suspect, 2 error). Error samples are always dropped. Suspect samples are
+    dropped too unless this is set — a storm is exactly when marginal
+    samples appear, and silently averaging them in is how a saturated
+    instrument reads as a measurement.
+
+    Files are daily netCDF, gzipped, ~50 kB each. Where a day has been
+    reprocessed the archive holds several, distinguished by their `p`
+    timestamp; the newest is used and the others are reported.
+
+    **The Faraday cup has a stated valid range** (`valid_min`/`valid_max` in
+    the header, e.g. 189-1111 km/s for proton speed) and does struggle in
+    extreme flux. Cross-check a storm peak against OMNI before quoting it.
+    """
+    import gzip
+    from datetime import timedelta
+
+    import pandas as pd
+
+    if product not in _DSCOVR_L2:
+        return {"status": "error",
+                "error": (f"unknown product {product!r}; available: "
+                          f"{sorted(_DSCOVR_L2)}")}
+    prefix, tag = _DSCOVR_L2[product]
+    try:
+        t0 = datetime.fromisoformat(start.replace("Z", "+00:00"))
+        t1 = datetime.fromisoformat(end.replace("Z", "+00:00"))
+    except ValueError as exc:
+        return {"status": "error", "error": f"unparseable time: {exc}"}
+    for t in (t0, t1):
+        if t.tzinfo is not None:
+            t = t.astimezone(timezone.utc)
+    t0 = t0.replace(tzinfo=None)
+    t1 = t1.replace(tzinfo=None)
+    if t1 <= t0:
+        return {"status": "error", "error": "end must be after start"}
+
+    default_vars = {
+        "faraday_cup": ["proton_speed", "proton_density", "proton_temperature",
+                        "proton_vx_gsm", "proton_vy_gsm", "proton_vz_gsm",
+                        "alpha_density"],
+        "magnetometer": ["bt", "bx_gsm", "by_gsm", "bz_gsm",
+                         "bx_gse", "by_gse", "bz_gse"],
+    }[product]
+    wanted = list(variables) if variables else default_vars
+
+    months = set()
+    d = t0.replace(hour=0, minute=0, second=0, microsecond=0)
+    while d <= t1:
+        months.add((d.year, d.month))
+        d += timedelta(days=1)
+    catalog: dict[str, list[str]] = {}
+    for y, m in sorted(months):
+        try:
+            for k in _noaa_list(f"{prefix}/{y}/{m:02d}/"):
+                base = k.rsplit("/", 1)[-1]
+                if not base.startswith(f"oe_{tag}_dscovr_s"):
+                    continue
+                catalog.setdefault(base[len(f"oe_{tag}_dscovr_s"):][:8],
+                                   []).append(k)
+        except Exception as exc:  # noqa: BLE001
+            return {"status": "error",
+                    "error": f"NOAA archive listing failed for {y}-{m:02d}: {exc}"}
+    if not catalog:
+        return {"status": "error",
+                "error": (f"no DSCOVR {product} files under {prefix} for "
+                          f"{t0:%Y-%m} .. {t1:%Y-%m}; the archive starts in "
+                          "2016")}
+
+    out_dir = data_path("dscovr_l2")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    frames, used, missing, superseded = [], [], [], 0
+    d = t0.replace(hour=0, minute=0, second=0, microsecond=0)
+    while d <= t1:
+        day = f"{d:%Y%m%d}"
+        cands = sorted(catalog.get(day, []))
+        if not cands:
+            missing.append(day)
+            d += timedelta(days=1)
+            continue
+        superseded += len(cands) - 1
+        key = cands[-1]                      # newest processing timestamp
+        base = key.rsplit("/", 1)[-1]
+        dest = out_dir / base[:-3]           # strip .gz
+        if not dest.exists():
+            r = requests.get(f"{_NOAA_SW}/{key}", headers=_UA, timeout=180)
+            if r.status_code != 200:
+                missing.append(f"{day} (http {r.status_code})")
+                d += timedelta(days=1)
+                continue
+            dest.write_bytes(gzip.decompress(r.content))
+        used.append(base)
+        d += timedelta(days=1)
+
+    if not used:
+        return {"status": "error",
+                "error": (f"no DSCOVR {product} file downloaded for "
+                          f"{t0:%Y-%m-%d}..{t1:%Y-%m-%d}: {missing}")}
+
+    import xarray as xr
+
+    dropped_error = dropped_suspect = 0
+    reduced_n = reduced_total = 0
+    valid_ranges: dict[str, list] = {}
+    for base in used:
+        ds = xr.open_dataset(out_dir / base[:-3])
+        have = [v for v in wanted if v in ds.variables]
+        if not have:
+            ds.close()
+            return {"status": "error",
+                    "error": (f"none of {wanted} are in the {product} file; "
+                              f"available: {sorted(ds.data_vars)[:25]}")}
+        df = ds[have].to_dataframe()
+        for v in have:
+            a = ds[v].attrs
+            if "valid_min" in a and v not in valid_ranges:
+                valid_ranges[v] = [float(a["valid_min"]), float(a["valid_max"])]
+        # overall_quality is NOT sufficient on its own. During the May 2024
+        # storm the Faraday cup reported ~470 km/s where every other L1
+        # monitor reported ~1000, with overall_quality 0 throughout; the only
+        # header signal was reduced_proton_quality_flag. Report its incidence
+        # so a caller cannot miss it.
+        if "reduced_proton_quality_flag" in ds.variables:
+            rq = ds["reduced_proton_quality_flag"].to_series()
+            reduced_n += int((rq == 1).sum())
+            reduced_total += int(rq.size)
+        if "overall_quality" in ds.variables:
+            q = ds["overall_quality"].to_series()
+            bad = q >= 2
+            dropped_error += int(bad.sum())
+            df = df[~bad.reindex(df.index, fill_value=False)]
+            if not keep_suspect:
+                susp = q == 1
+                dropped_suspect += int(susp.sum())
+                df = df[~susp.reindex(df.index, fill_value=False)]
+        ds.close()
+        frames.append(df)
+
+    out = pd.concat(frames).sort_index()
+    out.index = pd.to_datetime(out.index)
+    if getattr(out.index, "tz", None) is not None:
+        out.index = out.index.tz_convert("UTC").tz_localize(None)
+    out = out.loc[(out.index >= t0) & (out.index <= t1)]
+    if out.empty:
+        return {"status": "error",
+                "error": ("every sample in the requested window was dropped "
+                          "as error/suspect quality; pass keep_suspect=True "
+                          "to inspect them")}
+    fname = _slug("DSCOVR_L2", tag, f"{t0:%Y-%m-%d}", f"{t1:%Y-%m-%d}") + ".csv"
+    path = data_path(fname)
+    _series_to_csv(out, path)
+    return {"file": str(path), "product": product,
+            "processing_level": "Level 2 (NOAA NCEI archive)",
+            "n_records": int(len(out)),
+            "time_range": [str(out.index[0]), str(out.index[-1])],
+            "columns": list(out.columns),
+            "files_used": used, "days_missing": missing,
+            "superseded_reprocessings_skipped": superseded,
+            "dropped_error_samples": dropped_error,
+            "dropped_suspect_samples": (dropped_suspect if not keep_suspect
+                                        else 0),
+            "kept_suspect": bool(keep_suspect),
+            "reduced_proton_quality_fraction": (
+                round(reduced_n / reduced_total, 3) if reduced_total else None),
+            "valid_ranges": valid_ranges,
+            "note": ("NOAA NCEI Level 2, not CDAWeb: CDAWeb's DSCOVR_H1_FC "
+                     "plasma stops in 2019 and DSCOVR_H0_MAG carries no GSM. "
+                     + (("WARNING: reduced_proton_quality_flag is set on "
+                         f"{reduced_n / reduced_total:.0%} of samples. "
+                         "overall_quality does NOT catch this — on the May "
+                         "2024 storm the cup read ~470 km/s against ~1000 "
+                         "elsewhere while reporting quality 0. Cross-check "
+                         "the speed against OMNI before quoting it.")
+                        if reduced_total and reduced_n / reduced_total > 0.1
+                        else "Cross-check a storm peak against OMNI and "
+                             "valid_ranges.")),
+            "artifacts": [str(path)]}
+
+
 @tool(family="retrieve")
 def fetch_helioviewer_image(date: str, layers: str = "[SDO,AIA,AIA,171,1,100]",
                             width: int = 1024, height: int = 1024,

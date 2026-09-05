@@ -1047,6 +1047,63 @@ def case_library_transport_pins() -> None:
            + "; ".join(drift)))
 
 
+def case_dscovr_l2() -> None:
+    """DSCOVR Level 2 from NOAA NCEI — the route CDAWeb cannot serve.
+
+    Anchors, on the 2024-05-10..13 storm window:
+
+    - The plasma product returns data at all. CDAWeb's DSCOVR_H1_FC stops in
+      June 2019, so a nonzero record count here is the whole point of the
+      tool existing.
+    - The magnetometer product carries **bz_gsm**. CDAWeb's DSCOVR_H0_MAG
+      serves GSE and RTN only, so Bz — the quantity that drives the storm —
+      was unavailable from DSCOVR through that route.
+    - |B| and Bz agree with the other L1 monitors: max |B| in 70-80 nT and
+      min Bz in -45..-60 nT, which ACE, Wind and OMNI all bracket.
+    - **The Faraday cup does NOT agree, and the case pins that too.** Its
+      speed maximum comes out near 826 km/s where OMNI 1-min gives ~1026 and
+      ACE ~1004. `overall_quality` reports 0 throughout the discrepancy; the
+      only header signal is `reduced_proton_quality_flag`, set on ~58% of
+      the window. If a future reprocessing fixes the speeds, this check
+      fails and the skill note needs rewriting — which is the intent.
+    """
+    fc = run_tool("fetch_dscovr_l2", start="2024-05-10T00:00:00Z",
+                  end="2024-05-13T00:00:00Z", product="faraday_cup")
+    if fc["status"] != "ok":
+        check("dscovr_l2.plasma", False, fc.get("error", ""))
+        return
+    frac = fc.get("reduced_proton_quality_fraction") or 0.0
+    check("dscovr_l2.plasma", fc["n_records"] > 3000 and 0.4 < frac < 0.8,
+          f"{fc['n_records']} Level-2 1-min plasma records where CDAWeb's "
+          f"DSCOVR_H1_FC has none after 2019; {fc['dropped_error_samples']} "
+          f"error samples dropped, reduced_proton_quality_flag on {frac:.0%}")
+
+    mag = run_tool("fetch_dscovr_l2", start="2024-05-10T00:00:00Z",
+                   end="2024-05-13T00:00:00Z", product="magnetometer")
+    if mag["status"] != "ok":
+        check("dscovr_l2.mag_gsm", False, mag.get("error", ""))
+        return
+    bt = run_tool("find_extrema", file=mag["file"], column="bt", mode="max")
+    bz = run_tool("find_extrema", file=mag["file"], column="bz_gsm", mode="min")
+    ok_mag = ("bz_gsm" in mag["columns"]
+              and bt["status"] == "ok" and bz["status"] == "ok"
+              and 70 <= bt["value"] <= 80 and -60 <= bz["value"] <= -45)
+    check("dscovr_l2.mag_gsm", ok_mag,
+          f"bz_gsm present (CDAWeb's DSCOVR_H0_MAG has no GSM at all); "
+          f"max |B| {bt.get('value')} nT, min Bz {bz.get('value')} nT — "
+          "inside the ACE/Wind/OMNI bracket")
+
+    sp = run_tool("find_extrema", file=fc["file"], column="proton_speed",
+                  mode="max")
+    check("dscovr_l2.cup_underreads",
+          sp["status"] == "ok" and 780 <= sp["value"] <= 880,
+          f"Faraday cup speed maximum {sp.get('value')} km/s against ~1026 "
+          "from OMNI 1-min and ~1004 from ACE: the cup under-reads this "
+          "storm by ~200 km/s while reporting overall_quality 0. If this "
+          "check fails because the speeds moved, the archive was "
+          "reprocessed and skills/missions/dscovr.md needs updating")
+
+
 def case_track_cme_front() -> None:
     """Measuring the 2024-05-08 halo front, not reading it off a catalogue.
 
@@ -1837,6 +1894,7 @@ CASES = {
     "aiasyn": case_aia_synoptic,
     "aial1": case_aia_level1,
     "cmetrack": case_track_cme_front,
+    "dscovrl2": case_dscovr_l2,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

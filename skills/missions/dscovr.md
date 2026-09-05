@@ -32,3 +32,24 @@
 ## Validation anchors
 - **2018-08-25/26 storm**: DSCOVR shows the slow but strongly southward ICME (Bz ~ -17 nT for hours) that drove a Dst ~ -175 nT storm — reproduce the L1-to-Dst delay chain.
 - **2024-05-10 Gannon storm**: successive shocks and Bz < -40 nT at DSCOVR preceding the G5 storm; compare against OMNI and SWPC's issued alerts for an operational-chain validation.
+
+## Tool: `fetch_dscovr_l2` (added 2026-09-05)
+
+**CDAWeb cannot serve modern DSCOVR science data. NOAA's own archive can.**
+- `DSCOVR_H1_FC` (plasma) stops 2019-06-27. `DSCOVR_H0_MAG` runs to the present but carries **GSE and RTN only, no GSM** — so Bz, the quantity that drives a storm, was not obtainable from DSCOVR through CDAWeb at all.
+- The Level-2 archive lives at `archive.data.noaa.gov/satellite-spaceweather`, an S3 bucket behind a JS explorer. The old `ngdc.noaa.gov/dscovr/data/YYYY/MM/` path is dead and `ncei.noaa.gov/data/dscovr-space-weather/` 404s. List it path-style: `GET /satellite-spaceweather/?list-type=2&prefix=DSCOVR/DSCOVR/FC/f1m/2024/05/&delimiter=/`. Note the doubled `DSCOVR/DSCOVR/` — that is real, not a typo.
+- Products: `FC/f1m` (Faraday cup 1-min, `oe_f1m_dscovr_*`) and `MAG/m1m` (magnetometer 1-min, `oe_m1m_dscovr_*`), plus `FC/f3s`, `FC/fc0`, `FC/fc1` and an `auxiliary/` tree. Daily gzipped netCDF, ~50 kB each, from 2016-07 to present. The magnetometer product **does** carry `bx/by/bz_gsm`.
+- A reprocessed day leaves several files distinguished by their `p` timestamp; the tool takes the newest and reports how many it skipped.
+
+### The quality flag that matters is not `overall_quality`
+`overall_quality` (0 normal, 1 suspect, 2 error) is necessary and **not sufficient**. During the May 2024 storm:
+
+- The cup reported **~470 km/s at 2024-05-12 01:00** while OMNI 1-min, ACE and Wind all put the solar wind near **1000 km/s** — and stamped `overall_quality = 0` on every one of those minutes.
+- Its maximum over 05-10 → 05-13 is **826 km/s** against OMNI's 1026 and ACE's 1004. Restricting to `overall_quality == 0` changes nothing; the maximum is 826 either way.
+- The only header signal is **`reduced_proton_quality_flag`**, set on **58%** of the storm window. `fetch_dscovr_l2` reports it as `reduced_proton_quality_fraction` and puts a warning in `note` above 10%.
+
+**So: DSCOVR plasma is usable for context and for density/temperature structure, and is the wrong source for a storm speed peak.** Use OMNI 1-min or ACE/Wind for that, and cross-check any DSCOVR speed against one of them before quoting it. The magnetometer has no such problem — its |B| (74.5 nT) and Bz (−50.9 nT) sit squarely inside the ACE/Wind/OMNI bracket.
+
+`valid_ranges` in the result carries the instrument's own declared bounds from the file header (proton speed 189–1111 km/s, density 1–100 cm⁻³). A value pinned at a bound is a saturation, not a measurement.
+
+Validation: `uv run python validation/run_validation.py dscovrl2` — which pins the under-read as well as the capability, so a future reprocessing that fixes the speeds will fail the check and flag this note for rewriting.

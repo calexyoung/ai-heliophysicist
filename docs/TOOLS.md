@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-82 core tools in six families. Invoke any tool with
+83 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -11,7 +11,7 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | Family | Tools |
 |---|---|
 | **discover** (13) | `get_noaa_realtime`, `get_solar_regions`, `get_sunspot_reports`, `list_cdaweb_variables`, `list_model_outputs`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
-| **retrieve** (18) | `fetch_aia_level1`, `fetch_aia_synoptic`, `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_model_output`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
+| **retrieve** (19) | `fetch_aia_level1`, `fetch_aia_synoptic`, `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_dscovr_l2`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_model_output`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
 | **measure** (24) | `characterize_sep`, `cme_arrival`, `cme_height_time`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `flare_probability`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `track_cme_front`, `validate_reproduction_manifest`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
@@ -318,6 +318,45 @@ Default: WIND/WAVES key parameters `WI_K0_WAV` / `E_Average` — dB above
 background at 76 log-spaced frequencies (250 Hz to 10 MHz; RAD1, RAD2 and
 TNR receivers merged), ~3-min cadence, 1994-present. Fill (-1e31) becomes
 NaN. Returns file, channel values and units alongside the record count.
+
+*Source: `helio_agent/tools/retrieve.py`*
+
+### `fetch_dscovr_l2`
+
+```python
+fetch_dscovr_l2(start: 'str', end: 'str', product: 'str' = 'faraday_cup', variables: 'list[str] | None' = None, keep_suspect: 'bool' = False) -> 'dict'
+```
+
+Fetch DSCOVR Level-2 science data from the NOAA NCEI archive.
+
+**This is the science-quality DSCOVR route, and it is not CDAWeb.**
+CDAWeb's only DSCOVR plasma product (`DSCOVR_H1_FC`) stops in June 2019,
+and its magnetometer product (`DSCOVR_H0_MAG`) carries GSE and RTN but
+no GSM — so neither can answer "what was Bz at L1 during a 2024 storm".
+NOAA's own archive carries both, Level 2, through the present.
+
+product:
+  'faraday_cup'  — proton and alpha speed, density, temperature, and
+                   velocity vectors in GSE and GSM (1-minute averages).
+  'magnetometer' — bt, b{x,y,z} in GSE **and GSM**, with angles.
+
+variables: subset to keep. Default is the physically useful set for the
+product; pass names explicitly for anything else (the files also carry
+~60 per-sample quality flags).
+
+keep_suspect: each sample carries `overall_quality` (0 normal, 1
+suspect, 2 error). Error samples are always dropped. Suspect samples are
+dropped too unless this is set — a storm is exactly when marginal
+samples appear, and silently averaging them in is how a saturated
+instrument reads as a measurement.
+
+Files are daily netCDF, gzipped, ~50 kB each. Where a day has been
+reprocessed the archive holds several, distinguished by their `p`
+timestamp; the newest is used and the others are reported.
+
+**The Faraday cup has a stated valid range** (`valid_min`/`valid_max` in
+the header, e.g. 189-1111 km/s for proton speed) and does struggle in
+extreme flux. Cross-check a storm peak against OMNI before quoting it.
 
 *Source: `helio_agent/tools/retrieve.py`*
 

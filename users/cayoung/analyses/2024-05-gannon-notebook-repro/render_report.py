@@ -375,7 +375,7 @@ L.extend(embed("S4_fig_cme2", "LASCO C2 running difference, 2024-05-09."))
 # ---------------------------------------------------------------- S5
 add("\n## 5. In-situ solar wind — every route, compared\n")
 add("The notebook uses one source: ACE hourly through CDAWeb. This runs "
-    "**six independent routes** over the same 2024-05-10 → 05-13 window, "
+    "**seven independent routes** over the same 2024-05-10 → 05-13 window, "
     "because the choice of route changes the answer by more than the "
     "measurement uncertainty.\n")
 add("| # | Route | Transport | Records | Cadence | Status |")
@@ -390,7 +390,11 @@ ROUTES = [
      "cdasws — multi-spacecraft, shifted to bow-shock nose", "S5_omni_1m"),
     ("4", "DSCOVR magnetometer 1-s (`DSCOVR_H0_MAG`)", "cdasws", "S5_dscovr_mag"),
     ("5", "DSCOVR Faraday cup (`DSCOVR_H1_FC`)", "cdasws", "S5_dscovr_pla"),
-    ("6", "Wind MFI (`WI_H0_MFI`)", "cdasws", "S5_wind_mfi"),
+    ("6a", "DSCOVR Faraday cup **Level 2**", "NOAA NCEI archive (S3)",
+     "S5_dscovrl2_fc"),
+    ("6b", "DSCOVR magnetometer **Level 2**", "NOAA NCEI archive (S3)",
+     "S5_dscovrl2_mag"),
+    ("7", "Wind MFI (`WI_H0_MFI`)", "cdasws", "S5_wind_mfi"),
 ]
 for num, name, transport, key in ROUTES:
     r = ST.get(key, {})
@@ -412,15 +416,22 @@ for num, name, transport, key in ROUTES:
     add(f"| {num} | {name} | {transport} | {n:,} | {cad} | ok "
         f"(`{aud(key)}`) |")
 add("")
-add("**Route 5 is refused, and the refusal is the answer.** "
-    f"`{str(g('S5_dscovr_pla','error', default=''))[:170]}` — the only DSCOVR "
-    "plasma product CDAWeb carries as science data stops in 2019. DSCOVR "
-    "plasma for May 2024 exists only as SWPC real-time, which is not science "
-    "quality and is not substituted in here.\n")
-add("**Route 4 carries no GSM field.** `DSCOVR_H0_MAG` serves GSE and RTN "
-    "only, so a Bz(GSM) — the quantity that actually drives the storm — has "
-    "to come from a coordinate rotation (`transform_coordinates`) or from "
-    "another route. That is why the Bz row below has one fewer entry.\n")
+add("**Route 5 is refused, and the refusal is what sent us to route 6.** "
+    f"`{str(g('S5_dscovr_pla','error', default=''))[:150]}` — CDAWeb's only "
+    "DSCOVR plasma science product stops in 2019.\n")
+add("**Route 6 is NOT CDAWeb.** DSCOVR Level 2 lives in NOAA's own archive "
+    "at `archive.data.noaa.gov/satellite-spaceweather`, an S3 bucket behind "
+    "a JavaScript explorer; the old `ngdc.noaa.gov/dscovr/data/` path is "
+    "dead and `ncei.noaa.gov/data/dscovr-space-weather/` 404s. Listing it "
+    "path-style reaches daily netCDF from 2016-07 to the present. That "
+    "closes the coverage gap **and** a second one: the Level-2 "
+    "magnetometer carries `bz_gsm`, which CDAWeb's `DSCOVR_H0_MAG` does not "
+    "have in any form.\n")
+add("**Route 4 carries no GSM field.** CDAWeb's `DSCOVR_H0_MAG` serves GSE "
+    "and RTN only, so a Bz(GSM) — the quantity that actually drives the "
+    "storm — has to come from a coordinate rotation "
+    "(`transform_coordinates`) or, as here, from the Level-2 product in "
+    "route 6b.\n")
 add("### The same quantity, measured several ways\n")
 QUANT = [("v", "Max flow speed", "km s⁻¹"),
          ("n", "Max proton density", "cm⁻³"),
@@ -428,7 +439,8 @@ QUANT = [("v", "Max flow speed", "km s⁻¹"),
          ("bz", "Min Bz (GSM)", "nT")]
 NAMES = {"ace_cdaweb": "ACE CDAWeb (hourly SWE / 4-min MFI)",
          "ace_pyspedas": "ACE pySPEDAS 1-s/64-s",
-         "omni_1min": "OMNI 1-min", "dscovr": "DSCOVR 1-s", "wind": "Wind"}
+         "omni_1min": "OMNI 1-min", "dscovr": "DSCOVR CDAWeb 1-s",
+         "dscovr_l2": "DSCOVR **L2** (NOAA)", "wind": "Wind"}
 for quant, label, unit in QUANT:
     rows = [(NAMES.get(k[len(f"S5x_{quant}_"):], k), ST[k]) for k in ST
             if k.startswith(f"S5x_{quant}_") and ok(k)]
@@ -444,10 +456,13 @@ for quant, label, unit in QUANT:
             if isinstance(r.get("value"), (int, float))]
     if len(vals) > 1:
         add(f"\nSpread across routes: {fmt(min(vals),4)} → {fmt(max(vals),4)} "
-            f"{unit}. All of these are correct measurements; they differ "
-            "because they average differently.")
-add("\nThree things follow, and they are the reason for running six routes "
-    "instead of one.\n")
+            f"{unit}.")
+        if quant == "v":
+            add("**The DSCOVR row here is not a sampling difference — it is "
+                "wrong, and the file says so only if you read the right "
+                "flag.** See below.")
+add("\nFour things follow, and they are the reason for running seven "
+    "routes instead of one.\n")
 add("**The notebook's density is exactly right and its speed is not.** Its "
     "quoted 41.9 cm⁻³ reproduces the hourly ACE maximum to the digit — that "
     "number really did come from this product. Its quoted 739 km s⁻¹ does "
@@ -462,13 +477,32 @@ add("**Cadence sets the peak, not instrument quality.** Density climbs "
     "→ 64-s → 1-min. An hourly average cannot resolve a shock; the peak it "
     "reports is a smoothed one. Every value in that column is a correct "
     "measurement of a different thing.\n")
-add("**|B| is the check that the routes agree.** Four independent "
-    "spacecraft put the maximum inside "
-    f"{fmt(min(v for v in [g('S5x_b_ace_cdaweb','value'), g('S5x_b_ace_pyspedas','value'), g('S5x_b_dscovr','value'), g('S5x_b_wind','value')] if v),4)}–"
-    f"{fmt(max(v for v in [g('S5x_b_ace_cdaweb','value'), g('S5x_b_ace_pyspedas','value'), g('S5x_b_dscovr','value'), g('S5x_b_wind','value')] if v),4)} nT "
-    "within about ten minutes of each other. That agreement is what makes "
-    "the density spread above interpretable as a sampling effect rather "
-    "than an instrument problem.\n")
+_dv = g("S5x_v_dscovr_l2", "value")
+_ov = g("S5x_v_omni_1min", "value")
+_frac = g("S5_dscovrl2_fc", "reduced_proton_quality_fraction")
+add("**DSCOVR's Faraday cup under-reads this storm, and its own "
+    f"`overall_quality` flag does not catch it.** Its speed maximum is "
+    f"{fmt(_dv,4)} km s⁻¹ against OMNI's {fmt(_ov,4)} — and at "
+    "2024-05-12 01:00, when OMNI and ACE both read near 1000 km s⁻¹, the "
+    "cup reports ~470 km s⁻¹ with `overall_quality = 0` on every one of "
+    "those minutes. Restricting to quality-0 samples changes the maximum "
+    "not at all. The only signal in the file is "
+    f"`reduced_proton_quality_flag`, set on **{(_frac or 0) * 100:.0f}%** of "
+    "this window. So DSCOVR plasma is good for density and structure and "
+    "is the wrong source for a storm speed peak — which is also why the "
+    "earlier refusal was worth keeping rather than papering over with SWPC "
+    "real-time. `run_validation.py dscovrl2` pins the under-read as well as "
+    "the capability, so a reprocessing that fixes it will fail the check.\n")
+add("**|B| is the check that the routes agree.** Five routes across three "
+    "spacecraft (ACE, DSCOVR, Wind — OMNI is merged from them, not "
+    "independent) put the maximum inside "
+    f"{fmt(min(v for v in [g('S5x_b_ace_cdaweb','value'), g('S5x_b_ace_pyspedas','value'), g('S5x_b_dscovr','value'), g('S5x_b_dscovr_l2','value'), g('S5x_b_wind','value')] if v),4)}–"
+    f"{fmt(max(v for v in [g('S5x_b_ace_cdaweb','value'), g('S5x_b_ace_pyspedas','value'), g('S5x_b_dscovr','value'), g('S5x_b_dscovr_l2','value'), g('S5x_b_wind','value')] if v),4)} nT "
+    "within about ten minutes of each other, and DSCOVR's Level-2 Bz "
+    f"({fmt(g('S5x_bz_dscovr_l2','value'),4)} nT) sits inside the "
+    "ACE/Wind/OMNI bracket. The magnetometer has no problem; only the cup "
+    "does. That is what makes the density spread a sampling effect and the "
+    "speed row an instrument fault.\n")
 add("**Recommendation:** OMNI 1-min for storm metrics (it is time-shifted "
     "to the bow-shock nose, which is what the magnetosphere actually sees), "
     "a single-spacecraft 1-s product for shock timing, and hourly ACE for "
@@ -721,9 +755,15 @@ add("4. **The CME speed cell uses `np.random.uniform`** and never produced "
     "and `cme_height_time` fits it. Note the search window must open at the "
     "flare peak — C2 sees only 2.4–5.8 R⊙, so a sequence starting an hour "
     "late catches a front already leaving the field.")
-add("5. **DSCOVR plasma for 2024 is not on CDAWeb as science data** "
-    "(`DSCOVR_H1_FC` ends 2019). SWPC real-time data exists, but is not "
-    "science quality.\n")
+add("5. **DSCOVR Level 2 is not on CDAWeb at all for 2024.** "
+    "`DSCOVR_H1_FC` ends 2019 and `DSCOVR_H0_MAG` has no GSM component. "
+    "Both live in NOAA's own archive at "
+    "`archive.data.noaa.gov/satellite-spaceweather` (an S3 bucket, listed "
+    "path-style); the older `ngdc.noaa.gov/dscovr/data/` and "
+    "`ncei.noaa.gov/data/dscovr-space-weather/` paths are gone. "
+    "`fetch_dscovr_l2` reaches it — **and check "
+    "`reduced_proton_quality_flag`, not just `overall_quality`**, before "
+    "trusting a cup speed.\n")
 add("## Capabilities added to helio-agent for this reproduction\n")
 add("| Tool | Purpose | Validation |")
 add("|---|---|---|")
@@ -745,6 +785,9 @@ add("| `fetch_aia_level1` | Native 4096² level-1 AIA from JSOC via `drms`; "
 add("| `fetch_vso(detector=...)` | LASCO C2/C3 and SECCHI COR1/COR2/EUVI "
     "selection, so a sequence does not interleave two fields of view | "
     "`run_validation.py corona` |")
+add("| `fetch_dscovr_l2` | DSCOVR Level 2 from the NOAA NCEI S3 archive — "
+    "2024 plasma and the `bz_gsm` component, neither of which CDAWeb has; "
+    "surfaces `reduced_proton_quality_flag` | `run_validation.py dscovrl2` |")
 add("| `fetch_vso` errors on an empty download | A provider timeout used to "
     "return `status: ok` with no files, which reads as \"no such data\" | — |\n")
 

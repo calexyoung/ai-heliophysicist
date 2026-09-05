@@ -244,11 +244,15 @@ def run(st, only=None, fresh=()):
     # (d) DSCOVR at L1 — the notebook mentions it but never loads it
     R("S5_dscovr_mag", "fetch_cdaweb_data", dataset="DSCOVR_H0_MAG",
       variables=["B1F1", "B1GSE", "B1RTN"], **SW)  # no GSM in this dataset
-    # DSCOVR Faraday-cup plasma: the only CDAWeb science product
-    # (DSCOVR_H1_FC) stops in 2019, so this route legitimately cannot cover
-    # May 2024. The refusal is kept in the record as the answer.
+    # DSCOVR plasma through CDAWeb: DSCOVR_H1_FC stops in 2019, so this
+    # refusal is kept in the record as evidence of why the NOAA route below
+    # had to be built.
     R("S5_dscovr_pla", "fetch_cdaweb_data", dataset="DSCOVR_H1_FC",
       variables=["V_GSE", "Np", "THERMAL_TEMP"], **SW)
+    # (d2) DSCOVR Level 2 from NOAA NCEI — the route that does cover 2024,
+    # and the only DSCOVR source carrying Bz in GSM.
+    R("S5_dscovrl2_fc", "fetch_dscovr_l2", product="faraday_cup", **SW)
+    R("S5_dscovrl2_mag", "fetch_dscovr_l2", product="magnetometer", **SW)
     # (e) Wind, a fourth independent L1 monitor
     R("S5_wind_mfi", "fetch_cdaweb_data", dataset="WI_H0_MFI",
       variables=["BGSM", "BGSE", "BF1"], **SW)
@@ -269,6 +273,10 @@ def run(st, only=None, fresh=()):
         ("ace_cdaweb", "S5_ace_mfi", "Magnitude", "max", "b"),
         ("ace_pyspedas", "S5_pyspedas_mfi", "Magnitude", "max", "b"),
         ("dscovr", "S5_dscovr_mag", "B1F1", "max", "b"),
+        ("dscovr_l2", "S5_dscovrl2_mag", "bt", "max", "b"),
+        ("dscovr_l2", "S5_dscovrl2_mag", "bz_gsm", "min", "bz"),
+        ("dscovr_l2", "S5_dscovrl2_fc", "proton_speed", "max", "v"),
+        ("dscovr_l2", "S5_dscovrl2_fc", "proton_density", "max", "n"),
         ("wind", "S5_wind_mfi", "BF1", "max", "b"),
         ("omni_1min", "S5_omni_sw", "F", "max", "b"),
         ("ace_cdaweb", "S5_ace_mfi", "BGSM_2", "min", "bz"),

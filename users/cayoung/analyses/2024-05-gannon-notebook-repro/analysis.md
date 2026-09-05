@@ -198,7 +198,7 @@ Full cone-model record (audit `490c41d2c198`, 16 analyses; the `type` column is 
 
 ## 5. In-situ solar wind — every route, compared
 
-The notebook uses one source: ACE hourly through CDAWeb. This runs **six independent routes** over the same 2024-05-10 → 05-13 window, because the choice of route changes the answer by more than the measurement uncertainty.
+The notebook uses one source: ACE hourly through CDAWeb. This runs **seven independent routes** over the same 2024-05-10 → 05-13 window, because the choice of route changes the answer by more than the measurement uncertainty.
 
 | # | Route | Transport | Records | Cadence | Status |
 |---|---|---|---|---|---|
@@ -208,11 +208,15 @@ The notebook uses one source: ACE hourly through CDAWeb. This runs **six indepen
 | 3 | OMNI 1-min (`OMNI_HRO_1MIN`) | cdasws — multi-spacecraft, shifted to bow-shock nose | 8,641 | 60 s | ok (`fd919a19502f`) |
 | 4 | DSCOVR magnetometer 1-s (`DSCOVR_H0_MAG`) | cdasws | 259,200 | 1 s | ok (`d806b978d750`) |
 | 5 | DSCOVR Faraday cup (`DSCOVR_H1_FC`) | cdasws | — | — | **refused** |
-| 6 | Wind MFI (`WI_H0_MFI`) | cdasws | 4,320 | 60 s | ok (`6176d8e96bc2`) |
+| 6a | DSCOVR Faraday cup **Level 2** | NOAA NCEI archive (S3) | 4,120 | 63 s | ok (`1839113381e8`) |
+| 6b | DSCOVR magnetometer **Level 2** | NOAA NCEI archive (S3) | 4,321 | 60 s | ok (`b5f45574dfb3`) |
+| 7 | Wind MFI (`WI_H0_MFI`) | cdasws | 4,320 | 60 s | ok (`6176d8e96bc2`) |
 
-**Route 5 is refused, and the refusal is the answer.** `refusing: requested window 2024-05-10T00:00:00Z..2024-05-13T00:00:00Z is outside DSCOVR_H1_FC coverage 2016-06-03T00:00:00.000Z..2019-06-27T23:58:59.000Z; pick a window i` — the only DSCOVR plasma product CDAWeb carries as science data stops in 2019. DSCOVR plasma for May 2024 exists only as SWPC real-time, which is not science quality and is not substituted in here.
+**Route 5 is refused, and the refusal is what sent us to route 6.** `refusing: requested window 2024-05-10T00:00:00Z..2024-05-13T00:00:00Z is outside DSCOVR_H1_FC coverage 2016-06-03T00:00:00.000Z..2019-06-27T23:58:59.0` — CDAWeb's only DSCOVR plasma science product stops in 2019.
 
-**Route 4 carries no GSM field.** `DSCOVR_H0_MAG` serves GSE and RTN only, so a Bz(GSM) — the quantity that actually drives the storm — has to come from a coordinate rotation (`transform_coordinates`) or from another route. That is why the Bz row below has one fewer entry.
+**Route 6 is NOT CDAWeb.** DSCOVR Level 2 lives in NOAA's own archive at `archive.data.noaa.gov/satellite-spaceweather`, an S3 bucket behind a JavaScript explorer; the old `ngdc.noaa.gov/dscovr/data/` path is dead and `ncei.noaa.gov/data/dscovr-space-weather/` 404s. Listing it path-style reaches daily netCDF from 2016-07 to the present. That closes the coverage gap **and** a second one: the Level-2 magnetometer carries `bz_gsm`, which CDAWeb's `DSCOVR_H0_MAG` does not have in any form.
+
+**Route 4 carries no GSM field.** CDAWeb's `DSCOVR_H0_MAG` serves GSE and RTN only, so a Bz(GSM) — the quantity that actually drives the storm — has to come from a coordinate rotation (`transform_coordinates`) or, as here, from the Level-2 product in route 6b.
 
 ### The same quantity, measured several ways
 
@@ -224,8 +228,10 @@ The notebook uses one source: ACE hourly through CDAWeb. This runs **six indepen
 | ACE CDAWeb (hourly SWE / 4-min MFI) | **959.3** | 2024-05-12 01:00 | `374281a22307` |
 | ACE pySPEDAS 1-s/64-s | **1004** | 2024-05-12 00:54 | `f6ce6d59f144` |
 | OMNI 1-min | **1026** | 2024-05-12 01:17 | `daa964fc67ec` |
+| DSCOVR **L2** (NOAA) | **826.2** | 2024-05-11 10:54 | `47d1387145c8` |
 
-Spread across routes: 959.3 → 1026 km s⁻¹. All of these are correct measurements; they differ because they average differently.
+Spread across routes: 826.2 → 1026 km s⁻¹.
+**The DSCOVR row here is not a sampling difference — it is wrong, and the file says so only if you read the right flag.** See below.
 
 **Max proton density (cm⁻³)**, identical 2024-05-10 → 05-13 window:
 
@@ -234,8 +240,9 @@ Spread across routes: 959.3 → 1026 km s⁻¹. All of these are correct measure
 | ACE CDAWeb (hourly SWE / 4-min MFI) | **41.9** | 2024-05-10 19:00 | `970325980578` |
 | ACE pySPEDAS 1-s/64-s | **60.93** | 2024-05-10 16:56 | `f82077570190` |
 | OMNI 1-min | **70.07** | 2024-05-11 09:42 | `bed11ee739c5` |
+| DSCOVR **L2** (NOAA) | **84.92** | 2024-05-10 16:59 | `7efd9ca0a1fe` |
 
-Spread across routes: 41.9 → 70.07 cm⁻³. All of these are correct measurements; they differ because they average differently.
+Spread across routes: 41.9 → 84.92 cm⁻³.
 
 **Max |B| (nT)**, identical 2024-05-10 → 05-13 window:
 
@@ -243,11 +250,12 @@ Spread across routes: 41.9 → 70.07 cm⁻³. All of these are correct measureme
 |---|---|---|---|
 | ACE CDAWeb (hourly SWE / 4-min MFI) | **73.77** | 2024-05-10 23:04 | `1f9e04ef8f30` |
 | ACE pySPEDAS 1-s/64-s | **76.08** | 2024-05-10 23:04 | `73b83afab2c7` |
-| DSCOVR 1-s | **74.9** | 2024-05-10 22:05 | `df11110c50dc` |
+| DSCOVR CDAWeb 1-s | **74.9** | 2024-05-10 22:05 | `df11110c50dc` |
 | Wind | **72.22** | 2024-05-10 21:53 | `a6beeb4d87b8` |
 | OMNI 1-min | **69.99** | 2024-05-11 00:06 | `f15a8bfd9c28` |
+| DSCOVR **L2** (NOAA) | **74.48** | 2024-05-10 22:05 | `93a17615abb0` |
 
-Spread across routes: 69.99 → 76.08 nT. All of these are correct measurements; they differ because they average differently.
+Spread across routes: 69.99 → 76.08 nT.
 
 **Min Bz (GSM) (nT)**, identical 2024-05-10 → 05-13 window:
 
@@ -257,16 +265,19 @@ Spread across routes: 69.99 → 76.08 nT. All of these are correct measurements;
 | ACE pySPEDAS 1-s/64-s | **-57.01** | 2024-05-10 21:51 | `64ac17078e06` |
 | Wind | **-51.91** | 2024-05-10 21:54 | `214ddbe9c251` |
 | OMNI 1-min | **-47.85** | 2024-05-11 00:36 | `ecc8cdd770d7` |
+| DSCOVR **L2** (NOAA) | **-50.93** | 2024-05-10 21:46 | `ed1694f2cbe9` |
 
-Spread across routes: -57.01 → -47.85 nT. All of these are correct measurements; they differ because they average differently.
+Spread across routes: -57.01 → -47.85 nT.
 
-Three things follow, and they are the reason for running six routes instead of one.
+Four things follow, and they are the reason for running seven routes instead of one.
 
 **The notebook's density is exactly right and its speed is not.** Its quoted 41.9 cm⁻³ reproduces the hourly ACE maximum to the digit — that number really did come from this product. Its quoted 739 km s⁻¹ does not: the same product gives 959.3 km s⁻¹ over this window. Whatever 739 is, it is not the ACE hourly speed maximum for 2024-05-10 → 05-13.
 
 **Cadence sets the peak, not instrument quality.** Density climbs 41.9 → 60.93 → 70.07 cm⁻³ as the cadence goes hourly → 64-s → 1-min. An hourly average cannot resolve a shock; the peak it reports is a smoothed one. Every value in that column is a correct measurement of a different thing.
 
-**|B| is the check that the routes agree.** Four independent spacecraft put the maximum inside 72.22–76.08 nT within about ten minutes of each other. That agreement is what makes the density spread above interpretable as a sampling effect rather than an instrument problem.
+**DSCOVR's Faraday cup under-reads this storm, and its own `overall_quality` flag does not catch it.** Its speed maximum is 826.2 km s⁻¹ against OMNI's 1026 — and at 2024-05-12 01:00, when OMNI and ACE both read near 1000 km s⁻¹, the cup reports ~470 km s⁻¹ with `overall_quality = 0` on every one of those minutes. Restricting to quality-0 samples changes the maximum not at all. The only signal in the file is `reduced_proton_quality_flag`, set on **58%** of this window. So DSCOVR plasma is good for density and structure and is the wrong source for a storm speed peak — which is also why the earlier refusal was worth keeping rather than papering over with SWPC real-time. `run_validation.py dscovrl2` pins the under-read as well as the capability, so a reprocessing that fixes it will fail the check.
+
+**|B| is the check that the routes agree.** Five routes across three spacecraft (ACE, DSCOVR, Wind — OMNI is merged from them, not independent) put the maximum inside 72.22–76.08 nT within about ten minutes of each other, and DSCOVR's Level-2 Bz (-50.93 nT) sits inside the ACE/Wind/OMNI bracket. The magnetometer has no problem; only the cup does. That is what makes the density spread a sampling effect and the speed row an instrument fault.
 
 **Recommendation:** OMNI 1-min for storm metrics (it is time-shifted to the bow-shock nose, which is what the magnetosphere actually sees), a single-spacecraft 1-s product for shock timing, and hourly ACE for neither.
 
@@ -402,7 +413,7 @@ Five things in the original no longer run, or never ran:
 2. **The HMI flux cell raises a units error** (`'arcsec2 / pix2' and 'cm2' are not convertible`). Pixel area has to be converted through the plate scale and the solar distance before multiplying by field strength. `magnetogram_metrics` does this.
 3. **`sm.coord_table.to_pandas()` raises** in current solarmach; the table is already DataFrame-like. The hard-coded values it falls back to are wrong by 120°+ for Solar Orbiter, so this failure is not cosmetic.
 4. **The CME speed cell uses `np.random.uniform`** and never produced the speeds the notebook prints. Replaced here by a real measurement: `track_cme_front` locates the leading edge in each difference frame and `cme_height_time` fits it. Note the search window must open at the flare peak — C2 sees only 2.4–5.8 R⊙, so a sequence starting an hour late catches a front already leaving the field.
-5. **DSCOVR plasma for 2024 is not on CDAWeb as science data** (`DSCOVR_H1_FC` ends 2019). SWPC real-time data exists, but is not science quality.
+5. **DSCOVR Level 2 is not on CDAWeb at all for 2024.** `DSCOVR_H1_FC` ends 2019 and `DSCOVR_H0_MAG` has no GSM component. Both live in NOAA's own archive at `archive.data.noaa.gov/satellite-spaceweather` (an S3 bucket, listed path-style); the older `ngdc.noaa.gov/dscovr/data/` and `ncei.noaa.gov/data/dscovr-space-weather/` paths are gone. `fetch_dscovr_l2` reaches it — **and check `reduced_proton_quality_flag`, not just `overall_quality`**, before trusting a cup speed.
 
 ## Capabilities added to helio-agent for this reproduction
 
@@ -415,11 +426,12 @@ Five things in the original no longer run, or never ran:
 | `fetch_aia_synoptic` | JSOC synoptic AIA (level 1.5, 1024²), replacing the dead VSO export route with no credentials needed | `run_validation.py aiasyn` |
 | `fetch_aia_level1` | Native 4096² level-1 AIA from JSOC via `drms`; refuses by name without a registered export email rather than substituting the smaller product | `run_validation.py aial1` |
 | `fetch_vso(detector=...)` | LASCO C2/C3 and SECCHI COR1/COR2/EUVI selection, so a sequence does not interleave two fields of view | `run_validation.py corona` |
+| `fetch_dscovr_l2` | DSCOVR Level 2 from the NOAA NCEI S3 archive — 2024 plasma and the `bz_gsm` component, neither of which CDAWeb has; surfaces `reduced_proton_quality_flag` | `run_validation.py dscovrl2` |
 | `fetch_vso` errors on an empty download | A provider timeout used to return `status: ok` with no files, which reads as "no such data" | — |
 
 ## Provenance
 
-102 audited tool invocations, 95 successful. Every audit id above resolves against `workspace/logs/audit.jsonl` and can be re-executed with `uv run helio-agent replay <id>`. Regenerate with:
+108 audited tool invocations, 101 successful. Every audit id above resolves against `workspace/logs/audit.jsonl` and can be re-executed with `uv run helio-agent replay <id>`. Regenerate with:
 
 ```bash
 HELIO_AGENT_USER=cayoung uv run python \

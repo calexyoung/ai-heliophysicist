@@ -4510,5 +4510,171 @@
   "note": "Plane-of-sky linear fit (the CDAW catalogue convention). For an Earth-directed halo this is a LOWER BOUND on the radial speed \u2014 compare with a cone/GCS fit such as DONKI CMEAnalysis. The launch time is an extrapolation of the linear fit back to 1 Rsun, not an observation.",
   "status": "ok",
   "audit_id": "504ed39d6417"
+ },
+ "S5_dscovrl2_fc": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/DSCOVR_L2_f1m_2024-05-10_2024-05-13.csv",
+  "product": "faraday_cup",
+  "processing_level": "Level 2 (NOAA NCEI archive)",
+  "n_records": 4120,
+  "time_range": [
+   "2024-05-10 00:00:00",
+   "2024-05-13 00:00:00"
+  ],
+  "columns": [
+   "proton_speed",
+   "proton_density",
+   "proton_temperature",
+   "proton_vx_gsm",
+   "proton_vy_gsm",
+   "proton_vz_gsm",
+   "alpha_density"
+  ],
+  "files_used": [
+   "oe_f1m_dscovr_s20240510000000_e20240510235959_p20240511034609_pub.nc.gz",
+   "oe_f1m_dscovr_s20240511000000_e20240511235959_p20240512022214_pub.nc.gz",
+   "oe_f1m_dscovr_s20240512000000_e20240512235959_p20240513022209_pub.nc.gz",
+   "oe_f1m_dscovr_s20240513000000_e20240513235959_p20240514022139_pub.nc.gz"
+  ],
+  "days_missing": [],
+  "superseded_reprocessings_skipped": 0,
+  "dropped_error_samples": 526,
+  "dropped_suspect_samples": 0,
+  "kept_suspect": false,
+  "reduced_proton_quality_fraction": 0.582,
+  "valid_ranges": {
+   "proton_speed": [
+    189.0,
+    1111.0
+   ],
+   "proton_density": [
+    1.0,
+    100.0
+   ],
+   "proton_temperature": [
+    2000.0,
+    2000000.0
+   ],
+   "proton_vx_gsm": [
+    -1111.0,
+    1111.0
+   ],
+   "proton_vy_gsm": [
+    -1111.0,
+    1111.0
+   ],
+   "proton_vz_gsm": [
+    -1111.0,
+    1111.0
+   ],
+   "alpha_density": [
+    1.0,
+    100.0
+   ]
+  },
+  "note": "NOAA NCEI Level 2, not CDAWeb: CDAWeb's DSCOVR_H1_FC plasma stops in 2019 and DSCOVR_H0_MAG carries no GSM. WARNING: reduced_proton_quality_flag is set on 58% of samples. overall_quality does NOT catch this \u2014 on the May 2024 storm the cup read ~470 km/s against ~1000 elsewhere while reporting quality 0. Cross-check the speed against OMNI before quoting it.",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/DSCOVR_L2_f1m_2024-05-10_2024-05-13.csv"
+  ],
+  "status": "ok",
+  "audit_id": "1839113381e8"
+ },
+ "S5_dscovrl2_mag": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/DSCOVR_L2_m1m_2024-05-10_2024-05-13.csv",
+  "product": "magnetometer",
+  "processing_level": "Level 2 (NOAA NCEI archive)",
+  "n_records": 4321,
+  "time_range": [
+   "2024-05-10 00:00:00",
+   "2024-05-13 00:00:00"
+  ],
+  "columns": [
+   "bt",
+   "bx_gsm",
+   "by_gsm",
+   "bz_gsm",
+   "bx_gse",
+   "by_gse",
+   "bz_gse"
+  ],
+  "files_used": [
+   "oe_m1m_dscovr_s20240510000000_e20240510235959_p20240511034031_pub.nc.gz",
+   "oe_m1m_dscovr_s20240511000000_e20240511235959_p20240512021629_pub.nc.gz",
+   "oe_m1m_dscovr_s20240512000000_e20240512235959_p20240513021624_pub.nc.gz",
+   "oe_m1m_dscovr_s20240513000000_e20240513235959_p20240514021543_pub.nc.gz"
+  ],
+  "days_missing": [],
+  "superseded_reprocessings_skipped": 0,
+  "dropped_error_samples": 0,
+  "dropped_suspect_samples": 0,
+  "kept_suspect": false,
+  "reduced_proton_quality_fraction": null,
+  "valid_ranges": {
+   "bt": [
+    0.0,
+    65536.0
+   ],
+   "bx_gsm": [
+    -65536.0,
+    65536.0
+   ],
+   "by_gsm": [
+    -65536.0,
+    65536.0
+   ],
+   "bz_gsm": [
+    -65536.0,
+    65536.0
+   ],
+   "bx_gse": [
+    -65536.0,
+    65536.0
+   ],
+   "by_gse": [
+    -65536.0,
+    65536.0
+   ],
+   "bz_gse": [
+    -65536.0,
+    65536.0
+   ]
+  },
+  "note": "NOAA NCEI Level 2, not CDAWeb: CDAWeb's DSCOVR_H1_FC plasma stops in 2019 and DSCOVR_H0_MAG carries no GSM. Cross-check a storm peak against OMNI and valid_ranges.",
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/DSCOVR_L2_m1m_2024-05-10_2024-05-13.csv"
+  ],
+  "status": "ok",
+  "audit_id": "b5f45574dfb3"
+ },
+ "S5x_b_dscovr_l2": {
+  "column": "bt",
+  "mode": "max",
+  "value": 74.48,
+  "time": "2024-05-10 22:05:00",
+  "status": "ok",
+  "audit_id": "93a17615abb0"
+ },
+ "S5x_bz_dscovr_l2": {
+  "column": "bz_gsm",
+  "mode": "min",
+  "value": -50.93,
+  "time": "2024-05-10 21:46:00",
+  "status": "ok",
+  "audit_id": "ed1694f2cbe9"
+ },
+ "S5x_v_dscovr_l2": {
+  "column": "proton_speed",
+  "mode": "max",
+  "value": 826.2,
+  "time": "2024-05-11 10:54:00",
+  "status": "ok",
+  "audit_id": "47d1387145c8"
+ },
+ "S5x_n_dscovr_l2": {
+  "column": "proton_density",
+  "mode": "max",
+  "value": 84.92,
+  "time": "2024-05-10 16:59:00",
+  "status": "ok",
+  "audit_id": "7efd9ca0a1fe"
  }
 }

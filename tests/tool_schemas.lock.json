@@ -17,6 +17,7 @@
  "fetch_arxiv_pdf": "b7f6493f368b0cf2",
  "fetch_cdaweb_data": "ccc8b3fc5d5cde0f",
  "fetch_cdaweb_spectrogram": "755aa3323a3667a2",
+ "fetch_dscovr_l2": "9abe35b3031c6b5d",
  "fetch_gfz_index": "e26ac7d5eaecc757",
  "fetch_goes_protons": "3c72562354a68d6c",
  "fetch_goes_xrs": "0e0c9ff31ec6f12d",
