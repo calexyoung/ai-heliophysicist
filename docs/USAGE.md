@@ -226,6 +226,10 @@ refuses.
 
 ## 6. Workflow: monitoring and forecasts
 
+> Not sure what any of this means? [`docs/MONITOR.md`](MONITOR.md) explains
+> the standing watch in plain language — what a cycle does, how to read the
+> scorecard, and the worked example behind the 45-degree aim test.
+
 ```bash
 uv run helio-agent monitor
 ```
