@@ -223,20 +223,22 @@ The Kyoto **provisional** hourly Dst minimum is **-333 nT** (audit `a591d70ac36e
 
 ### Sheath or ejecta?
 
-`detect_icme` (audit `3b43b5fd0785`) puts the shock at **2024-10-08 20:14 UT**, a sheath running to 2024-10-11 06:41, and ejecta from 2024-10-11 06:41 to 2024-10-12 03:17 (20.6 h, mean speed 689 km s⁻¹).
+`detect_icme` (audit `06358f87b5c0`) puts the shock at **2024-10-10 14:13 UT**, a sheath running to 2024-10-11 06:41, and ejecta from 2024-10-11 06:41 to 2024-10-12 03:17 (20.6 h, mean speed 689 km s⁻¹).
 
 **It attributes the storm to the `sheath`**, and the southward-field budget says why:
 
 | Interval | Hours | Min Bz (nT) | Hours Bz < threshold | Southward nT·h |
 |---|---|---|---|---|
-| Sheath | 58.4 | **-47** | 12.4 | **428** |
+| Sheath | 16.4 | **-47** | 12.2 | **333.7** |
 | Ejecta | 20.6 | -22.6 | 3 | 66.5 |
 
-The sheath delivers 6.4× the southward field-time of the ejecta. `magnetic_cloud: False` — the rotation fit is poor (r² 0.133), so this is not a clean single flux rope.
+The sheath delivers 5.0× the southward field-time of the ejecta. `magnetic_cloud: False` — the rotation fit is poor (r² 0.133), so this is not a clean single flux rope.
 
-**This is the second superstorm in a row driven by the sheath rather than the ejecta.** The May 2024 analysis in `../2024-05-gannon-notebook-repro/` found the same thing by a different route — there the ejecta signature began 9.3 h *after* the SYM-H minimum. Two events is not a law, but it is a pattern worth naming, and it has a forecasting consequence: sheath Bz is not predictable from a cone-model fit of the CME, so the quantity that drove both storms is the one current forecasts cannot supply.
+**This is the second superstorm in a row driven by the sheath rather than the ejecta**, the May 2024 event being the first. It has a forecasting consequence: sheath Bz is not predictable from a cone-model fit of the CME, so the quantity that drove both storms is the one current forecasts cannot supply.
 
-The shock at 2024-10-08 20:14 is the **8 October** arrival, not the 10 October one — the detection window opens on 8 October and two shocks fall inside it, so the reported 'sheath' spans both. Read the interval boundaries, not the label alone.
+**But do not read a pattern into two events — that was tested and it does not generalise.** `../sheath-vs-ejecta/` runs the same attribution over all 40 storms below Dst −200 nT since 1981 and finds 10 sheath against 8 ejecta: close to even. Sheath-driving does dominate at the deep end (8 of 10 below −250 nT against 2 of 9 between −250 and −200), which is a known result — Gonzalez et al. (2011) treat superintense storms as a separate category for exactly this reason. That study also found three defects in `detect_icme` that this section's numbers depend on; they are fixed, and the attribution above is the corrected one.
+
+The window holds 2 detected shocks (2024-10-10 14:13, 2024-10-11 05:58); the sheath is bounded by the one that drives this ejecta, at **2024-10-10 14:13** — within half an hour of DONKI's catalogued arrival at 14:46, from a detector that never sees the catalogue.
 
 
 ![L1 solar wind and geomagnetic response. Dashed lines mark the shock arrival (10 Oct 14:46 UT) and the SYM-H minimum (23:14 UT).](figures/s6_fig_stack.png)

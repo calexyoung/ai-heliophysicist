@@ -1,0 +1,4084 @@
+{
+ "dst_hourly": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI2_H0_MRG1HR_1981-01-01_2025-01-01.csv",
+  "n_records": 385705,
+  "columns": [
+   "DST1800"
+  ],
+  "units": {
+   "DST1800": "nT"
+  },
+  "time_range": [
+   "1981-01-01 00:30:00",
+   "2025-01-01 00:30:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI2_H0_MRG1HR_1981-01-01_2025-01-01.csv"
+  ],
+  "status": "ok",
+  "audit_id": "1997611e9092"
+ },
+ "sample": {
+  "column": "DST1800",
+  "direction": "min",
+  "threshold": -200.0,
+  "decluster_gap_hours": 48.0,
+  "record_years": 44.0,
+  "n_events": 40,
+  "events_per_year": 0.909,
+  "gpd": {
+   "shape_xi": -0.0201,
+   "scale_sigma": 82.729,
+   "estimator": "method of moments (deterministic)"
+  },
+  "return_levels": {
+   "1yr": null,
+   "10yr": -378.6,
+   "50yr": -504.0,
+   "100yr": -556.7
+  },
+  "strongest_events": [
+   {
+    "time": "1989-03-14 01:30:00",
+    "value": -589.0
+   },
+   {
+    "time": "2003-11-20 20:30:00",
+    "value": -422.0
+   },
+   {
+    "time": "2024-05-11 02:30:00",
+    "value": -406.0
+   },
+   {
+    "time": "2001-03-31 08:30:00",
+    "value": -387.0
+   },
+   {
+    "time": "2003-10-30 22:30:00",
+    "value": -383.0
+   }
+  ],
+  "events": [
+   {
+    "time": "1989-03-14 01:30:00",
+    "value": -589.0
+   },
+   {
+    "time": "2003-11-20 20:30:00",
+    "value": -422.0
+   },
+   {
+    "time": "2024-05-11 02:30:00",
+    "value": -406.0
+   },
+   {
+    "time": "2001-03-31 08:30:00",
+    "value": -387.0
+   },
+   {
+    "time": "2003-10-30 22:30:00",
+    "value": -383.0
+   },
+   {
+    "time": "2004-11-08 06:30:00",
+    "value": -374.0
+   },
+   {
+    "time": "1991-11-09 01:30:00",
+    "value": -354.0
+   },
+   {
+    "time": "2024-10-11 01:30:00",
+    "value": -333.0
+   },
+   {
+    "time": "1982-07-14 01:30:00",
+    "value": -325.0
+   },
+   {
+    "time": "1981-04-13 06:30:00",
+    "value": -311.0
+   },
+   {
+    "time": "1986-02-09 00:30:00",
+    "value": -307.0
+   },
+   {
+    "time": "2000-07-16 00:30:00",
+    "value": -300.0
+   },
+   {
+    "time": "1991-03-25 00:30:00",
+    "value": -298.0
+   },
+   {
+    "time": "2000-04-07 00:30:00",
+    "value": -292.0
+   },
+   {
+    "time": "2001-11-06 06:30:00",
+    "value": -292.0
+   },
+   {
+    "time": "1982-09-06 11:30:00",
+    "value": -289.0
+   },
+   {
+    "time": "1992-05-10 14:30:00",
+    "value": -288.0
+   },
+   {
+    "time": "1990-04-10 18:30:00",
+    "value": -281.0
+   },
+   {
+    "time": "2001-04-11 23:30:00",
+    "value": -271.0
+   },
+   {
+    "time": "1989-10-21 16:30:00",
+    "value": -268.0
+   },
+   {
+    "time": "1989-11-17 22:30:00",
+    "value": -266.0
+   },
+   {
+    "time": "1989-09-19 04:30:00",
+    "value": -255.0
+   },
+   {
+    "time": "1991-10-29 07:30:00",
+    "value": -254.0
+   },
+   {
+    "time": "2005-05-15 08:30:00",
+    "value": -247.0
+   },
+   {
+    "time": "1999-10-22 06:30:00",
+    "value": -237.0
+   },
+   {
+    "time": "2000-08-12 09:30:00",
+    "value": -234.0
+   },
+   {
+    "time": "2015-03-17 22:30:00",
+    "value": -234.0
+   },
+   {
+    "time": "1981-07-25 20:30:00",
+    "value": -226.0
+   },
+   {
+    "time": "1991-06-05 19:30:00",
+    "value": -223.0
+   },
+   {
+    "time": "2001-11-24 16:30:00",
+    "value": -221.0
+   },
+   {
+    "time": "1981-03-05 17:30:00",
+    "value": -215.0
+   },
+   {
+    "time": "1983-01-10 07:30:00",
+    "value": -213.0
+   },
+   {
+    "time": "2023-04-24 05:30:00",
+    "value": -213.0
+   },
+   {
+    "time": "1982-03-02 05:30:00",
+    "value": -211.0
+   },
+   {
+    "time": "1982-09-22 07:30:00",
+    "value": -210.0
+   },
+   {
+    "time": "1998-09-25 09:30:00",
+    "value": -207.0
+   },
+   {
+    "time": "1998-05-04 05:30:00",
+    "value": -205.0
+   },
+   {
+    "time": "1992-02-09 08:30:00",
+    "value": -201.0
+   },
+   {
+    "time": "1994-04-17 07:30:00",
+    "value": -201.0
+   },
+   {
+    "time": "2000-09-17 23:30:00",
+    "value": -201.0
+   }
+  ],
+  "caveat": "return levels beyond ~3x the record length are extrapolation; run extreme_value_sweep before quoting",
+  "status": "ok",
+  "audit_id": "a8e032efa81f"
+ },
+ "omni_19890314": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1989-03-10_1989-03-18.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1989-03-10 00:00:00",
+   "1989-03-18 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1989-03-10_1989-03-18.csv"
+  ],
+  "status": "ok",
+  "audit_id": "9a22cf185bc8"
+ },
+ "omni_20031120": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2003-11-16_2003-11-24.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2003-11-16 00:00:00",
+   "2003-11-24 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2003-11-16_2003-11-24.csv"
+  ],
+  "status": "ok",
+  "audit_id": "6ec77ec3a32e"
+ },
+ "omni_20240511": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2024-05-07_2024-05-15.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2024-05-07 00:00:00",
+   "2024-05-15 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2024-05-07_2024-05-15.csv"
+  ],
+  "status": "ok",
+  "audit_id": "4997390db690"
+ },
+ "_rows": [
+  {
+   "time": "1989-03-14 01:30:00",
+   "dst": -589.0,
+   "driver": "sheath",
+   "shock": "1989-03-16 05:24:00",
+   "sheath_hours": 27.4,
+   "sheath_total": 87.3,
+   "sheath_rate": 3.19,
+   "ejecta_hours": 8.6,
+   "ejecta_total": 26.6,
+   "ejecta_rate": 3.09
+  },
+  {
+   "time": "2003-11-20 20:30:00",
+   "dst": -422.0,
+   "driver": null,
+   "shock": "2003-11-20 08:06:00",
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "2024-05-11 02:30:00",
+   "dst": -406.0,
+   "driver": "sheath",
+   "shock": "2024-05-10 17:05:00",
+   "sheath_hours": 18.4,
+   "sheath_total": 380.1,
+   "sheath_rate": 20.66,
+   "ejecta_hours": 7.2,
+   "ejecta_total": 89.3,
+   "ejecta_rate": 12.4
+  },
+  {
+   "time": "2001-03-31 08:30:00",
+   "dst": -387.0,
+   "driver": "ejecta",
+   "shock": "2001-03-27 17:58:00",
+   "sheath_hours": 13.1,
+   "sheath_total": 21.3,
+   "sheath_rate": 1.63,
+   "ejecta_hours": 60.2,
+   "ejecta_total": 55.7,
+   "ejecta_rate": 0.93
+  },
+  {
+   "time": "2003-10-30 22:30:00",
+   "dst": -383.0,
+   "driver": "sheath",
+   "shock": "2003-10-26 09:06:00",
+   "sheath_hours": 42.2,
+   "sheath_total": 94.0,
+   "sheath_rate": 2.23,
+   "ejecta_hours": 6.0,
+   "ejecta_total": 8.6,
+   "ejecta_rate": 1.43
+  },
+  {
+   "time": "2004-11-08 06:30:00",
+   "dst": -374.0,
+   "driver": "ejecta",
+   "shock": "2004-11-07 18:29:00",
+   "sheath_hours": 8.5,
+   "sheath_total": 134.1,
+   "sheath_rate": 15.78,
+   "ejecta_hours": 30.9,
+   "ejecta_total": 252.6,
+   "ejecta_rate": 8.17
+  },
+  {
+   "time": "1991-11-09 01:30:00",
+   "dst": -354.0,
+   "driver": null,
+   "shock": null,
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "2024-10-11 01:30:00",
+   "dst": -333.0,
+   "driver": "sheath",
+   "shock": "2024-10-10 14:13:00",
+   "sheath_hours": 16.4,
+   "sheath_total": 333.7,
+   "sheath_rate": 20.35,
+   "ejecta_hours": 20.6,
+   "ejecta_total": 66.5,
+   "ejecta_rate": 3.23
+  },
+  {
+   "time": "1982-07-14 01:30:00",
+   "dst": -325.0,
+   "driver": null,
+   "shock": "1982-07-13 16:19:00",
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1981-04-13 06:30:00",
+   "dst": -311.0,
+   "driver": null,
+   "shock": null,
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1986-02-09 00:30:00",
+   "dst": -307.0,
+   "driver": null,
+   "shock": "1986-02-06 13:16:00",
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "2000-07-16 00:30:00",
+   "dst": -300.0,
+   "driver": "sheath",
+   "shock": "2000-07-13 09:53:00",
+   "sheath_hours": 18.8,
+   "sheath_total": 38.9,
+   "sheath_rate": 2.07,
+   "ejecta_hours": 6.4,
+   "ejecta_total": 13.0,
+   "ejecta_rate": 2.03
+  },
+  {
+   "time": "1991-03-25 00:30:00",
+   "dst": -298.0,
+   "driver": null,
+   "shock": null,
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "2000-04-07 00:30:00",
+   "dst": -292.0,
+   "driver": "sheath",
+   "shock": "2000-04-06 16:47:00",
+   "sheath_hours": 13.2,
+   "sheath_total": 188.7,
+   "sheath_rate": 14.3,
+   "ejecta_hours": 24.2,
+   "ejecta_total": 25.2,
+   "ejecta_rate": 1.04
+  },
+  {
+   "time": "2001-11-06 06:30:00",
+   "dst": -292.0,
+   "driver": null,
+   "shock": null,
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1982-09-06 11:30:00",
+   "dst": -289.0,
+   "driver": null,
+   "shock": null,
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1992-05-10 14:30:00",
+   "dst": -288.0,
+   "driver": null,
+   "shock": "1992-05-09 19:45:00",
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1990-04-10 18:30:00",
+   "dst": -281.0,
+   "driver": null,
+   "shock": "1990-04-12 03:27:00",
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "2001-04-11 23:30:00",
+   "dst": -271.0,
+   "driver": "sheath",
+   "shock": "2001-04-07 17:35:00",
+   "sheath_hours": 45.5,
+   "sheath_total": 67.6,
+   "sheath_rate": 1.49,
+   "ejecta_hours": 14.6,
+   "ejecta_total": 17.8,
+   "ejecta_rate": 1.22
+  },
+  {
+   "time": "1989-10-21 16:30:00",
+   "dst": -268.0,
+   "driver": null,
+   "shock": "1989-10-18 22:33:00",
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1989-11-17 22:30:00",
+   "dst": -266.0,
+   "driver": null,
+   "shock": null,
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1989-09-19 04:30:00",
+   "dst": -255.0,
+   "driver": null,
+   "shock": null,
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1991-10-29 07:30:00",
+   "dst": -254.0,
+   "driver": "sheath",
+   "shock": "1991-10-28 11:04:00",
+   "sheath_hours": 8.3,
+   "sheath_total": 76.1,
+   "sheath_rate": 9.17,
+   "ejecta_hours": 7.7,
+   "ejecta_total": 45.7,
+   "ejecta_rate": 5.94
+  },
+  {
+   "time": "2005-05-15 08:30:00",
+   "dst": -247.0,
+   "driver": "ejecta",
+   "shock": "2005-05-15 04:24:00",
+   "sheath_hours": 3.2,
+   "sheath_total": 57.0,
+   "sheath_rate": 17.81,
+   "ejecta_hours": 62.4,
+   "ejecta_total": 204.5,
+   "ejecta_rate": 3.28
+  },
+  {
+   "time": "1999-10-22 06:30:00",
+   "dst": -237.0,
+   "driver": "ejecta",
+   "shock": "1999-10-21 02:22:00",
+   "sheath_hours": 18.6,
+   "sheath_total": 10.6,
+   "sheath_rate": 0.57,
+   "ejecta_hours": 9.5,
+   "ejecta_total": 157.3,
+   "ejecta_rate": 16.56
+  },
+  {
+   "time": "2000-08-12 09:30:00",
+   "dst": -234.0,
+   "driver": "ejecta",
+   "shock": "2000-08-11 18:47:00",
+   "sheath_hours": 11.2,
+   "sheath_total": 59.7,
+   "sheath_rate": 5.33,
+   "ejecta_hours": 41.6,
+   "ejecta_total": 208.4,
+   "ejecta_rate": 5.01
+  },
+  {
+   "time": "2015-03-17 22:30:00",
+   "dst": -234.0,
+   "driver": "ejecta",
+   "shock": "2015-03-17 04:49:00",
+   "sheath_hours": 8.8,
+   "sheath_total": 61.0,
+   "sheath_rate": 6.93,
+   "ejecta_hours": 14.7,
+   "ejecta_total": 178.8,
+   "ejecta_rate": 12.16
+  },
+  {
+   "time": "1981-07-25 20:30:00",
+   "dst": -226.0,
+   "driver": null,
+   "shock": "1981-07-23 07:23:00",
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1991-06-05 19:30:00",
+   "dst": -223.0,
+   "driver": null,
+   "shock": "1991-06-04 23:13:00",
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "2001-11-24 16:30:00",
+   "dst": -221.0,
+   "driver": "sheath",
+   "shock": "2001-11-24 04:53:00",
+   "sheath_hours": 13.2,
+   "sheath_total": 98.5,
+   "sheath_rate": 7.46,
+   "ejecta_hours": 27.9,
+   "ejecta_total": 0.6,
+   "ejecta_rate": 0.02
+  },
+  {
+   "time": "1981-03-05 17:30:00",
+   "dst": -215.0,
+   "driver": null,
+   "shock": "1981-03-02 08:35:00",
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1983-01-10 07:30:00",
+   "dst": -213.0,
+   "driver": null,
+   "why": "no rows with both flow_speed and T valid"
+  },
+  {
+   "time": "2023-04-24 05:30:00",
+   "dst": -213.0,
+   "driver": "ejecta",
+   "shock": "2023-04-23 17:39:00",
+   "sheath_hours": 8.2,
+   "sheath_total": 76.1,
+   "sheath_rate": 9.28,
+   "ejecta_hours": 17.5,
+   "ejecta_total": 195.0,
+   "ejecta_rate": 11.14
+  },
+  {
+   "time": "1982-03-02 05:30:00",
+   "dst": -211.0,
+   "driver": null,
+   "shock": null,
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1982-09-22 07:30:00",
+   "dst": -210.0,
+   "driver": null,
+   "why": "no rows with both flow_speed and T valid"
+  },
+  {
+   "time": "1998-09-25 09:30:00",
+   "dst": -207.0,
+   "driver": "ambiguous",
+   "shock": "1998-09-24 23:54:00",
+   "sheath_hours": 6.3,
+   "sheath_total": 73.7,
+   "sheath_rate": 11.7,
+   "ejecta_hours": 16.4,
+   "ejecta_total": 90.2,
+   "ejecta_rate": 5.5
+  },
+  {
+   "time": "1998-05-04 05:30:00",
+   "dst": -205.0,
+   "driver": "ejecta",
+   "shock": "1998-05-01 22:00:00",
+   "sheath_hours": 6.9,
+   "sheath_total": 6.0,
+   "sheath_rate": 0.87,
+   "ejecta_hours": 44.9,
+   "ejecta_total": 222.9,
+   "ejecta_rate": 4.96
+  },
+  {
+   "time": "1992-02-09 08:30:00",
+   "dst": -201.0,
+   "driver": null,
+   "shock": "1992-02-08 14:32:00",
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "1994-04-17 07:30:00",
+   "dst": -201.0,
+   "driver": null,
+   "shock": null,
+   "sheath_hours": null,
+   "sheath_total": null,
+   "sheath_rate": null,
+   "ejecta_hours": null,
+   "ejecta_total": null,
+   "ejecta_rate": null
+  },
+  {
+   "time": "2000-09-17 23:30:00",
+   "dst": -201.0,
+   "driver": "sheath",
+   "shock": "2000-09-17 16:01:00",
+   "sheath_hours": 12.0,
+   "sheath_total": 53.9,
+   "sheath_rate": 4.49,
+   "ejecta_hours": 40.9,
+   "ejecta_total": 32.8,
+   "ejecta_rate": 0.8
+  }
+ ],
+ "omni_20010331": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2001-03-27_2001-04-04.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2001-03-27 00:00:00",
+   "2001-04-04 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2001-03-27_2001-04-04.csv"
+  ],
+  "status": "ok",
+  "audit_id": "4e1a3cc2bff8"
+ },
+ "omni_20031030": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2003-10-26_2003-11-03.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2003-10-26 00:00:00",
+   "2003-11-03 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2003-10-26_2003-11-03.csv"
+  ],
+  "status": "ok",
+  "audit_id": "bb6f008c47ab"
+ },
+ "omni_20041108": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2004-11-04_2004-11-12.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2004-11-04 00:00:00",
+   "2004-11-12 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2004-11-04_2004-11-12.csv"
+  ],
+  "status": "ok",
+  "audit_id": "927c4fe9e618"
+ },
+ "omni_19911109": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1991-11-05_1991-11-13.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1991-11-05 00:00:00",
+   "1991-11-13 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1991-11-05_1991-11-13.csv"
+  ],
+  "status": "ok",
+  "audit_id": "becbf1f4cbcb"
+ },
+ "omni_20241011": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2024-10-07_2024-10-15.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2024-10-07 00:00:00",
+   "2024-10-15 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2024-10-07_2024-10-15.csv"
+  ],
+  "status": "ok",
+  "audit_id": "a52573640966"
+ },
+ "omni_19820714": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1982-07-10_1982-07-18.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1982-07-10 00:00:00",
+   "1982-07-18 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1982-07-10_1982-07-18.csv"
+  ],
+  "status": "ok",
+  "audit_id": "4929ad9aadbc"
+ },
+ "omni_19810413": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1981-04-09_1981-04-17.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1981-04-09 00:00:00",
+   "1981-04-17 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1981-04-09_1981-04-17.csv"
+  ],
+  "status": "ok",
+  "audit_id": "c8dd3fbff345"
+ },
+ "omni_19860209": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1986-02-05_1986-02-13.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1986-02-05 00:00:00",
+   "1986-02-13 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1986-02-05_1986-02-13.csv"
+  ],
+  "status": "ok",
+  "audit_id": "0a064379fc34"
+ },
+ "omni_20000716": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2000-07-12_2000-07-20.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2000-07-12 00:00:00",
+   "2000-07-20 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2000-07-12_2000-07-20.csv"
+  ],
+  "status": "ok",
+  "audit_id": "1101c9cd1d33"
+ },
+ "omni_19910325": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1991-03-21_1991-03-29.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1991-03-21 00:00:00",
+   "1991-03-29 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1991-03-21_1991-03-29.csv"
+  ],
+  "status": "ok",
+  "audit_id": "c4f7f780686d"
+ },
+ "omni_20000407": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2000-04-03_2000-04-11.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2000-04-03 00:00:00",
+   "2000-04-11 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2000-04-03_2000-04-11.csv"
+  ],
+  "status": "ok",
+  "audit_id": "76032fe4f826"
+ },
+ "omni_20011106": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2001-11-02_2001-11-10.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2001-11-02 00:00:00",
+   "2001-11-10 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2001-11-02_2001-11-10.csv"
+  ],
+  "status": "ok",
+  "audit_id": "38d5e3742084"
+ },
+ "omni_19820906": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1982-09-02_1982-09-10.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1982-09-02 00:00:00",
+   "1982-09-10 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1982-09-02_1982-09-10.csv"
+  ],
+  "status": "ok",
+  "audit_id": "ceef42dc2134"
+ },
+ "omni_19920510": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1992-05-06_1992-05-14.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1992-05-06 00:00:00",
+   "1992-05-14 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1992-05-06_1992-05-14.csv"
+  ],
+  "status": "ok",
+  "audit_id": "62b6db895bbd"
+ },
+ "omni_19900410": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1990-04-06_1990-04-14.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1990-04-06 00:00:00",
+   "1990-04-14 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1990-04-06_1990-04-14.csv"
+  ],
+  "status": "ok",
+  "audit_id": "204126a9867c"
+ },
+ "omni_20010411": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2001-04-07_2001-04-15.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2001-04-07 00:00:00",
+   "2001-04-15 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2001-04-07_2001-04-15.csv"
+  ],
+  "status": "ok",
+  "audit_id": "1b96454aacaa"
+ },
+ "omni_19891021": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1989-10-17_1989-10-25.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1989-10-17 00:00:00",
+   "1989-10-25 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1989-10-17_1989-10-25.csv"
+  ],
+  "status": "ok",
+  "audit_id": "6e65b6a68d3a"
+ },
+ "omni_19891117": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1989-11-13_1989-11-21.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1989-11-13 00:00:00",
+   "1989-11-21 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1989-11-13_1989-11-21.csv"
+  ],
+  "status": "ok",
+  "audit_id": "43a814cdeac0"
+ },
+ "omni_19890919": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1989-09-15_1989-09-23.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1989-09-15 00:00:00",
+   "1989-09-23 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1989-09-15_1989-09-23.csv"
+  ],
+  "status": "ok",
+  "audit_id": "44e404b76995"
+ },
+ "omni_19911029": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1991-10-25_1991-11-02.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1991-10-25 00:00:00",
+   "1991-11-02 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1991-10-25_1991-11-02.csv"
+  ],
+  "status": "ok",
+  "audit_id": "758ab2cc39fe"
+ },
+ "omni_20050515": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2005-05-11_2005-05-19.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2005-05-11 00:00:00",
+   "2005-05-19 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2005-05-11_2005-05-19.csv"
+  ],
+  "status": "ok",
+  "audit_id": "421cbf2d1747"
+ },
+ "omni_19991022": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1999-10-18_1999-10-26.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1999-10-18 00:00:00",
+   "1999-10-26 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1999-10-18_1999-10-26.csv"
+  ],
+  "status": "ok",
+  "audit_id": "783da17c8039"
+ },
+ "omni_20000812": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2000-08-08_2000-08-16.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2000-08-08 00:00:00",
+   "2000-08-16 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2000-08-08_2000-08-16.csv"
+  ],
+  "status": "ok",
+  "audit_id": "a05f0b9ed543"
+ },
+ "omni_20150317": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2015-03-13_2015-03-21.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2015-03-13 00:00:00",
+   "2015-03-21 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2015-03-13_2015-03-21.csv"
+  ],
+  "status": "ok",
+  "audit_id": "c74f8a63c691"
+ },
+ "omni_19810725": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1981-07-21_1981-07-29.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1981-07-21 00:00:00",
+   "1981-07-29 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1981-07-21_1981-07-29.csv"
+  ],
+  "status": "ok",
+  "audit_id": "0b3c08e02ff2"
+ },
+ "omni_19910605": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1991-06-01_1991-06-09.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1991-06-01 00:00:00",
+   "1991-06-09 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1991-06-01_1991-06-09.csv"
+  ],
+  "status": "ok",
+  "audit_id": "eb1aec475fba"
+ },
+ "omni_20011124": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2001-11-20_2001-11-28.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2001-11-20 00:00:00",
+   "2001-11-28 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2001-11-20_2001-11-28.csv"
+  ],
+  "status": "ok",
+  "audit_id": "f085ddf6beba"
+ },
+ "omni_19810305": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1981-03-01_1981-03-09.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1981-03-01 00:00:00",
+   "1981-03-09 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1981-03-01_1981-03-09.csv"
+  ],
+  "status": "ok",
+  "audit_id": "1b922aa47097"
+ },
+ "omni_19830110": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1983-01-06_1983-01-14.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1983-01-06 00:00:00",
+   "1983-01-14 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1983-01-06_1983-01-14.csv"
+  ],
+  "status": "ok",
+  "audit_id": "e3fba821cec9"
+ },
+ "omni_20230424": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2023-04-20_2023-04-28.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2023-04-20 00:00:00",
+   "2023-04-28 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2023-04-20_2023-04-28.csv"
+  ],
+  "status": "ok",
+  "audit_id": "ec2ca4f347c4"
+ },
+ "omni_19820302": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1982-02-26_1982-03-06.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1982-02-26 00:00:00",
+   "1982-03-06 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1982-02-26_1982-03-06.csv"
+  ],
+  "status": "ok",
+  "audit_id": "dd860b1d7f90"
+ },
+ "omni_19820922": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1982-09-18_1982-09-26.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1982-09-18 00:00:00",
+   "1982-09-26 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1982-09-18_1982-09-26.csv"
+  ],
+  "status": "ok",
+  "audit_id": "2c42653b9f61"
+ },
+ "omni_19980925": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1998-09-21_1998-09-29.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1998-09-21 00:00:00",
+   "1998-09-29 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1998-09-21_1998-09-29.csv"
+  ],
+  "status": "ok",
+  "audit_id": "c76667072c87"
+ },
+ "omni_19980504": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1998-04-30_1998-05-08.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1998-04-30 00:00:00",
+   "1998-05-08 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1998-04-30_1998-05-08.csv"
+  ],
+  "status": "ok",
+  "audit_id": "4d1263e06c32"
+ },
+ "omni_19920209": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1992-02-05_1992-02-13.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1992-02-05 00:00:00",
+   "1992-02-13 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1992-02-05_1992-02-13.csv"
+  ],
+  "status": "ok",
+  "audit_id": "eefb9859ec82"
+ },
+ "omni_19940417": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1994-04-13_1994-04-21.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "1994-04-13 00:00:00",
+   "1994-04-21 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_1994-04-13_1994-04-21.csv"
+  ],
+  "status": "ok",
+  "audit_id": "1cbb7e5467f6"
+ },
+ "omni_20000917": {
+  "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2000-09-13_2000-09-21.csv",
+  "n_records": 11521,
+  "columns": [
+   "F",
+   "BY_GSM",
+   "BZ_GSM",
+   "flow_speed",
+   "proton_density",
+   "T",
+   "SYM_H"
+  ],
+  "units": {
+   "F": "nT",
+   "BY_GSM": "nT",
+   "BZ_GSM": "nT",
+   "flow_speed": "km/s",
+   "proton_density": "n/cc",
+   "T": "K",
+   "SYM_H": "nT"
+  },
+  "time_range": [
+   "2000-09-13 00:00:00",
+   "2000-09-21 00:00:00"
+  ],
+  "artifacts": [
+   "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/data/OMNI_HRO_1MIN_2000-09-13_2000-09-21.csv"
+  ],
+  "status": "ok",
+  "audit_id": "73a4372c8043"
+ },
+ "icme_19890314": {
+  "icme": {
+   "start": "1989-03-17 08:46:00",
+   "end": "1989-03-17 17:22:00",
+   "duration_hours": 8.6,
+   "min_temp_ratio": 0.212,
+   "mean_speed_kms": 564.2,
+   "magnetic_cloud": false,
+   "rotation_deg": 86.9,
+   "rotation_r2": 0.354,
+   "max_b_perp_nT": 6.99
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1989-03-17 08:46:00",
+    "end": "1989-03-17 17:22:00",
+    "duration_hours": 8.6,
+    "min_temp_ratio": 0.212,
+    "mean_speed_kms": 564.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 86.9,
+    "rotation_r2": 0.354,
+    "max_b_perp_nT": 6.99
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "1989-03-16 05:24:00",
+  "sheath": {
+   "start": "1989-03-16 05:24:00",
+   "end": "1989-03-17 08:46:00",
+   "duration_hours": 27.4,
+   "field": {
+    "hours": 27.4,
+    "bz_min_nT": -16.6,
+    "bz_median_nT": -1.5,
+    "hours_below_threshold": 1.9,
+    "south_nT_hours": 87.3,
+    "south_nT_per_hour": 3.19
+   }
+  },
+  "ejecta_field": {
+   "hours": 8.6,
+   "bz_min_nT": -6.6,
+   "bz_median_nT": -3.0,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 26.6,
+   "south_nT_per_hour": 3.1
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "1989-03-16 05:24:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1989-03-16 05:24:00; low-Tp interval of 8.6 h; no flux-rope signature (rotation 86.9\u00b0 at r\u00b2=0.354, max B\u22a5 6.99 nT); sheath 27.4 h carrying Bz to -16.6 nT (1.9 h below -10) \u2014 SHEATH-DRIVEN: 87.3 vs 26.6 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "38300488974e"
+ },
+ "icme_20031120": {
+  "icme": null,
+  "closest": {
+   "start": "2003-11-20 19:53:00",
+   "end": "2003-11-21 01:11:00",
+   "duration_hours": 5.3,
+   "hours_short": 0.7,
+   "min_temp_ratio": 0.123,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "2003-11-20 08:06:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "2003-11-20 08:06:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2003-11-20 08:06:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 5.3 h below the ratio from 2003-11-20 19:53:00 (0.7 h short; lowest Tp/Texp 0.123) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "92ef4ce16fc3"
+ },
+ "icme_20240511": {
+  "icme": {
+   "start": "2024-05-11 11:31:00",
+   "end": "2024-05-11 18:40:00",
+   "duration_hours": 7.2,
+   "min_temp_ratio": 0.164,
+   "mean_speed_kms": 803.3,
+   "magnetic_cloud": false,
+   "rotation_deg": 300.9,
+   "rotation_r2": 0.638,
+   "max_b_perp_nT": 25.38
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2024-05-11 11:31:00",
+    "end": "2024-05-11 18:40:00",
+    "duration_hours": 7.2,
+    "min_temp_ratio": 0.164,
+    "mean_speed_kms": 803.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 300.9,
+    "rotation_r2": 0.638,
+    "max_b_perp_nT": 25.38
+   },
+   {
+    "start": "2024-05-12 00:58:00",
+    "end": "2024-05-12 10:36:00",
+    "duration_hours": 9.6,
+    "min_temp_ratio": 0.084,
+    "mean_speed_kms": 906.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 608.2,
+    "rotation_r2": 0.633,
+    "max_b_perp_nT": 8.53
+   },
+   {
+    "start": "2024-05-12 20:53:00",
+    "end": "2024-05-14 10:16:00",
+    "duration_hours": 37.4,
+    "min_temp_ratio": 0.104,
+    "mean_speed_kms": 657.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 266.3,
+    "rotation_r2": 0.364,
+    "max_b_perp_nT": 11.04
+   },
+   {
+    "start": "2024-05-14 15:54:00",
+    "end": "2024-05-14 23:59:00",
+    "duration_hours": 8.1,
+    "min_temp_ratio": 0.265,
+    "mean_speed_kms": 516.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 164.9,
+    "rotation_r2": 0.0,
+    "max_b_perp_nT": 3.38
+   }
+  ],
+  "n_intervals": 4,
+  "shock_time": "2024-05-10 17:05:00",
+  "sheath": {
+   "start": "2024-05-10 17:05:00",
+   "end": "2024-05-11 11:31:00",
+   "duration_hours": 18.4,
+   "field": {
+    "hours": 18.4,
+    "bz_min_nT": -47.9,
+    "bz_median_nT": -24.0,
+    "hours_below_threshold": 13.0,
+    "south_nT_hours": 380.1,
+    "south_nT_per_hour": 20.62
+   }
+  },
+  "ejecta_field": {
+   "hours": 7.2,
+   "bz_min_nT": -24.5,
+   "bz_median_nT": -12.2,
+   "hours_below_threshold": 4.4,
+   "south_nT_hours": 89.3,
+   "south_nT_per_hour": 12.49
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2024-05-10 17:05:00",
+   "2024-05-11 11:24:00",
+   "2024-05-11 18:19:00",
+   "2024-05-12 00:46:00",
+   "2024-05-12 17:50:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2024-05-10 17:05:00; low-Tp interval of 7.2 h; no flux-rope signature (rotation 300.9\u00b0 at r\u00b2=0.638, max B\u22a5 25.38 nT); first of 4 qualifying intervals \u2014 an ICME train follows; sheath 18.4 h carrying Bz to -47.9 nT (13 h below -10) \u2014 SHEATH-DRIVEN: 380.1 vs 89.3 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "92d51d926d60"
+ },
+ "icme_20010331": {
+  "icme": {
+   "start": "2001-03-28 07:02:00",
+   "end": "2001-03-30 19:17:00",
+   "duration_hours": 60.2,
+   "min_temp_ratio": 0.06,
+   "mean_speed_kms": 519.0,
+   "magnetic_cloud": true,
+   "rotation_deg": 1682.3,
+   "rotation_r2": 0.882,
+   "max_b_perp_nT": 14.53
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-03-28 07:02:00",
+    "end": "2001-03-30 19:17:00",
+    "duration_hours": 60.2,
+    "min_temp_ratio": 0.06,
+    "mean_speed_kms": 519.0,
+    "magnetic_cloud": true,
+    "rotation_deg": 1682.3,
+    "rotation_r2": 0.882,
+    "max_b_perp_nT": 14.53
+   },
+   {
+    "start": "2001-03-31 17:10:00",
+    "end": "2001-04-03 16:57:00",
+    "duration_hours": 71.8,
+    "min_temp_ratio": 0.05,
+    "mean_speed_kms": 614.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 358.9,
+    "rotation_r2": 0.062,
+    "max_b_perp_nT": 32.66
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2001-03-27 17:58:00",
+  "sheath": {
+   "start": "2001-03-27 17:58:00",
+   "end": "2001-03-28 07:02:00",
+   "duration_hours": 13.1,
+   "field": {
+    "hours": 13.1,
+    "bz_min_nT": -17.1,
+    "bz_median_nT": 6.7,
+    "hours_below_threshold": 1.2,
+    "south_nT_hours": 21.3,
+    "south_nT_per_hour": 1.63
+   }
+  },
+  "ejecta_field": {
+   "hours": 60.2,
+   "bz_min_nT": -11.3,
+   "bz_median_nT": -0.1,
+   "hours_below_threshold": 0.4,
+   "south_nT_hours": 55.7,
+   "south_nT_per_hour": 0.93
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2001-03-27 17:58:00",
+   "2001-03-31 01:00:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-03-27 17:58:00; low-Tp interval of 60.2 h; magnetic cloud: 1682.3\u00b0 smooth rotation (r\u00b2=0.882), max B\u22a5 14.53 nT; first of 2 qualifying intervals \u2014 an ICME train follows; sheath 13.1 h carrying Bz to -17.1 nT (1.2 h below -10) \u2014 ejecta-driven: 55.7 vs 21.3 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "e720fff55439"
+ },
+ "icme_20031030": {
+  "icme": {
+   "start": "2003-10-28 03:16:00",
+   "end": "2003-10-28 09:17:00",
+   "duration_hours": 6.0,
+   "min_temp_ratio": 0.263,
+   "mean_speed_kms": 623.3,
+   "magnetic_cloud": false,
+   "rotation_deg": 36.8,
+   "rotation_r2": 0.694,
+   "max_b_perp_nT": 16.74
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2003-10-28 03:16:00",
+    "end": "2003-10-28 09:17:00",
+    "duration_hours": 6.0,
+    "min_temp_ratio": 0.263,
+    "mean_speed_kms": 623.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 36.8,
+    "rotation_r2": 0.694,
+    "max_b_perp_nT": 16.74
+   },
+   {
+    "start": "2003-11-01 04:53:00",
+    "end": "2003-11-02 10:35:00",
+    "duration_hours": 29.7,
+    "min_temp_ratio": 0.017,
+    "mean_speed_kms": 589.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 464.6,
+    "rotation_r2": 0.603,
+    "max_b_perp_nT": 5.74
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2003-10-26 09:06:00",
+  "sheath": {
+   "start": "2003-10-26 09:06:00",
+   "end": "2003-10-28 03:16:00",
+   "duration_hours": 42.2,
+   "field": {
+    "hours": 42.2,
+    "bz_min_nT": -12.1,
+    "bz_median_nT": 0.1,
+    "hours_below_threshold": 0.1,
+    "south_nT_hours": 94.0,
+    "south_nT_per_hour": 2.23
+   }
+  },
+  "ejecta_field": {
+   "hours": 6.0,
+   "bz_min_nT": -7.7,
+   "bz_median_nT": -0.4,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 8.6,
+   "south_nT_per_hour": 1.43
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2003-10-26 09:06:00",
+   "2003-10-26 19:04:00",
+   "2003-10-28 02:04:00",
+   "2003-10-28 10:46:00",
+   "2003-10-29 19:16:00",
+   "2003-11-01 04:58:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2003-10-26 09:06:00; low-Tp interval of 6 h; no flux-rope signature (rotation 36.8\u00b0 at r\u00b2=0.694, max B\u22a5 16.74 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 42.2 h carrying Bz to -12.1 nT (0.1 h below -10) \u2014 SHEATH-DRIVEN: 94 vs 8.6 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "3b0b0c43ce81"
+ },
+ "icme_20041108": {
+  "icme": {
+   "start": "2004-11-08 03:00:00",
+   "end": "2004-11-09 09:53:00",
+   "duration_hours": 30.9,
+   "min_temp_ratio": 0.031,
+   "mean_speed_kms": 633.7,
+   "magnetic_cloud": false,
+   "rotation_deg": 149.2,
+   "rotation_r2": 0.001,
+   "max_b_perp_nT": 48.23
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2004-11-08 03:00:00",
+    "end": "2004-11-09 09:53:00",
+    "duration_hours": 30.9,
+    "min_temp_ratio": 0.031,
+    "mean_speed_kms": 633.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 149.2,
+    "rotation_r2": 0.001,
+    "max_b_perp_nT": 48.23
+   },
+   {
+    "start": "2004-11-09 20:59:00",
+    "end": "2004-11-11 00:20:00",
+    "duration_hours": 27.4,
+    "min_temp_ratio": 0.045,
+    "mean_speed_kms": 689.4,
+    "magnetic_cloud": true,
+    "rotation_deg": 290.2,
+    "rotation_r2": 0.908,
+    "max_b_perp_nT": 39.79
+   },
+   {
+    "start": "2004-11-11 04:55:00",
+    "end": "2004-11-11 18:54:00",
+    "duration_hours": 14.0,
+    "min_temp_ratio": 0.018,
+    "mean_speed_kms": 571.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 146.1,
+    "rotation_r2": 0.568,
+    "max_b_perp_nT": 7.92
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2004-11-07 18:29:00",
+  "sheath": {
+   "start": "2004-11-07 18:29:00",
+   "end": "2004-11-08 03:00:00",
+   "duration_hours": 8.5,
+   "field": {
+    "hours": 8.5,
+    "bz_min_nT": -49.3,
+    "bz_median_nT": -8.9,
+    "hours_below_threshold": 4.1,
+    "south_nT_hours": 134.1,
+    "south_nT_per_hour": 15.75
+   }
+  },
+  "ejecta_field": {
+   "hours": 30.9,
+   "bz_min_nT": -47.9,
+   "bz_median_nT": -4.4,
+   "hours_below_threshold": 7.4,
+   "south_nT_hours": 252.6,
+   "south_nT_per_hour": 8.18
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2004-11-07 18:29:00",
+   "2004-11-09 09:24:00",
+   "2004-11-09 18:57:00",
+   "2004-11-10 17:05:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2004-11-07 18:29:00; low-Tp interval of 30.9 h; no flux-rope signature (rotation 149.2\u00b0 at r\u00b2=0.001, max B\u22a5 48.23 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 8.5 h carrying Bz to -49.3 nT (4.1 h below -10) \u2014 ejecta-driven: 252.6 vs 134.1 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "44dd6a43767e"
+ },
+ "icme_19911109": {
+  "icme": {
+   "start": "1991-11-09 07:30:00",
+   "end": "1991-11-09 13:40:00",
+   "duration_hours": 6.2,
+   "min_temp_ratio": 0.223,
+   "mean_speed_kms": 593.9,
+   "magnetic_cloud": false,
+   "rotation_deg": 72.4,
+   "rotation_r2": 0.0,
+   "max_b_perp_nT": 21.63
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1991-11-09 07:30:00",
+    "end": "1991-11-09 13:40:00",
+    "duration_hours": 6.2,
+    "min_temp_ratio": 0.223,
+    "mean_speed_kms": 593.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 72.4,
+    "rotation_r2": 0.0,
+    "max_b_perp_nT": 21.63
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "low-Tp interval of 6.2 h; no flux-rope signature (rotation 72.4\u00b0 at r\u00b2=0, max B\u22a5 21.63 nT)",
+  "status": "ok",
+  "audit_id": "e51f0a79b074"
+ },
+ "icme_20241011": {
+  "icme": {
+   "start": "2024-10-11 06:41:00",
+   "end": "2024-10-12 03:17:00",
+   "duration_hours": 20.6,
+   "min_temp_ratio": 0.074,
+   "mean_speed_kms": 689.0,
+   "magnetic_cloud": false,
+   "rotation_deg": 430.4,
+   "rotation_r2": 0.133,
+   "max_b_perp_nT": 30.79
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2024-10-11 06:41:00",
+    "end": "2024-10-12 03:17:00",
+    "duration_hours": 20.6,
+    "min_temp_ratio": 0.074,
+    "mean_speed_kms": 689.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 430.4,
+    "rotation_r2": 0.133,
+    "max_b_perp_nT": 30.79
+   },
+   {
+    "start": "2024-10-12 06:00:00",
+    "end": "2024-10-13 04:06:00",
+    "duration_hours": 22.1,
+    "min_temp_ratio": 0.133,
+    "mean_speed_kms": 568.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 306.5,
+    "rotation_r2": 0.008,
+    "max_b_perp_nT": 8.01
+   },
+   {
+    "start": "2024-10-13 07:29:00",
+    "end": "2024-10-14 22:07:00",
+    "duration_hours": 38.6,
+    "min_temp_ratio": 0.247,
+    "mean_speed_kms": 426.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 485.8,
+    "rotation_r2": 0.513,
+    "max_b_perp_nT": 7.59
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2024-10-10 14:13:00",
+  "sheath": {
+   "start": "2024-10-10 14:13:00",
+   "end": "2024-10-11 06:41:00",
+   "duration_hours": 16.5,
+   "field": {
+    "hours": 16.4,
+    "bz_min_nT": -47.0,
+    "bz_median_nT": -20.9,
+    "hours_below_threshold": 12.2,
+    "south_nT_hours": 333.7,
+    "south_nT_per_hour": 20.29
+   }
+  },
+  "ejecta_field": {
+   "hours": 20.6,
+   "bz_min_nT": -22.6,
+   "bz_median_nT": 2.1,
+   "hours_below_threshold": 3.0,
+   "south_nT_hours": 66.5,
+   "south_nT_per_hour": 3.23
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2024-10-10 14:13:00",
+   "2024-10-11 05:58:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2024-10-10 14:13:00; low-Tp interval of 20.6 h; no flux-rope signature (rotation 430.4\u00b0 at r\u00b2=0.133, max B\u22a5 30.79 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 16.5 h carrying Bz to -47 nT (12.2 h below -10) \u2014 SHEATH-DRIVEN: 333.7 vs 66.5 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "f4fae632718d"
+ },
+ "icme_19820714": {
+  "icme": null,
+  "closest": {
+   "start": null,
+   "end": null,
+   "duration_hours": 0.0,
+   "hours_short": 6.0,
+   "min_temp_ratio": 2.637,
+   "ratio_short": 2.137
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "1982-07-13 16:19:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "1982-07-13 16:19:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1982-07-13 16:19:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; no sample fell below the ratio \u2014 the lowest Tp/Texp after the shock was 2.637 (+2.137 above it) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "714af80cf12f"
+ },
+ "icme_19810413": {
+  "icme": null,
+  "closest": {
+   "start": "1981-04-09 11:05:00",
+   "end": "1981-04-09 12:06:00",
+   "duration_hours": 1.0,
+   "hours_short": 5.0,
+   "min_temp_ratio": 0.208,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 1 h below the ratio from 1981-04-09 11:05:00 (5 h short; lowest Tp/Texp 0.208) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "790bab12b0f6"
+ },
+ "icme_19860209": {
+  "icme": null,
+  "closest": {
+   "start": "1986-02-07 11:08:00",
+   "end": "1986-02-07 16:49:00",
+   "duration_hours": 5.7,
+   "hours_short": 0.3,
+   "min_temp_ratio": 0.207,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "1986-02-06 13:16:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "1986-02-06 13:16:00",
+   "1986-02-07 15:22:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1986-02-06 13:16:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 5.7 h below the ratio from 1986-02-07 11:08:00 (0.3 h short; lowest Tp/Texp 0.207) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "3c6658f412df"
+ },
+ "icme_20000716": {
+  "icme": {
+   "start": "2000-07-14 04:42:00",
+   "end": "2000-07-14 11:04:00",
+   "duration_hours": 6.4,
+   "min_temp_ratio": 0.24,
+   "mean_speed_kms": 594.4,
+   "magnetic_cloud": false,
+   "rotation_deg": 740.8,
+   "rotation_r2": 0.907,
+   "max_b_perp_nT": 5.2
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-07-14 04:42:00",
+    "end": "2000-07-14 11:04:00",
+    "duration_hours": 6.4,
+    "min_temp_ratio": 0.24,
+    "mean_speed_kms": 594.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 740.8,
+    "rotation_r2": 0.907,
+    "max_b_perp_nT": 5.2
+   },
+   {
+    "start": "2000-07-15 19:51:00",
+    "end": "2000-07-17 08:10:00",
+    "duration_hours": 36.3,
+    "min_temp_ratio": 0.005,
+    "mean_speed_kms": 835.7,
+    "magnetic_cloud": true,
+    "rotation_deg": 279.0,
+    "rotation_r2": 0.84,
+    "max_b_perp_nT": 61.24
+   },
+   {
+    "start": "2000-07-17 16:56:00",
+    "end": "2000-07-18 01:34:00",
+    "duration_hours": 8.6,
+    "min_temp_ratio": 0.366,
+    "mean_speed_kms": 613.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 93.8,
+    "rotation_r2": 0.328,
+    "max_b_perp_nT": 5.27
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2000-07-13 09:53:00",
+  "sheath": {
+   "start": "2000-07-13 09:53:00",
+   "end": "2000-07-14 04:42:00",
+   "duration_hours": 18.8,
+   "field": {
+    "hours": 18.8,
+    "bz_min_nT": -20.8,
+    "bz_median_nT": 0.1,
+    "hours_below_threshold": 1.2,
+    "south_nT_hours": 38.9,
+    "south_nT_per_hour": 2.07
+   }
+  },
+  "ejecta_field": {
+   "hours": 6.4,
+   "bz_min_nT": -5.2,
+   "bz_median_nT": -1.9,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 13.0,
+   "south_nT_per_hour": 2.04
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2000-07-13 09:53:00",
+   "2000-07-15 14:35:00",
+   "2000-07-16 07:02:00",
+   "2000-07-19 15:30:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-07-13 09:53:00; low-Tp interval of 6.4 h; no flux-rope signature (rotation 740.8\u00b0 at r\u00b2=0.907, max B\u22a5 5.2 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 18.8 h carrying Bz to -20.8 nT (1.2 h below -10) \u2014 SHEATH-DRIVEN: 38.9 vs 13 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "815e14fee9cf"
+ },
+ "icme_19910325": {
+  "icme": null,
+  "closest": {
+   "start": "1991-03-21 11:04:00",
+   "end": "1991-03-21 11:13:00",
+   "duration_hours": 0.1,
+   "hours_short": 5.8,
+   "min_temp_ratio": 0.335,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 0.1 h below the ratio from 1991-03-21 11:04:00 (5.8 h short; lowest Tp/Texp 0.335) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "2520de205d12"
+ },
+ "icme_20000407": {
+  "icme": {
+   "start": "2000-04-07 05:56:00",
+   "end": "2000-04-08 06:09:00",
+   "duration_hours": 24.2,
+   "min_temp_ratio": 0.03,
+   "mean_speed_kms": 562.8,
+   "magnetic_cloud": false,
+   "rotation_deg": 262.0,
+   "rotation_r2": 0.429,
+   "max_b_perp_nT": 20.09
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-04-07 05:56:00",
+    "end": "2000-04-08 06:09:00",
+    "duration_hours": 24.2,
+    "min_temp_ratio": 0.03,
+    "mean_speed_kms": 562.8,
+    "magnetic_cloud": false,
+    "rotation_deg": 262.0,
+    "rotation_r2": 0.429,
+    "max_b_perp_nT": 20.09
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "2000-04-06 16:47:00",
+  "sheath": {
+   "start": "2000-04-06 16:47:00",
+   "end": "2000-04-07 05:56:00",
+   "duration_hours": 13.2,
+   "field": {
+    "hours": 13.2,
+    "bz_min_nT": -33.0,
+    "bz_median_nT": -17.7,
+    "hours_below_threshold": 7.5,
+    "south_nT_hours": 188.7,
+    "south_nT_per_hour": 14.35
+   }
+  },
+  "ejecta_field": {
+   "hours": 24.2,
+   "bz_min_nT": -16.6,
+   "bz_median_nT": -0.3,
+   "hours_below_threshold": 0.3,
+   "south_nT_hours": 25.2,
+   "south_nT_per_hour": 1.04
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2000-04-06 16:47:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-04-06 16:47:00; low-Tp interval of 24.2 h; no flux-rope signature (rotation 262\u00b0 at r\u00b2=0.429, max B\u22a5 20.09 nT); sheath 13.2 h carrying Bz to -33 nT (7.5 h below -10) \u2014 SHEATH-DRIVEN: 188.7 vs 25.2 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "d6674153488a"
+ },
+ "icme_20011106": {
+  "icme": {
+   "start": "2001-11-06 21:51:00",
+   "end": "2001-11-08 23:48:00",
+   "duration_hours": 50.0,
+   "min_temp_ratio": 0.104,
+   "mean_speed_kms": 589.4,
+   "magnetic_cloud": false,
+   "rotation_deg": 332.8,
+   "rotation_r2": 0.224,
+   "max_b_perp_nT": 8.59
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-11-06 21:51:00",
+    "end": "2001-11-08 23:48:00",
+    "duration_hours": 50.0,
+    "min_temp_ratio": 0.104,
+    "mean_speed_kms": 589.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 332.8,
+    "rotation_r2": 0.224,
+    "max_b_perp_nT": 8.59
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "low-Tp interval of 50 h; no flux-rope signature (rotation 332.8\u00b0 at r\u00b2=0.224, max B\u22a5 8.59 nT)",
+  "status": "ok",
+  "audit_id": "cde288527d96"
+ },
+ "icme_19820906": {
+  "icme": null,
+  "closest": {
+   "start": "1982-09-02 04:53:00",
+   "end": "1982-09-02 06:46:00",
+   "duration_hours": 1.9,
+   "hours_short": 4.1,
+   "min_temp_ratio": 0.285,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 1.9 h below the ratio from 1982-09-02 04:53:00 (4.1 h short; lowest Tp/Texp 0.285) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "6994191cb2a7"
+ },
+ "icme_19920510": {
+  "icme": null,
+  "closest": {
+   "start": null,
+   "end": null,
+   "duration_hours": 0.0,
+   "hours_short": 6.0,
+   "min_temp_ratio": 2.308,
+   "ratio_short": 1.808
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "1992-05-09 19:45:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "1992-05-09 19:45:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1992-05-09 19:45:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; no sample fell below the ratio \u2014 the lowest Tp/Texp after the shock was 2.308 (+1.808 above it) \u2014 no ICME signature in this window; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "3b0bc2224140"
+ },
+ "icme_19900410": {
+  "icme": null,
+  "closest": {
+   "start": "1990-04-13 05:19:00",
+   "end": "1990-04-13 10:24:00",
+   "duration_hours": 5.1,
+   "hours_short": 0.9,
+   "min_temp_ratio": 0.223,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "1990-04-12 03:27:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "1990-04-12 03:27:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1990-04-12 03:27:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 5.1 h below the ratio from 1990-04-13 05:19:00 (0.9 h short; lowest Tp/Texp 0.223) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "c9341bc8eabb"
+ },
+ "icme_20010411": {
+  "icme": {
+   "start": "2001-04-09 15:04:00",
+   "end": "2001-04-10 05:42:00",
+   "duration_hours": 14.6,
+   "min_temp_ratio": 0.14,
+   "mean_speed_kms": 563.2,
+   "magnetic_cloud": false,
+   "rotation_deg": 418.5,
+   "rotation_r2": 0.01,
+   "max_b_perp_nT": 8.3
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-04-09 15:04:00",
+    "end": "2001-04-10 05:42:00",
+    "duration_hours": 14.6,
+    "min_temp_ratio": 0.14,
+    "mean_speed_kms": 563.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 418.5,
+    "rotation_r2": 0.01,
+    "max_b_perp_nT": 8.3
+   },
+   {
+    "start": "2001-04-12 07:40:00",
+    "end": "2001-04-13 07:28:00",
+    "duration_hours": 23.8,
+    "min_temp_ratio": 0.026,
+    "mean_speed_kms": 640.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 159.0,
+    "rotation_r2": 0.056,
+    "max_b_perp_nT": 20.49
+   },
+   {
+    "start": "2001-04-13 09:55:00",
+    "end": "2001-04-14 10:37:00",
+    "duration_hours": 24.7,
+    "min_temp_ratio": 0.022,
+    "mean_speed_kms": 730.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 115.7,
+    "rotation_r2": 0.027,
+    "max_b_perp_nT": 13.74
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2001-04-07 17:35:00",
+  "sheath": {
+   "start": "2001-04-07 17:35:00",
+   "end": "2001-04-09 15:04:00",
+   "duration_hours": 45.5,
+   "field": {
+    "hours": 45.5,
+    "bz_min_nT": -16.8,
+    "bz_median_nT": 0.1,
+    "hours_below_threshold": 0.7,
+    "south_nT_hours": 67.6,
+    "south_nT_per_hour": 1.49
+   }
+  },
+  "ejecta_field": {
+   "hours": 14.6,
+   "bz_min_nT": -5.9,
+   "bz_median_nT": -0.9,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 17.8,
+   "south_nT_per_hour": 1.22
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2001-04-07 17:35:00",
+   "2001-04-08 11:04:00",
+   "2001-04-11 13:34:00",
+   "2001-04-11 19:34:00",
+   "2001-04-13 07:31:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-04-07 17:35:00; low-Tp interval of 14.6 h; no flux-rope signature (rotation 418.5\u00b0 at r\u00b2=0.01, max B\u22a5 8.3 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 45.5 h carrying Bz to -16.8 nT (0.7 h below -10) \u2014 SHEATH-DRIVEN: 67.6 vs 17.8 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "b2c68e7b90d7"
+ },
+ "icme_19891021": {
+  "icme": null,
+  "closest": {
+   "start": "1989-10-20 15:18:00",
+   "end": "1989-10-20 16:31:00",
+   "duration_hours": 1.2,
+   "hours_short": 4.8,
+   "min_temp_ratio": 0.258,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "1989-10-18 22:33:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "1989-10-18 22:33:00",
+   "1989-10-20 10:43:00",
+   "1989-10-20 16:51:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1989-10-18 22:33:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 1.2 h below the ratio from 1989-10-20 15:18:00 (4.8 h short; lowest Tp/Texp 0.258) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "e2767783e7a6"
+ },
+ "icme_19891117": {
+  "icme": {
+   "start": "1989-11-15 00:47:00",
+   "end": "1989-11-15 08:49:00",
+   "duration_hours": 8.0,
+   "min_temp_ratio": 0.339,
+   "mean_speed_kms": 357.5,
+   "magnetic_cloud": true,
+   "rotation_deg": 191.2,
+   "rotation_r2": 0.871,
+   "max_b_perp_nT": 8.54
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1989-11-15 00:47:00",
+    "end": "1989-11-15 08:49:00",
+    "duration_hours": 8.0,
+    "min_temp_ratio": 0.339,
+    "mean_speed_kms": 357.5,
+    "magnetic_cloud": true,
+    "rotation_deg": 191.2,
+    "rotation_r2": 0.871,
+    "max_b_perp_nT": 8.54
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "low-Tp interval of 8 h; magnetic cloud: 191.2\u00b0 smooth rotation (r\u00b2=0.871), max B\u22a5 8.54 nT",
+  "status": "ok",
+  "audit_id": "762b53b4212e"
+ },
+ "icme_19890919": {
+  "icme": null,
+  "closest": {
+   "start": "1989-09-22 13:57:00",
+   "end": "1989-09-22 17:54:00",
+   "duration_hours": 4.0,
+   "hours_short": 2.0,
+   "min_temp_ratio": 0.188,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 4 h below the ratio from 1989-09-22 13:57:00 (2 h short; lowest Tp/Texp 0.188) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "7ac5179449ca"
+ },
+ "icme_19911029": {
+  "icme": {
+   "start": "1991-10-28 19:20:00",
+   "end": "1991-10-29 03:00:00",
+   "duration_hours": 7.7,
+   "min_temp_ratio": 0.15,
+   "mean_speed_kms": 832.0,
+   "magnetic_cloud": true,
+   "rotation_deg": 130.3,
+   "rotation_r2": 0.902,
+   "max_b_perp_nT": 36.24
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1991-10-28 19:20:00",
+    "end": "1991-10-29 03:00:00",
+    "duration_hours": 7.7,
+    "min_temp_ratio": 0.15,
+    "mean_speed_kms": 832.0,
+    "magnetic_cloud": true,
+    "rotation_deg": 130.3,
+    "rotation_r2": 0.902,
+    "max_b_perp_nT": 36.24
+   },
+   {
+    "start": "1991-10-30 13:23:00",
+    "end": "1991-10-30 23:49:00",
+    "duration_hours": 10.4,
+    "min_temp_ratio": 0.211,
+    "mean_speed_kms": 596.5,
+    "magnetic_cloud": true,
+    "rotation_deg": 423.0,
+    "rotation_r2": 0.913,
+    "max_b_perp_nT": 10.94
+   },
+   {
+    "start": "1991-11-01 13:29:00",
+    "end": "1991-11-01 21:02:00",
+    "duration_hours": 7.5,
+    "min_temp_ratio": 0.253,
+    "mean_speed_kms": 669.1,
+    "magnetic_cloud": false,
+    "rotation_deg": 94.8,
+    "rotation_r2": 0.013,
+    "max_b_perp_nT": 18.25
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "1991-10-28 11:04:00",
+  "sheath": {
+   "start": "1991-10-28 11:04:00",
+   "end": "1991-10-28 19:20:00",
+   "duration_hours": 8.3,
+   "field": {
+    "hours": 8.3,
+    "bz_min_nT": -15.4,
+    "bz_median_nT": -10.1,
+    "hours_below_threshold": 4.2,
+    "south_nT_hours": 76.1,
+    "south_nT_per_hour": 9.2
+   }
+  },
+  "ejecta_field": {
+   "hours": 7.7,
+   "bz_min_nT": -22.0,
+   "bz_median_nT": 6.5,
+   "hours_below_threshold": 2.4,
+   "south_nT_hours": 45.7,
+   "south_nT_per_hour": 5.96
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "1991-10-28 11:04:00",
+   "1991-10-31 16:55:00",
+   "1991-10-31 23:32:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1991-10-28 11:04:00; low-Tp interval of 7.7 h; magnetic cloud: 130.3\u00b0 smooth rotation (r\u00b2=0.902), max B\u22a5 36.24 nT; first of 3 qualifying intervals \u2014 an ICME train follows; sheath 8.3 h carrying Bz to -15.4 nT (4.2 h below -10) \u2014 SHEATH-DRIVEN: 76.1 vs 45.7 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "ce2e90c292f0"
+ },
+ "icme_20050515": {
+  "icme": {
+   "start": "2005-05-15 07:35:00",
+   "end": "2005-05-17 22:00:00",
+   "duration_hours": 62.4,
+   "min_temp_ratio": 0.01,
+   "mean_speed_kms": 653.8,
+   "magnetic_cloud": false,
+   "rotation_deg": 387.5,
+   "rotation_r2": 0.766,
+   "max_b_perp_nT": 43.19
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2005-05-15 07:35:00",
+    "end": "2005-05-17 22:00:00",
+    "duration_hours": 62.4,
+    "min_temp_ratio": 0.01,
+    "mean_speed_kms": 653.8,
+    "magnetic_cloud": false,
+    "rotation_deg": 387.5,
+    "rotation_r2": 0.766,
+    "max_b_perp_nT": 43.19
+   },
+   {
+    "start": "2005-05-18 08:41:00",
+    "end": "2005-05-18 18:44:00",
+    "duration_hours": 10.1,
+    "min_temp_ratio": 0.076,
+    "mean_speed_kms": 509.1,
+    "magnetic_cloud": false,
+    "rotation_deg": 59.9,
+    "rotation_r2": 0.618,
+    "max_b_perp_nT": 8.51
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2005-05-15 04:24:00",
+  "sheath": {
+   "start": "2005-05-15 04:24:00",
+   "end": "2005-05-15 07:35:00",
+   "duration_hours": 3.2,
+   "field": {
+    "hours": 3.2,
+    "bz_min_nT": -46.5,
+    "bz_median_nT": -13.1,
+    "hours_below_threshold": 1.6,
+    "south_nT_hours": 57.0,
+    "south_nT_per_hour": 17.9
+   }
+  },
+  "ejecta_field": {
+   "hours": 62.4,
+   "bz_min_nT": -26.9,
+   "bz_median_nT": -2.8,
+   "hours_below_threshold": 2.2,
+   "south_nT_hours": 204.5,
+   "south_nT_per_hour": 3.28
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2005-05-15 04:24:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2005-05-15 04:24:00; low-Tp interval of 62.4 h; no flux-rope signature (rotation 387.5\u00b0 at r\u00b2=0.766, max B\u22a5 43.19 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 3.2 h carrying Bz to -46.5 nT (1.6 h below -10) \u2014 ejecta-driven: 204.5 vs 57 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "112aed0d8e77"
+ },
+ "icme_19991022": {
+  "icme": {
+   "start": "1999-10-21 21:00:00",
+   "end": "1999-10-22 06:32:00",
+   "duration_hours": 9.5,
+   "min_temp_ratio": 0.107,
+   "mean_speed_kms": 489.5,
+   "magnetic_cloud": false,
+   "rotation_deg": 179.2,
+   "rotation_r2": 0.681,
+   "max_b_perp_nT": 31.93
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1999-10-21 21:00:00",
+    "end": "1999-10-22 06:32:00",
+    "duration_hours": 9.5,
+    "min_temp_ratio": 0.107,
+    "mean_speed_kms": 489.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 179.2,
+    "rotation_r2": 0.681,
+    "max_b_perp_nT": 31.93
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "1999-10-21 02:22:00",
+  "sheath": {
+   "start": "1999-10-21 02:22:00",
+   "end": "1999-10-21 21:00:00",
+   "duration_hours": 18.6,
+   "field": {
+    "hours": 18.6,
+    "bz_min_nT": -20.4,
+    "bz_median_nT": 6.3,
+    "hours_below_threshold": 0.2,
+    "south_nT_hours": 10.6,
+    "south_nT_per_hour": 0.57
+   }
+  },
+  "ejecta_field": {
+   "hours": 9.5,
+   "bz_min_nT": -31.5,
+   "bz_median_nT": -18.0,
+   "hours_below_threshold": 6.6,
+   "south_nT_hours": 157.3,
+   "south_nT_per_hour": 16.5
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "1999-10-21 02:22:00",
+   "1999-10-22 07:15:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1999-10-21 02:22:00; low-Tp interval of 9.5 h; no flux-rope signature (rotation 179.2\u00b0 at r\u00b2=0.681, max B\u22a5 31.93 nT); sheath 18.6 h carrying Bz to -20.4 nT (0.2 h below -10) \u2014 ejecta-driven: 157.3 vs 10.6 nT\u00b7h southward; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "ff608b72a0e8"
+ },
+ "icme_20000812": {
+  "icme": {
+   "start": "2000-08-12 06:00:00",
+   "end": "2000-08-13 23:35:00",
+   "duration_hours": 41.6,
+   "min_temp_ratio": 0.021,
+   "mean_speed_kms": 568.3,
+   "magnetic_cloud": true,
+   "rotation_deg": 280.9,
+   "rotation_r2": 0.905,
+   "max_b_perp_nT": 34.09
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-08-12 06:00:00",
+    "end": "2000-08-13 23:35:00",
+    "duration_hours": 41.6,
+    "min_temp_ratio": 0.021,
+    "mean_speed_kms": 568.3,
+    "magnetic_cloud": true,
+    "rotation_deg": 280.9,
+    "rotation_r2": 0.905,
+    "max_b_perp_nT": 34.09
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "2000-08-11 18:47:00",
+  "sheath": {
+   "start": "2000-08-11 18:47:00",
+   "end": "2000-08-12 06:00:00",
+   "duration_hours": 11.2,
+   "field": {
+    "hours": 11.2,
+    "bz_min_nT": -26.2,
+    "bz_median_nT": -1.1,
+    "hours_below_threshold": 2.7,
+    "south_nT_hours": 59.7,
+    "south_nT_per_hour": 5.33
+   }
+  },
+  "ejecta_field": {
+   "hours": 41.6,
+   "bz_min_nT": -29.9,
+   "bz_median_nT": 4.3,
+   "hours_below_threshold": 9.4,
+   "south_nT_hours": 208.4,
+   "south_nT_per_hour": 5.01
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2000-08-11 18:47:00",
+   "2000-08-14 22:36:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-08-11 18:47:00; low-Tp interval of 41.6 h; magnetic cloud: 280.9\u00b0 smooth rotation (r\u00b2=0.905), max B\u22a5 34.09 nT; sheath 11.2 h carrying Bz to -26.2 nT (2.7 h below -10) \u2014 ejecta-driven: 208.4 vs 59.7 nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "b0b90f8e12f2"
+ },
+ "icme_20150317": {
+  "icme": {
+   "start": "2015-03-17 13:38:00",
+   "end": "2015-03-18 04:17:00",
+   "duration_hours": 14.7,
+   "min_temp_ratio": 0.167,
+   "mean_speed_kms": 565.2,
+   "magnetic_cloud": false,
+   "rotation_deg": 151.8,
+   "rotation_r2": 0.764,
+   "max_b_perp_nT": 32.35
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2015-03-17 13:38:00",
+    "end": "2015-03-18 04:17:00",
+    "duration_hours": 14.7,
+    "min_temp_ratio": 0.167,
+    "mean_speed_kms": 565.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 151.8,
+    "rotation_r2": 0.764,
+    "max_b_perp_nT": 32.35
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "2015-03-17 04:49:00",
+  "sheath": {
+   "start": "2015-03-17 04:49:00",
+   "end": "2015-03-17 13:38:00",
+   "duration_hours": 8.8,
+   "field": {
+    "hours": 8.8,
+    "bz_min_nT": -26.0,
+    "bz_median_nT": -2.3,
+    "hours_below_threshold": 3.1,
+    "south_nT_hours": 61.0,
+    "south_nT_per_hour": 6.91
+   }
+  },
+  "ejecta_field": {
+   "hours": 14.7,
+   "bz_min_nT": -23.2,
+   "bz_median_nT": -14.7,
+   "hours_below_threshold": 9.5,
+   "south_nT_hours": 178.8,
+   "south_nT_per_hour": 12.21
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "2015-03-17 04:49:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2015-03-17 04:49:00; low-Tp interval of 14.7 h; no flux-rope signature (rotation 151.8\u00b0 at r\u00b2=0.764, max B\u22a5 32.35 nT); sheath 8.8 h carrying Bz to -26 nT (3.1 h below -10) \u2014 ejecta-driven: 178.8 vs 61 nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "7b74688c86c6"
+ },
+ "icme_19810725": {
+  "icme": null,
+  "closest": {
+   "start": "1981-07-26 07:32:00",
+   "end": "1981-07-26 12:47:00",
+   "duration_hours": 5.2,
+   "hours_short": 0.8,
+   "min_temp_ratio": 0.181,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "1981-07-23 07:23:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "1981-07-23 07:23:00",
+   "1981-07-26 06:43:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1981-07-23 07:23:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 5.2 h below the ratio from 1981-07-26 07:32:00 (0.8 h short; lowest Tp/Texp 0.181) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "cb4d01cc35dd"
+ },
+ "icme_19910605": {
+  "icme": null,
+  "closest": {
+   "start": null,
+   "end": null,
+   "duration_hours": 0.0,
+   "hours_short": 6.0,
+   "min_temp_ratio": 0.567,
+   "ratio_short": 0.067
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "1991-06-04 23:13:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "1991-06-04 23:13:00",
+   "1991-06-06 04:05:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1991-06-04 23:13:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; no sample fell below the ratio \u2014 the lowest Tp/Texp after the shock was 0.567 (+0.067 above it) \u2014 no ICME signature in this window; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "1e0c615c72e5"
+ },
+ "icme_20011124": {
+  "icme": {
+   "start": "2001-11-24 18:06:00",
+   "end": "2001-11-25 21:58:00",
+   "duration_hours": 27.9,
+   "min_temp_ratio": 0.033,
+   "mean_speed_kms": 685.2,
+   "magnetic_cloud": false,
+   "rotation_deg": 88.1,
+   "rotation_r2": 0.481,
+   "max_b_perp_nT": 17.63
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-11-24 18:06:00",
+    "end": "2001-11-25 21:58:00",
+    "duration_hours": 27.9,
+    "min_temp_ratio": 0.033,
+    "mean_speed_kms": 685.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 88.1,
+    "rotation_r2": 0.481,
+    "max_b_perp_nT": 17.63
+   },
+   {
+    "start": "2001-11-26 00:17:00",
+    "end": "2001-11-26 11:38:00",
+    "duration_hours": 11.3,
+    "min_temp_ratio": 0.254,
+    "mean_speed_kms": 591.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 179.5,
+    "rotation_r2": 0.007,
+    "max_b_perp_nT": 6.57
+   },
+   {
+    "start": "2001-11-27 04:35:00",
+    "end": "2001-11-27 17:43:00",
+    "duration_hours": 13.1,
+    "min_temp_ratio": 0.17,
+    "mean_speed_kms": 462.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 68.2,
+    "rotation_r2": 0.639,
+    "max_b_perp_nT": 5.77
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2001-11-24 04:53:00",
+  "sheath": {
+   "start": "2001-11-24 04:53:00",
+   "end": "2001-11-24 18:06:00",
+   "duration_hours": 13.2,
+   "field": {
+    "hours": 13.2,
+    "bz_min_nT": -47.1,
+    "bz_median_nT": 1.3,
+    "hours_below_threshold": 3.8,
+    "south_nT_hours": 98.5,
+    "south_nT_per_hour": 7.45
+   }
+  },
+  "ejecta_field": {
+   "hours": 27.9,
+   "bz_min_nT": -3.7,
+   "bz_median_nT": 11.0,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 0.6,
+   "south_nT_per_hour": 0.02
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2001-11-24 04:53:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-11-24 04:53:00; low-Tp interval of 27.9 h; no flux-rope signature (rotation 88.1\u00b0 at r\u00b2=0.481, max B\u22a5 17.63 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 13.2 h carrying Bz to -47.1 nT (3.8 h below -10) \u2014 SHEATH-DRIVEN: 98.5 vs 0.6 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "2a7d6d3025ad"
+ },
+ "icme_19810305": {
+  "icme": null,
+  "closest": {
+   "start": "1981-03-08 17:07:00",
+   "end": "1981-03-08 19:07:00",
+   "duration_hours": 2.0,
+   "hours_short": 4.0,
+   "min_temp_ratio": 0.192,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "1981-03-02 08:35:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "1981-03-02 08:35:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1981-03-02 08:35:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 2 h below the ratio from 1981-03-08 17:07:00 (4 h short; lowest Tp/Texp 0.192) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "2463f1cda548"
+ },
+ "icme_19830110": {
+  "status": "error",
+  "error": "no rows with both flow_speed and T valid",
+  "audit_id": "16a2644c9ad4"
+ },
+ "icme_20230424": {
+  "icme": {
+   "start": "2023-04-24 01:49:00",
+   "end": "2023-04-24 19:18:00",
+   "duration_hours": 17.5,
+   "min_temp_ratio": 0.081,
+   "mean_speed_kms": 537.3,
+   "magnetic_cloud": true,
+   "rotation_deg": 181.6,
+   "rotation_r2": 0.937,
+   "max_b_perp_nT": 33.9
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2023-04-24 01:49:00",
+    "end": "2023-04-24 19:18:00",
+    "duration_hours": 17.5,
+    "min_temp_ratio": 0.081,
+    "mean_speed_kms": 537.3,
+    "magnetic_cloud": true,
+    "rotation_deg": 181.6,
+    "rotation_r2": 0.937,
+    "max_b_perp_nT": 33.9
+   },
+   {
+    "start": "2023-04-25 04:42:00",
+    "end": "2023-04-26 00:42:00",
+    "duration_hours": 20.0,
+    "min_temp_ratio": 0.117,
+    "mean_speed_kms": 525.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 251.3,
+    "rotation_r2": 0.807,
+    "max_b_perp_nT": 5.55
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2023-04-23 17:39:00",
+  "sheath": {
+   "start": "2023-04-23 17:39:00",
+   "end": "2023-04-24 01:49:00",
+   "duration_hours": 8.2,
+   "field": {
+    "hours": 8.2,
+    "bz_min_nT": -33.3,
+    "bz_median_nT": -5.9,
+    "hours_below_threshold": 3.7,
+    "south_nT_hours": 76.1,
+    "south_nT_per_hour": 9.32
+   }
+  },
+  "ejecta_field": {
+   "hours": 17.5,
+   "bz_min_nT": -33.1,
+   "bz_median_nT": -4.3,
+   "hours_below_threshold": 8.0,
+   "south_nT_hours": 195.0,
+   "south_nT_per_hour": 11.15
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2023-04-23 17:39:00",
+   "2023-04-26 18:21:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2023-04-23 17:39:00; low-Tp interval of 17.5 h; magnetic cloud: 181.6\u00b0 smooth rotation (r\u00b2=0.937), max B\u22a5 33.9 nT; first of 2 qualifying intervals \u2014 an ICME train follows; sheath 8.2 h carrying Bz to -33.3 nT (3.7 h below -10) \u2014 ejecta-driven: 195 vs 76.1 nT\u00b7h southward; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "b8ece3b2bbe3"
+ },
+ "icme_19820302": {
+  "icme": null,
+  "closest": {
+   "start": "1982-03-05 16:15:00",
+   "end": "1982-03-05 16:27:00",
+   "duration_hours": 0.2,
+   "hours_short": 5.8,
+   "min_temp_ratio": 0.387,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 0.2 h below the ratio from 1982-03-05 16:15:00 (5.8 h short; lowest Tp/Texp 0.387) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "2e2051f07e3e"
+ },
+ "icme_19820922": {
+  "status": "error",
+  "error": "no rows with both flow_speed and T valid",
+  "audit_id": "e1c36565542b"
+ },
+ "icme_19980925": {
+  "icme": {
+   "start": "1998-09-25 06:13:00",
+   "end": "1998-09-25 22:40:00",
+   "duration_hours": 16.4,
+   "min_temp_ratio": 0.022,
+   "mean_speed_kms": 708.1,
+   "magnetic_cloud": true,
+   "rotation_deg": 113.7,
+   "rotation_r2": 0.835,
+   "max_b_perp_nT": 19.68
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1998-09-25 06:13:00",
+    "end": "1998-09-25 22:40:00",
+    "duration_hours": 16.4,
+    "min_temp_ratio": 0.022,
+    "mean_speed_kms": 708.1,
+    "magnetic_cloud": true,
+    "rotation_deg": 113.7,
+    "rotation_r2": 0.835,
+    "max_b_perp_nT": 19.68
+   },
+   {
+    "start": "1998-09-26 01:59:00",
+    "end": "1998-09-26 16:45:00",
+    "duration_hours": 14.8,
+    "min_temp_ratio": 0.028,
+    "mean_speed_kms": 585.6,
+    "magnetic_cloud": true,
+    "rotation_deg": 130.7,
+    "rotation_r2": 0.82,
+    "max_b_perp_nT": 9.61
+   },
+   {
+    "start": "1998-09-28 01:11:00",
+    "end": "1998-09-28 09:02:00",
+    "duration_hours": 7.8,
+    "min_temp_ratio": 0.232,
+    "mean_speed_kms": 556.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 132.7,
+    "rotation_r2": 0.168,
+    "max_b_perp_nT": 5.97
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "1998-09-24 23:54:00",
+  "sheath": {
+   "start": "1998-09-24 23:54:00",
+   "end": "1998-09-25 06:13:00",
+   "duration_hours": 6.3,
+   "field": {
+    "hours": 6.3,
+    "bz_min_nT": -22.9,
+    "bz_median_nT": -13.0,
+    "hours_below_threshold": 4.7,
+    "south_nT_hours": 73.7,
+    "south_nT_per_hour": 11.67
+   }
+  },
+  "ejecta_field": {
+   "hours": 16.4,
+   "bz_min_nT": -15.8,
+   "bz_median_nT": -4.4,
+   "hours_below_threshold": 4.6,
+   "south_nT_hours": 90.2,
+   "south_nT_per_hour": 5.48
+  },
+  "driver": "ambiguous",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "1998-09-24 23:54:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1998-09-24 23:54:00; low-Tp interval of 16.4 h; magnetic cloud: 113.7\u00b0 smooth rotation (r\u00b2=0.835), max B\u22a5 19.68 nT; first of 3 qualifying intervals \u2014 an ICME train follows; sheath 6.3 h carrying Bz to -22.9 nT (4.7 h below -10) \u2014 driver ambiguous: 73.7 (sheath) vs 90.2 (ejecta) nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "40210774fdd9"
+ },
+ "icme_19980504": {
+  "icme": {
+   "start": "1998-05-02 04:55:00",
+   "end": "1998-05-04 01:51:00",
+   "duration_hours": 44.9,
+   "min_temp_ratio": 0.033,
+   "mean_speed_kms": 528.1,
+   "magnetic_cloud": false,
+   "rotation_deg": 188.5,
+   "rotation_r2": 0.618,
+   "max_b_perp_nT": 14.92
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1998-05-02 04:55:00",
+    "end": "1998-05-04 01:51:00",
+    "duration_hours": 44.9,
+    "min_temp_ratio": 0.033,
+    "mean_speed_kms": 528.1,
+    "magnetic_cloud": false,
+    "rotation_deg": 188.5,
+    "rotation_r2": 0.618,
+    "max_b_perp_nT": 14.92
+   },
+   {
+    "start": "1998-05-05 17:29:00",
+    "end": "1998-05-06 06:14:00",
+    "duration_hours": 12.8,
+    "min_temp_ratio": 0.235,
+    "mean_speed_kms": 546.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 550.0,
+    "rotation_r2": 0.779,
+    "max_b_perp_nT": 10.38
+   },
+   {
+    "start": "1998-05-07 13:30:00",
+    "end": "1998-05-07 21:06:00",
+    "duration_hours": 7.6,
+    "min_temp_ratio": 0.135,
+    "mean_speed_kms": 491.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 41.5,
+    "rotation_r2": 0.793,
+    "max_b_perp_nT": 11.07
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "1998-05-01 22:00:00",
+  "sheath": {
+   "start": "1998-05-01 22:00:00",
+   "end": "1998-05-02 04:55:00",
+   "duration_hours": 6.9,
+   "field": {
+    "hours": 6.9,
+    "bz_min_nT": -14.4,
+    "bz_median_nT": 8.7,
+    "hours_below_threshold": 0.1,
+    "south_nT_hours": 6.0,
+    "south_nT_per_hour": 0.87
+   }
+  },
+  "ejecta_field": {
+   "hours": 44.9,
+   "bz_min_nT": -13.8,
+   "bz_median_nT": -4.1,
+   "hours_below_threshold": 3.1,
+   "south_nT_hours": 222.9,
+   "south_nT_per_hour": 4.96
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "1998-05-01 22:00:00",
+   "1998-05-04 02:47:00",
+   "1998-05-05 13:15:00",
+   "1998-05-05 22:48:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1998-05-01 22:00:00; low-Tp interval of 44.9 h; no flux-rope signature (rotation 188.5\u00b0 at r\u00b2=0.618, max B\u22a5 14.92 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 6.9 h carrying Bz to -14.4 nT (0.1 h below -10) \u2014 ejecta-driven: 222.9 vs 6 nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "5305a5e81e13"
+ },
+ "icme_19920209": {
+  "icme": null,
+  "closest": {
+   "start": "1992-02-10 19:43:00",
+   "end": "1992-02-10 22:19:00",
+   "duration_hours": 2.6,
+   "hours_short": 3.4,
+   "min_temp_ratio": 0.236,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "1992-02-08 14:32:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "1992-02-08 14:32:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1992-02-08 14:32:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 2.6 h below the ratio from 1992-02-10 19:43:00 (3.4 h short; lowest Tp/Texp 0.236) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "7f6b1ff187f5"
+ },
+ "icme_19940417": {
+  "icme": null,
+  "closest": {
+   "start": "1994-04-14 13:34:00",
+   "end": "1994-04-14 16:27:00",
+   "duration_hours": 2.9,
+   "hours_short": 3.1,
+   "min_temp_ratio": 0.307,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 2.9 h below the ratio from 1994-04-14 13:34:00 (3.1 h short; lowest Tp/Texp 0.307) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "78f80a4f7cd0"
+ },
+ "icme_20000917": {
+  "icme": {
+   "start": "2000-09-18 04:03:00",
+   "end": "2000-09-19 20:58:00",
+   "duration_hours": 40.9,
+   "min_temp_ratio": 0.057,
+   "mean_speed_kms": 694.6,
+   "magnetic_cloud": false,
+   "rotation_deg": 428.7,
+   "rotation_r2": 0.0,
+   "max_b_perp_nT": 31.98
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-09-18 04:03:00",
+    "end": "2000-09-19 20:58:00",
+    "duration_hours": 40.9,
+    "min_temp_ratio": 0.057,
+    "mean_speed_kms": 694.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 428.7,
+    "rotation_r2": 0.0,
+    "max_b_perp_nT": 31.98
+   },
+   {
+    "start": "2000-09-19 23:19:00",
+    "end": "2000-09-20 23:54:00",
+    "duration_hours": 24.6,
+    "min_temp_ratio": 0.092,
+    "mean_speed_kms": 509.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 632.1,
+    "rotation_r2": 0.067,
+    "max_b_perp_nT": 6.02
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2000-09-17 16:01:00",
+  "sheath": {
+   "start": "2000-09-17 16:01:00",
+   "end": "2000-09-18 04:03:00",
+   "duration_hours": 12.0,
+   "field": {
+    "hours": 12.0,
+    "bz_min_nT": -37.6,
+    "bz_median_nT": 10.1,
+    "hours_below_threshold": 2.0,
+    "south_nT_hours": 53.9,
+    "south_nT_per_hour": 4.48
+   }
+  },
+  "ejecta_field": {
+   "hours": 40.9,
+   "bz_min_nT": -8.6,
+   "bz_median_nT": 2.4,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 32.8,
+   "south_nT_per_hour": 0.8
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2000-09-17 16:01:00",
+   "2000-09-17 23:36:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-09-17 16:01:00; low-Tp interval of 40.9 h; no flux-rope signature (rotation 428.7\u00b0 at r\u00b2=0, max B\u22a5 31.98 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 12 h carrying Bz to -37.6 nT (2 h below -10) \u2014 SHEATH-DRIVEN: 53.9 vs 32.8 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "4939c4912fb7"
+ },
+ "lit_drivers": {
+  "n_results": 10,
+  "papers": [
+   {
+    "bibcode": "1999SSRv...88..529G",
+    "title": "Interplanetary origin of geomagnetic storms",
+    "first_author": "Gonzalez, Walter D.",
+    "year": "1999",
+    "pub": "Space Science Reviews",
+    "citations": 574,
+    "arxiv_id": null,
+    "abstract": "Around solar maximum, the dominant interplanetary phenomena causing intense magnetic storms (Dst&lt;-100 nT) are the interplanetary manifestations of fast coronal mass ejections (CMEs). Two interplanetary structures are important for the development of storms, involving intense southward IMFs: the sheath region just behind the forward shock, and the CME ejecta itself. Whereas the initial phase of a storm is caused by the increase in plasma ram pressure associated with the increase in density and speed at and behind the shock (accompanied by a sudden impulse [SI] at Earth), the storm main phase"
+   },
+   {
+    "bibcode": "2007JGRA..112.6112G",
+    "title": "Geoeffectiveness of halo coronal mass ejections",
+    "first_author": "Gopalswamy, N.",
+    "year": "2007",
+    "pub": "Journal of Geophysical Research (Space Physics)",
+    "citations": 199,
+    "arxiv_id": null,
+    "abstract": "We studied the geoeffectiveness, speed, solar source, and flare association of a set of 378 halo coronal mass ejections (CMEs) of cycle 23 (1996-2005, inclusive). We compiled the minimum Dst values occurring within 1-5 days after the CME onset. We compared the distributions of such Dst values for the following subsets of halo CMEs: disk halos (within 45 deg from disk center), limb halos (beyond 45 degrees but within 90 deg from disk center), and backside halo CMEs. Defining that a halo CME is geoeffective if it is followed by Dst \u2264 -50 nT, moderately geoeffective if -50 nT &lt; Dst &lt; -100 n"
+   },
+   {
+    "bibcode": "2005AnGeo..23..625H",
+    "title": "Properties and geoeffectiveness of magnetic clouds in the rising, maximum and early declining phases of solar cycle 23",
+    "first_author": "Huttunen, K. E. J.",
+    "year": "2005",
+    "pub": "Annales Geophysicae",
+    "citations": 186,
+    "arxiv_id": null,
+    "abstract": "The magnetic structure and geomagnetic response of 73 magnetic clouds (MC) observed by the WIND and ACE satellites in solar cycle 23 are examined. The results have been compared with the surveys from the previous solar cycles. The preselected candidate MC events were investigated using the minimum variance analysis to determine if they have a flux-rope structure and to obtain the estimation for the axial orientation (\u03b8C, \u03c6C). Depending on the calculated inclination relative to the ecliptic we divided MCs into \"bipolar\" (\u03b8C&lt;45\u00b0) and \"unipolar\" (\u03b8C&gt;45\u00b0). The number of observed MCs was larg"
+   },
+   {
+    "bibcode": "2006AdSpR..38..173S",
+    "title": "Dst of the Carrington storm of 1859",
+    "first_author": "Siscoe, G.",
+    "year": "2006",
+    "pub": "Advances in Space Research",
+    "citations": 139,
+    "arxiv_id": null,
+    "abstract": "The super-storm of 1859 gives an opportunity to apply models to predict Dst that have been exercised mostly on non-extreme cases. The exercise gains significance through a Bombay magnetogram that Tsurutani et al. (2003) recently published showing a negative H excursion of \u223c1600 nT, which is unprecedented for the latitude of the station, and which presents difficulties of interpretation if the negative excursion is taken to be equivalent to Dst. Following a suggestion by Li et al. (2006), we have replaced the original Bombay magnetogram, which has many points per hour during the interesting pha"
+   },
+   {
+    "bibcode": "2008JASTP..70..245G",
+    "title": "Solar sources and geospace consequences of interplanetary magnetic clouds observed during solar cycle 23",
+    "first_author": "Gopalswamy, N.",
+    "year": "2008",
+    "pub": "Journal of Atmospheric and Solar-Terrestrial Physics",
+    "citations": 134,
+    "arxiv_id": null,
+    "abstract": "We present results of a statistical investigation of 99 magnetic clouds (MCs) observed during 1995-2005. The MC-associated coronal mass ejections (CMEs) are faster and wider on the average and originate within \u00b130o from the solar disk center. The solar sources of MCs also followed the butterfly diagram. The correlation between the magnetic field strength and speed of MCs was found to be valid over a much wider range of speeds. The number of south-north (SN) MCs was dominant and decreased with solar cycle, while the number of north-south (NS) MCs increased confirming the odd-cycle behavior. Two"
+   },
+   {
+    "bibcode": "2015JGRA..120.9221G",
+    "title": "Properties and geoeffectiveness of magnetic clouds during solar cycles 23 and 24",
+    "first_author": "Gopalswamy, N.",
+    "year": "2015",
+    "pub": "Journal of Geophysical Research (Space Physics)",
+    "citations": 134,
+    "arxiv_id": "1510.00906",
+    "abstract": "We report on a study that compares the properties of magnetic clouds (MCs) during the first 73 months of solar cycles 23 and 24 in order to understand the weak geomagnetic activity in cycle 24. We find that the number of MCs did not decline in cycle 24, although the average sunspot number is known to have declined by ~40%. Despite the large number of MCs, their geoeffectiveness in cycle 24 was very low. The average Dst index in the sheath and cloud portions in cycle 24 was -33 nT and -23 nT, compared to -66 nT and -55 nT, respectively, in cycle 23. One of the key outcomes of this investigation"
+   },
+   {
+    "bibcode": "2002JGRA..107.1121H",
+    "title": "Variability of magnetospheric storms driven by different solar wind perturbations",
+    "first_author": "Huttunen, K. Emilia J.",
+    "year": "2002",
+    "pub": "Journal of Geophysical Research (Space Physics)",
+    "citations": 125,
+    "arxiv_id": null,
+    "abstract": "We have investigated the solar wind drivers of magnetic storms during the rising phase of solar cycle 23 from January 1996 to December 1999. We used observations of coronal mass ejections (CMEs) by the Large Angle and Spectrometric Coronagraph instrument on SOHO and in situ solar wind observations by Wind, IMP 8, and ACE spacecraft. The storms were determined from both the Dst and Kp indices, and the study was limited to storms with Dst &lt;= -50 nT or Kp &gt;= 5. We show examples of different behavior of Dst and Kp indices during magnetic storms caused by different types of solar wind drivers"
+   },
+   {
+    "bibcode": "2012ApJ...758...10M",
+    "title": "Multi-point Shock and Flux Rope Analysis of Multiple Interplanetary Coronal Mass Ejections around 2010 August 1 in the Inner Heliosphere",
+    "first_author": "M\u00f6stl, C.",
+    "year": "2012",
+    "pub": "The Astrophysical Journal",
+    "citations": 121,
+    "arxiv_id": "1209.2866",
+    "abstract": "We present multi-point in situ observations of a complex sequence of coronal mass ejections (CMEs) which may serve as a benchmark event for numerical and empirical space weather prediction models. On 2010 August 1, instruments on various space missions, Solar Dynamics Observatory/Solar and Heliospheric Observatory/Solar-TErrestrial-RElations-Observatory (SDO/SOHO/STEREO), monitored several CMEs originating within tens of degrees from the solar disk center. We compare their imprints on four widely separated locations, spanning 120\u00b0 in heliospheric longitude, with radial distances from the Sun r"
+   },
+   {
+    "bibcode": "1998JGR...103...79J",
+    "title": "October 1995 magnetic cloud and accompanying storm activity: Ring current evolution",
+    "first_author": "Jordanova, V. K.",
+    "year": "1998",
+    "pub": "Journal of Geophysical Research",
+    "citations": 106,
+    "arxiv_id": null,
+    "abstract": "The passage at Earth of the October 1995 magnetic cloud and the high-speed corotating stream overtaking it, monitored by the Global Geospace Science (GGS) spacecraft Wind, caused two consecutive geomagnetic storms: a major one during the strong B<SUB>z</SUB>&lt;0nT phase of cloud passage and a moderate one during the intermittent B<SUB>z</SUB>&lt;0 activity in the fast corotating stream. Large dynamic pressure changes were observed in the sheath region ahead of the cloud and in the cloud-stream interface region at its rear, resulting in substantial corrections to the measured Dst index. A burs"
+   },
+   {
+    "bibcode": "2004JGRA..109.9101Z",
+    "title": "A statistical study of the geoeffectiveness of magnetic clouds during high solar activity years",
+    "first_author": "Zhang, Jichun",
+    "year": "2004",
+    "pub": "Journal of Geophysical Research (Space Physics)",
+    "citations": 102,
+    "arxiv_id": null,
+    "abstract": "Using the Dst value corrected for the effects of magnetopause currents (Dst*) and solar wind magnetic field and plasma data from 1 January 1998 to 30 April 2002, during elevated solar conditions, we have statistically examined the relationship of 271 storms (Dst* \u2264 -30 nT) to 104 magnetic clouds. It is found that most of the magnetic clouds result in geomagnetic storms, but only about 30% of storms are due to magnetic clouds. A storm can be driven by a cloud's various regions or their combinations with dissimilar occurrence percentages. These percentages change as a function of geomagnetic act"
+   }
+  ],
+  "status": "ok",
+  "audit_id": "f6489bc56378"
+ },
+ "lit_intense": {
+  "n_results": 10,
+  "papers": [
+   {
+    "bibcode": "2008JGRA..113.5221E",
+    "title": "Interplanetary conditions causing intense geomagnetic storms (Dst &lt;= -100 nT) during solar cycle 23 (1996-2006)",
+    "first_author": "Echer, E.",
+    "year": "2008",
+    "pub": "Journal of Geophysical Research (Space Physics)",
+    "citations": 269,
+    "arxiv_id": null,
+    "abstract": "The interplanetary causes of intense geomagnetic storms and their solar dependence occurring during solar cycle 23 (1996-2006) are identified. During this solar cycle, all intense (Dst \u2264 -100 nT) geomagnetic storms are found to occur when the interplanetary magnetic field was southwardly directed (in GSM coordinates) for long durations of time. This implies that the most likely cause of the geomagnetic storms was magnetic reconnection between the southward IMF and magnetopause fields. Out of 90 storm events, none of them occurred during purely northward IMF, purely intense IMF By fields or dur"
+   },
+   {
+    "bibcode": "2007JGRA..112.6112G",
+    "title": "Geoeffectiveness of halo coronal mass ejections",
+    "first_author": "Gopalswamy, N.",
+    "year": "2007",
+    "pub": "Journal of Geophysical Research (Space Physics)",
+    "citations": 199,
+    "arxiv_id": null,
+    "abstract": "We studied the geoeffectiveness, speed, solar source, and flare association of a set of 378 halo coronal mass ejections (CMEs) of cycle 23 (1996-2005, inclusive). We compiled the minimum Dst values occurring within 1-5 days after the CME onset. We compared the distributions of such Dst values for the following subsets of halo CMEs: disk halos (within 45 deg from disk center), limb halos (beyond 45 degrees but within 90 deg from disk center), and backside halo CMEs. Defining that a halo CME is geoeffective if it is followed by Dst \u2264 -50 nT, moderately geoeffective if -50 nT &lt; Dst &lt; -100 n"
+   },
+   {
+    "bibcode": "2011SSRv..158...69G",
+    "title": "Interplanetary Origin of Intense, Superintense and Extreme Geomagnetic Storms",
+    "first_author": "Gonzalez, Walter D.",
+    "year": "2011",
+    "pub": "Space Science Reviews",
+    "citations": 111,
+    "arxiv_id": null,
+    "abstract": "We present a review on the interplanetary causes of intense geomagnetic storms ( Dst\u2264-100 nT), that occurred during solar cycle 23 (1997-2005). It was reported that the most common interplanetary structures leading to the development of intense storms were: magnetic clouds, sheath fields, sheath fields followed by a magnetic cloud and corotating interaction regions at the leading fronts of high speed streams. However, the relative importance of each of those driving structures has been shown to vary with the solar cycle phase. Superintense storms ( Dst\u2264-250 nT) have been also studied in more d"
+   },
+   {
+    "bibcode": "2004JGRA..109.9101Z",
+    "title": "A statistical study of the geoeffectiveness of magnetic clouds during high solar activity years",
+    "first_author": "Zhang, Jichun",
+    "year": "2004",
+    "pub": "Journal of Geophysical Research (Space Physics)",
+    "citations": 102,
+    "arxiv_id": null,
+    "abstract": "Using the Dst value corrected for the effects of magnetopause currents (Dst*) and solar wind magnetic field and plasma data from 1 January 1998 to 30 April 2002, during elevated solar conditions, we have statistically examined the relationship of 271 storms (Dst* \u2264 -30 nT) to 104 magnetic clouds. It is found that most of the magnetic clouds result in geomagnetic storms, but only about 30% of storms are due to magnetic clouds. A storm can be driven by a cloud's various regions or their combinations with dissimilar occurrence percentages. These percentages change as a function of geomagnetic act"
+   },
+   {
+    "bibcode": "2007GeoRL..34.6101G",
+    "title": "Interplanetary origin of intense geomagnetic storms (Dst &lt; -100 nT) during solar cycle 23",
+    "first_author": "Gonzalez, W. D.",
+    "year": "2007",
+    "pub": "Geophysical Research Letters",
+    "citations": 89,
+    "arxiv_id": null,
+    "abstract": "We study the interplanetary causes of intense geomagnetic storms (Dst &lt; -100 nT) that occurred during solar cycle 23 (1997-2005). It was found that the most common interplanetary structures leading to the development of an intense storm were: magnetic clouds, sheath fields, sheath fields followed by a magnetic cloud and corotating interaction regions leading high speed streams. However, the relative importance of each of those driving structures was found to vary with the solar cycle phase. We divide the cycle in three phases (rising, maximum and declining) and explain the differences. We a"
+   },
+   {
+    "bibcode": "2008JASTP..70.2078G",
+    "title": "Solar connections of geoeffective magnetic structures",
+    "first_author": "Gopalswamy, N.",
+    "year": "2008",
+    "pub": "Journal of Atmospheric and Solar-Terrestrial Physics",
+    "citations": 76,
+    "arxiv_id": null,
+    "abstract": "Coronal mass ejections (CMEs) and high-speed solar wind streams (HSS) are two solar phenomena that produce large-scale structures in the interplanetary (IP) medium. CMEs evolve into interplanetary CMEs (ICMEs) and the HSS result in corotating interaction regions (CIRs) when they interact with preceding slow solar wind. This paper summarizes the properties of these structures and describes their geoeffectiveness. The primary focus is on the intense storms of solar cycle 23 because this is the first solar cycle during which simultaneous, extensive, and uniform data on solar, IP, and geospace phe"
+   },
+   {
+    "bibcode": "2017SpWea..15..325K",
+    "title": "Thermospheric nitric oxide response to shock-led storms",
+    "first_author": "Knipp, D. J.",
+    "year": "2017",
+    "pub": "Space Weather",
+    "citations": 75,
+    "arxiv_id": null,
+    "abstract": "We present a multiyear superposed epoch study of the Sounding of the Atmosphere using Broadband Emission Radiometry nitric oxide (NO) emission data. NO is a trace constituent in the thermosphere that acts as cooling agent via infrared (IR) emissions. The NO cooling competes with storm time thermospheric heating, resulting in a thermostat effect. Our study of nearly 200 events reveals that shock-led interplanetary coronal mass ejections (ICMEs) are prone to early and excessive thermospheric NO production and IR emissions. Excess NO emissions can arrest thermospheric expansion by cooling the the"
+   },
+   {
+    "bibcode": "2013JGRA..118..385E",
+    "title": "Interplanetary origins of moderate (-100 nT &lt; Dst \u2264 -50 nT) geomagnetic storms during solar cycle 23 (1996-2008)",
+    "first_author": "Echer, E.",
+    "year": "2013",
+    "pub": "Journal of Geophysical Research (Space Physics)",
+    "citations": 69,
+    "arxiv_id": null,
+    "abstract": "The interplanetary causes of 213 moderate-intensity (-100 nT &lt; peak Dst \u2264 -50 nT) geomagnetic storms that occurred in solar cycle 23 (1996-2008) are identified. Interplanetary drivers such as corotating interaction regions (CIRs), pure high-speed streams (HSSs), interplanetary coronal mass ejections (ICMEs) of two types [those with magnetic clouds (MCs) and those without (nonmagnetic cloud or ICME_nc)], sheaths (compressed and/or draped sheath fields), as well as their combined occurrence were identified as causes of the storms. The annual rate of occurrence of moderate storms had two peaks"
+   },
+   {
+    "bibcode": "2016JGRA..121.7805H",
+    "title": "Supersubstorms (SML &lt; -2500 nT): Magnetic storm and solar cycle dependences",
+    "first_author": "Hajra, Rajkumar",
+    "year": "2016",
+    "pub": "Journal of Geophysical Research (Space Physics)",
+    "citations": 59,
+    "arxiv_id": null,
+    "abstract": "We study extremely intense substorms with SuperMAG AL (SML) peak intensities &lt; -2500 nT (\"supersubstorms\"/SSSs) for the period from 1981 to 2012. The SSS events were often found to be isolated SML peaks and not statistical fluctuations of the indices. The SSSs occur during all phases of the solar cycle with the highest occurrence (3.8 year<SUP>-1</SUP>) in the descending phase. The SSSs exhibited an annual variation with equinoctial maximum altering between spring in solar cycle 22 and fall in solar cycle 23. The occurrence rate and strength of the SSSs did not show any strong relationship "
+   },
+   {
+    "bibcode": "2024ApJ...974..264H",
+    "title": "Interplanetary Causes and Impacts of the 2024 May Superstorm on the Geosphere: An Overview",
+    "first_author": "Hajra, Rajkumar",
+    "year": "2024",
+    "pub": "The Astrophysical Journal",
+    "citations": 55,
+    "arxiv_id": "2408.14799",
+    "abstract": "The recent superstorm of 2024 May 10\u250011 is the second largest geomagnetic storm in the space age and the only one that has simultaneous interplanetary data (there were no interplanetary data for the 1989 March storm). The May superstorm was characterized by a sudden impulse (SI<SUP>+</SUP>) amplitude of +88 nT, followed by a three-step storm main-phase development, which had a total duration of \u223c9 hr. The cause of the first storm main phase with a peak SYM-H intensity of \u2212183 nT was a fast-forward interplanetary shock (magnetosonic Mach number M <SUB>ms</SUB> \u223c 7.2) and an interplanetary sheat"
+   }
+  ],
+  "status": "ok",
+  "audit_id": "423c35a7fa5d"
+ }
+}

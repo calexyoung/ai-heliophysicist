@@ -866,7 +866,7 @@ file's cadence; NaNs pairwise-dropped per lag.
 ### `detect_icme`
 
 ```python
-detect_icme(file: 'str', speed_column: 'str', temperature_column: 'str', by_column: 'str | None' = None, bz_column: 'str | None' = None, density_column: 'str | None' = None, temp_ratio_max: 'float' = 0.5, min_hours: 'float' = 6.0, gap_hours: 'float' = 2.0, min_rotation_deg: 'float' = 90.0, min_rotation_r2: 'float' = 0.8, min_b_perp_nt: 'float' = 8.0, smooth_minutes: 'float' = 30.0, shock_jump_kms: 'float' = 60.0, shock_window_hours: 'float' = 2.0, south_bz_nt: 'float' = 10.0, plot: 'bool' = True, out_name: 'str' = 'icme.png') -> 'dict'
+detect_icme(file: 'str', speed_column: 'str', temperature_column: 'str', by_column: 'str | None' = None, bz_column: 'str | None' = None, density_column: 'str | None' = None, temp_ratio_max: 'float' = 0.5, min_hours: 'float' = 6.0, gap_hours: 'float' = 2.0, min_rotation_deg: 'float' = 90.0, min_rotation_r2: 'float' = 0.8, min_b_perp_nt: 'float' = 8.0, smooth_minutes: 'float' = 30.0, shock_jump_kms: 'float' = 60.0, shock_window_hours: 'float' = 2.0, south_bz_nt: 'float' = 10.0, min_sheath_hours: 'float' = 1.0, max_sheath_hours: 'float' = 48.0, plot: 'bool' = True, out_name: 'str' = 'icme.png') -> 'dict'
 ```
 
 Detect ICME intervals in a solar-wind CSV via the low-proton-temperature
@@ -891,7 +891,7 @@ min_hours relaxed as indicative only.
 ### `extreme_value`
 
 ```python
-extreme_value(file: 'str', column: 'str', threshold: 'float', direction: 'str' = 'min', decluster_gap_hours: 'float' = 48.0, return_periods_years: 'list[float] | None' = None) -> 'dict'
+extreme_value(file: 'str', column: 'str', threshold: 'float', direction: 'str' = 'min', decluster_gap_hours: 'float' = 48.0, return_periods_years: 'list[float] | None' = None, list_events: 'bool' = False) -> 'dict'
 ```
 
 Peaks-over-threshold GPD analysis with runs declustering.
@@ -904,6 +904,11 @@ one event (48 h suits geomagnetic storms; use ~12 h for flares).
 
 Returns the GPD fit (method of moments — deterministic), the return
 level for each requested return period, and the empirical event rate.
+list_events: also return every declustered peak in `events`, ranked by
+severity. Use it to build an event sample for a follow-up study — the
+declustering that makes the return-period fit honest is the same
+declustering that makes a storm list non-overlapping.
+
 Run extreme_value_sweep to see how much the answer depends on these
 conventions before quoting any return period.
 

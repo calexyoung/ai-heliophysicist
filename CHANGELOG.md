@@ -1,5 +1,76 @@
 # Changelog
 
+## v0.6.1 — 2026-09-05
+
+A claim made from two events did not survive being tested against forty.
+Checking it found three defects in `detect_icme`, each of which produced a
+plausible answer and a different one. Validation 64 checks to 66; tests 216.
+
+### Fixed
+
+- **The sheath was bounded by the first shock in the window**, not by the
+  shock that drives its ejecta. On a +/-4 day window around the May 2024
+  superstorm that gave a **105-hour "sheath" with a median Bz of +0.3 nT** —
+  mostly quiet solar wind. Because the driver verdict compares totals, an
+  interval that long wins by default.
+- **The shock test fired on turbulence.** Speed alone rising 60 km/s above a
+  2-hour running minimum gave **23 "shocks"** in that window. A fast-forward
+  shock compresses plasma and field together, so the test now needs a
+  sustained speed jump *and* a step up in density or |B|. May 2024 goes from
+  23 detections to 5, its leading one 29 minutes from DONKI's catalogued
+  arrival.
+- **The ejecta's own leading edge was read as its driving shock.** Fixing the
+  first defect by taking the *last* shock before the ejecta picked up the
+  discontinuity at the ejecta boundary: a **7-minute** sheath for May, 43
+  minutes for October, both collapsing to nothing and flipping both storms to
+  "ejecta-driven". Pairing now takes the earliest shock inside a plausible
+  sheath duration (`min_sheath_hours` 1 h, `max_sheath_hours` 48 h).
+- **The offline sheath fixture was physically impossible** — weaker field than
+  ambient and no density compression, which is precisely why a speed-only
+  shock test passed it. A sheath is compressed plasma; the fixture now says so.
+
+### Changed
+
+- **`detect_icme` reports `south_nT_per_hour` and `driver_by_rate`** beside
+  the totals and `driver`. The verdict compares totals because ring-current
+  injection integrates VBs, but a total rewards duration — across 19
+  attributable storms the two measures **disagree on 9**. A duration-weighted
+  attribution can no longer pass unnoticed.
+- `detect_icme` also returns `shock_times`, every shock in the window rather
+  than just the first.
+- **`extreme_value` gained `list_events`**, returning every declustered peak
+  rather than the five strongest. The declustering that makes a return-period
+  fit honest is the same declustering that makes a storm list non-overlapping,
+  so it is the natural way to build an event sample.
+
+### Corrected
+
+- **The claim that intense storms are generally sheath-driven is withdrawn.**
+  Across all 40 storms below Dst −200 nT since 1981 the split is **10 sheath,
+  8 ejecta, 1 ambiguous** — close to even. Sheath-driving does dominate at the
+  deep end (**8 of 10 below −250 nT against 2 of 9 between −250 and −200**),
+  and that trend is established in the literature: Gonzalez et al. (2011) treat
+  superintense storms as a separate category for exactly this reason, and Zhang
+  et al. (2004) find only ~30% of storms driven by magnetic clouds.
+- The individual attributions stand. Both 2024 superstorms are sheath-driven
+  on **both** measures, and their corrected shock times land 29 and 33 minutes
+  from DONKI's catalogued arrivals — from a detector that never sees the
+  catalogue. `users/cayoung/analyses/2024-10-storms/` now carries the
+  population result alongside its own.
+
+### Added
+
+- **`validation/run_validation.py::case_shock_pairing`** — pins the sheath
+  start against the DONKI arrival for both 2024 superstorms. It checks the
+  shock *time*, not the label, because all three defects above produced a
+  believable label.
+- **`users/cayoung/analyses/sheath-vs-ejecta/`** — the study, its retraction,
+  and what each fix did to the answer.
+- **`skills/methods/geomagnetic_storm_analysis.md`** — when a driver
+  attribution can be quoted and when it cannot, including that **21 of 40
+  intense storms have no ejecta signature at all**, so any such statistic
+  describes the half that does, selected non-randomly.
+
 ## v0.6.0 — 2026-09-05
 
 Six new tools, all of them forced by real analyses rather than designed in

@@ -40,7 +40,12 @@ def _plant(path, *, icme_rows=ICME_ROWS, cold_rows=(), sheath_rows=(),
             by, bz = 15.0 * math.sin(th), 15.0 * math.cos(th)
         else:
             by, bz = (2.0 if i % 2 else -2.0), 2.0
-        lines.append(f"{_stamp(i)},{v},{10.0 if inside else 5.0},{t:.0f},{by:.3f},{bz:.3f}")
+        # A sheath is COMPRESSED plasma: density and field both step up
+        # behind the shock. The planted sheath needs that, or it is not a
+        # shock at all and the detector is right to reject it — which is how
+        # the ejecta-driven fixture used to sneak past a speed-only test.
+        n = 15.0 if in_sheath else (10.0 if inside else 5.0)
+        lines.append(f"{_stamp(i)},{v},{n},{t:.0f},{by:.3f},{bz:.3f}")
     path.write_text("\n".join(lines) + "\n")
     return str(path)
 
@@ -59,6 +64,10 @@ def ragged(k, n):
 
 def _run(file, **kw):
     kw.setdefault("plot", False)
+    # density_column matters: the shock test wants compression in plasma or
+    # field, and a sheath whose Bz is deliberately weak has only the density
+    # to show it.
+    kw.setdefault("density_column", "N")
     return run_tool("detect_icme", file=file, speed_column="V", temperature_column="T",
                     by_column="BY", bz_column="BZ", **kw)
 

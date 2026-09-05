@@ -56,7 +56,8 @@ def _gpd_mom(excesses):
 @tool(family="measure")
 def extreme_value(file: str, column: str, threshold: float,
                   direction: str = "min", decluster_gap_hours: float = 48.0,
-                  return_periods_years: list[float] | None = None) -> dict:
+                  return_periods_years: list[float] | None = None,
+                  list_events: bool = False) -> dict:
     """Peaks-over-threshold GPD analysis with runs declustering.
 
     file/column: workspace time-series CSV (e.g. hourly Dst, daily peak
@@ -67,6 +68,11 @@ def extreme_value(file: str, column: str, threshold: float,
 
     Returns the GPD fit (method of moments — deterministic), the return
     level for each requested return period, and the empirical event rate.
+    list_events: also return every declustered peak in `events`, ranked by
+    severity. Use it to build an event sample for a follow-up study — the
+    declustering that makes the return-period fit honest is the same
+    declustering that makes a storm list non-overlapping.
+
     Run extreme_value_sweep to see how much the answer depends on these
     conventions before quoting any return period.
     """
@@ -110,6 +116,9 @@ def extreme_value(file: str, column: str, threshold: float,
             excess = sigma / xi * (m ** xi - 1)
         return float(threshold - excess if minimize else threshold + excess)
 
+    _ranked = sorted(
+        [{"time": str(t), "value": float(v)} for t, v in zip(pt, pv)],
+        key=lambda e: e["value"], reverse=not minimize)
     periods = return_periods_years or [1, 10, 50, 100]
     levels = {f"{T:g}yr": (None if np.isnan(return_level(T))
                            else round(return_level(T), 1)) for T in periods}
@@ -120,9 +129,8 @@ def extreme_value(file: str, column: str, threshold: float,
             "gpd": {"shape_xi": round(xi, 4), "scale_sigma": round(sigma, 3),
                     "estimator": "method of moments (deterministic)"},
             "return_levels": levels,
-            "strongest_events": sorted(
-                [{"time": str(t), "value": float(v)} for t, v in zip(pt, pv)],
-                key=lambda e: e["value"], reverse=not minimize)[:5],
+            "strongest_events": _ranked[:5],
+            **({"events": _ranked} if list_events else {}),
             "caveat": "return levels beyond ~3x the record length are "
                       "extrapolation; run extreme_value_sweep before quoting"}
 

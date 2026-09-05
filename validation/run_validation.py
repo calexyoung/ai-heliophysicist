@@ -1528,6 +1528,62 @@ def case_export_html() -> None:
           f"present, mermaid block passed through for client render")
 
 
+def case_shock_pairing() -> None:
+    """The sheath must be bounded by the shock that drives ITS ejecta.
+
+    Anchored on the two 2024 superstorms, whose shock arrivals DONKI
+    catalogues independently: 2024-05-10 16:36 and 2024-10-10 14:46 UT.
+
+    Three defects made this case necessary, each of which produced a
+    plausible-looking answer:
+
+    - Bounding the sheath by the FIRST shock in the window gave a 105-hour
+      May "sheath" with a median Bz of +0.3 nT — mostly quiet solar wind,
+      which wins any duration-weighted comparison by default.
+    - Detecting shocks on a speed jump alone gave 23 of them in that window,
+      because ordinary turbulence clears 60 km/s over two hours.
+    - Bounding by the LAST shock before the ejecta picked up the ejecta's own
+      leading-edge discontinuity: a 7-minute sheath, and both storms flipped
+      to "ejecta-driven".
+
+    So the case checks the shock TIME against the catalogue, not just the
+    label: a sheath of plausible duration whose start is within an hour of
+    DONKI's arrival cannot be any of those three failures.
+    """
+    for tag, start, end, donki, lo, hi in (
+            ("2024-05", "2024-05-07T00:00:00Z", "2024-05-15T00:00:00Z",
+             "2024-05-10 16:36", 10.0, 30.0),
+            ("2024-10", "2024-10-07T00:00:00Z", "2024-10-15T00:00:00Z",
+             "2024-10-10 14:46", 10.0, 30.0)):
+        o = run_tool("fetch_omni", start=start, end=end, resolution="1min",
+                     variables=["F", "BY_GSM", "BZ_GSM", "flow_speed",
+                                "proton_density", "T", "SYM_H"])
+        if o["status"] != "ok":
+            check(f"shock_pairing.{tag}", False, o.get("error", ""))
+            continue
+        r = run_tool("detect_icme", file=o["file"], speed_column="flow_speed",
+                     temperature_column="T", bz_column="BZ_GSM",
+                     by_column="BY_GSM", density_column="proton_density",
+                     plot=False)
+        sheath = r.get("sheath") or {}
+        if r["status"] != "ok" or not sheath.get("start"):
+            check(f"shock_pairing.{tag}", False,
+                  str(r.get("error") or r.get("note"))[:120])
+            continue
+        import datetime as _dt
+        got = _dt.datetime.fromisoformat(str(sheath["start"]))
+        want = _dt.datetime.fromisoformat(donki)
+        off_min = abs((got - want).total_seconds()) / 60.0
+        dur = sheath.get("duration_hours") or 0
+        ok_pair = off_min <= 60.0 and lo <= dur <= hi
+        check(f"shock_pairing.{tag}", ok_pair,
+              f"sheath starts {got:%Y-%m-%d %H:%M}, {off_min:.0f} min from "
+              f"DONKI's {donki}; duration {dur} h (plausible range "
+              f"{lo:.0f}-{hi:.0f}); {len(r.get('shock_times') or [])} shocks "
+              f"in window; driver {r.get('driver')} by total, "
+              f"{r.get('driver_by_rate')} by rate")
+
+
 def case_detect_icme() -> None:
     """ICME detection on the 2015 St. Patrick's Day storm (1-min OMNI).
 
@@ -1895,6 +1951,7 @@ CASES = {
     "dstmodel": case_dst_model,
     "cmearrival": case_cme_arrival,
     "icme": case_detect_icme,
+    "shockpair": case_shock_pairing,
     "sep": case_characterize_sep,
     "protons": case_goes_protons,
     "radio": case_radio_bursts,

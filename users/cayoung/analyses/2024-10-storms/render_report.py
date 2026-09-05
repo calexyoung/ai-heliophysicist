@@ -448,18 +448,28 @@ if core:
         f"(r² {fmt(core.get('rotation_r2'),3)}), so this is not a clean "
         "single flux rope.\n")
     add("**This is the second superstorm in a row driven by the sheath "
-        "rather than the ejecta.** The May 2024 analysis in "
-        "`../2024-05-gannon-notebook-repro/` found the same thing by a "
-        "different route — there the ejecta signature began 9.3 h *after* "
-        "the SYM-H minimum. Two events is not a law, but it is a pattern "
-        "worth naming, and it has a forecasting consequence: sheath Bz is "
-        "not predictable from a cone-model fit of the CME, so the quantity "
-        "that drove both storms is the one current forecasts cannot "
-        "supply.\n")
-    add(f"The shock at {str(ic.get('shock_time'))[:16]} is the **8 October** "
-        "arrival, not the 10 October one — the detection window opens on 8 "
-        "October and two shocks fall inside it, so the reported 'sheath' "
-        "spans both. Read the interval boundaries, not the label alone.\n")
+        "rather than the ejecta**, the May 2024 event being the first. It "
+        "has a forecasting consequence: sheath Bz is not predictable from a "
+        "cone-model fit of the CME, so the quantity that drove both storms "
+        "is the one current forecasts cannot supply.\n")
+    add("**But do not read a pattern into two events — that was tested and "
+        "it does not generalise.** `../sheath-vs-ejecta/` runs the same "
+        "attribution over all 40 storms below Dst −200 nT since 1981 and "
+        "finds 10 sheath against 8 ejecta: close to even. Sheath-driving "
+        "does dominate at the deep end (8 of 10 below −250 nT against 2 of "
+        "9 between −250 and −200), which is a known result — Gonzalez et "
+        "al. (2011) treat superintense storms as a separate category for "
+        "exactly this reason. That study also found three defects in "
+        "`detect_icme` that this section's numbers depend on; they are "
+        "fixed, and the attribution above is the corrected one.\n")
+    _shocks = ic.get("shock_times") or []
+    add(f"The window holds {len(_shocks)} detected shock"
+        f"{'s' if len(_shocks) != 1 else ''} "
+        + (f"({', '.join(str(t)[:16] for t in _shocks)}); " if _shocks else "")
+        + "the sheath is bounded by the one that drives this ejecta, at "
+        f"**{str((ic.get('sheath') or {}).get('start'))[:16]}** — within "
+        "half an hour of DONKI's catalogued arrival at 14:46, from a "
+        "detector that never sees the catalogue.\n")
 L.extend(embed("S6_fig_stack", "L1 solar wind and geomagnetic response. "
                                "Dashed lines mark the shock arrival "
                                "(10 Oct 14:46 UT) and the SYM-H minimum "

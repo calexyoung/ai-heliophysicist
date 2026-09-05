@@ -13960,17 +13960,18 @@
    }
   ],
   "n_intervals": 3,
-  "shock_time": "2024-10-08 20:14:00",
+  "shock_time": "2024-10-10 14:13:00",
   "sheath": {
-   "start": "2024-10-08 20:14:00",
+   "start": "2024-10-10 14:13:00",
    "end": "2024-10-11 06:41:00",
-   "duration_hours": 58.5,
+   "duration_hours": 16.5,
    "field": {
-    "hours": 58.4,
+    "hours": 16.4,
     "bz_min_nT": -47.0,
-    "bz_median_nT": -2.5,
-    "hours_below_threshold": 12.4,
-    "south_nT_hours": 428.0
+    "bz_median_nT": -20.9,
+    "hours_below_threshold": 12.2,
+    "south_nT_hours": 333.7,
+    "south_nT_per_hour": 20.29
    }
   },
   "ejecta_field": {
@@ -13978,17 +13979,23 @@
    "bz_min_nT": -22.6,
    "bz_median_nT": 2.1,
    "hours_below_threshold": 3.0,
-   "south_nT_hours": 66.5
+   "south_nT_hours": 66.5,
+   "south_nT_per_hour": 3.23
   },
   "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2024-10-10 14:13:00",
+   "2024-10-11 05:58:00"
+  ],
   "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
-  "note": "shock 2024-10-08 20:14:00; low-Tp interval of 20.6 h; no flux-rope signature (rotation 430.4\u00b0 at r\u00b2=0.133, max B\u22a5 30.79 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 58.5 h carrying Bz to -47 nT (12.4 h below -10) \u2014 SHEATH-DRIVEN: 428 vs 66.5 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "note": "shock 2024-10-10 14:13:00; low-Tp interval of 20.6 h; no flux-rope signature (rotation 430.4\u00b0 at r\u00b2=0.133, max B\u22a5 30.79 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 16.5 h carrying Bz to -47 nT (12.2 h below -10) \u2014 SHEATH-DRIVEN: 333.7 vs 66.5 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
   "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/oct_icme.png",
   "artifacts": [
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/oct_icme.png"
   ],
   "status": "ok",
-  "audit_id": "3b43b5fd0785"
+  "audit_id": "06358f87b5c0"
  },
  "S6_fig_stack": {
   "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/oct_insitu_stack.png",

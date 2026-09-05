@@ -68,12 +68,36 @@ def _south_stats(field, start, end, south_bz_nt: float) -> dict | None:
         "bz_median_nT": round(float(bz.median()), 1),
         "hours_below_threshold": round(int((bz < -south_bz_nt).sum()) * cadence_h, 1),
         "south_nT_hours": round(float((-bz[bz < 0]).sum()) * cadence_h, 1),
+        # Mean southward Bz over the interval. The driver verdict compares
+        # TOTALS, because ring-current injection integrates VBs over time —
+        # but a total rewards duration, so the rate is reported beside it.
+        # Where the two disagree, say so rather than quoting the label alone.
+        "south_nT_per_hour": round(
+            float((-bz[bz < 0]).sum()) * cadence_h / max(span_s / 3600, 1e-9), 2),
     }
 
 
 def _driver(sheath: dict, ejecta: dict) -> str:
     a, b = sheath["south_nT_hours"], ejecta["south_nT_hours"]
     if max(a, b) <= 0:
+        return "ambiguous"
+    if a >= b * DRIVER_MARGIN:
+        return "sheath"
+    if b >= a * DRIVER_MARGIN:
+        return "ejecta"
+    return "ambiguous"
+
+
+def _driver_rate(sheath: dict, ejecta: dict) -> str:
+    """The same verdict on mean southward Bz instead of the integral.
+
+    Reported beside `driver` so a duration-weighted attribution cannot pass
+    unnoticed. When the two disagree the storm's sheath was long but weak
+    (or short but intense), and neither label alone is the answer.
+    """
+    a = sheath.get("south_nT_per_hour")
+    b = ejecta.get("south_nT_per_hour")
+    if a is None or b is None or max(a, b) <= 0:
         return "ambiguous"
     if a >= b * DRIVER_MARGIN:
         return "sheath"
@@ -123,6 +147,7 @@ def detect_icme(file: str, speed_column: str, temperature_column: str,
                 min_rotation_r2: float = 0.8, min_b_perp_nt: float = 8.0,
                 smooth_minutes: float = 30.0, shock_jump_kms: float = 60.0,
                 shock_window_hours: float = 2.0, south_bz_nt: float = 10.0,
+                min_sheath_hours: float = 1.0, max_sheath_hours: float = 48.0,
                 plot: bool = True, out_name: str = "icme.png") -> dict:
     """Detect ICME intervals in a solar-wind CSV via the low-proton-temperature
     signature (Tp < temp_ratio_max · Texp(V), Lopez 1987), gated by the first
@@ -161,17 +186,67 @@ def detect_icme(file: str, speed_column: str, temperature_column: str,
     texp = speed.map(lambda v: expected_temperature_k(v) if not math.isnan(v) else math.nan)
     ratio = (temp / texp).where(valid)
 
-    # shock: first sample rising shock_jump_kms above the running minimum of
-    # the preceding window
-    shock_time = None
+    # Shocks: every sample rising shock_jump_kms above the running minimum of
+    # the preceding window, with a refractory period so one steep front is
+    # not counted many times.
+    #
+    # ALL of them, not just the first. Taking the first shock and calling
+    # everything up to the ejecta "the sheath" is wrong whenever the window
+    # holds an earlier, unrelated arrival: on a +/-4 day window around the
+    # May 2024 superstorm that produced a 105-hour "sheath" with a median Bz
+    # of +0.3 nT — mostly quiet solar wind, and long enough to win any
+    # duration-weighted comparison by default. The sheath is bounded by the
+    # LAST shock before the ejecta, which is the one that drives it.
+    # A fast-forward shock jumps speed, density AND field together, and the
+    # jump is SUSTAINED. Testing speed alone against a running minimum fires
+    # on ordinary turbulence: on the May 2024 window that gave 23 "shocks",
+    # so "the last shock before the ejecta" landed 0.8 h before it, inside
+    # the sheath rather than at its leading edge. Compare medians either
+    # side of a candidate and require all three to step up.
+    shocks: list = []
     s = speed.dropna()
     win = pd.Timedelta(hours=shock_window_hours)
+    dens = (df[density_column].astype(float)
+            if density_column and density_column in df.columns else None)
+    bmag = None
+    if by_column in df.columns and bz_column in df.columns:
+        bmag = (df[by_column].astype(float) ** 2
+                + df[bz_column].astype(float) ** 2) ** 0.5
     for i in range(1, len(s)):
         t = s.index[i]
-        prev = s.loc[t - win:t].iloc[:-1]
-        if len(prev) and s.iloc[i] - prev.min() >= shock_jump_kms:
-            shock_time = t
-            break
+        if shocks and (t - shocks[-1]) < pd.Timedelta(hours=6):
+            continue
+        before = s.loc[t - win:t].iloc[:-1]
+        after = s.loc[t:t + win]
+        if len(before) < 2 or len(after) < 2:
+            continue
+        # The sample AT t must itself already be elevated, or the median
+        # window flags the point one cadence step BEFORE the jump.
+        base = float(before.median())
+        if float(s.iloc[i]) - base < shock_jump_kms:
+            continue
+        if float(after.median()) - base < shock_jump_kms:
+            continue
+        # A fast-forward shock compresses the plasma AND the field. Requiring
+        # at least one of density or |B| to step up with the speed is what
+        # separates a shock from ordinary turbulence: on May 2024 the speed
+        # test alone fired 23 times, the combined test 3 (and its leading one
+        # lands 19 min from the DONKI-catalogued arrival).
+        compressed = False
+        for extra in (dens, bmag):
+            if extra is None:
+                continue
+            b = extra.loc[t - win:t].iloc[:-1].dropna()
+            a = extra.loc[t:t + win].dropna()
+            if len(b) < 2 or len(a) < 2 or float(b.median()) <= 0:
+                continue
+            if float(a.median()) > float(b.median()) * 1.2:
+                compressed = True
+                break
+        ok_extra = compressed or (dens is None and bmag is None)
+        if ok_extra:
+            shocks.append(t)
+    shock_time = shocks[0] if shocks else None
 
     # group low-Tp samples into intervals, merging across gaps
     low = ratio[ratio < temp_ratio_max].index
@@ -231,11 +306,31 @@ def detect_icme(file: str, speed_column: str, temperature_column: str,
     icme = intervals[0] if intervals else None
 
     sheath = ejecta_field = driver = None
-    if shock_time is not None and icme is not None:
+    # Pair the ejecta with the shock that actually drives it: the EARLIEST
+    # shock inside a physically plausible sheath duration before it.
+    #
+    # Not the last one. An ejecta has its own leading-edge discontinuity that
+    # trips the shock test minutes ahead of the interval start — on May 2024
+    # that put the "sheath" at 7 minutes (11:24 against an 11:31 ejecta),
+    # and October at 43 minutes, collapsing both sheaths to nothing and
+    # flipping the attribution. min_sheath_hours discards those; the earliest
+    # qualifying shock is the leading edge of the disturbed region.
+    driving_shock = None
+    if icme is not None and shocks:
+        t0 = pd.Timestamp(icme["start"])
+        window = [t for t in shocks
+                  if pd.Timedelta(hours=min_sheath_hours)
+                  <= (t0 - t) <= pd.Timedelta(hours=max_sheath_hours)]
+        if window:
+            driving_shock = window[0]
+    if driving_shock is None:
+        driving_shock = shock_time
+
+    if driving_shock is not None and icme is not None:
         sheath_end = pd.Timestamp(icme["start"])
-        sheath = {"start": str(shock_time), "end": str(sheath_end),
-                  "duration_hours": round((sheath_end - shock_time).total_seconds() / 3600, 1),
-                  "field": _south_stats(field, shock_time, sheath_end, south_bz_nt)}
+        sheath = {"start": str(driving_shock), "end": str(sheath_end),
+                  "duration_hours": round((sheath_end - driving_shock).total_seconds() / 3600, 1),
+                  "field": _south_stats(field, driving_shock, sheath_end, south_bz_nt)}
         ejecta_field = _south_stats(field, pd.Timestamp(icme["start"]),
                                     pd.Timestamp(icme["end"]), south_bz_nt)
         if sheath["field"] is not None and ejecta_field is not None:
@@ -292,6 +387,10 @@ def detect_icme(file: str, speed_column: str, temperature_column: str,
            "n_intervals": len(intervals),
            "shock_time": str(shock_time) if shock_time is not None else None,
            "sheath": sheath, "ejecta_field": ejecta_field, "driver": driver,
+           "driver_by_rate": (_driver_rate(sheath["field"], ejecta_field)
+                              if sheath and sheath.get("field") and ejecta_field
+                              else None),
+           "shock_times": [str(t) for t in shocks],
            "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle "
                      "flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
            "note": note}
