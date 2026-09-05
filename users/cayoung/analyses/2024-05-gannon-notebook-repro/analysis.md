@@ -158,7 +158,9 @@ Here the front is **measured**. `track_cme_front` locates the leading edge in ea
 
 Audits: `26a7eceb7bab`/`fb5dca15916c` and `058a6b9a5875`/`504ed39d6417`. The position angles were chosen automatically, by scoring sectors on monotonic outward motion rather than on scatter.
 
-**The launch-time column is the check that the tracker found the eruption and not a streamer.** The fit extrapolates back to 1 R⊙ at 04:53:24 for CME 1 and 08:57:12 for CME 2 — each within minutes of its flare's onset. The tracker never sees the X-ray data, so that agreement is independent, not circular.
+**The launch-time column is a check that the tracker found the eruption and not a streamer.** The fit extrapolates back to 1 R⊙ at 04:53:24 for CME 1 and 08:57:12 for CME 2 — each within minutes of its flare's onset. The tracker never reads the X-ray series, and the extrapolation follows from the fitted heights alone.
+
+**It is not a fully independent confirmation, though.** The search window was opened at the flare peak (see below), so the frames that produced the fit were selected using the very time the extrapolation is being compared against. A badly wrong tracker would still have to produce a wrong slope to miss, so the check has teeth — but call it a consistency check rather than an independent one.
 
 **Two things had to be got right, and both failed the other way first.** The noise reference has to be the same radius at other position angles: an outer-annulus σ is contaminated once the CME reaches it, which inflated the noise 4.6× and suppressed every detection. And the search window has to open at the eruption, not an hour later — C2 sees only 2.4–5.8 R⊙, so a front already at the outer edge cannot be tracked. Opening at the flare peak took CME 1 from 3 height points to 5 and turned CME 2 from an untrackable non-monotonic scatter into a clean track. Both details are recorded in `skills/methods/cme_analysis.md`.
 
@@ -170,7 +172,9 @@ Audits: `26a7eceb7bab`/`fb5dca15916c` and `058a6b9a5875`/`504ed39d6417`. The pos
 | CME 1 | **434.7 km s⁻¹** | 729–870 km s⁻¹ (2 fits) | 950 km s⁻¹ |
 | CME 2 | **869.6 km s⁻¹** | 1330–1561 km s⁻¹ (2 fits) | 1100 km s⁻¹ |
 
-**Every measured plane-of-sky speed lands below its cone fit, and that is the expected result, not a discrepancy.** Both of these are Earth-directed halos, so the plane-of-sky projection sees the front edge-on and understates the radial speed — the measurement is a lower bound by construction. A plane-of-sky speed coming out *above* a cone fit would have meant the tracker had locked onto something other than the front. `run_validation.py cmetrack` pins that inequality.
+**Both measured plane-of-sky speeds land below their cone fits, which is the expected direction.** These are Earth-directed halos, so the plane-of-sky projection sees the front edge-on and understates the radial speed — the measurement is a lower bound by construction. A third case outside this analysis agrees: the 2024-10-03 X9.0 CME measures 667.9 km s⁻¹ plane-of-sky against DONKI cone fits of 822 and 863 km s⁻¹ for the same event (audit `477ff359b0af`).
+
+Three for three is a direction, not a law. A plane-of-sky speed above a cone fit would be worth investigating — most likely a tracker locked onto the wrong feature, but a cone fit is a model fit with its own error and can also be wrong. `run_validation.py cmetrack` pins the inequality for the 2024-05-08 event so a regression would surface it.
 
 So the notebook's 950 and 1100 km s⁻¹ are defensible numbers for the radial speed — they sit inside the cone-model distribution — but its own code could not have produced them, and they are not what a plane-of-sky fit measures. The two quantities are not interchangeable, which is the part the notebook elides.
 
@@ -275,7 +279,9 @@ Four things follow, and they are the reason for running seven routes instead of 
 
 **Cadence sets the peak, not instrument quality.** Density climbs 41.9 → 60.93 → 70.07 cm⁻³ as the cadence goes hourly → 64-s → 1-min. An hourly average cannot resolve a shock; the peak it reports is a smoothed one. Every value in that column is a correct measurement of a different thing.
 
-**DSCOVR's Faraday cup under-reads this storm, and its own `overall_quality` flag does not catch it.** Its speed maximum is 826.2 km s⁻¹ against OMNI's 1026 — and at 2024-05-12 01:00, when OMNI and ACE both read near 1000 km s⁻¹, the cup reports ~470 km s⁻¹ with `overall_quality = 0` on every one of those minutes. Restricting to quality-0 samples changes the maximum not at all. The only signal in the file is `reduced_proton_quality_flag`, set on **58%** of this window. So DSCOVR plasma is good for density and structure and is the wrong source for a storm speed peak — which is also why the earlier refusal was worth keeping rather than papering over with SWPC real-time. `run_validation.py dscovrl2` pins the under-read as well as the capability, so a reprocessing that fixes it will fail the check.
+**DSCOVR's Faraday cup under-reads this storm, and its own `overall_quality` flag does not catch it.** Its speed maximum is 826.2 km s⁻¹ against OMNI's 1026 — and at 2024-05-12 01:00, when OMNI and ACE both read near 1000 km s⁻¹, the cup reports ~470 km s⁻¹ with `overall_quality = 0` on every one of those minutes. Restricting to quality-0 samples changes the maximum not at all. The only signal in the file is `reduced_proton_quality_flag`, set on **58%** of this window. It is the wrong source for a storm speed peak — which is also why the earlier refusal was worth keeping rather than papering over with SWPC real-time. `run_validation.py dscovrl2` pins the under-read as well as the capability, so a reprocessing that fixes it will fail the check.
+
+**Whether its density is equally affected is untested here.** The cup reports 84.92 cm⁻³, the highest of any route, and a flag saying the proton fit was degraded is a reason to doubt every moment derived from that fit, not only the speed. Nothing above establishes the density is sound — it simply was not the quantity checked against another spacecraft. Treat it with the same suspicion until it is.
 
 **|B| is the check that the routes agree.** Five routes across three spacecraft (ACE, DSCOVR, Wind — OMNI is merged from them, not independent) put the maximum inside 72.22–76.08 nT within about ten minutes of each other, and DSCOVR's Level-2 Bz (-50.93 nT) sits inside the ACE/Wind/OMNI bracket. The magnetometer has no problem; only the cup does. That is what makes the density spread a sampling effect and the speed row an instrument fault.
 
@@ -312,9 +318,13 @@ One of the notebook's stated numbers does not survive measurement: dynamic press
 
 ### Was it a magnetic cloud?
 
-`detect_icme` finds an ejecta interval at **2024-05-11 11:31 → 2024-05-11 18:40 UT** (7.2 h, mean speed 803.3 km s⁻¹, minimum temperature ratio 0.164; audit `576173c1dd1a`).
+`detect_icme` finds an ejecta interval at **2024-05-11 11:31 → 2024-05-11 18:40 UT** (7.2 h, mean speed 803.3 km s⁻¹, minimum temperature ratio 0.164; audit `dfc40e7f0e95`).
 
 **That interval begins 9.3 h AFTER the SYM-H minimum**, so it is not what drove the main phase. The main phase ran 2024-05-10 18:03 → 2024-05-11 02:14 UT, entirely before the ejecta signature — this storm's record depth was driven by the compressed **sheath** ahead of the ejecta, not by the flux rope itself. The notebook attributes the storm to the CME arrival without separating the two, and the distinction matters for forecasting: sheath Bz is not predictable from a cone-model CME fit.
+
+The attribution survives the check that matters most for it — **the sheath wins on the rate as well as the total**: 20.62 against 12.49 nT of southward field per hour, so it is not simply the longer interval (18.4 h against 7.2) accumulating more. `detect_icme` compares totals by default because ring-current injection integrates VBs, and a total rewards duration; where the two measures disagree the label alone is not the answer.
+
+**And do not read a pattern into it.** `../sheath-vs-ejecta/` runs the same attribution across every intense storm with usable L1 coverage and finds **8 sheath against 8 ejecta** — even. Sheath-driving dominates only at the deep end (6 of 8 below −250 nT), which is an established result (Gonzalez et al. 2011 treat superintense storms separately for this reason). That study also found three defects in `detect_icme` affecting these numbers; they are fixed and the figures above are the corrected ones.
 
 **Cross-checked against the refereed record** (ADS, audit `4f396182d540`, 3 papers):
 

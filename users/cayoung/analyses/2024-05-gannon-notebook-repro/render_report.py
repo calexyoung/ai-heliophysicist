@@ -311,12 +311,19 @@ add(f"\nAudits: `{aud('S4_track_cme1')}`/`{aud('S4_fit_cme1')}` and "
     f"`{aud('S4_track_cme2')}`/`{aud('S4_fit_cme2')}`. The position angles "
     "were chosen automatically, by scoring sectors on monotonic outward "
     "motion rather than on scatter.\n")
-add("**The launch-time column is the check that the tracker found the "
+add("**The launch-time column is a check that the tracker found the "
     "eruption and not a streamer.** The fit extrapolates back to 1 R⊙ at "
     f"{str(g('S4_fit_cme1','extrapolated_launch_1rsun'))[11:19]} for CME 1 "
     f"and {str(g('S4_fit_cme2','extrapolated_launch_1rsun'))[11:19]} for "
     "CME 2 — each within minutes of its flare's onset. The tracker never "
-    "sees the X-ray data, so that agreement is independent, not circular.\n")
+    "reads the X-ray series, and the extrapolation follows from the fitted "
+    "heights alone.\n")
+add("**It is not a fully independent confirmation, though.** The search "
+    "window was opened at the flare peak (see below), so the frames that "
+    "produced the fit were selected using the very time the extrapolation "
+    "is being compared against. A badly wrong tracker would still have to "
+    "produce a wrong slope to miss, so the check has teeth — but call it a "
+    "consistency check rather than an independent one.\n")
 add("**Two things had to be got right, and both failed the other way "
     "first.** The noise reference has to be the same radius at other "
     "position angles: an outer-annulus σ is contaminated once the CME "
@@ -345,13 +352,18 @@ for tag, name in (("cme1", "CME 1"), ("cme2", "CME 2")):
         + (f"{fmt(min(c),4)}–{fmt(max(c),4)} km s⁻¹ ({len(c)} fits)"
            if c else "—")
         + f" | {_NB[tag]} km s⁻¹ |")
-add("\n**Every measured plane-of-sky speed lands below its cone fit, and "
-    "that is the expected result, not a discrepancy.** Both of these are "
-    "Earth-directed halos, so the plane-of-sky projection sees the front "
-    "edge-on and understates the radial speed — the measurement is a lower "
-    "bound by construction. A plane-of-sky speed coming out *above* a cone "
-    "fit would have meant the tracker had locked onto something other than "
-    "the front. `run_validation.py cmetrack` pins that inequality.\n")
+add("\n**Both measured plane-of-sky speeds land below their cone fits, "
+    "which is the expected direction.** These are Earth-directed halos, so "
+    "the plane-of-sky projection sees the front edge-on and understates the "
+    "radial speed — the measurement is a lower bound by construction. A "
+    "third case outside this analysis agrees: the 2024-10-03 X9.0 CME "
+    "measures 667.9 km s⁻¹ plane-of-sky against DONKI cone fits of 822 and "
+    "863 km s⁻¹ for the same event (audit `477ff359b0af`).\n")
+add("Three for three is a direction, not a law. A plane-of-sky speed above "
+    "a cone fit would be worth investigating — most likely a tracker locked "
+    "onto the wrong feature, but a cone fit is a model fit with its own "
+    "error and can also be wrong. `run_validation.py cmetrack` pins the "
+    "inequality for the 2024-05-08 event so a regression would surface it.\n")
 add("So the notebook's 950 and 1100 km s⁻¹ are defensible numbers for the "
     "radial speed — they sit inside the cone-model distribution — but its "
     "own code could not have produced them, and they are not what a "
@@ -488,11 +500,18 @@ add("**DSCOVR's Faraday cup under-reads this storm, and its own "
     "those minutes. Restricting to quality-0 samples changes the maximum "
     "not at all. The only signal in the file is "
     f"`reduced_proton_quality_flag`, set on **{(_frac or 0) * 100:.0f}%** of "
-    "this window. So DSCOVR plasma is good for density and structure and "
-    "is the wrong source for a storm speed peak — which is also why the "
-    "earlier refusal was worth keeping rather than papering over with SWPC "
-    "real-time. `run_validation.py dscovrl2` pins the under-read as well as "
-    "the capability, so a reprocessing that fixes it will fail the check.\n")
+    "this window. It is the wrong source for a storm speed peak — which is "
+    "also why the earlier refusal was worth keeping rather than papering "
+    "over with SWPC real-time. `run_validation.py dscovrl2` pins the "
+    "under-read as well as the capability, so a reprocessing that fixes it "
+    "will fail the check.\n")
+add("**Whether its density is equally affected is untested here.** The cup "
+    f"reports {fmt(g('S5x_n_dscovr_l2','value'),4)} cm⁻³, the highest of any "
+    "route, and a flag saying the proton fit was degraded is a reason to "
+    "doubt every moment derived from that fit, not only the speed. Nothing "
+    "above establishes the density is sound — it simply was not the quantity "
+    "checked against another spacecraft. Treat it with the same suspicion "
+    "until it is.\n")
 add("**|B| is the check that the routes agree.** Five routes across three "
     "spacecraft (ACE, DSCOVR, Wind — OMNI is merged from them, not "
     "independent) put the maximum inside "
@@ -580,6 +599,27 @@ if ic:
             "without separating the two, and the distinction matters for "
             "forecasting: sheath Bz is not predictable from a cone-model CME "
             "fit.\n")
+        _sh = ((ST.get("S6_icme") or {}).get("sheath") or {}).get("field") or {}
+        _ej = (ST.get("S6_icme") or {}).get("ejecta_field") or {}
+        add("The attribution survives the check that matters most for it — "
+            "**the sheath wins on the rate as well as the total**: "
+            f"{fmt(_sh.get('south_nT_per_hour'),4)} against "
+            f"{fmt(_ej.get('south_nT_per_hour'),4)} nT of southward field "
+            "per hour, so it is not simply the longer interval "
+            f"({fmt(_sh.get('hours'),3)} h against {fmt(_ej.get('hours'),3)}) "
+            "accumulating more. `detect_icme` compares totals by default "
+            "because ring-current injection integrates VBs, and a total "
+            "rewards duration; where the two measures disagree the label "
+            "alone is not the answer.\n")
+        add("**And do not read a pattern into it.** "
+            "`../sheath-vs-ejecta/` runs the same attribution across every "
+            "intense storm with usable L1 coverage and finds **8 sheath "
+            "against 8 ejecta** — even. Sheath-driving dominates only at the "
+            "deep end (6 of 8 below −250 nT), which is an established result "
+            "(Gonzalez et al. 2011 treat superintense storms separately for "
+            "this reason). That study also found three defects in "
+            "`detect_icme` affecting these numbers; they are fixed and the "
+            "figures above are the corrected ones.\n")
     if ok("S6_lit"):
         add("**Cross-checked against the refereed record** (ADS, audit "
             f"`{aud('S6_lit')}`, {g('S6_lit','n_results')} papers):\n")

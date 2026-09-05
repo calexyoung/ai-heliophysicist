@@ -3431,7 +3431,8 @@
     "bz_min_nT": -47.9,
     "bz_median_nT": -24.0,
     "hours_below_threshold": 13.0,
-    "south_nT_hours": 380.1
+    "south_nT_hours": 380.1,
+    "south_nT_per_hour": 20.62
    }
   },
   "ejecta_field": {
@@ -3439,9 +3440,18 @@
    "bz_min_nT": -24.5,
    "bz_median_nT": -12.2,
    "hours_below_threshold": 4.4,
-   "south_nT_hours": 89.3
+   "south_nT_hours": 89.3,
+   "south_nT_per_hour": 12.49
   },
   "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2024-05-10 17:05:00",
+   "2024-05-11 11:24:00",
+   "2024-05-11 18:19:00",
+   "2024-05-12 00:46:00",
+   "2024-05-12 17:50:00"
+  ],
   "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
   "note": "shock 2024-05-10 17:05:00; low-Tp interval of 7.2 h; no flux-rope signature (rotation 300.9\u00b0 at r\u00b2=0.638, max B\u22a5 25.38 nT); first of 4 qualifying intervals \u2014 an ICME train follows; sheath 18.4 h carrying Bz to -47.9 nT (13 h below -10) \u2014 SHEATH-DRIVEN: 380.1 vs 89.3 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
   "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/repro_icme.png",
@@ -3449,7 +3459,7 @@
    "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/repro_icme.png"
   ],
   "status": "ok",
-  "audit_id": "576173c1dd1a"
+  "audit_id": "dfc40e7f0e95"
  },
  "S6_fig_stack": {
   "file": "/Users/cayoung/Developer/ai-heliophysicist/users/cayoung/workspace/outputs/repro_insitu_stack.png",

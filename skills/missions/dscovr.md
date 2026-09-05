@@ -48,7 +48,7 @@
 - Its maximum over 05-10 → 05-13 is **826 km/s** against OMNI's 1026 and ACE's 1004. Restricting to `overall_quality == 0` changes nothing; the maximum is 826 either way.
 - The only header signal is **`reduced_proton_quality_flag`**, set on **58%** of the storm window. `fetch_dscovr_l2` reports it as `reduced_proton_quality_fraction` and puts a warning in `note` above 10%.
 
-**So: DSCOVR plasma is usable for context and for density/temperature structure, and is the wrong source for a storm speed peak.** Use OMNI 1-min or ACE/Wind for that, and cross-check any DSCOVR speed against one of them before quoting it. The magnetometer has no such problem — its |B| (74.5 nT) and Bz (−50.9 nT) sit squarely inside the ACE/Wind/OMNI bracket.
+**So: DSCOVR plasma is the wrong source for a storm speed peak.** Whether the density and temperature from the same fit are sound is NOT established — `reduced_proton_quality_flag` says the proton fit was degraded, and every moment comes from that fit. Only the speed has been checked against another spacecraft. Do not read "the speed is bad, so use the density" out of that; read "one moment is demonstrably wrong and the others are unchecked". Use OMNI 1-min or ACE/Wind for that, and cross-check any DSCOVR speed against one of them before quoting it. The magnetometer has no such problem — its |B| (74.5 nT) and Bz (−50.9 nT) sit squarely inside the ACE/Wind/OMNI bracket.
 
 `valid_ranges` in the result carries the instrument's own declared bounds from the file header (proton speed 189–1111 km/s, density 1–100 cm⁻³). A value pinned at a bound is a saturation, not a measurement.
 
