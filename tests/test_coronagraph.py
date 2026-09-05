@@ -83,4 +83,10 @@ def test_config_refuses_mismatched_speed_list():
     r = run_tool("plot_heliospheric_config", date="2024-05-10 12:00:00",
                  bodies=["Earth", "STEREO-A"], body_speeds_kms=[400.0])
     assert r["status"] == "error"
+    if "not installed" in r["error"]:
+        # solarmach is an optional extra (`uv sync --extra extra`). A plain
+        # `uv sync` removes it, which is easy to do accidentally during a
+        # release. Skip rather than fail: the tool still refuses correctly,
+        # just for a different reason than this test is checking.
+        pytest.skip("solarmach not installed (optional extra)")
     assert "one per body" in r["error"]

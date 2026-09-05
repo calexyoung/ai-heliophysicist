@@ -1,5 +1,98 @@
 # Changelog
 
+## v0.6.0 — 2026-09-05
+
+Six new tools, all of them forced by real analyses rather than designed in
+advance: reproducing a summer-school notebook on the May 2024 Gannon storm,
+then surveying October 2024 and carrying its superstorm from Sun to ground.
+Every one of them exists because a route that should have worked did not.
+Tools 77 to 83; validation 55 checks to 64; tests 216.
+
+### Added
+
+- **`fetch_aia_synoptic`** — SDO/AIA from the JSOC synoptic archive. The VSO
+  AIA export provider (`sdo7.nascom.nasa.gov` drms_export.cgi) times out on
+  every request; the synoptic archive is plain static HTTP and answers in
+  seconds. Level 1.5, 1024x1024 at ~2.4 arcsec/pix, on a strict 2-minute
+  grid. Right for morphology and context, wrong for native resolution.
+- **`fetch_aia_level1`** — native 4096x4096 level-1 AIA from JSOC through
+  `drms`, for when the science needs the real plate scale. Requires a
+  JSOC-registered export email (`JSOC_EMAIL` in `.env`); without one it
+  refuses by name rather than handing back a 16x smaller image under the
+  same call. Level 1 is not 1.5: `CROTA2` is nonzero and `aiapy.calibrate.
+  register` still has to run. The validation case pins that.
+- **`fetch_dscovr_l2`** — DSCOVR Level 2 from NOAA NCEI, which CDAWeb cannot
+  serve. `DSCOVR_H1_FC` plasma stops in June 2019 and `DSCOVR_H0_MAG`
+  carries no GSM component at all, so Bz at L1 from DSCOVR was unobtainable
+  through CDAWeb. The archive lives at
+  `archive.data.noaa.gov/satellite-spaceweather`, an S3 bucket behind a JS
+  explorer; the older ngdc and ncei paths are dead.
+- **`track_cme_front`** — measures a CME leading edge frame by frame so
+  `cme_height_time` has real input instead of hand-typed heights. Noise is
+  referenced to the same radius at other position angles, the sector
+  statistic is the 90th percentile, and sector choice scores monotonic
+  outward motion. Each of those failed the obvious way first.
+- **`plot_coronagraph_sequence`** — exposure-normalised running-difference
+  panels. Refuses a sequence whose exposure metadata is missing, because
+  differencing raw counts turns the shutter pattern into a fake disturbance.
+- **`cme_height_time`** and **`plot_heliospheric_config`** — linear
+  height-time fit that refuses fewer than three points or non-monotonic
+  heights, and a solarmach constellation that returns the position table.
+
+### Changed
+
+- **`fetch_vso` errors when a search matches but downloads nothing.** It used
+  to return `status: "ok"` with an empty file list on a provider timeout,
+  which reads as "no such data exists".
+- **`fetch_vso` gained `detector`** (LASCO C2/C3, SECCHI COR1/COR2/EUVI), so
+  a coronagraph sequence does not interleave two fields of view.
+- **`track_cme_front` refuses halos and saturations.** A full halo brightens
+  every position angle, leaving no quiet reference; a CME faster than the
+  field can follow pins every height at the outer bound. Both reach the end
+  of the routine with three or more *monotonic* detections — equal values
+  are non-decreasing — so both need their own check. Found on the
+  2024-10-09 CME, which returned four identical heights at the C3 field edge
+  and called it a track.
+- **`merge_series` and `resample_series` normalise timezones**, converting
+  tz-aware input to UTC before stripping rather than after.
+
+### Fixed
+
+- Region labels on `plot_solar_regions` were drawn ~14.5 degrees west of the
+  regions: SWPC's `location` is valid at 2400 UT of `observed_date`, not
+  0000. `get_solar_regions` now returns `coordinates_epoch` and the plot uses
+  it. Fitted from 388 station reports (24.07 h, 14.50 deg/day, rms 0.27).
+
+### Documented
+
+- **`skills/missions/ace.md`** — ACE plasma Level 2 stops at 2024-07-09 on
+  CDAWeb, both hourly and 64-second. Any recipe written against an earlier
+  event silently fails on a later one; Wind SWE and DSCOVR L2 are the
+  replacements.
+- **`skills/missions/dscovr.md`** — the Faraday cup under-read the May 2024
+  storm by ~200 km/s while reporting `overall_quality` 0 on every affected
+  minute. The signal is `reduced_proton_quality_flag`, and it is
+  event-dependent: 58% of the May window against 39% in October, where the
+  speeds agreed with OMNI. Check it per event.
+- **`skills/methods/cme_analysis.md`** — the two tracker artefacts, why the
+  search window must open at the flare peak (C2 spans only 2.4-5.8 Rsun),
+  and how to read the launch-time extrapolation against the acceleration
+  sign.
+- **`skills/missions/sdo.md`** — the two AIA routes and what each one costs.
+
+### Analyses
+
+- `users/cayoung/analyses/2024-05-gannon-notebook-repro/` — the notebook
+  reproduced through audited tools, with the three places its own code
+  raised an error or fabricated its input recorded and measured instead.
+  Solar Orbiter was 167.6 degrees from Earth, not the ~45 its fallback
+  printed.
+- `users/cayoung/analyses/2024-10-storms/` — October 2024 surveyed and its
+  superstorm carried Sun to ground, compared against 24 papers. Agrees with
+  the literature on Dst to 2 nT; disagrees on a quoted SYM-H value that
+  matches the Dst series, and on a G5 classification that Kp 8.67 does not
+  support. Both superstorms of 2024 turn out to be sheath-driven.
+
 ## v0.5.0 — 2026-09-05
 
 The forecast rule changed on evidence, the monitor got a plain-language
