@@ -34,3 +34,23 @@ Coronal mass ejections are observed in white-light coronagraphs: SOHO/LASCO C2 (
 - Compare CDAW and DONKI entries for the same event; reconcile plane-of-sky vs radial speed before calling a discrepancy.
 - Predicted arrival vs observed: look for the interplanetary shock / ICME at L1 (see solar_wind_analysis skill) and the sudden commencement in SYM-H.
 - STEREO-A imagery (when at a useful separation) breaks the projection degeneracy — check it for Earth-directed events.
+
+## The Earth-directed cone is 45 degrees, and why not tighter (2026-09-04)
+`helio-agent monitor` forecasts every DONKI cone-model CME whose longitude falls within `EARTH_DIRECTED_MAX_LON`. That was 60 deg; it is now **45**.
+
+**What prompted it.** The live ledger reached 0 hits in 3 scored, every miss carrying `observed_arrival: null` — nothing arrived at all. Two of the three were 48-59 deg east: inside the 60 deg cone, but flank passages at best.
+
+**What the hindcast says**, replaying the rule over four months (163 windows, 12 storms) spanning active, quiet and declining conditions:
+
+| Rule | Windows | Hits | False alarms | Storms covered |
+|---|---|---|---|---|
+| 60 deg (old) | 163 | 89 | 74 | 9/12 |
+| **45 deg (now)** | 131 | 76 | **55** | **9/12** |
+
+26% fewer false alarms, identical storm coverage. Both of the live 48-59 deg misses fall outside 45 deg.
+
+**Why not 30 deg, and why no speed floor.** On May 2024 alone, 30 deg + a 500 km/s floor looks excellent — false alarms 27 to 7, hit rate 0.518 to 0.696, recall unchanged. It is a trap. In June 2025 the only covered storm (2025-06-13, Kp 6.33) was caught by a **249 km/s CME at 41 deg longitude**; the speed floor kills it, and the 30 deg cone kills it independently. That month goes to **zero recall**. Tuning on one month would have shipped it.
+
+**The asymmetry that decides it.** A false alarm costs attention; a missed storm costs the mission. So recall neutrality is the constraint on this threshold, not precision — pinned by `hindcast.recall_neutral`, which fails if the cone moves off 45 or if the narrower rule stops being recall-neutral.
+
+**A ceiling neither threshold touches.** May 2024's 05-02 storm (Kp 6.67) and June 2025's 06-01 storm (Kp 8.0, severe) are missed by *every* setting including the loosest. No catalogued Earth-directed CME covers them, so they are most likely CIR / high-speed-stream driven — structurally outside what a CME-arrival rule can catch. Overall recall is capped near 0.75 by that, not by the cone. Quote hit rate and recall together, never one alone.

@@ -34,7 +34,7 @@
  "get_noaa_realtime": "fc1f8b39814392d2",
  "get_solar_regions": "8163a45b3fe52d02",
  "get_sunspot_reports": "88afedf95a05b8c3",
- "hindcast_forecasts": "51c9ff5f91a3a611",
+ "hindcast_forecasts": "1d2e596e86d40789",
  "interpolate_gaps": "4f284a9a76aca299",
  "linear_fit": "04815a69c8471e0f",
  "list_cdaweb_variables": "68d77472ae3b8c08",

@@ -1442,7 +1442,7 @@ def case_radio_bursts() -> None:
 
 
 def case_hindcast() -> None:
-    """Forecast-rule hindcast over May 2024 (the Gannon superstorm month).
+    """Forecast-rule hindcast over May 2024, and why the cone is 45 degrees.
 
     Anchor: DONKI records the 2024-05-10 15:00 UT G5 storm (max Kp 9) driven
     by the 2024-05-08/09 halo CMEs (DONKI CMEAnalysis 1150-1560 km/s from
@@ -1453,6 +1453,16 @@ def case_hindcast() -> None:
     stay within the drag model's stated +/- 15 h. DONKI is a living record;
     the counts drift as analysts revise fits, so only these invariants are
     asserted.
+
+    The second check pins the *threshold choice*. The live cone was 60 deg
+    and issued forecasts for CMEs 48-59 deg off the Sun-Earth line that
+    never arrived. Narrowing to 45 deg is recall-neutral — the same storms
+    are covered, with fewer false alarms — and that neutrality is the whole
+    justification, so it is asserted rather than assumed. Narrowing further
+    is not free: 30 deg, or any launch-speed floor, drops June 2025's only
+    covered storm (a 249 km/s CME at 41 deg behind Kp 6.33) and takes that
+    month to zero recall. For space weather the errors are asymmetric, so
+    the constraint on this threshold is recall, not precision.
     """
     m = run_tool("hindcast_forecasts", start="2024-05-01", end="2024-05-31",
                  out_name="_validation_hindcast.png", table_name="_validation_hindcast.md")
@@ -1476,6 +1486,34 @@ def case_hindcast() -> None:
           f"{gannon['forecast'] if gannon else None} ({gannon['best_confidence'] if gannon else None}), "
           f"05-08T22:24 halo {halo['outcome'] if halo else None} "
           f"{halo['timing_error_hours'] if halo else None} h")
+
+    # --- recall neutrality of the 45-degree cone (the reason it is 45) ---
+    from helio_agent.monitor import EARTH_DIRECTED_MAX_LON
+
+    wide = run_tool("hindcast_forecasts", start="2024-05-01", end="2024-05-31",
+                    earth_cone_deg=60.0, plot=False, table_name="_validation_h60.md")
+    if wide["status"] != "ok":
+        check("hindcast.recall_neutral", False, wide.get("error", ""))
+        return
+    live_cov = sum(1 for x in m["storms"] if x["forecast"])
+    wide_cov = sum(1 for x in wide["storms"] if x["forecast"])
+    tight = run_tool("hindcast_forecasts", start="2024-05-01", end="2024-05-31",
+                     earth_cone_deg=30.0, min_speed_kms=500.0, plot=False,
+                     table_name="_validation_h30.md")
+    tight_cov = (sum(1 for x in tight["storms"] if x["forecast"])
+                 if tight["status"] == "ok" else None)
+
+    ok2 = (EARTH_DIRECTED_MAX_LON == 45.0
+           and live_cov == wide_cov                       # no storm lost
+           and m["n_false_alarms"] < wide["n_false_alarms"])  # but fewer FA
+    check("hindcast.recall_neutral", ok2,
+          f"the deployed {EARTH_DIRECTED_MAX_LON:.0f}-deg cone covers "
+          f"{live_cov}/{len(m['storms'])} May 2024 storms — the same as the old "
+          f"60-deg rule ({wide_cov}) — while cutting false alarms "
+          f"{wide['n_false_alarms']} -> {m['n_false_alarms']}. Tightening "
+          f"further is not free: 30 deg + a 500 km/s floor covers "
+          f"{tight_cov} storm(s) here and takes June 2025 to zero recall, so "
+          "recall neutrality is the constraint on this threshold")
 
 
 def case_magnetogram() -> None:

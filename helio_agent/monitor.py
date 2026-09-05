@@ -26,7 +26,15 @@ from helio_agent.registry import run_tool
 from helio_agent.workspace import WORKSPACE
 
 STATE_FILE = WORKSPACE / "monitor_state.json"
-EARTH_DIRECTED_MAX_LON = 60.0   # deg from Sun-Earth line (crude cone check)
+# Half-width of the Earth-directed cone, in degrees from the Sun-Earth line.
+# 45, not 60: hindcast over four months (May/Oct/Mar 2024, Jun 2025; 163
+# windows, 12 storms) cuts false alarms 74 -> 55 while covering exactly the
+# same 9 of 12 storms. Tighter is NOT safe — 30 deg, or any launch-speed
+# floor, drops June 2025's only covered storm (a 249 km/s CME at 41 deg that
+# drove Kp 6.33), taking that month's recall to zero. Missing a storm costs
+# more than a false alarm, so recall neutrality is the constraint and
+# `hindcast.recall_neutral` pins it.
+EARTH_DIRECTED_MAX_LON = 45.0
 GRACE_HOURS = 12.0
 
 

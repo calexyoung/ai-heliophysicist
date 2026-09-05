@@ -868,7 +868,7 @@ valid Zurich letter or when the source table has no groups in that bin.
 ### `hindcast_forecasts`
 
 ```python
-hindcast_forecasts(start: 'str', end: 'str', min_speed_kms: 'float' = 0.0, earth_cone_deg: 'float' = 60.0, grace_hours: 'float' = 12.0, chunk_days: 'int' = 30, plot: 'bool' = True, out_name: 'str' = 'hindcast.png', table_name: 'str' = 'hindcast.md') -> 'dict'
+hindcast_forecasts(start: 'str', end: 'str', min_speed_kms: 'float' = 0.0, earth_cone_deg: 'float | None' = None, grace_hours: 'float' = 12.0, chunk_days: 'int' = 30, plot: 'bool' = True, out_name: 'str' = 'hindcast.png', table_name: 'str' = 'hindcast.md') -> 'dict'
 ```
 
 Score the live monitor's CME-arrival forecast rule over a historical
@@ -879,8 +879,11 @@ against DONKI Earth IPS shocks (+/- grace_hours), and check storm
 coverage against DONKI GST. Diagnostic only; the forward ledger is not
 touched.
 
-start/end: 'YYYY-MM-DD'. min_speed_kms: optional launch-speed floor (the
-live rule has none; set it to explore one). chunk_days: DONKI query span.
+start/end: 'YYYY-MM-DD'. earth_cone_deg defaults to the live monitor's
+EARTH_DIRECTED_MAX_LON so this replays the deployed rule; set it only to
+explore a change. min_speed_kms: optional launch-speed floor (the live
+rule has none, deliberately — a floor drops slow CMEs that do drive
+storms). chunk_days: DONKI query span.
 
 Returns forecasts (every window, time order, with outcome "hit" |
 "false_alarm", the matched IPS, timing error and confidence tier),

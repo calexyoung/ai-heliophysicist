@@ -86,7 +86,8 @@ def _chunks(start: date, end: date, days: int):
 
 @tool(family="measure")
 def hindcast_forecasts(start: str, end: str, min_speed_kms: float = 0.0,
-                       earth_cone_deg: float = 60.0, grace_hours: float = 12.0,
+                       earth_cone_deg: float | None = None,
+                       grace_hours: float = 12.0,
                        chunk_days: int = 30, plot: bool = True,
                        out_name: str = "hindcast.png",
                        table_name: str = "hindcast.md") -> dict:
@@ -98,8 +99,11 @@ def hindcast_forecasts(start: str, end: str, min_speed_kms: float = 0.0,
     coverage against DONKI GST. Diagnostic only; the forward ledger is not
     touched.
 
-    start/end: 'YYYY-MM-DD'. min_speed_kms: optional launch-speed floor (the
-    live rule has none; set it to explore one). chunk_days: DONKI query span.
+    start/end: 'YYYY-MM-DD'. earth_cone_deg defaults to the live monitor's
+    EARTH_DIRECTED_MAX_LON so this replays the deployed rule; set it only to
+    explore a change. min_speed_kms: optional launch-speed floor (the live
+    rule has none, deliberately — a floor drops slow CMEs that do drive
+    storms). chunk_days: DONKI query span.
 
     Returns forecasts (every window, time order, with outcome "hit" |
     "false_alarm", the matched IPS, timing error and confidence tier),
@@ -109,6 +113,11 @@ def hindcast_forecasts(start: str, end: str, min_speed_kms: float = 0.0,
     table + three-panel figure when plot. Hundreds of windows over a year:
     quote hit rate and recall together, never one alone.
     """
+    from helio_agent.monitor import EARTH_DIRECTED_MAX_LON
+    # Default to the live monitor's cone so the hindcast always replays the
+    # deployed rule; pass earth_cone_deg explicitly only to explore a change.
+    if earth_cone_deg is None:
+        earth_cone_deg = float(EARTH_DIRECTED_MAX_LON)
     import pandas as pd
     d0, d1 = date.fromisoformat(start), date.fromisoformat(end)
     if d1 <= d0:
