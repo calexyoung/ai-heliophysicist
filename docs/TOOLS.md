@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-76 core tools in six families. Invoke any tool with
+79 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -13,9 +13,9 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | **discover** (13) | `get_noaa_realtime`, `get_solar_regions`, `get_sunspot_reports`, `list_cdaweb_variables`, `list_model_outputs`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
 | **retrieve** (16) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_model_output`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
-| **measure** (22) | `characterize_sep`, `cme_arrival`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `flare_probability`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
+| **measure** (23) | `characterize_sep`, `cme_arrival`, `cme_height_time`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `flare_probability`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
-| **report** (11) | `create_reproduction_manifest`, `export_html`, `plot_distribution`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_solar_regions`, `plot_stack`, `plot_timeseries`, `render_reproduction_report`, `write_pdf_report` |
+| **report** (13) | `create_reproduction_manifest`, `export_html`, `plot_coronagraph_sequence`, `plot_distribution`, `plot_heliospheric_config`, `plot_orbits`, `plot_scatter`, `plot_solar_map`, `plot_solar_regions`, `plot_stack`, `plot_timeseries`, `render_reproduction_report`, `write_pdf_report` |
 
 ## discover
 
@@ -503,7 +503,7 @@ Operational nowcast data: gaps, spikes, and later revisions are normal.
 ### `fetch_vso`
 
 ```python
-fetch_vso(start: 'str', end: 'str', instrument: 'str', wavelength_angstrom: 'float | None' = None, max_files: 'int' = 4, physobs: 'str | None' = None) -> 'dict'
+fetch_vso(start: 'str', end: 'str', instrument: 'str', wavelength_angstrom: 'float | None' = None, max_files: 'int' = 4, physobs: 'str | None' = None, detector: 'str | None' = None) -> 'dict'
 ```
 
 Download solar data files (FITS) from the VSO into the workspace.
@@ -515,6 +515,11 @@ physobs: VSO physical-observable filter for instruments that serve
 several products, e.g. HMI: 'LOS_magnetic_field' (magnetogram),
 'intensity' (continuum), 'LOS_velocity' (Dopplergram). Without it an
 HMI query returns whichever product the archive lists first.
+
+detector: required for instruments with several detectors — LASCO is
+'C2' (2-6 Rsun) or 'C3' (3.7-30 Rsun); SECCHI is 'COR1'/'COR2'/'EUVI'.
+Without it a LASCO query mixes detectors and a coronagraph sequence
+built from the result will interleave two fields of view.
 
 *Source: `helio_agent/tools/retrieve.py`*
 
@@ -725,6 +730,29 @@ gamma_per_km: drag parameter, typically 0.1e-7 (wide/massive CME) to
 window — typical real accuracy is +/- 10 h; never quote minutes.
 
 *Source: `helio_agent/tools/models.py`*
+
+### `cme_height_time`
+
+```python
+cme_height_time(times: 'list[str]', heights_rsun: 'list[float]', plane_of_sky: 'bool' = True) -> 'dict'
+```
+
+Linear height-time fit for a CME front: plane-of-sky speed and its error.
+
+times: ISO timestamps of the measured front positions.
+heights_rsun: leading-edge heliocentric distance in solar radii, measured
+  from the frames (this tool does not track the front for you).
+
+Returns speed_km_s with its standard error, the fitted launch time where
+the fit crosses 1 Rsun (an extrapolation, flagged as such), r_squared,
+and an acceleration from an optional quadratic term.
+
+**Plane-of-sky speeds are lower bounds for an Earth-directed CME**: a
+halo is seen edge-on, so the measured speed understates the radial one.
+Compare against a cone-model or GCS fit (DONKI CMEAnalysis) before
+quoting a speed as physical.
+
+*Source: `helio_agent/tools/coronagraph.py`*
 
 ### `cross_correlate`
 
@@ -1202,6 +1230,29 @@ for engine="local".
 
 *Source: `helio_agent/tools/export.py`*
 
+### `plot_coronagraph_sequence`
+
+```python
+plot_coronagraph_sequence(files: 'list[str]', n_panels: 'int' = 6, clip_percent: 'float' = 99.0, title: 'str' = '', out_name: 'str' = 'coronagraph.png') -> 'dict'
+```
+
+Running-difference panels from a coronagraph FITS sequence (LASCO, SECCHI).
+
+Each frame is divided by its own exposure time before differencing, so a
+sequence with alternating exposures does not produce spurious brightness
+steps. Frames are sorted by observation time; `n_panels` evenly spaced
+differences are drawn, each labelled with its time and the interval it
+spans.
+
+files: coronagraph FITS paths (e.g. from fetch_vso with detector='C2').
+clip_percent: symmetric intensity clip for the difference scale.
+
+Returns the figure path, the frame times used, the median cadence, and
+`exposure_times_s` — inspect it: more than one distinct value is exactly
+the case where raw differencing would have produced artefacts.
+
+*Source: `helio_agent/tools/coronagraph.py`*
+
 ### `plot_distribution`
 
 ```python
@@ -1215,6 +1266,32 @@ workspace CSV — e.g. solar wind speed by interval, or Bz in storm vs
 quiet times (merge_series first to get the columns side by side).
 
 *Source: `helio_agent/tools/report.py`*
+
+### `plot_heliospheric_config`
+
+```python
+plot_heliospheric_config(date: 'str', bodies: 'list[str] | None' = None, solar_wind_kms: 'float' = 400.0, body_speeds_kms: 'list[float] | None' = None, reference_longitude: 'float | None' = None, out_name: 'str' = 'heliospheric_config.png') -> 'dict'
+```
+
+Spacecraft constellation with Parker spirals at one instant.
+
+date: ISO instant; Carrington longitudes are only meaningful at one time.
+bodies: solarmach names, e.g. ['Earth', 'STEREO-A', 'Solar Orbiter',
+  'PSP', 'BepiColombo', 'Mars']. Defaults to the inner-heliosphere set.
+solar_wind_kms: one speed for every body (the usual simplification).
+body_speeds_kms: per-body speeds instead, same order as `bodies` — use
+  real measurements when you have them; the spiral footpoint depends on
+  this directly.
+reference_longitude: draw a reference spiral from this Carrington
+  longitude, e.g. a flare's source longitude, to see which spacecraft
+  the eruption was magnetically connected to.
+
+Returns the figure path plus a `positions` table: Carrington longitude
+and latitude, heliocentric distance, the magnetic footpoint longitude
+each spiral traces back to, and the longitudinal separation from the
+first body listed.
+
+*Source: `helio_agent/tools/heliosphere.py`*
 
 ### `plot_orbits`
 

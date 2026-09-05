@@ -167,7 +167,8 @@ def fetch_goes_xrs(start: str, end: str) -> dict:
 @tool(family="retrieve")
 def fetch_vso(start: str, end: str, instrument: str,
               wavelength_angstrom: float | None = None,
-              max_files: int = 4, physobs: str | None = None) -> dict:
+              max_files: int = 4, physobs: str | None = None,
+              detector: str | None = None) -> dict:
     """Download solar data files (FITS) from the VSO into the workspace.
 
     Deliberately capped at max_files to avoid accidental bulk downloads;
@@ -177,6 +178,11 @@ def fetch_vso(start: str, end: str, instrument: str,
     several products, e.g. HMI: 'LOS_magnetic_field' (magnetogram),
     'intensity' (continuum), 'LOS_velocity' (Dopplergram). Without it an
     HMI query returns whichever product the archive lists first.
+
+    detector: required for instruments with several detectors — LASCO is
+    'C2' (2-6 Rsun) or 'C3' (3.7-30 Rsun); SECCHI is 'COR1'/'COR2'/'EUVI'.
+    Without it a LASCO query mixes detectors and a coronagraph sequence
+    built from the result will interleave two fields of view.
     """
     import astropy.units as u
     from sunpy.net import Fido, attrs as a
@@ -186,6 +192,8 @@ def fetch_vso(start: str, end: str, instrument: str,
         query.append(a.Wavelength(wavelength_angstrom * u.angstrom))
     if physobs is not None:
         query.append(a.Physobs(physobs))
+    if detector is not None:
+        query.append(a.Detector(detector))
     res = Fido.search(*query)
     total = sum(len(t) for t in res)
     if total == 0:

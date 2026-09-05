@@ -1047,6 +1047,84 @@ def case_library_transport_pins() -> None:
            + "; ".join(drift)))
 
 
+def case_coronagraph_and_config() -> None:
+    """The two capabilities the May 2024 notebook reproduction needed.
+
+    Anchor 1 (coronagraph): SOHO/LASCO C2 on 2024-05-08 06:00-10:00 UT
+    covers the halo CME behind the first Gannon shock. The archive serves
+    ~12-minute C2 cadence, and the frames in this window carry SEVERAL
+    DISTINCT EXPOSURE TIMES — so a running difference built on raw counts
+    would show a shutter artefact, not the CME. The tool must normalise by
+    exposure and report the distinct values, and must refuse a sequence
+    whose exposure metadata is missing.
+
+    Anchor 2 (configuration): solarmach positions for 2024-05-10 12:00 UT.
+    Earth sits at ~307 deg Carrington and STEREO-A ~12-13 deg ahead of it,
+    while Solar Orbiter is on the FAR side (~168 deg away). That last number
+    is the check that matters: the source notebook fell back to a hardcoded
+    "Solar Orbiter ~45 deg from Earth" when its table access failed, which is
+    wrong by more than 120 deg. A Parker-spiral footpoint must also differ
+    from the body's own longitude — longitudinal separation is not magnetic
+    separation.
+    """
+    lasco = run_tool("fetch_vso", start="2024-05-08T06:00:00",
+                     end="2024-05-08T10:00:00", instrument="LASCO",
+                     detector="C2", max_files=8)
+    if lasco["status"] != "ok" or len(lasco.get("files", [])) < 3:
+        check("coronagraph.lasco", False, lasco.get("error", "too few frames"))
+    else:
+        seq = run_tool("plot_coronagraph_sequence", files=lasco["files"],
+                       n_panels=4, title="validation",
+                       out_name="_validation_lasco.png")
+        if seq["status"] != "ok":
+            check("coronagraph.lasco", False, seq.get("error", ""))
+        else:
+            multi_exposure = len(seq["exposure_times_s"]) > 1
+            ok = (seq["n_differences"] == seq["n_frames"] - 1
+                  and seq["instrument"].startswith("LASCO")
+                  and 8 <= (seq["median_cadence_min"] or 0) <= 20
+                  and multi_exposure)
+            check("coronagraph.lasco", ok,
+                  f"{seq['n_frames']} C2 frames -> {seq['n_differences']} "
+                  f"differences at {seq['median_cadence_min']:.0f} min cadence; "
+                  f"{len(seq['exposure_times_s'])} distinct exposure times "
+                  f"({min(seq['exposure_times_s'])}-{max(seq['exposure_times_s'])} s) "
+                  "normalised out — raw differencing would have shown the shutter")
+
+    bad = run_tool("plot_coronagraph_sequence", files=lasco.get("files", [])[:1],
+                   out_name="_validation_lasco.png")
+    check("coronagraph.refusal",
+          bad["status"] == "error" and "at least 2" in bad["error"],
+          bad.get("error", "")[:90])
+
+    cfg = run_tool("plot_heliospheric_config", date="2024-05-10 12:00:00",
+                   bodies=["Earth", "STEREO-A", "Solar Orbiter"],
+                   solar_wind_kms=1000.0,
+                   out_name="_validation_config.png")
+    if cfg["status"] != "ok":
+        check("heliosphere.config_20240510", False, cfg.get("error", ""))
+        return
+    by = {p["body"]: p for p in cfg["positions"]}
+    sta = next((v for k, v in by.items() if "STEREO" in k), None)
+    solo = next((v for k, v in by.items() if "Orbiter" in k), None)
+    earth = next((v for k, v in by.items() if "Earth" in k), None)
+    spiral_winds = (earth and earth["footpoint_longitude_deg"] is not None
+                    and abs(earth["footpoint_longitude_deg"]
+                            - earth["carrington_longitude_deg"]) > 5)
+    ok2 = (sta and solo and earth
+           and 10 <= sta["separation_from_first_deg"] <= 16
+           and solo["separation_from_first_deg"] > 150
+           and 0.9 <= earth["distance_au"] <= 1.1
+           and spiral_winds)
+    check("heliosphere.config_20240510", ok2,
+          f"Earth {earth['carrington_longitude_deg']:.0f} deg Carrington at "
+          f"{earth['distance_au']:.3f} AU, footpoint "
+          f"{earth['footpoint_longitude_deg']:.0f} deg (the spiral winds); "
+          f"STEREO-A {sta['separation_from_first_deg']:.1f} deg from Earth, "
+          f"Solar Orbiter {solo['separation_from_first_deg']:.1f} deg — far "
+          "side, NOT the ~45 deg the source notebook fell back to")
+
+
 def case_extreme_value() -> None:
     """POT/GPD on the 61-year hourly Dst record.
 
@@ -1582,6 +1660,7 @@ CASES = {
     "hmipin": case_hmi_magnetogram_pin,
     "radiopin": case_radio_spectrogram_pin,
     "libpins": case_library_transport_pins,
+    "corona": case_coronagraph_and_config,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

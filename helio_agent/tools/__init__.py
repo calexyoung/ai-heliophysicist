@@ -2,11 +2,13 @@
 
 from helio_agent.tools import (  # noqa: F401
     aia,
+    coronagraph,
     discover,
     export,
     extremes,
     flareprob,
     geospace,
+    heliosphere,
     hindcast,
     icme,
     indices,

@@ -12,8 +12,8 @@ PlasmaPy, geopack, aiapy, hapiclient, cdflib).
 
 **The LLM writes no pipelines and computes no science numbers itself.**
 Every result is audit-logged and traceable to the exact tool call that
-produced it. The 49-check live suite covers published, analytic, and
-cross-implementation anchors: of 76 tools, 39 are directly exercised there;
+produced it. The 53-check live suite covers published, analytic, and
+cross-implementation anchors: of 79 tools, 41 are directly exercised there;
 supporting tools are guarded by offline tests, schema locks, and validated
 composition rather than falsely described as individually published anchors.
 Six of those checks pin the *inputs* themselves, so an upstream
@@ -23,7 +23,7 @@ reprocessing fails loudly instead of silently moving published numbers.
 
 ```bash
 uv sync                                     # one-time: build the environment
-uv run helio-agent list                     # 76 tools in six families
+uv run helio-agent list                     # 79 tools in six families
 uv run helio-agent run fetch_omni '{"start":"2024-05-10T00:00:00Z","end":"2024-05-14T00:00:00Z"}'
 uv run python validation/run_validation.py  # prove the stack against known results
 uv run helio-agent report sun-news          # today's space-weather report (PDF)
@@ -76,7 +76,7 @@ skills before acting, cross-check, everything on disk).
 | [`CLAUDE.md`](CLAUDE.md) | The agent's operating contract (the judgment layer's rules) |
 | [`helio_agent/`](helio_agent/) | Tool layer: registry, audit, HTTP cache, CLI, monitor, reports, six tool families |
 | [`skills/`](skills/README.md) | 46 knowledge documents: missions, methods, datasources, software — read before acting |
-| [`validation/`](validation/run_validation.py) | 49 live checks across 30 cases; 39 tools are directly exercised, with published, analytic, behavioral, cross-implementation, and input-pin anchors |
+| [`validation/`](validation/run_validation.py) | 53 live checks across 31 cases; 41 tools are directly exercised, with published, analytic, behavioral, cross-implementation, and input-pin anchors |
 | [`tests/`](tests/) | Offline CI guards: schema lock, docs-current, cache behavior, user-tool scoping |
 | [`workspace/`](workspace/) | Persistent environment: `data/`, `outputs/`, `cache/` (shared), `logs/audit.jsonl` |
 | [`users/`](users/README.md) | Per-user profiles (`HELIO_AGENT_USER=<name>`): one-off tools/skills/analyses; core stays general — see [users/README.md](users/README.md) |
