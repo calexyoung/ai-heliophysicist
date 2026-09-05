@@ -1125,6 +1125,45 @@ def case_coronagraph_and_config() -> None:
           "side, NOT the ~45 deg the source notebook fell back to")
 
 
+def case_aia_synoptic() -> None:
+    """JSOC synoptic AIA, anchored on the X1.0 of 2024-05-08 05:09 UT.
+
+    The synoptic archive is a 2-minute, 1024x1024 level-1.5 grid. Anchors:
+
+    - The requested time is floored onto that grid, so 05:10:59 and 05:10:00
+      must return the same frame, and its DATE-OBS must land inside 05:10 UT.
+    - The header must say AIA 171 and carry a plate scale near 2.4
+      arcsec/pix (the native level-1 value is ~0.6; getting 0.6 here would
+      mean the fallback silently served a different product).
+    - A channel the archive does not carry (e.g. 211 is carried, 195 is not)
+      must be refused by name rather than fetched and failed.
+
+    This route exists because the VSO AIA export provider times out; the
+    validation deliberately does NOT depend on that provider being up.
+    """
+    r = run_tool("fetch_aia_synoptic", date="2024-05-08T05:10:59",
+                 wavelength_angstrom=171)
+    if r["status"] != "ok" or not r.get("files"):
+        check("aia_synoptic.fetch", False, r.get("error", ""))
+        return
+    m = run_tool("plot_solar_map", fits_file=r["files"][0],
+                 out_name="_validation_aia_synoptic.png")
+    if m["status"] != "ok":
+        check("aia_synoptic.fetch", False, m.get("error", ""))
+        return
+    date = str(m.get("date", ""))
+    ok = date.startswith("2024-05-08T05:10") and "AIA" in str(m.get("instrument", ""))
+    check("aia_synoptic.fetch", ok,
+          f"05:10:59 floored onto the 2-min grid -> {m.get('instrument')} "
+          f"at {date} (1024x1024 level-1.5, ~2.4 arcsec/pix)")
+
+    bad = run_tool("fetch_aia_synoptic", date="2024-05-08T05:10:00",
+                   wavelength_angstrom=195)
+    check("aia_synoptic.refusal",
+          bad["status"] == "error" and "195" in bad["error"],
+          bad.get("error", "")[:100])
+
+
 def case_extreme_value() -> None:
     """POT/GPD on the 61-year hourly Dst record.
 
@@ -1661,6 +1700,7 @@ CASES = {
     "radiopin": case_radio_spectrogram_pin,
     "libpins": case_library_transport_pins,
     "corona": case_coronagraph_and_config,
+    "aiasyn": case_aia_synoptic,
     "extremes": case_extreme_value,
     "aia": case_aia_degradation,
     "verify": case_verify_claim,

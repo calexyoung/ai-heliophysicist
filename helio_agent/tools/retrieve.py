@@ -199,8 +199,89 @@ def fetch_vso(start: str, end: str, instrument: str,
     if total == 0:
         return {"status": "error", "error": "VSO search returned no records"}
     files = Fido.fetch(res[0, :max_files], path=str(data_path("vso")) + "/{file}")
+    if len(files) == 0:
+        # A search that matched but downloaded nothing is a failed retrieval,
+        # not an empty one. Returning status ok with files: [] here made a
+        # provider timeout look like "no data exists".
+        return {"status": "error", "n_found": total, "n_downloaded": 0,
+                "error": (f"VSO matched {total} record(s) but downloaded 0 "
+                          "files; the provider refused or timed out. For AIA "
+                          "the sdo7.nascom.nasa.gov export route is often "
+                          "unusable — use fetch_aia_synoptic instead.")}
     return {"n_found": total, "n_downloaded": len(files),
             "files": [str(f) for f in files], "artifacts": [str(f) for f in files]}
+
+
+_AIA_SYNOPTIC = "http://jsoc1.stanford.edu/data/aia/synoptic"
+_AIA_SYNOPTIC_WAVES = (94, 131, 171, 193, 211, 304, 335, 1600, 1700, 4500)
+
+
+@tool(family="retrieve")
+def fetch_aia_synoptic(date: str, wavelength_angstrom: int = 171,
+                       n_frames: int = 1, cadence_minutes: int = 2) -> dict:
+    """Fetch AIA images from the JSOC synoptic archive (1024x1024, 2-min).
+
+    date: ISO time of the first frame, e.g. '2024-05-08T05:10:00'. The
+    archive is on a strict 2-minute grid, so the request is floored to the
+    nearest even minute.
+
+    These are level-1.5 SDO/AIA synoptic FITS: full disk, plate-scale
+    ~2.4 arcsec/pix instead of the native 0.6, already registered and
+    rotated to solar north. They are the right product for context imaging
+    and morphology, and the wrong one for anything needing native
+    resolution or the exact level-1 calibration chain (fine loop widths,
+    photometry at the pixel level) — for those use fetch_vso, which serves
+    the full-resolution level-1 records.
+
+    This route exists because the VSO AIA export (sdo7.nascom.nasa.gov
+    drms_export.cgi) routinely times out; the synoptic archive is plain
+    static HTTP and answers in seconds.
+    """
+    import astropy.units as u  # noqa: F401  (kept for symmetry with fetch_vso)
+    from datetime import timedelta
+
+    wave = int(wavelength_angstrom)
+    if wave not in _AIA_SYNOPTIC_WAVES:
+        return {"status": "error",
+                "error": (f"AIA synoptic archive has no {wave} A channel; "
+                          f"available: {list(_AIA_SYNOPTIC_WAVES)}")}
+    if n_frames < 1:
+        return {"status": "error", "error": "n_frames must be >= 1"}
+    if cadence_minutes % 2:
+        return {"status": "error",
+                "error": ("synoptic archive is on a 2-minute grid; "
+                          "cadence_minutes must be even")}
+    try:
+        t0 = datetime.fromisoformat(date.replace("Z", "+00:00"))
+    except ValueError as exc:
+        return {"status": "error", "error": f"unparseable date: {exc}"}
+    if t0.tzinfo is not None:
+        t0 = t0.astimezone(timezone.utc).replace(tzinfo=None)
+    t0 = t0.replace(minute=t0.minute - t0.minute % 2, second=0, microsecond=0)
+
+    out_dir = data_path("aia_synoptic")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    files, missing = [], []
+    for i in range(int(n_frames)):
+        t = t0 + timedelta(minutes=i * int(cadence_minutes))
+        name = f"AIA{t:%Y%m%d_%H%M}_{wave:04d}.fits"
+        url = (f"{_AIA_SYNOPTIC}/{t:%Y/%m/%d}/H{t.hour:02d}00/{name}")
+        dest = out_dir / name
+        if not dest.exists():
+            r = requests.get(url, headers=_UA, timeout=120)
+            if r.status_code != 200 or not r.content.startswith(b"SIMPLE"):
+                missing.append(f"{t:%Y-%m-%dT%H:%M} (http {r.status_code})")
+                continue
+            dest.write_bytes(r.content)
+        files.append(str(dest))
+    if not files:
+        return {"status": "error",
+                "error": (f"no AIA {wave} A synoptic frames at {t0:%Y-%m-%dT%H:%M} "
+                          f"+{n_frames} x {cadence_minutes} min: {missing}")}
+    return {"n_requested": int(n_frames), "n_downloaded": len(files),
+            "wavelength_angstrom": wave, "missing": missing,
+            "level": "1.5 synoptic (1024x1024, ~2.4 arcsec/pix)",
+            "files": files, "artifacts": files}
 
 
 @tool(family="retrieve")

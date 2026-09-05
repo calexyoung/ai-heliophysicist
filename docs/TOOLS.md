@@ -2,7 +2,7 @@
 
 *Generated from the live registry by `scripts/gen_docs.py` — do not edit by hand.*
 
-79 core tools in six families. Invoke any tool with
+80 core tools in six families. Invoke any tool with
 `uv run helio-agent run <tool> '<json-kwargs>'` or `run_tool(name, **kwargs)`;
 every call is audit-logged and returns a dict with `status` and `audit_id`.
 Tools that cannot honestly do what was asked return `status: "error"` with a
@@ -11,7 +11,7 @@ Tools that cannot honestly do what was asked return `status: "error"` with a
 | Family | Tools |
 |---|---|
 | **discover** (13) | `get_noaa_realtime`, `get_solar_regions`, `get_sunspot_reports`, `list_cdaweb_variables`, `list_model_outputs`, `list_pyspedas_loaders`, `list_pyspedas_missions`, `list_spacecraft`, `search_cdaweb_datasets`, `search_donki`, `search_hek_events`, `search_heliodata`, `search_vso` |
-| **retrieve** (16) | `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_model_output`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
+| **retrieve** (17) | `fetch_aia_synoptic`, `fetch_cdaweb_data`, `fetch_cdaweb_spectrogram`, `fetch_gfz_index`, `fetch_goes_protons`, `fetch_goes_xrs`, `fetch_hapi`, `fetch_helioviewer_image`, `fetch_kyoto_dst`, `fetch_model_output`, `fetch_omni`, `fetch_pyspedas`, `fetch_solar_cycle`, `fetch_spacecraft_ephemeris`, `fetch_swpc_timeseries`, `fetch_vso`, `save_json` |
 | **reduce** (10) | `aia_degradation`, `compute_derived`, `correct_aia_map`, `describe_series`, `interpolate_gaps`, `load_solar_map`, `merge_series`, `resample_series`, `shift_time`, `transform_coordinates` |
 | **measure** (23) | `characterize_sep`, `cme_arrival`, `cme_height_time`, `cross_correlate`, `detect_icme`, `extreme_value`, `extreme_value_sweep`, `find_extrema`, `find_flares`, `flare_probability`, `hindcast_forecasts`, `linear_fit`, `lomb_scargle`, `magnetogram_metrics`, `model_dst`, `plasma_parameters`, `propagation_delay`, `radio_bursts`, `storm_metrics`, `superposed_epoch`, `trace_field_line`, `validate_reproduction_manifest`, `verify_claim` |
 | **literature** (4) | `fetch_arxiv_pdf`, `get_bibtex`, `search_ads`, `search_arxiv` |
@@ -225,6 +225,32 @@ wavelength_angstrom: for narrowband imagers (AIA: 94,131,171,193,211,304,335,160
 ## retrieve
 
 Fetch data to the persistent workspace. Every retrieval writes a file (usually a UTC-indexed CSV with NaN fills) and returns its path.
+
+### `fetch_aia_synoptic`
+
+```python
+fetch_aia_synoptic(date: 'str', wavelength_angstrom: 'int' = 171, n_frames: 'int' = 1, cadence_minutes: 'int' = 2) -> 'dict'
+```
+
+Fetch AIA images from the JSOC synoptic archive (1024x1024, 2-min).
+
+date: ISO time of the first frame, e.g. '2024-05-08T05:10:00'. The
+archive is on a strict 2-minute grid, so the request is floored to the
+nearest even minute.
+
+These are level-1.5 SDO/AIA synoptic FITS: full disk, plate-scale
+~2.4 arcsec/pix instead of the native 0.6, already registered and
+rotated to solar north. They are the right product for context imaging
+and morphology, and the wrong one for anything needing native
+resolution or the exact level-1 calibration chain (fine loop widths,
+photometry at the pixel level) — for those use fetch_vso, which serves
+the full-resolution level-1 records.
+
+This route exists because the VSO AIA export (sdo7.nascom.nasa.gov
+drms_export.cgi) routinely times out; the synoptic archive is plain
+static HTTP and answers in seconds.
+
+*Source: `helio_agent/tools/retrieve.py`*
 
 ### `fetch_cdaweb_data`
 

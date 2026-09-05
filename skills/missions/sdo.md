@@ -69,3 +69,12 @@ intensities across epochs uncorrected. Validation case `aia`.
 Each layer was verified to trip by perturbing it. A failure most likely means the archive reissued the file, not that the code broke.
 
 Note Fido does **not** skip a download when the file is already present (a repeat fetch still takes ~7 s), so these pins re-verify the remote copy on every validation run.
+
+## Tool: `fetch_aia_synoptic` (added 2026-09-05)
+- **The VSO AIA route is unreliable and fails loudly now.** `fetch_vso(instrument="AIA", ...)` searches fine but the export provider it hands off to (`sdo7.nascom.nasa.gov/cgi-bin/drms_export.cgi`) times out on the socket read after ~90 s, on every request tried during the May 2024 reproduction. `fetch_vso` previously returned `status: "ok"` with `files: []` in that case, which reads as "no data exists" — it now returns an error naming the provider and pointing here. HMI and LASCO go through different providers and are unaffected.
+- `fetch_aia_synoptic` pulls from the JSOC synoptic archive (`jsoc1.stanford.edu/data/aia/synoptic`): plain static HTTP, ~1.3 MB per frame, answers in seconds.
+- **What you get is level 1.5 synoptic, not level 1.** 1024×1024 at ~2.4 arcsec/pix instead of 4096² at ~0.6, already registered and rotated to solar north. Right for context imaging, morphology, eruption timing, multi-wavelength comparison. Wrong for native-resolution structure (fine loop widths) or pixel-level photometry — for those you need the level-1 records, which means waiting out VSO or going to JSOC/drms directly.
+- The archive is on a strict **2-minute grid**; the requested time is floored onto it, so asking for 05:10:59 and 05:10:00 returns the same frame. `cadence_minutes` must be even.
+- Channels carried: 94, 131, 171, 193, 211, 304, 335, 1600, 1700, 4500. **193, not 195** — asking for 195 (the EIT/EUVI line) is refused by name rather than fetched and failed.
+- `aia_degradation` still applies: the synoptic product is not degradation-corrected, so a multi-year intensity comparison still needs the correction factor.
+- Validation: `uv run python validation/run_validation.py aiasyn`.
