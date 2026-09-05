@@ -21,11 +21,18 @@ if [ -z "${HELIO_AGENT_USER:-}" ] && [ -f .env ]; then
 fi
 export HELIO_AGENT_USER="${HELIO_AGENT_USER:-}"
 
-LOG=workspace/logs/monitor_cron.log
-mkdir -p workspace/logs
+# Log next to the state, in whichever workspace the profile resolved to, so
+# the two never live in different trees. Falls back to the shared workspace
+# if that import fails, because a cycle with nowhere to log is worse than a
+# cycle logged in the wrong place; launchd's own stdout file catches the
+# failure either way.
+WORKSPACE_DIR="$(uv run python -c 'from helio_agent.workspace import WORKSPACE; print(WORKSPACE)' \
+                 2>/dev/null || echo workspace)"
+LOG="$WORKSPACE_DIR/logs/monitor_cron.log"
+mkdir -p "$(dirname "$LOG")"
 {
   echo "=== monitor cycle $(date -u +%Y-%m-%dT%H:%M:%SZ) ==="
   echo "profile: ${HELIO_AGENT_USER:-<none, shared workspace>}"
-  uv run python -c 'from helio_agent.workspace import WORKSPACE; print("workspace:", WORKSPACE)'
+  echo "workspace: $WORKSPACE_DIR"
   uv run helio-agent monitor
 } >> "$LOG" 2>&1

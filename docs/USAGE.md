@@ -441,7 +441,8 @@ committed wrapper:
 
 ```bash
 launchctl load ~/Library/LaunchAgents/com.helio-agent.monitor.plist
-tail -f workspace/logs/monitor_cron.log
+# the cycle log lives beside the state, in the active profile's workspace
+tail -f "$(uv run python -c 'from helio_agent.workspace import WORKSPACE; print(WORKSPACE)')/logs/monitor_cron.log"
 ```
 
 Linux cron equivalent: `15 7 * * * /path/to/scripts/monitor_cron.sh`.

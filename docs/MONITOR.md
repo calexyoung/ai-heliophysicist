@@ -131,3 +131,15 @@ property that a run missed while the machine was asleep fires on wake. See
 The script writes to the active user's workspace when `HELIO_AGENT_USER` is
 set, and logs which profile and workspace it resolved at the top of every
 cycle — so the log always answers "where did this state go".
+
+**The cycle log lives beside the state**, in whichever workspace the profile
+resolved to, not in a fixed shared path:
+
+```bash
+tail -f "$(uv run python -c 'from helio_agent.workspace import WORKSPACE; print(WORKSPACE)')/logs/monitor_cron.log"
+```
+
+If the workspace cannot be resolved at all, the script falls back to logging
+in the shared tree rather than losing the cycle's output entirely — and
+launchd's own stdout file (`/tmp/helio-monitor-launchd.log`) catches anything
+that fails before the script gets that far.
