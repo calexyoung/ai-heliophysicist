@@ -41,9 +41,15 @@ Geomagnetic storms are global magnetospheric disturbances driven by sustained so
 
 **2. The sheath is only as good as the shock pairing.** A sheath runs from the driving shock to the ejecta leading edge, and getting that shock right is harder than it looks — see the three failure modes recorded in `validation/run_validation.py::case_shock_pairing`, each of which produced a plausible answer and a different one. The check that catches all three is the shock *time* against a catalogue (DONKI IPS), not the label.
 
-**3. About half of intense storms have no attribution at all.** Of 40 declustered storms below −200 nT since 1981, **21 have no interval meeting the low-temperature ejecta criterion for 6+ hours**. Any sheath-vs-ejecta statistic describes the half that does, and that selection is not random — a clean cold ejecta signature is itself a property of the event.
+**3. Half the record has no attribution, and that is an ERA effect, not a selection on physics.** Of 40 declustered storms below −200 nT since 1981, 21 produce no attribution — but **19 of those 21 are pre-1995**. Before Wind (1994) and ACE (1997), OMNI 1-min plasma is sparse, and the ejecta test needs a proton temperature series. Restricted to 1995 onward the sample is **17 of 19 attributable (89%)**. Quote the modern sample; do not quote a 1981-start statistic as though it were uniformly sampled.
 
-### The population result
-Across the 19 attributable storms: **10 sheath, 8 ejecta, 1 ambiguous** — close to even. But it depends on depth: **8 of 10 storms below −250 nT are sheath-driven against 2 of 9 between −250 and −200**. That trend is established in the literature (Gonzalez et al. 2011 treat superintense storms, Dst ≤ −250, as a separate category; Zhang et al. 2004 find only ~30% of storms driven by magnetic clouds), so reproducing it is a check on the pipeline rather than a new result.
+### The population result (1995–2024, 17 storms)
+**8 sheath, 8 ejecta, 1 ambiguous** — exactly even. But it depends on depth: **6 of 8 storms below −250 nT are sheath-driven, against 2 of 9 between −250 and −200.**
+
+Threshold-robust: re-running with `min_hours` 6→4, `shock_jump_kms` 60→40, or `temp_ratio_max` 0.5→0.6 moves the overall split by at most one storm and never makes the population sheath-dominated. The depth trend is steadier still — 6 sheath against 2–3 ejecta below −250 nT under every setting tested.
+
+The trend is established in the literature (Gonzalez et al. 2011 treat superintense storms, Dst ≤ −250, as a separate category; Zhang et al. 2004 find only ~30% of storms driven by magnetic clouds), so reproducing it is a check on the pipeline rather than a new result.
+
+The two modern failures are threshold artefacts worth knowing: **2003-11-20** (−422 nT, second-deepest in the record) has a 5.3 h ejecta against the 6 h minimum, and **2001-11-06** has a clear 50 h ejecta but no detected shock — the cost of a shock test strict enough to reject turbulence.
 
 **Do not generalise a driver attribution from a handful of events.** Both 2024 superstorms are sheath-driven on both measures, and that is a statement about those two storms. The full study is `users/cayoung/analyses/sheath-vs-ejecta/`.

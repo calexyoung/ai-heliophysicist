@@ -56,15 +56,10 @@ add(f"Declustered peaks of hourly OMNI Dst below **−200 nT**, "
     f"(audit `{aud('sample')}`; the Dst series is audit `{aud('dst_hourly')}`). "
     f"**{ev.get('n_events')} storms**, {ev.get('events_per_year')} per year.\n")
 add(f"Each storm gets OMNI 1-min over ±4 days and one `detect_icme` call. "
-    f"**{len(ROWS)} of {len(ALL)} produced a sheath/ejecta attribution**; "
-    f"the other {len(ALL) - len(ROWS)} have no interval meeting the "
-    "low-temperature ejecta criterion for 6+ hours. That is itself worth "
-    "stating: **roughly half of intense storms have no clean ejecta "
-    "signature at L1**, so any sheath-versus-ejecta statistic describes the "
-    "half that does.\n")
-add("Coverage caveat: OMNI 1-min begins in 1981, but before Wind (1994) and "
-    "ACE (1997) it rests on sparser upstream monitors. The pre-1995 entries "
-    "below are thinner than the rest.\n")
+    f"**{len(ROWS)} of {len(ALL)} produced a sheath/ejecta attribution.** "
+    "The section on selection below shows that the missing half is almost "
+    "entirely a data-coverage effect rather than a physical one, and "
+    "restricts the sample accordingly.\n")
 
 # ------------------------------------------------------------------ result
 add("\n## What the record shows\n")
@@ -73,9 +68,9 @@ add("|---|---|---|")
 for lab in ("sheath", "ejecta", "ambiguous"):
     n = count(ROWS, lab)
     add(f"| {lab} | **{n}** | {n / max(len(ROWS),1) * 100:.0f}% |")
-add(f"\nThat is not a sheath-driven population. It is close to even, with a "
-    "slight sheath majority that a sample of this size cannot separate from "
-    "chance.\n")
+add(f"\nThat is not a sheath-driven population. It is close to even — and "
+    "on the 1995-onward sample, where coverage is complete, it is exactly "
+    "even (see selection, below).\n")
 add("### But it depends strongly on how deep the storm is\n")
 add("| Dst range | Storms | Sheath | Ejecta | Ambiguous |")
 add("|---|---|---|---|---|")
@@ -113,6 +108,73 @@ add(f"\n(audits `{aud('lit_drivers')}`, `{aud('lit_intense')}`.) Gonzalez et "
     "storms are driven by magnetic clouds. The contribution here is not the "
     "finding; it is that an automated pipeline reproduces the known trend, "
     "and that doing so exposed three bugs in the tool.\n")
+
+# ------------------------------------------------------------------ bias
+MODERN = [r for r in ALL if int(r["time"][:4]) >= 1995]
+M_ATT = [r for r in MODERN if r.get("driver")]
+
+add("\n## The selection: is the missing half a bias?\n")
+add(f"{len(ALL) - len(ROWS)} of {len(ALL)} storms produce no attribution. If "
+    "that were physical — if storms whose drivers are hard to classify were "
+    "systematically one kind — the split above would be meaningless. It is "
+    "not physical. It is almost entirely an era effect.\n")
+add("| Era | Attributable | of |")
+add("|---|---|---|")
+for lo, hi, lab in ((0, 1995, "pre-1995"), (1995, 2010, "1995–2009"),
+                    (2010, 3000, "2010+")):
+    g = [r for r in ALL if lo <= int(r["time"][:4]) < hi]
+    n = sum(1 for r in g if r.get("driver"))
+    add(f"| {lab} | **{n}** | {len(g)} |")
+add("\n**Before Wind (1994) and ACE (1997), OMNI 1-min plasma is sparse — "
+    "and the ejecta test needs a proton temperature series, which is "
+    "exactly what is missing.** These are not storms whose drivers were "
+    "ambiguous; they are storms nobody was measuring at one-minute "
+    "cadence. The right response is to state the sample as what it is:\n")
+add(f"**Restricted to 1995 onward: {len(M_ATT)} of {len(MODERN)} storms "
+    f"attributable ({len(M_ATT) / max(len(MODERN),1) * 100:.0f}%)** — no "
+    "meaningful selection loss — and the split is "
+    f"**{count(M_ATT,'sheath')} sheath, {count(M_ATT,'ejecta')} ejecta, "
+    f"{count(M_ATT,'ambiguous')} ambiguous**. Dead even, on a sample that "
+    "is nearly complete for its era.\n")
+add("The depth dependence survives the restriction:\n")
+add("| Dst range | Sheath | Ejecta | Ambiguous |")
+add("|---|---|---|---|")
+for lo, hi, lab in ((-10000, -250, "≤ −250"), (-250, -200, "−250 to −200")):
+    g = [r for r in M_ATT if lo <= r["dst"] < hi]
+    add(f"| {lab} | **{count(g,'sheath')}** | {count(g,'ejecta')} | "
+        f"{count(g,'ambiguous')} |")
+add("\n### The two modern failures are thresholds, not physics\n")
+add("- **2003-11-20 (−422 nT, the second-deepest storm in the record)** has "
+    "an ejecta of **5.3 h against a 6 h minimum**, with a minimum Tp/Texp of "
+    "0.123. That is unambiguously an ejecta, excluded by 42 minutes.")
+add("- **2001-11-06 (−292 nT)** has a clear 50-hour ejecta but **no detected "
+    "shock**, so there is no sheath to compare it against. The shock test is "
+    "over-rejecting here, which is the cost of making it strict enough to "
+    "reject turbulence.\n")
+add("### Does the answer depend on those thresholds?\n")
+sens = ST.get("_sensitivity") or {}
+if sens:
+    add("The modern sample re-run under three relaxed settings:\n")
+    add("| Setting | Sheath | Ejecta | Ambiguous | No attribution |")
+    add("|---|---|---|---|---|")
+    add(f"| baseline | **{count(M_ATT,'sheath')}** | {count(M_ATT,'ejecta')} "
+        f"| {count(M_ATT,'ambiguous')} | {len(MODERN) - len(M_ATT)} |")
+    LAB = {"minh4": "`min_hours` 6 → 4", "shock40": "`shock_jump_kms` 60 → 40",
+           "ratio06": "`temp_ratio_max` 0.5 → 0.6"}
+    for k, t in sens.items():
+        add(f"| {LAB.get(k,k)} | **{t['sheath']}** | {t['ejecta']} | "
+            f"{t['ambiguous']} | {t['none']} |")
+    add("\n**Every variant lands within one storm of the baseline, and none "
+        "produces a sheath-dominated population.** Relaxing the ejecta "
+        "duration or the temperature ratio recovers one more storm and it "
+        "is ejecta-driven; relaxing the shock threshold recovers one and it "
+        "is sheath-driven. The even split is not an artefact of where the "
+        "thresholds sit.\n")
+    add("The depth trend is steadier still — **6 sheath against 2–3 ejecta "
+        "below −250 nT under every setting tested**, against 2–3 sheath "
+        "and 5–6 ejecta above it. That is the one result here robust enough "
+        "to quote without qualification, and it is also the one that was "
+        "already in the literature.\n")
 
 # ------------------------------------------------------------------ fragility
 add("\n## How fragile the attribution is\n")

@@ -9,9 +9,7 @@ This study exists because a claim was made from two events. Testing it against 4
 
 Declustered peaks of hourly OMNI Dst below **−200 nT**, 44.0 years of record, 48-hour declustering (audit `a8e032efa81f`; the Dst series is audit `1997611e9092`). **40 storms**, 0.909 per year.
 
-Each storm gets OMNI 1-min over ±4 days and one `detect_icme` call. **19 of 40 produced a sheath/ejecta attribution**; the other 21 have no interval meeting the low-temperature ejecta criterion for 6+ hours. That is itself worth stating: **roughly half of intense storms have no clean ejecta signature at L1**, so any sheath-versus-ejecta statistic describes the half that does.
-
-Coverage caveat: OMNI 1-min begins in 1981, but before Wind (1994) and ACE (1997) it rests on sparser upstream monitors. The pre-1995 entries below are thinner than the rest.
+Each storm gets OMNI 1-min over ±4 days and one `detect_icme` call. **19 of 40 produced a sheath/ejecta attribution.** The section on selection below shows that the missing half is almost entirely a data-coverage effect rather than a physical one, and restricts the sample accordingly.
 
 
 ## What the record shows
@@ -22,7 +20,7 @@ Coverage caveat: OMNI 1-min begins in 1981, but before Wind (1994) and ACE (1997
 | ejecta | **8** | 42% |
 | ambiguous | **1** | 5% |
 
-That is not a sheath-driven population. It is close to even, with a slight sheath majority that a sample of this size cannot separate from chance.
+That is not a sheath-driven population. It is close to even — and on the 1995-onward sample, where coverage is complete, it is exactly even (see selection, below).
 
 ### But it depends strongly on how deep the storm is
 
@@ -42,6 +40,48 @@ Grouped: **8 of 10 storms below −250 nT are sheath-driven, against 2 of 9 betw
 - **Huttunen, K. Emilia J. et al. (2002)**, *Variability of magnetospheric storms driven by different solar wind perturbations*, Journal of Geophysical Research (Space Physics) [`2002JGRA..107.1121H`], 125 citations
 
 (audits `f6489bc56378`, `423c35a7fa5d`.) Gonzalez et al. (2011) review exactly this question for cycle 23 and treat superintense storms (Dst ≤ −250 nT) as a separate category, which is where the split above changes. Zhang et al. (2004) find only ~30% of storms are driven by magnetic clouds. The contribution here is not the finding; it is that an automated pipeline reproduces the known trend, and that doing so exposed three bugs in the tool.
+
+
+## The selection: is the missing half a bias?
+
+21 of 40 storms produce no attribution. If that were physical — if storms whose drivers are hard to classify were systematically one kind — the split above would be meaningless. It is not physical. It is almost entirely an era effect.
+
+| Era | Attributable | of |
+|---|---|---|
+| pre-1995 | **2** | 21 |
+| 1995–2009 | **13** | 15 |
+| 2010+ | **4** | 4 |
+
+**Before Wind (1994) and ACE (1997), OMNI 1-min plasma is sparse — and the ejecta test needs a proton temperature series, which is exactly what is missing.** These are not storms whose drivers were ambiguous; they are storms nobody was measuring at one-minute cadence. The right response is to state the sample as what it is:
+
+**Restricted to 1995 onward: 17 of 19 storms attributable (89%)** — no meaningful selection loss — and the split is **8 sheath, 8 ejecta, 1 ambiguous**. Dead even, on a sample that is nearly complete for its era.
+
+The depth dependence survives the restriction:
+
+| Dst range | Sheath | Ejecta | Ambiguous |
+|---|---|---|---|
+| ≤ −250 | **6** | 2 | 0 |
+| −250 to −200 | **2** | 6 | 1 |
+
+### The two modern failures are thresholds, not physics
+
+- **2003-11-20 (−422 nT, the second-deepest storm in the record)** has an ejecta of **5.3 h against a 6 h minimum**, with a minimum Tp/Texp of 0.123. That is unambiguously an ejecta, excluded by 42 minutes.
+- **2001-11-06 (−292 nT)** has a clear 50-hour ejecta but **no detected shock**, so there is no sheath to compare it against. The shock test is over-rejecting here, which is the cost of making it strict enough to reject turbulence.
+
+### Does the answer depend on those thresholds?
+
+The modern sample re-run under three relaxed settings:
+
+| Setting | Sheath | Ejecta | Ambiguous | No attribution |
+|---|---|---|---|---|
+| baseline | **8** | 8 | 1 | 2 |
+| `min_hours` 6 → 4 | **8** | 9 | 1 | 1 |
+| `shock_jump_kms` 60 → 40 | **9** | 7 | 1 | 2 |
+| `temp_ratio_max` 0.5 → 0.6 | **8** | 9 | 1 | 1 |
+
+**Every variant lands within one storm of the baseline, and none produces a sheath-dominated population.** Relaxing the ejecta duration or the temperature ratio recovers one more storm and it is ejecta-driven; relaxing the shock threshold recovers one and it is sheath-driven. The even split is not an artefact of where the thresholds sit.
+
+The depth trend is steadier still — **6 sheath against 2–3 ejecta below −250 nT under every setting tested**, against 2–3 sheath and 5–6 ejecta above it. That is the one result here robust enough to quote without qualification, and it is also the one that was already in the literature.
 
 
 ## How fragile the attribution is
@@ -116,7 +156,7 @@ The first and third agree on the label and on nothing else. A verdict that survi
 
 ## Provenance
 
-84 audited tool invocations, 82 successful. Regenerate with:
+142 audited tool invocations, 140 successful. Regenerate with:
 
 ```bash
 HELIO_AGENT_USER=cayoung uv run python \

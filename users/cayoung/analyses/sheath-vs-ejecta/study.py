@@ -112,6 +112,30 @@ def main() -> int:
           bz_column="BZ_GSM", by_column="BY_GSM",
           density_column="proton_density", plot=False)
 
+    # ---- does the answer depend on the detection thresholds? -------------
+    #
+    # 21 of 40 storms produce no attribution, which would be a serious
+    # selection effect if it were physical. It is mostly not: 19 of the 21
+    # are pre-1995, before Wind and ACE, when OMNI 1-min plasma is sparse.
+    # But two post-1995 storms fail for reasons that ARE thresholds —
+    # 2003-11-20 has a 5.3 h ejecta against a 6 h minimum, and 2001-11-06
+    # has an ejecta but no detected shock — so the sample is re-run under
+    # relaxed settings to see whether the split moves.
+    for label, kw in (("minh4", {"min_hours": 4.0}),
+                      ("shock40", {"shock_jump_kms": 40.0}),
+                      ("ratio06", {"temp_ratio_max": 0.6})):
+        for s2 in storms:
+            t2 = datetime.fromisoformat(str(s2["time"]))
+            if t2.year < 1995:
+                continue
+            o2 = st.get(f"omni_{t2:%Y%m%d}", {})
+            if not o2.get("file"):
+                continue
+            R(f"sens_{label}_{t2:%Y%m%d}", "detect_icme", file=o2["file"],
+              speed_column="flow_speed", temperature_column="T",
+              bz_column="BZ_GSM", by_column="BY_GSM",
+              density_column="proton_density", plot=False, **kw)
+
     # ---- the published record on the same question ------------------------
     for key, q in (
         ("lit_drivers",
@@ -166,6 +190,29 @@ def main() -> int:
         if by_rate != r["driver"]:
             flip += 1
     print(f"  attribution changes on rates rather than totals: {flip}")
+
+    # era split: how much of the missing half is coverage rather than physics
+    modern = [r for r in rows if int(r["time"][:4]) >= 1995]
+    m_att = [r for r in modern if r.get("driver")]
+    print(f"\n1995+: {len(m_att)}/{len(modern)} attributable "
+          f"({len(m_att) / max(len(modern),1) * 100:.0f}%)")
+    for label in ("sheath", "ejecta", "ambiguous"):
+        print(f"  {label:10s} {sum(1 for r in m_att if r['driver'] == label)}")
+
+    # threshold sensitivity on the modern sample
+    sens = {}
+    for label in ("minh4", "shock40", "ratio06"):
+        tally = {"sheath": 0, "ejecta": 0, "ambiguous": 0, "none": 0}
+        for r in modern:
+            k = f"sens_{label}_{r['time'][:10].replace('-', '')}"
+            v = st.get(k)
+            d2 = (v or {}).get("driver") if isinstance(v, dict) else None
+            tally[d2 or "none"] += 1
+        sens[label] = tally
+        print(f"  {label:9s} {tally}")
+    st["_sensitivity"] = sens
+    st["_modern"] = [r["time"] for r in modern]
+    save_state(st)
     return 0
 
 

@@ -4080,5 +4080,4285 @@
   ],
   "status": "ok",
   "audit_id": "423c35a7fa5d"
- }
+ },
+ "sens_minh4_20031120": {
+  "icme": {
+   "start": "2003-11-20 10:45:00",
+   "end": "2003-11-20 15:37:00",
+   "duration_hours": 4.9,
+   "min_temp_ratio": 0.211,
+   "mean_speed_kms": 648.1,
+   "magnetic_cloud": true,
+   "rotation_deg": 101.1,
+   "rotation_r2": 0.828,
+   "max_b_perp_nT": 56.1
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2003-11-20 10:45:00",
+    "end": "2003-11-20 15:37:00",
+    "duration_hours": 4.9,
+    "min_temp_ratio": 0.211,
+    "mean_speed_kms": 648.1,
+    "magnetic_cloud": true,
+    "rotation_deg": 101.1,
+    "rotation_r2": 0.828,
+    "max_b_perp_nT": 56.1
+   },
+   {
+    "start": "2003-11-20 19:53:00",
+    "end": "2003-11-21 01:11:00",
+    "duration_hours": 5.3,
+    "min_temp_ratio": 0.331,
+    "mean_speed_kms": 543.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 49.5,
+    "rotation_r2": 0.552,
+    "max_b_perp_nT": 31.08
+   },
+   {
+    "start": "2003-11-21 03:48:00",
+    "end": "2003-11-21 08:22:00",
+    "duration_hours": 4.6,
+    "min_temp_ratio": 0.123,
+    "mean_speed_kms": 553.1,
+    "magnetic_cloud": true,
+    "rotation_deg": 122.0,
+    "rotation_r2": 0.826,
+    "max_b_perp_nT": 14.22
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2003-11-20 08:06:00",
+  "sheath": {
+   "start": "2003-11-20 08:06:00",
+   "end": "2003-11-20 10:45:00",
+   "duration_hours": 2.6,
+   "field": {
+    "hours": 2.6,
+    "bz_min_nT": -17.2,
+    "bz_median_nT": -4.6,
+    "hours_below_threshold": 0.5,
+    "south_nT_hours": 14.2,
+    "south_nT_per_hour": 5.35
+   }
+  },
+  "ejecta_field": {
+   "hours": 4.9,
+   "bz_min_nT": -52.3,
+   "bz_median_nT": -27.3,
+   "hours_below_threshold": 3.9,
+   "south_nT_hours": 134.2,
+   "south_nT_per_hour": 27.58
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "2003-11-20 08:06:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2003-11-20 08:06:00; low-Tp interval of 4.9 h; magnetic cloud: 101.1\u00b0 smooth rotation (r\u00b2=0.828), max B\u22a5 56.1 nT; first of 3 qualifying intervals \u2014 an ICME train follows; sheath 2.6 h carrying Bz to -17.2 nT (0.5 h below -10) \u2014 ejecta-driven: 134.2 vs 14.2 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "6448437a9a5f"
+ },
+ "sens_minh4_20240511": {
+  "icme": {
+   "start": "2024-05-11 11:31:00",
+   "end": "2024-05-11 18:40:00",
+   "duration_hours": 7.2,
+   "min_temp_ratio": 0.164,
+   "mean_speed_kms": 803.3,
+   "magnetic_cloud": false,
+   "rotation_deg": 300.9,
+   "rotation_r2": 0.638,
+   "max_b_perp_nT": 25.38
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2024-05-11 11:31:00",
+    "end": "2024-05-11 18:40:00",
+    "duration_hours": 7.2,
+    "min_temp_ratio": 0.164,
+    "mean_speed_kms": 803.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 300.9,
+    "rotation_r2": 0.638,
+    "max_b_perp_nT": 25.38
+   },
+   {
+    "start": "2024-05-12 00:58:00",
+    "end": "2024-05-12 10:36:00",
+    "duration_hours": 9.6,
+    "min_temp_ratio": 0.084,
+    "mean_speed_kms": 906.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 608.2,
+    "rotation_r2": 0.633,
+    "max_b_perp_nT": 8.53
+   },
+   {
+    "start": "2024-05-12 20:53:00",
+    "end": "2024-05-14 10:16:00",
+    "duration_hours": 37.4,
+    "min_temp_ratio": 0.104,
+    "mean_speed_kms": 657.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 266.3,
+    "rotation_r2": 0.364,
+    "max_b_perp_nT": 11.04
+   },
+   {
+    "start": "2024-05-14 15:54:00",
+    "end": "2024-05-14 23:59:00",
+    "duration_hours": 8.1,
+    "min_temp_ratio": 0.265,
+    "mean_speed_kms": 516.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 164.9,
+    "rotation_r2": 0.0,
+    "max_b_perp_nT": 3.38
+   }
+  ],
+  "n_intervals": 4,
+  "shock_time": "2024-05-10 17:05:00",
+  "sheath": {
+   "start": "2024-05-10 17:05:00",
+   "end": "2024-05-11 11:31:00",
+   "duration_hours": 18.4,
+   "field": {
+    "hours": 18.4,
+    "bz_min_nT": -47.9,
+    "bz_median_nT": -24.0,
+    "hours_below_threshold": 13.0,
+    "south_nT_hours": 380.1,
+    "south_nT_per_hour": 20.62
+   }
+  },
+  "ejecta_field": {
+   "hours": 7.2,
+   "bz_min_nT": -24.5,
+   "bz_median_nT": -12.2,
+   "hours_below_threshold": 4.4,
+   "south_nT_hours": 89.3,
+   "south_nT_per_hour": 12.49
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2024-05-10 17:05:00",
+   "2024-05-11 11:24:00",
+   "2024-05-11 18:19:00",
+   "2024-05-12 00:46:00",
+   "2024-05-12 17:50:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2024-05-10 17:05:00; low-Tp interval of 7.2 h; no flux-rope signature (rotation 300.9\u00b0 at r\u00b2=0.638, max B\u22a5 25.38 nT); first of 4 qualifying intervals \u2014 an ICME train follows; sheath 18.4 h carrying Bz to -47.9 nT (13 h below -10) \u2014 SHEATH-DRIVEN: 380.1 vs 89.3 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "a16ced8ee249"
+ },
+ "sens_minh4_20010331": {
+  "icme": {
+   "start": "2001-03-28 07:02:00",
+   "end": "2001-03-30 19:17:00",
+   "duration_hours": 60.2,
+   "min_temp_ratio": 0.06,
+   "mean_speed_kms": 519.0,
+   "magnetic_cloud": true,
+   "rotation_deg": 1682.3,
+   "rotation_r2": 0.882,
+   "max_b_perp_nT": 14.53
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-03-28 07:02:00",
+    "end": "2001-03-30 19:17:00",
+    "duration_hours": 60.2,
+    "min_temp_ratio": 0.06,
+    "mean_speed_kms": 519.0,
+    "magnetic_cloud": true,
+    "rotation_deg": 1682.3,
+    "rotation_r2": 0.882,
+    "max_b_perp_nT": 14.53
+   },
+   {
+    "start": "2001-03-31 17:10:00",
+    "end": "2001-04-03 16:57:00",
+    "duration_hours": 71.8,
+    "min_temp_ratio": 0.05,
+    "mean_speed_kms": 614.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 358.9,
+    "rotation_r2": 0.062,
+    "max_b_perp_nT": 32.66
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2001-03-27 17:58:00",
+  "sheath": {
+   "start": "2001-03-27 17:58:00",
+   "end": "2001-03-28 07:02:00",
+   "duration_hours": 13.1,
+   "field": {
+    "hours": 13.1,
+    "bz_min_nT": -17.1,
+    "bz_median_nT": 6.7,
+    "hours_below_threshold": 1.2,
+    "south_nT_hours": 21.3,
+    "south_nT_per_hour": 1.63
+   }
+  },
+  "ejecta_field": {
+   "hours": 60.2,
+   "bz_min_nT": -11.3,
+   "bz_median_nT": -0.1,
+   "hours_below_threshold": 0.4,
+   "south_nT_hours": 55.7,
+   "south_nT_per_hour": 0.93
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2001-03-27 17:58:00",
+   "2001-03-31 01:00:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-03-27 17:58:00; low-Tp interval of 60.2 h; magnetic cloud: 1682.3\u00b0 smooth rotation (r\u00b2=0.882), max B\u22a5 14.53 nT; first of 2 qualifying intervals \u2014 an ICME train follows; sheath 13.1 h carrying Bz to -17.1 nT (1.2 h below -10) \u2014 ejecta-driven: 55.7 vs 21.3 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "50cccba70060"
+ },
+ "sens_minh4_20031030": {
+  "icme": {
+   "start": "2003-10-28 03:16:00",
+   "end": "2003-10-28 09:17:00",
+   "duration_hours": 6.0,
+   "min_temp_ratio": 0.263,
+   "mean_speed_kms": 623.3,
+   "magnetic_cloud": false,
+   "rotation_deg": 36.8,
+   "rotation_r2": 0.694,
+   "max_b_perp_nT": 16.74
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2003-10-28 03:16:00",
+    "end": "2003-10-28 09:17:00",
+    "duration_hours": 6.0,
+    "min_temp_ratio": 0.263,
+    "mean_speed_kms": 623.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 36.8,
+    "rotation_r2": 0.694,
+    "max_b_perp_nT": 16.74
+   },
+   {
+    "start": "2003-10-31 11:14:00",
+    "end": "2003-10-31 15:14:00",
+    "duration_hours": 4.0,
+    "min_temp_ratio": 0.002,
+    "mean_speed_kms": 970.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 77.8,
+    "rotation_r2": 0.0,
+    "max_b_perp_nT": 15.5
+   },
+   {
+    "start": "2003-10-31 19:17:00",
+    "end": "2003-10-31 23:59:00",
+    "duration_hours": 4.7,
+    "min_temp_ratio": 0.002,
+    "mean_speed_kms": 836.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 67.9,
+    "rotation_r2": 0.94,
+    "max_b_perp_nT": 11.38
+   },
+   {
+    "start": "2003-11-01 04:53:00",
+    "end": "2003-11-02 10:35:00",
+    "duration_hours": 29.7,
+    "min_temp_ratio": 0.017,
+    "mean_speed_kms": 589.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 464.6,
+    "rotation_r2": 0.603,
+    "max_b_perp_nT": 5.74
+   },
+   {
+    "start": "2003-11-02 13:51:00",
+    "end": "2003-11-02 17:56:00",
+    "duration_hours": 4.1,
+    "min_temp_ratio": 0.397,
+    "mean_speed_kms": 529.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 84.8,
+    "rotation_r2": 0.224,
+    "max_b_perp_nT": 5.71
+   }
+  ],
+  "n_intervals": 5,
+  "shock_time": "2003-10-26 09:06:00",
+  "sheath": {
+   "start": "2003-10-26 09:06:00",
+   "end": "2003-10-28 03:16:00",
+   "duration_hours": 42.2,
+   "field": {
+    "hours": 42.2,
+    "bz_min_nT": -12.1,
+    "bz_median_nT": 0.1,
+    "hours_below_threshold": 0.1,
+    "south_nT_hours": 94.0,
+    "south_nT_per_hour": 2.23
+   }
+  },
+  "ejecta_field": {
+   "hours": 6.0,
+   "bz_min_nT": -7.7,
+   "bz_median_nT": -0.4,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 8.6,
+   "south_nT_per_hour": 1.43
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2003-10-26 09:06:00",
+   "2003-10-26 19:04:00",
+   "2003-10-28 02:04:00",
+   "2003-10-28 10:46:00",
+   "2003-10-29 19:16:00",
+   "2003-11-01 04:58:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2003-10-26 09:06:00; low-Tp interval of 6 h; no flux-rope signature (rotation 36.8\u00b0 at r\u00b2=0.694, max B\u22a5 16.74 nT); first of 5 qualifying intervals \u2014 an ICME train follows; sheath 42.2 h carrying Bz to -12.1 nT (0.1 h below -10) \u2014 SHEATH-DRIVEN: 94 vs 8.6 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "77ff70509f6d"
+ },
+ "sens_minh4_20041108": {
+  "icme": {
+   "start": "2004-11-08 03:00:00",
+   "end": "2004-11-09 09:53:00",
+   "duration_hours": 30.9,
+   "min_temp_ratio": 0.031,
+   "mean_speed_kms": 633.7,
+   "magnetic_cloud": false,
+   "rotation_deg": 149.2,
+   "rotation_r2": 0.001,
+   "max_b_perp_nT": 48.23
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2004-11-08 03:00:00",
+    "end": "2004-11-09 09:53:00",
+    "duration_hours": 30.9,
+    "min_temp_ratio": 0.031,
+    "mean_speed_kms": 633.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 149.2,
+    "rotation_r2": 0.001,
+    "max_b_perp_nT": 48.23
+   },
+   {
+    "start": "2004-11-09 20:59:00",
+    "end": "2004-11-11 00:20:00",
+    "duration_hours": 27.4,
+    "min_temp_ratio": 0.045,
+    "mean_speed_kms": 689.4,
+    "magnetic_cloud": true,
+    "rotation_deg": 290.2,
+    "rotation_r2": 0.908,
+    "max_b_perp_nT": 39.79
+   },
+   {
+    "start": "2004-11-11 04:55:00",
+    "end": "2004-11-11 18:54:00",
+    "duration_hours": 14.0,
+    "min_temp_ratio": 0.018,
+    "mean_speed_kms": 571.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 146.1,
+    "rotation_r2": 0.568,
+    "max_b_perp_nT": 7.92
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2004-11-07 18:29:00",
+  "sheath": {
+   "start": "2004-11-07 18:29:00",
+   "end": "2004-11-08 03:00:00",
+   "duration_hours": 8.5,
+   "field": {
+    "hours": 8.5,
+    "bz_min_nT": -49.3,
+    "bz_median_nT": -8.9,
+    "hours_below_threshold": 4.1,
+    "south_nT_hours": 134.1,
+    "south_nT_per_hour": 15.75
+   }
+  },
+  "ejecta_field": {
+   "hours": 30.9,
+   "bz_min_nT": -47.9,
+   "bz_median_nT": -4.4,
+   "hours_below_threshold": 7.4,
+   "south_nT_hours": 252.6,
+   "south_nT_per_hour": 8.18
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2004-11-07 18:29:00",
+   "2004-11-09 09:24:00",
+   "2004-11-09 18:57:00",
+   "2004-11-10 17:05:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2004-11-07 18:29:00; low-Tp interval of 30.9 h; no flux-rope signature (rotation 149.2\u00b0 at r\u00b2=0.001, max B\u22a5 48.23 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 8.5 h carrying Bz to -49.3 nT (4.1 h below -10) \u2014 ejecta-driven: 252.6 vs 134.1 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "5119431c783a"
+ },
+ "sens_minh4_20241011": {
+  "icme": {
+   "start": "2024-10-11 06:41:00",
+   "end": "2024-10-12 03:17:00",
+   "duration_hours": 20.6,
+   "min_temp_ratio": 0.074,
+   "mean_speed_kms": 689.0,
+   "magnetic_cloud": false,
+   "rotation_deg": 430.4,
+   "rotation_r2": 0.133,
+   "max_b_perp_nT": 30.79
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2024-10-11 06:41:00",
+    "end": "2024-10-12 03:17:00",
+    "duration_hours": 20.6,
+    "min_temp_ratio": 0.074,
+    "mean_speed_kms": 689.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 430.4,
+    "rotation_r2": 0.133,
+    "max_b_perp_nT": 30.79
+   },
+   {
+    "start": "2024-10-12 06:00:00",
+    "end": "2024-10-13 04:06:00",
+    "duration_hours": 22.1,
+    "min_temp_ratio": 0.133,
+    "mean_speed_kms": 568.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 306.5,
+    "rotation_r2": 0.008,
+    "max_b_perp_nT": 8.01
+   },
+   {
+    "start": "2024-10-13 07:29:00",
+    "end": "2024-10-14 22:07:00",
+    "duration_hours": 38.6,
+    "min_temp_ratio": 0.247,
+    "mean_speed_kms": 426.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 485.8,
+    "rotation_r2": 0.513,
+    "max_b_perp_nT": 7.59
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2024-10-10 14:13:00",
+  "sheath": {
+   "start": "2024-10-10 14:13:00",
+   "end": "2024-10-11 06:41:00",
+   "duration_hours": 16.5,
+   "field": {
+    "hours": 16.4,
+    "bz_min_nT": -47.0,
+    "bz_median_nT": -20.9,
+    "hours_below_threshold": 12.2,
+    "south_nT_hours": 333.7,
+    "south_nT_per_hour": 20.29
+   }
+  },
+  "ejecta_field": {
+   "hours": 20.6,
+   "bz_min_nT": -22.6,
+   "bz_median_nT": 2.1,
+   "hours_below_threshold": 3.0,
+   "south_nT_hours": 66.5,
+   "south_nT_per_hour": 3.23
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2024-10-10 14:13:00",
+   "2024-10-11 05:58:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2024-10-10 14:13:00; low-Tp interval of 20.6 h; no flux-rope signature (rotation 430.4\u00b0 at r\u00b2=0.133, max B\u22a5 30.79 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 16.5 h carrying Bz to -47 nT (12.2 h below -10) \u2014 SHEATH-DRIVEN: 333.7 vs 66.5 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "47a136cab588"
+ },
+ "sens_minh4_20000716": {
+  "icme": {
+   "start": "2000-07-14 04:42:00",
+   "end": "2000-07-14 11:04:00",
+   "duration_hours": 6.4,
+   "min_temp_ratio": 0.24,
+   "mean_speed_kms": 594.4,
+   "magnetic_cloud": false,
+   "rotation_deg": 740.8,
+   "rotation_r2": 0.907,
+   "max_b_perp_nT": 5.2
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-07-14 04:42:00",
+    "end": "2000-07-14 11:04:00",
+    "duration_hours": 6.4,
+    "min_temp_ratio": 0.24,
+    "mean_speed_kms": 594.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 740.8,
+    "rotation_r2": 0.907,
+    "max_b_perp_nT": 5.2
+   },
+   {
+    "start": "2000-07-15 19:51:00",
+    "end": "2000-07-17 08:10:00",
+    "duration_hours": 36.3,
+    "min_temp_ratio": 0.005,
+    "mean_speed_kms": 835.7,
+    "magnetic_cloud": true,
+    "rotation_deg": 279.0,
+    "rotation_r2": 0.84,
+    "max_b_perp_nT": 61.24
+   },
+   {
+    "start": "2000-07-17 16:56:00",
+    "end": "2000-07-18 01:34:00",
+    "duration_hours": 8.6,
+    "min_temp_ratio": 0.366,
+    "mean_speed_kms": 613.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 93.8,
+    "rotation_r2": 0.328,
+    "max_b_perp_nT": 5.27
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2000-07-13 09:53:00",
+  "sheath": {
+   "start": "2000-07-13 09:53:00",
+   "end": "2000-07-14 04:42:00",
+   "duration_hours": 18.8,
+   "field": {
+    "hours": 18.8,
+    "bz_min_nT": -20.8,
+    "bz_median_nT": 0.1,
+    "hours_below_threshold": 1.2,
+    "south_nT_hours": 38.9,
+    "south_nT_per_hour": 2.07
+   }
+  },
+  "ejecta_field": {
+   "hours": 6.4,
+   "bz_min_nT": -5.2,
+   "bz_median_nT": -1.9,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 13.0,
+   "south_nT_per_hour": 2.04
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2000-07-13 09:53:00",
+   "2000-07-15 14:35:00",
+   "2000-07-16 07:02:00",
+   "2000-07-19 15:30:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-07-13 09:53:00; low-Tp interval of 6.4 h; no flux-rope signature (rotation 740.8\u00b0 at r\u00b2=0.907, max B\u22a5 5.2 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 18.8 h carrying Bz to -20.8 nT (1.2 h below -10) \u2014 SHEATH-DRIVEN: 38.9 vs 13 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "a9bb2c967c53"
+ },
+ "sens_minh4_20000407": {
+  "icme": {
+   "start": "2000-04-07 05:56:00",
+   "end": "2000-04-08 06:09:00",
+   "duration_hours": 24.2,
+   "min_temp_ratio": 0.03,
+   "mean_speed_kms": 562.8,
+   "magnetic_cloud": false,
+   "rotation_deg": 262.0,
+   "rotation_r2": 0.429,
+   "max_b_perp_nT": 20.09
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-04-07 05:56:00",
+    "end": "2000-04-08 06:09:00",
+    "duration_hours": 24.2,
+    "min_temp_ratio": 0.03,
+    "mean_speed_kms": 562.8,
+    "magnetic_cloud": false,
+    "rotation_deg": 262.0,
+    "rotation_r2": 0.429,
+    "max_b_perp_nT": 20.09
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "2000-04-06 16:47:00",
+  "sheath": {
+   "start": "2000-04-06 16:47:00",
+   "end": "2000-04-07 05:56:00",
+   "duration_hours": 13.2,
+   "field": {
+    "hours": 13.2,
+    "bz_min_nT": -33.0,
+    "bz_median_nT": -17.7,
+    "hours_below_threshold": 7.5,
+    "south_nT_hours": 188.7,
+    "south_nT_per_hour": 14.35
+   }
+  },
+  "ejecta_field": {
+   "hours": 24.2,
+   "bz_min_nT": -16.6,
+   "bz_median_nT": -0.3,
+   "hours_below_threshold": 0.3,
+   "south_nT_hours": 25.2,
+   "south_nT_per_hour": 1.04
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2000-04-06 16:47:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-04-06 16:47:00; low-Tp interval of 24.2 h; no flux-rope signature (rotation 262\u00b0 at r\u00b2=0.429, max B\u22a5 20.09 nT); sheath 13.2 h carrying Bz to -33 nT (7.5 h below -10) \u2014 SHEATH-DRIVEN: 188.7 vs 25.2 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "9d3d92b8a101"
+ },
+ "sens_minh4_20011106": {
+  "icme": {
+   "start": "2001-11-05 20:38:00",
+   "end": "2001-11-06 01:51:00",
+   "duration_hours": 5.2,
+   "min_temp_ratio": 0.244,
+   "mean_speed_kms": 413.5,
+   "magnetic_cloud": false,
+   "rotation_deg": 19.8,
+   "rotation_r2": 0.433,
+   "max_b_perp_nT": 24.48
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-11-05 20:38:00",
+    "end": "2001-11-06 01:51:00",
+    "duration_hours": 5.2,
+    "min_temp_ratio": 0.244,
+    "mean_speed_kms": 413.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 19.8,
+    "rotation_r2": 0.433,
+    "max_b_perp_nT": 24.48
+   },
+   {
+    "start": "2001-11-06 21:51:00",
+    "end": "2001-11-08 23:48:00",
+    "duration_hours": 50.0,
+    "min_temp_ratio": 0.104,
+    "mean_speed_kms": 589.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 332.8,
+    "rotation_r2": 0.224,
+    "max_b_perp_nT": 8.59
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "low-Tp interval of 5.2 h; no flux-rope signature (rotation 19.8\u00b0 at r\u00b2=0.433, max B\u22a5 24.48 nT); first of 2 qualifying intervals \u2014 an ICME train follows",
+  "status": "ok",
+  "audit_id": "a9cf21049c62"
+ },
+ "sens_minh4_20010411": {
+  "icme": {
+   "start": "2001-04-09 15:04:00",
+   "end": "2001-04-10 05:42:00",
+   "duration_hours": 14.6,
+   "min_temp_ratio": 0.14,
+   "mean_speed_kms": 563.2,
+   "magnetic_cloud": false,
+   "rotation_deg": 418.5,
+   "rotation_r2": 0.01,
+   "max_b_perp_nT": 8.3
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-04-09 15:04:00",
+    "end": "2001-04-10 05:42:00",
+    "duration_hours": 14.6,
+    "min_temp_ratio": 0.14,
+    "mean_speed_kms": 563.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 418.5,
+    "rotation_r2": 0.01,
+    "max_b_perp_nT": 8.3
+   },
+   {
+    "start": "2001-04-12 07:40:00",
+    "end": "2001-04-13 07:28:00",
+    "duration_hours": 23.8,
+    "min_temp_ratio": 0.026,
+    "mean_speed_kms": 640.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 159.0,
+    "rotation_r2": 0.056,
+    "max_b_perp_nT": 20.49
+   },
+   {
+    "start": "2001-04-13 09:55:00",
+    "end": "2001-04-14 10:37:00",
+    "duration_hours": 24.7,
+    "min_temp_ratio": 0.022,
+    "mean_speed_kms": 730.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 115.7,
+    "rotation_r2": 0.027,
+    "max_b_perp_nT": 13.74
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2001-04-07 17:35:00",
+  "sheath": {
+   "start": "2001-04-07 17:35:00",
+   "end": "2001-04-09 15:04:00",
+   "duration_hours": 45.5,
+   "field": {
+    "hours": 45.5,
+    "bz_min_nT": -16.8,
+    "bz_median_nT": 0.1,
+    "hours_below_threshold": 0.7,
+    "south_nT_hours": 67.6,
+    "south_nT_per_hour": 1.49
+   }
+  },
+  "ejecta_field": {
+   "hours": 14.6,
+   "bz_min_nT": -5.9,
+   "bz_median_nT": -0.9,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 17.8,
+   "south_nT_per_hour": 1.22
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2001-04-07 17:35:00",
+   "2001-04-08 11:04:00",
+   "2001-04-11 13:34:00",
+   "2001-04-11 19:34:00",
+   "2001-04-13 07:31:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-04-07 17:35:00; low-Tp interval of 14.6 h; no flux-rope signature (rotation 418.5\u00b0 at r\u00b2=0.01, max B\u22a5 8.3 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 45.5 h carrying Bz to -16.8 nT (0.7 h below -10) \u2014 SHEATH-DRIVEN: 67.6 vs 17.8 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "b1772ea6dc09"
+ },
+ "sens_minh4_20050515": {
+  "icme": {
+   "start": "2005-05-15 07:35:00",
+   "end": "2005-05-17 22:00:00",
+   "duration_hours": 62.4,
+   "min_temp_ratio": 0.01,
+   "mean_speed_kms": 653.8,
+   "magnetic_cloud": false,
+   "rotation_deg": 387.5,
+   "rotation_r2": 0.766,
+   "max_b_perp_nT": 43.19
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2005-05-15 07:35:00",
+    "end": "2005-05-17 22:00:00",
+    "duration_hours": 62.4,
+    "min_temp_ratio": 0.01,
+    "mean_speed_kms": 653.8,
+    "magnetic_cloud": false,
+    "rotation_deg": 387.5,
+    "rotation_r2": 0.766,
+    "max_b_perp_nT": 43.19
+   },
+   {
+    "start": "2005-05-18 08:41:00",
+    "end": "2005-05-18 18:44:00",
+    "duration_hours": 10.1,
+    "min_temp_ratio": 0.076,
+    "mean_speed_kms": 509.1,
+    "magnetic_cloud": false,
+    "rotation_deg": 59.9,
+    "rotation_r2": 0.618,
+    "max_b_perp_nT": 8.51
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2005-05-15 04:24:00",
+  "sheath": {
+   "start": "2005-05-15 04:24:00",
+   "end": "2005-05-15 07:35:00",
+   "duration_hours": 3.2,
+   "field": {
+    "hours": 3.2,
+    "bz_min_nT": -46.5,
+    "bz_median_nT": -13.1,
+    "hours_below_threshold": 1.6,
+    "south_nT_hours": 57.0,
+    "south_nT_per_hour": 17.9
+   }
+  },
+  "ejecta_field": {
+   "hours": 62.4,
+   "bz_min_nT": -26.9,
+   "bz_median_nT": -2.8,
+   "hours_below_threshold": 2.2,
+   "south_nT_hours": 204.5,
+   "south_nT_per_hour": 3.28
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2005-05-15 04:24:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2005-05-15 04:24:00; low-Tp interval of 62.4 h; no flux-rope signature (rotation 387.5\u00b0 at r\u00b2=0.766, max B\u22a5 43.19 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 3.2 h carrying Bz to -46.5 nT (1.6 h below -10) \u2014 ejecta-driven: 204.5 vs 57 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "18a01c266b9b"
+ },
+ "sens_minh4_19991022": {
+  "icme": {
+   "start": "1999-10-21 21:00:00",
+   "end": "1999-10-22 06:32:00",
+   "duration_hours": 9.5,
+   "min_temp_ratio": 0.107,
+   "mean_speed_kms": 489.5,
+   "magnetic_cloud": false,
+   "rotation_deg": 179.2,
+   "rotation_r2": 0.681,
+   "max_b_perp_nT": 31.93
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1999-10-21 21:00:00",
+    "end": "1999-10-22 06:32:00",
+    "duration_hours": 9.5,
+    "min_temp_ratio": 0.107,
+    "mean_speed_kms": 489.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 179.2,
+    "rotation_r2": 0.681,
+    "max_b_perp_nT": 31.93
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "1999-10-21 02:22:00",
+  "sheath": {
+   "start": "1999-10-21 02:22:00",
+   "end": "1999-10-21 21:00:00",
+   "duration_hours": 18.6,
+   "field": {
+    "hours": 18.6,
+    "bz_min_nT": -20.4,
+    "bz_median_nT": 6.3,
+    "hours_below_threshold": 0.2,
+    "south_nT_hours": 10.6,
+    "south_nT_per_hour": 0.57
+   }
+  },
+  "ejecta_field": {
+   "hours": 9.5,
+   "bz_min_nT": -31.5,
+   "bz_median_nT": -18.0,
+   "hours_below_threshold": 6.6,
+   "south_nT_hours": 157.3,
+   "south_nT_per_hour": 16.5
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "1999-10-21 02:22:00",
+   "1999-10-22 07:15:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1999-10-21 02:22:00; low-Tp interval of 9.5 h; no flux-rope signature (rotation 179.2\u00b0 at r\u00b2=0.681, max B\u22a5 31.93 nT); sheath 18.6 h carrying Bz to -20.4 nT (0.2 h below -10) \u2014 ejecta-driven: 157.3 vs 10.6 nT\u00b7h southward; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "e8970ad33be2"
+ },
+ "sens_minh4_20000812": {
+  "icme": {
+   "start": "2000-08-12 06:00:00",
+   "end": "2000-08-13 23:35:00",
+   "duration_hours": 41.6,
+   "min_temp_ratio": 0.021,
+   "mean_speed_kms": 568.3,
+   "magnetic_cloud": true,
+   "rotation_deg": 280.9,
+   "rotation_r2": 0.905,
+   "max_b_perp_nT": 34.09
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-08-12 06:00:00",
+    "end": "2000-08-13 23:35:00",
+    "duration_hours": 41.6,
+    "min_temp_ratio": 0.021,
+    "mean_speed_kms": 568.3,
+    "magnetic_cloud": true,
+    "rotation_deg": 280.9,
+    "rotation_r2": 0.905,
+    "max_b_perp_nT": 34.09
+   },
+   {
+    "start": "2000-08-14 22:01:00",
+    "end": "2000-08-15 03:47:00",
+    "duration_hours": 5.8,
+    "min_temp_ratio": 0.324,
+    "mean_speed_kms": 564.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 356.8,
+    "rotation_r2": 0.398,
+    "max_b_perp_nT": 14.0
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2000-08-11 18:47:00",
+  "sheath": {
+   "start": "2000-08-11 18:47:00",
+   "end": "2000-08-12 06:00:00",
+   "duration_hours": 11.2,
+   "field": {
+    "hours": 11.2,
+    "bz_min_nT": -26.2,
+    "bz_median_nT": -1.1,
+    "hours_below_threshold": 2.7,
+    "south_nT_hours": 59.7,
+    "south_nT_per_hour": 5.33
+   }
+  },
+  "ejecta_field": {
+   "hours": 41.6,
+   "bz_min_nT": -29.9,
+   "bz_median_nT": 4.3,
+   "hours_below_threshold": 9.4,
+   "south_nT_hours": 208.4,
+   "south_nT_per_hour": 5.01
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2000-08-11 18:47:00",
+   "2000-08-14 22:36:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-08-11 18:47:00; low-Tp interval of 41.6 h; magnetic cloud: 280.9\u00b0 smooth rotation (r\u00b2=0.905), max B\u22a5 34.09 nT; first of 2 qualifying intervals \u2014 an ICME train follows; sheath 11.2 h carrying Bz to -26.2 nT (2.7 h below -10) \u2014 ejecta-driven: 208.4 vs 59.7 nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "887de2841213"
+ },
+ "sens_minh4_20150317": {
+  "icme": {
+   "start": "2015-03-17 13:38:00",
+   "end": "2015-03-18 04:17:00",
+   "duration_hours": 14.7,
+   "min_temp_ratio": 0.167,
+   "mean_speed_kms": 565.2,
+   "magnetic_cloud": false,
+   "rotation_deg": 151.8,
+   "rotation_r2": 0.764,
+   "max_b_perp_nT": 32.35
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2015-03-17 13:38:00",
+    "end": "2015-03-18 04:17:00",
+    "duration_hours": 14.7,
+    "min_temp_ratio": 0.167,
+    "mean_speed_kms": 565.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 151.8,
+    "rotation_r2": 0.764,
+    "max_b_perp_nT": 32.35
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "2015-03-17 04:49:00",
+  "sheath": {
+   "start": "2015-03-17 04:49:00",
+   "end": "2015-03-17 13:38:00",
+   "duration_hours": 8.8,
+   "field": {
+    "hours": 8.8,
+    "bz_min_nT": -26.0,
+    "bz_median_nT": -2.3,
+    "hours_below_threshold": 3.1,
+    "south_nT_hours": 61.0,
+    "south_nT_per_hour": 6.91
+   }
+  },
+  "ejecta_field": {
+   "hours": 14.7,
+   "bz_min_nT": -23.2,
+   "bz_median_nT": -14.7,
+   "hours_below_threshold": 9.5,
+   "south_nT_hours": 178.8,
+   "south_nT_per_hour": 12.21
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "2015-03-17 04:49:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2015-03-17 04:49:00; low-Tp interval of 14.7 h; no flux-rope signature (rotation 151.8\u00b0 at r\u00b2=0.764, max B\u22a5 32.35 nT); sheath 8.8 h carrying Bz to -26 nT (3.1 h below -10) \u2014 ejecta-driven: 178.8 vs 61 nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "f6c158855f1e"
+ },
+ "sens_minh4_20011124": {
+  "icme": {
+   "start": "2001-11-24 18:06:00",
+   "end": "2001-11-25 21:58:00",
+   "duration_hours": 27.9,
+   "min_temp_ratio": 0.033,
+   "mean_speed_kms": 685.2,
+   "magnetic_cloud": false,
+   "rotation_deg": 88.1,
+   "rotation_r2": 0.481,
+   "max_b_perp_nT": 17.63
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-11-24 18:06:00",
+    "end": "2001-11-25 21:58:00",
+    "duration_hours": 27.9,
+    "min_temp_ratio": 0.033,
+    "mean_speed_kms": 685.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 88.1,
+    "rotation_r2": 0.481,
+    "max_b_perp_nT": 17.63
+   },
+   {
+    "start": "2001-11-26 00:17:00",
+    "end": "2001-11-26 11:38:00",
+    "duration_hours": 11.3,
+    "min_temp_ratio": 0.254,
+    "mean_speed_kms": 591.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 179.5,
+    "rotation_r2": 0.007,
+    "max_b_perp_nT": 6.57
+   },
+   {
+    "start": "2001-11-27 04:35:00",
+    "end": "2001-11-27 17:43:00",
+    "duration_hours": 13.1,
+    "min_temp_ratio": 0.17,
+    "mean_speed_kms": 462.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 68.2,
+    "rotation_r2": 0.639,
+    "max_b_perp_nT": 5.77
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2001-11-24 04:53:00",
+  "sheath": {
+   "start": "2001-11-24 04:53:00",
+   "end": "2001-11-24 18:06:00",
+   "duration_hours": 13.2,
+   "field": {
+    "hours": 13.2,
+    "bz_min_nT": -47.1,
+    "bz_median_nT": 1.3,
+    "hours_below_threshold": 3.8,
+    "south_nT_hours": 98.5,
+    "south_nT_per_hour": 7.45
+   }
+  },
+  "ejecta_field": {
+   "hours": 27.9,
+   "bz_min_nT": -3.7,
+   "bz_median_nT": 11.0,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 0.6,
+   "south_nT_per_hour": 0.02
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2001-11-24 04:53:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-11-24 04:53:00; low-Tp interval of 27.9 h; no flux-rope signature (rotation 88.1\u00b0 at r\u00b2=0.481, max B\u22a5 17.63 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 13.2 h carrying Bz to -47.1 nT (3.8 h below -10) \u2014 SHEATH-DRIVEN: 98.5 vs 0.6 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "493e2b2a056c"
+ },
+ "sens_minh4_20230424": {
+  "icme": {
+   "start": "2023-04-24 01:49:00",
+   "end": "2023-04-24 19:18:00",
+   "duration_hours": 17.5,
+   "min_temp_ratio": 0.081,
+   "mean_speed_kms": 537.3,
+   "magnetic_cloud": true,
+   "rotation_deg": 181.6,
+   "rotation_r2": 0.937,
+   "max_b_perp_nT": 33.9
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2023-04-24 01:49:00",
+    "end": "2023-04-24 19:18:00",
+    "duration_hours": 17.5,
+    "min_temp_ratio": 0.081,
+    "mean_speed_kms": 537.3,
+    "magnetic_cloud": true,
+    "rotation_deg": 181.6,
+    "rotation_r2": 0.937,
+    "max_b_perp_nT": 33.9
+   },
+   {
+    "start": "2023-04-25 04:42:00",
+    "end": "2023-04-26 00:42:00",
+    "duration_hours": 20.0,
+    "min_temp_ratio": 0.117,
+    "mean_speed_kms": 525.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 251.3,
+    "rotation_r2": 0.807,
+    "max_b_perp_nT": 5.55
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2023-04-23 17:39:00",
+  "sheath": {
+   "start": "2023-04-23 17:39:00",
+   "end": "2023-04-24 01:49:00",
+   "duration_hours": 8.2,
+   "field": {
+    "hours": 8.2,
+    "bz_min_nT": -33.3,
+    "bz_median_nT": -5.9,
+    "hours_below_threshold": 3.7,
+    "south_nT_hours": 76.1,
+    "south_nT_per_hour": 9.32
+   }
+  },
+  "ejecta_field": {
+   "hours": 17.5,
+   "bz_min_nT": -33.1,
+   "bz_median_nT": -4.3,
+   "hours_below_threshold": 8.0,
+   "south_nT_hours": 195.0,
+   "south_nT_per_hour": 11.15
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2023-04-23 17:39:00",
+   "2023-04-26 18:21:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2023-04-23 17:39:00; low-Tp interval of 17.5 h; magnetic cloud: 181.6\u00b0 smooth rotation (r\u00b2=0.937), max B\u22a5 33.9 nT; first of 2 qualifying intervals \u2014 an ICME train follows; sheath 8.2 h carrying Bz to -33.3 nT (3.7 h below -10) \u2014 ejecta-driven: 195 vs 76.1 nT\u00b7h southward; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "847b18ca6073"
+ },
+ "sens_minh4_19980925": {
+  "icme": {
+   "start": "1998-09-25 06:13:00",
+   "end": "1998-09-25 22:40:00",
+   "duration_hours": 16.4,
+   "min_temp_ratio": 0.022,
+   "mean_speed_kms": 708.1,
+   "magnetic_cloud": true,
+   "rotation_deg": 113.7,
+   "rotation_r2": 0.835,
+   "max_b_perp_nT": 19.68
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1998-09-25 06:13:00",
+    "end": "1998-09-25 22:40:00",
+    "duration_hours": 16.4,
+    "min_temp_ratio": 0.022,
+    "mean_speed_kms": 708.1,
+    "magnetic_cloud": true,
+    "rotation_deg": 113.7,
+    "rotation_r2": 0.835,
+    "max_b_perp_nT": 19.68
+   },
+   {
+    "start": "1998-09-26 01:59:00",
+    "end": "1998-09-26 16:45:00",
+    "duration_hours": 14.8,
+    "min_temp_ratio": 0.028,
+    "mean_speed_kms": 585.6,
+    "magnetic_cloud": true,
+    "rotation_deg": 130.7,
+    "rotation_r2": 0.82,
+    "max_b_perp_nT": 9.61
+   },
+   {
+    "start": "1998-09-28 01:11:00",
+    "end": "1998-09-28 09:02:00",
+    "duration_hours": 7.8,
+    "min_temp_ratio": 0.232,
+    "mean_speed_kms": 556.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 132.7,
+    "rotation_r2": 0.168,
+    "max_b_perp_nT": 5.97
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "1998-09-24 23:54:00",
+  "sheath": {
+   "start": "1998-09-24 23:54:00",
+   "end": "1998-09-25 06:13:00",
+   "duration_hours": 6.3,
+   "field": {
+    "hours": 6.3,
+    "bz_min_nT": -22.9,
+    "bz_median_nT": -13.0,
+    "hours_below_threshold": 4.7,
+    "south_nT_hours": 73.7,
+    "south_nT_per_hour": 11.67
+   }
+  },
+  "ejecta_field": {
+   "hours": 16.4,
+   "bz_min_nT": -15.8,
+   "bz_median_nT": -4.4,
+   "hours_below_threshold": 4.6,
+   "south_nT_hours": 90.2,
+   "south_nT_per_hour": 5.48
+  },
+  "driver": "ambiguous",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "1998-09-24 23:54:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1998-09-24 23:54:00; low-Tp interval of 16.4 h; magnetic cloud: 113.7\u00b0 smooth rotation (r\u00b2=0.835), max B\u22a5 19.68 nT; first of 3 qualifying intervals \u2014 an ICME train follows; sheath 6.3 h carrying Bz to -22.9 nT (4.7 h below -10) \u2014 driver ambiguous: 73.7 (sheath) vs 90.2 (ejecta) nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "00980deb0bf3"
+ },
+ "sens_minh4_19980504": {
+  "icme": {
+   "start": "1998-05-02 04:55:00",
+   "end": "1998-05-04 01:51:00",
+   "duration_hours": 44.9,
+   "min_temp_ratio": 0.033,
+   "mean_speed_kms": 528.1,
+   "magnetic_cloud": false,
+   "rotation_deg": 188.5,
+   "rotation_r2": 0.618,
+   "max_b_perp_nT": 14.92
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1998-05-02 04:55:00",
+    "end": "1998-05-04 01:51:00",
+    "duration_hours": 44.9,
+    "min_temp_ratio": 0.033,
+    "mean_speed_kms": 528.1,
+    "magnetic_cloud": false,
+    "rotation_deg": 188.5,
+    "rotation_r2": 0.618,
+    "max_b_perp_nT": 14.92
+   },
+   {
+    "start": "1998-05-05 08:18:00",
+    "end": "1998-05-05 13:26:00",
+    "duration_hours": 5.1,
+    "min_temp_ratio": 0.204,
+    "mean_speed_kms": 574.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 85.5,
+    "rotation_r2": 0.25,
+    "max_b_perp_nT": 9.14
+   },
+   {
+    "start": "1998-05-05 17:29:00",
+    "end": "1998-05-06 06:14:00",
+    "duration_hours": 12.8,
+    "min_temp_ratio": 0.235,
+    "mean_speed_kms": 546.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 550.0,
+    "rotation_r2": 0.779,
+    "max_b_perp_nT": 10.38
+   },
+   {
+    "start": "1998-05-07 13:30:00",
+    "end": "1998-05-07 21:06:00",
+    "duration_hours": 7.6,
+    "min_temp_ratio": 0.135,
+    "mean_speed_kms": 491.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 41.5,
+    "rotation_r2": 0.793,
+    "max_b_perp_nT": 11.07
+   }
+  ],
+  "n_intervals": 4,
+  "shock_time": "1998-05-01 22:00:00",
+  "sheath": {
+   "start": "1998-05-01 22:00:00",
+   "end": "1998-05-02 04:55:00",
+   "duration_hours": 6.9,
+   "field": {
+    "hours": 6.9,
+    "bz_min_nT": -14.4,
+    "bz_median_nT": 8.7,
+    "hours_below_threshold": 0.1,
+    "south_nT_hours": 6.0,
+    "south_nT_per_hour": 0.87
+   }
+  },
+  "ejecta_field": {
+   "hours": 44.9,
+   "bz_min_nT": -13.8,
+   "bz_median_nT": -4.1,
+   "hours_below_threshold": 3.1,
+   "south_nT_hours": 222.9,
+   "south_nT_per_hour": 4.96
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "1998-05-01 22:00:00",
+   "1998-05-04 02:47:00",
+   "1998-05-05 13:15:00",
+   "1998-05-05 22:48:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1998-05-01 22:00:00; low-Tp interval of 44.9 h; no flux-rope signature (rotation 188.5\u00b0 at r\u00b2=0.618, max B\u22a5 14.92 nT); first of 4 qualifying intervals \u2014 an ICME train follows; sheath 6.9 h carrying Bz to -14.4 nT (0.1 h below -10) \u2014 ejecta-driven: 222.9 vs 6 nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "bcdc3f8e09ef"
+ },
+ "sens_minh4_20000917": {
+  "icme": {
+   "start": "2000-09-18 04:03:00",
+   "end": "2000-09-19 20:58:00",
+   "duration_hours": 40.9,
+   "min_temp_ratio": 0.057,
+   "mean_speed_kms": 694.6,
+   "magnetic_cloud": false,
+   "rotation_deg": 428.7,
+   "rotation_r2": 0.0,
+   "max_b_perp_nT": 31.98
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-09-18 04:03:00",
+    "end": "2000-09-19 20:58:00",
+    "duration_hours": 40.9,
+    "min_temp_ratio": 0.057,
+    "mean_speed_kms": 694.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 428.7,
+    "rotation_r2": 0.0,
+    "max_b_perp_nT": 31.98
+   },
+   {
+    "start": "2000-09-19 23:19:00",
+    "end": "2000-09-20 23:54:00",
+    "duration_hours": 24.6,
+    "min_temp_ratio": 0.092,
+    "mean_speed_kms": 509.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 632.1,
+    "rotation_r2": 0.067,
+    "max_b_perp_nT": 6.02
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2000-09-17 16:01:00",
+  "sheath": {
+   "start": "2000-09-17 16:01:00",
+   "end": "2000-09-18 04:03:00",
+   "duration_hours": 12.0,
+   "field": {
+    "hours": 12.0,
+    "bz_min_nT": -37.6,
+    "bz_median_nT": 10.1,
+    "hours_below_threshold": 2.0,
+    "south_nT_hours": 53.9,
+    "south_nT_per_hour": 4.48
+   }
+  },
+  "ejecta_field": {
+   "hours": 40.9,
+   "bz_min_nT": -8.6,
+   "bz_median_nT": 2.4,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 32.8,
+   "south_nT_per_hour": 0.8
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2000-09-17 16:01:00",
+   "2000-09-17 23:36:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-09-17 16:01:00; low-Tp interval of 40.9 h; no flux-rope signature (rotation 428.7\u00b0 at r\u00b2=0, max B\u22a5 31.98 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 12 h carrying Bz to -37.6 nT (2 h below -10) \u2014 SHEATH-DRIVEN: 53.9 vs 32.8 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "7121fe7aa62a"
+ },
+ "sens_shock40_20031120": {
+  "icme": null,
+  "closest": {
+   "start": "2003-11-20 19:53:00",
+   "end": "2003-11-21 01:11:00",
+   "duration_hours": 5.3,
+   "hours_short": 0.7,
+   "min_temp_ratio": 0.123,
+   "ratio_short": null
+  },
+  "intervals": [],
+  "n_intervals": 0,
+  "shock_time": "2003-11-20 08:06:00",
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [
+   "2003-11-20 08:06:00",
+   "2003-11-22 09:52:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2003-11-20 08:06:00; no interval with Tp < 0.5\u00b7Texp lasting 6+ h; closest: 5.3 h below the ratio from 2003-11-20 19:53:00 (0.7 h short; lowest Tp/Texp 0.123) \u2014 no ICME signature in this window",
+  "status": "ok",
+  "audit_id": "885d29be7025"
+ },
+ "sens_shock40_20240511": {
+  "icme": {
+   "start": "2024-05-11 11:31:00",
+   "end": "2024-05-11 18:40:00",
+   "duration_hours": 7.2,
+   "min_temp_ratio": 0.164,
+   "mean_speed_kms": 803.3,
+   "magnetic_cloud": false,
+   "rotation_deg": 300.9,
+   "rotation_r2": 0.638,
+   "max_b_perp_nT": 25.38
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2024-05-11 11:31:00",
+    "end": "2024-05-11 18:40:00",
+    "duration_hours": 7.2,
+    "min_temp_ratio": 0.164,
+    "mean_speed_kms": 803.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 300.9,
+    "rotation_r2": 0.638,
+    "max_b_perp_nT": 25.38
+   },
+   {
+    "start": "2024-05-12 00:58:00",
+    "end": "2024-05-12 10:36:00",
+    "duration_hours": 9.6,
+    "min_temp_ratio": 0.084,
+    "mean_speed_kms": 906.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 608.2,
+    "rotation_r2": 0.633,
+    "max_b_perp_nT": 8.53
+   },
+   {
+    "start": "2024-05-12 20:53:00",
+    "end": "2024-05-14 10:16:00",
+    "duration_hours": 37.4,
+    "min_temp_ratio": 0.104,
+    "mean_speed_kms": 657.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 266.3,
+    "rotation_r2": 0.364,
+    "max_b_perp_nT": 11.04
+   },
+   {
+    "start": "2024-05-14 15:54:00",
+    "end": "2024-05-14 23:59:00",
+    "duration_hours": 8.1,
+    "min_temp_ratio": 0.265,
+    "mean_speed_kms": 516.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 164.9,
+    "rotation_r2": 0.0,
+    "max_b_perp_nT": 3.38
+   }
+  ],
+  "n_intervals": 4,
+  "shock_time": "2024-05-10 14:59:00",
+  "sheath": {
+   "start": "2024-05-10 14:59:00",
+   "end": "2024-05-11 11:31:00",
+   "duration_hours": 20.5,
+   "field": {
+    "hours": 20.5,
+    "bz_min_nT": -47.9,
+    "bz_median_nT": -20.2,
+    "hours_below_threshold": 12.8,
+    "south_nT_hours": 376.5,
+    "south_nT_per_hour": 18.34
+   }
+  },
+  "ejecta_field": {
+   "hours": 7.2,
+   "bz_min_nT": -24.5,
+   "bz_median_nT": -12.2,
+   "hours_below_threshold": 4.4,
+   "south_nT_hours": 89.3,
+   "south_nT_per_hour": 12.49
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2024-05-10 14:59:00",
+   "2024-05-10 22:24:00",
+   "2024-05-11 11:24:00",
+   "2024-05-11 18:05:00",
+   "2024-05-12 00:05:00",
+   "2024-05-12 17:50:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2024-05-10 14:59:00; low-Tp interval of 7.2 h; no flux-rope signature (rotation 300.9\u00b0 at r\u00b2=0.638, max B\u22a5 25.38 nT); first of 4 qualifying intervals \u2014 an ICME train follows; sheath 20.5 h carrying Bz to -47.9 nT (12.8 h below -10) \u2014 SHEATH-DRIVEN: 376.5 vs 89.3 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "05a3b2ca4ab3"
+ },
+ "sens_shock40_20010331": {
+  "icme": {
+   "start": "2001-03-28 07:02:00",
+   "end": "2001-03-30 19:17:00",
+   "duration_hours": 60.2,
+   "min_temp_ratio": 0.06,
+   "mean_speed_kms": 519.0,
+   "magnetic_cloud": true,
+   "rotation_deg": 1682.3,
+   "rotation_r2": 0.882,
+   "max_b_perp_nT": 14.53
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-03-28 07:02:00",
+    "end": "2001-03-30 19:17:00",
+    "duration_hours": 60.2,
+    "min_temp_ratio": 0.06,
+    "mean_speed_kms": 519.0,
+    "magnetic_cloud": true,
+    "rotation_deg": 1682.3,
+    "rotation_r2": 0.882,
+    "max_b_perp_nT": 14.53
+   },
+   {
+    "start": "2001-03-31 17:10:00",
+    "end": "2001-04-03 16:57:00",
+    "duration_hours": 71.8,
+    "min_temp_ratio": 0.05,
+    "mean_speed_kms": 614.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 358.9,
+    "rotation_r2": 0.062,
+    "max_b_perp_nT": 32.66
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2001-03-27 17:54:00",
+  "sheath": {
+   "start": "2001-03-27 17:54:00",
+   "end": "2001-03-28 07:02:00",
+   "duration_hours": 13.1,
+   "field": {
+    "hours": 13.1,
+    "bz_min_nT": -17.1,
+    "bz_median_nT": 6.7,
+    "hours_below_threshold": 1.2,
+    "south_nT_hours": 21.3,
+    "south_nT_per_hour": 1.62
+   }
+  },
+  "ejecta_field": {
+   "hours": 60.2,
+   "bz_min_nT": -11.3,
+   "bz_median_nT": -0.1,
+   "hours_below_threshold": 0.4,
+   "south_nT_hours": 55.7,
+   "south_nT_per_hour": 0.93
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2001-03-27 17:54:00",
+   "2001-03-31 01:00:00",
+   "2001-04-01 04:48:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-03-27 17:54:00; low-Tp interval of 60.2 h; magnetic cloud: 1682.3\u00b0 smooth rotation (r\u00b2=0.882), max B\u22a5 14.53 nT; first of 2 qualifying intervals \u2014 an ICME train follows; sheath 13.1 h carrying Bz to -17.1 nT (1.2 h below -10) \u2014 ejecta-driven: 55.7 vs 21.3 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "9bbe69d0fd17"
+ },
+ "sens_shock40_20031030": {
+  "icme": {
+   "start": "2003-10-28 03:16:00",
+   "end": "2003-10-28 09:17:00",
+   "duration_hours": 6.0,
+   "min_temp_ratio": 0.263,
+   "mean_speed_kms": 623.3,
+   "magnetic_cloud": false,
+   "rotation_deg": 36.8,
+   "rotation_r2": 0.694,
+   "max_b_perp_nT": 16.74
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2003-10-28 03:16:00",
+    "end": "2003-10-28 09:17:00",
+    "duration_hours": 6.0,
+    "min_temp_ratio": 0.263,
+    "mean_speed_kms": 623.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 36.8,
+    "rotation_r2": 0.694,
+    "max_b_perp_nT": 16.74
+   },
+   {
+    "start": "2003-11-01 04:53:00",
+    "end": "2003-11-02 10:35:00",
+    "duration_hours": 29.7,
+    "min_temp_ratio": 0.017,
+    "mean_speed_kms": 589.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 464.6,
+    "rotation_r2": 0.603,
+    "max_b_perp_nT": 5.74
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2003-10-26 08:54:00",
+  "sheath": {
+   "start": "2003-10-26 08:54:00",
+   "end": "2003-10-28 03:16:00",
+   "duration_hours": 42.4,
+   "field": {
+    "hours": 42.4,
+    "bz_min_nT": -12.1,
+    "bz_median_nT": 0.1,
+    "hours_below_threshold": 0.1,
+    "south_nT_hours": 94.0,
+    "south_nT_per_hour": 2.22
+   }
+  },
+  "ejecta_field": {
+   "hours": 6.0,
+   "bz_min_nT": -7.7,
+   "bz_median_nT": -0.4,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 8.6,
+   "south_nT_per_hour": 1.43
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2003-10-26 08:54:00",
+   "2003-10-26 19:04:00",
+   "2003-10-28 02:04:00",
+   "2003-10-28 10:45:00",
+   "2003-10-29 19:16:00",
+   "2003-11-01 04:50:00",
+   "2003-11-01 14:15:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2003-10-26 08:54:00; low-Tp interval of 6 h; no flux-rope signature (rotation 36.8\u00b0 at r\u00b2=0.694, max B\u22a5 16.74 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 42.4 h carrying Bz to -12.1 nT (0.1 h below -10) \u2014 SHEATH-DRIVEN: 94 vs 8.6 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "cdfaa194a94a"
+ },
+ "sens_shock40_20041108": {
+  "icme": {
+   "start": "2004-11-08 03:00:00",
+   "end": "2004-11-09 09:53:00",
+   "duration_hours": 30.9,
+   "min_temp_ratio": 0.031,
+   "mean_speed_kms": 633.7,
+   "magnetic_cloud": false,
+   "rotation_deg": 149.2,
+   "rotation_r2": 0.001,
+   "max_b_perp_nT": 48.23
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2004-11-08 03:00:00",
+    "end": "2004-11-09 09:53:00",
+    "duration_hours": 30.9,
+    "min_temp_ratio": 0.031,
+    "mean_speed_kms": 633.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 149.2,
+    "rotation_r2": 0.001,
+    "max_b_perp_nT": 48.23
+   },
+   {
+    "start": "2004-11-09 20:59:00",
+    "end": "2004-11-11 00:20:00",
+    "duration_hours": 27.4,
+    "min_temp_ratio": 0.045,
+    "mean_speed_kms": 689.4,
+    "magnetic_cloud": true,
+    "rotation_deg": 290.2,
+    "rotation_r2": 0.908,
+    "max_b_perp_nT": 39.79
+   },
+   {
+    "start": "2004-11-11 04:55:00",
+    "end": "2004-11-11 18:54:00",
+    "duration_hours": 14.0,
+    "min_temp_ratio": 0.018,
+    "mean_speed_kms": 571.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 146.1,
+    "rotation_r2": 0.568,
+    "max_b_perp_nT": 7.92
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2004-11-07 02:57:00",
+  "sheath": {
+   "start": "2004-11-07 02:57:00",
+   "end": "2004-11-08 03:00:00",
+   "duration_hours": 24.1,
+   "field": {
+    "hours": 24.1,
+    "bz_min_nT": -49.3,
+    "bz_median_nT": 3.8,
+    "hours_below_threshold": 4.7,
+    "south_nT_hours": 151.3,
+    "south_nT_per_hour": 6.29
+   }
+  },
+  "ejecta_field": {
+   "hours": 30.9,
+   "bz_min_nT": -47.9,
+   "bz_median_nT": -4.4,
+   "hours_below_threshold": 7.4,
+   "south_nT_hours": 252.6,
+   "south_nT_per_hour": 8.18
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2004-11-07 02:57:00",
+   "2004-11-07 16:56:00",
+   "2004-11-09 09:24:00",
+   "2004-11-09 18:57:00",
+   "2004-11-10 17:05:00",
+   "2004-11-11 17:12:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2004-11-07 02:57:00; low-Tp interval of 30.9 h; no flux-rope signature (rotation 149.2\u00b0 at r\u00b2=0.001, max B\u22a5 48.23 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 24.1 h carrying Bz to -49.3 nT (4.7 h below -10) \u2014 ejecta-driven: 252.6 vs 151.3 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "298de74dc55b"
+ },
+ "sens_shock40_20241011": {
+  "icme": {
+   "start": "2024-10-11 06:41:00",
+   "end": "2024-10-12 03:17:00",
+   "duration_hours": 20.6,
+   "min_temp_ratio": 0.074,
+   "mean_speed_kms": 689.0,
+   "magnetic_cloud": false,
+   "rotation_deg": 430.4,
+   "rotation_r2": 0.133,
+   "max_b_perp_nT": 30.79
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2024-10-11 06:41:00",
+    "end": "2024-10-12 03:17:00",
+    "duration_hours": 20.6,
+    "min_temp_ratio": 0.074,
+    "mean_speed_kms": 689.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 430.4,
+    "rotation_r2": 0.133,
+    "max_b_perp_nT": 30.79
+   },
+   {
+    "start": "2024-10-12 06:00:00",
+    "end": "2024-10-13 04:06:00",
+    "duration_hours": 22.1,
+    "min_temp_ratio": 0.133,
+    "mean_speed_kms": 568.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 306.5,
+    "rotation_r2": 0.008,
+    "max_b_perp_nT": 8.01
+   },
+   {
+    "start": "2024-10-13 07:29:00",
+    "end": "2024-10-14 22:07:00",
+    "duration_hours": 38.6,
+    "min_temp_ratio": 0.247,
+    "mean_speed_kms": 426.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 485.8,
+    "rotation_r2": 0.513,
+    "max_b_perp_nT": 7.59
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2024-10-10 14:13:00",
+  "sheath": {
+   "start": "2024-10-10 14:13:00",
+   "end": "2024-10-11 06:41:00",
+   "duration_hours": 16.5,
+   "field": {
+    "hours": 16.4,
+    "bz_min_nT": -47.0,
+    "bz_median_nT": -20.9,
+    "hours_below_threshold": 12.2,
+    "south_nT_hours": 333.7,
+    "south_nT_per_hour": 20.29
+   }
+  },
+  "ejecta_field": {
+   "hours": 20.6,
+   "bz_min_nT": -22.6,
+   "bz_median_nT": 2.1,
+   "hours_below_threshold": 3.0,
+   "south_nT_hours": 66.5,
+   "south_nT_per_hour": 3.23
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2024-10-10 14:13:00",
+   "2024-10-11 05:56:00",
+   "2024-10-12 09:04:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2024-10-10 14:13:00; low-Tp interval of 20.6 h; no flux-rope signature (rotation 430.4\u00b0 at r\u00b2=0.133, max B\u22a5 30.79 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 16.5 h carrying Bz to -47 nT (12.2 h below -10) \u2014 SHEATH-DRIVEN: 333.7 vs 66.5 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "a7b8a9d0afde"
+ },
+ "sens_shock40_20000716": {
+  "icme": {
+   "start": "2000-07-14 04:42:00",
+   "end": "2000-07-14 11:04:00",
+   "duration_hours": 6.4,
+   "min_temp_ratio": 0.24,
+   "mean_speed_kms": 594.4,
+   "magnetic_cloud": false,
+   "rotation_deg": 740.8,
+   "rotation_r2": 0.907,
+   "max_b_perp_nT": 5.2
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-07-14 04:42:00",
+    "end": "2000-07-14 11:04:00",
+    "duration_hours": 6.4,
+    "min_temp_ratio": 0.24,
+    "mean_speed_kms": 594.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 740.8,
+    "rotation_r2": 0.907,
+    "max_b_perp_nT": 5.2
+   },
+   {
+    "start": "2000-07-15 19:51:00",
+    "end": "2000-07-17 08:10:00",
+    "duration_hours": 36.3,
+    "min_temp_ratio": 0.005,
+    "mean_speed_kms": 835.7,
+    "magnetic_cloud": true,
+    "rotation_deg": 279.0,
+    "rotation_r2": 0.84,
+    "max_b_perp_nT": 61.24
+   },
+   {
+    "start": "2000-07-17 16:56:00",
+    "end": "2000-07-18 01:34:00",
+    "duration_hours": 8.6,
+    "min_temp_ratio": 0.366,
+    "mean_speed_kms": 613.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 93.8,
+    "rotation_r2": 0.328,
+    "max_b_perp_nT": 5.27
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2000-07-13 09:53:00",
+  "sheath": {
+   "start": "2000-07-13 09:53:00",
+   "end": "2000-07-14 04:42:00",
+   "duration_hours": 18.8,
+   "field": {
+    "hours": 18.8,
+    "bz_min_nT": -20.8,
+    "bz_median_nT": 0.1,
+    "hours_below_threshold": 1.2,
+    "south_nT_hours": 38.9,
+    "south_nT_per_hour": 2.07
+   }
+  },
+  "ejecta_field": {
+   "hours": 6.4,
+   "bz_min_nT": -5.2,
+   "bz_median_nT": -1.9,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 13.0,
+   "south_nT_per_hour": 2.04
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2000-07-13 09:53:00",
+   "2000-07-15 14:35:00",
+   "2000-07-16 07:02:00",
+   "2000-07-18 13:02:00",
+   "2000-07-19 15:30:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-07-13 09:53:00; low-Tp interval of 6.4 h; no flux-rope signature (rotation 740.8\u00b0 at r\u00b2=0.907, max B\u22a5 5.2 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 18.8 h carrying Bz to -20.8 nT (1.2 h below -10) \u2014 SHEATH-DRIVEN: 38.9 vs 13 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "a4caee3a282c"
+ },
+ "sens_shock40_20000407": {
+  "icme": {
+   "start": "2000-04-07 05:56:00",
+   "end": "2000-04-08 06:09:00",
+   "duration_hours": 24.2,
+   "min_temp_ratio": 0.03,
+   "mean_speed_kms": 562.8,
+   "magnetic_cloud": false,
+   "rotation_deg": 262.0,
+   "rotation_r2": 0.429,
+   "max_b_perp_nT": 20.09
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-04-07 05:56:00",
+    "end": "2000-04-08 06:09:00",
+    "duration_hours": 24.2,
+    "min_temp_ratio": 0.03,
+    "mean_speed_kms": 562.8,
+    "magnetic_cloud": false,
+    "rotation_deg": 262.0,
+    "rotation_r2": 0.429,
+    "max_b_perp_nT": 20.09
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "2000-04-06 16:47:00",
+  "sheath": {
+   "start": "2000-04-06 16:47:00",
+   "end": "2000-04-07 05:56:00",
+   "duration_hours": 13.2,
+   "field": {
+    "hours": 13.2,
+    "bz_min_nT": -33.0,
+    "bz_median_nT": -17.7,
+    "hours_below_threshold": 7.5,
+    "south_nT_hours": 188.7,
+    "south_nT_per_hour": 14.35
+   }
+  },
+  "ejecta_field": {
+   "hours": 24.2,
+   "bz_min_nT": -16.6,
+   "bz_median_nT": -0.3,
+   "hours_below_threshold": 0.3,
+   "south_nT_hours": 25.2,
+   "south_nT_per_hour": 1.04
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2000-04-06 16:47:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-04-06 16:47:00; low-Tp interval of 24.2 h; no flux-rope signature (rotation 262\u00b0 at r\u00b2=0.429, max B\u22a5 20.09 nT); sheath 13.2 h carrying Bz to -33 nT (7.5 h below -10) \u2014 SHEATH-DRIVEN: 188.7 vs 25.2 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "39f6dae2d85c"
+ },
+ "sens_shock40_20011106": {
+  "icme": {
+   "start": "2001-11-06 21:51:00",
+   "end": "2001-11-08 23:48:00",
+   "duration_hours": 50.0,
+   "min_temp_ratio": 0.104,
+   "mean_speed_kms": 589.4,
+   "magnetic_cloud": false,
+   "rotation_deg": 332.8,
+   "rotation_r2": 0.224,
+   "max_b_perp_nT": 8.59
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-11-06 21:51:00",
+    "end": "2001-11-08 23:48:00",
+    "duration_hours": 50.0,
+    "min_temp_ratio": 0.104,
+    "mean_speed_kms": 589.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 332.8,
+    "rotation_r2": 0.224,
+    "max_b_perp_nT": 8.59
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "low-Tp interval of 50 h; no flux-rope signature (rotation 332.8\u00b0 at r\u00b2=0.224, max B\u22a5 8.59 nT)",
+  "status": "ok",
+  "audit_id": "8667dd6fe5b2"
+ },
+ "sens_shock40_20010411": {
+  "icme": {
+   "start": "2001-04-09 15:04:00",
+   "end": "2001-04-10 05:42:00",
+   "duration_hours": 14.6,
+   "min_temp_ratio": 0.14,
+   "mean_speed_kms": 563.2,
+   "magnetic_cloud": false,
+   "rotation_deg": 418.5,
+   "rotation_r2": 0.01,
+   "max_b_perp_nT": 8.3
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-04-09 15:04:00",
+    "end": "2001-04-10 05:42:00",
+    "duration_hours": 14.6,
+    "min_temp_ratio": 0.14,
+    "mean_speed_kms": 563.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 418.5,
+    "rotation_r2": 0.01,
+    "max_b_perp_nT": 8.3
+   },
+   {
+    "start": "2001-04-12 07:40:00",
+    "end": "2001-04-13 07:28:00",
+    "duration_hours": 23.8,
+    "min_temp_ratio": 0.026,
+    "mean_speed_kms": 640.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 159.0,
+    "rotation_r2": 0.056,
+    "max_b_perp_nT": 20.49
+   },
+   {
+    "start": "2001-04-13 09:55:00",
+    "end": "2001-04-14 10:37:00",
+    "duration_hours": 24.7,
+    "min_temp_ratio": 0.022,
+    "mean_speed_kms": 730.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 115.7,
+    "rotation_r2": 0.027,
+    "max_b_perp_nT": 13.74
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2001-04-07 17:35:00",
+  "sheath": {
+   "start": "2001-04-07 17:35:00",
+   "end": "2001-04-09 15:04:00",
+   "duration_hours": 45.5,
+   "field": {
+    "hours": 45.5,
+    "bz_min_nT": -16.8,
+    "bz_median_nT": 0.1,
+    "hours_below_threshold": 0.7,
+    "south_nT_hours": 67.6,
+    "south_nT_per_hour": 1.49
+   }
+  },
+  "ejecta_field": {
+   "hours": 14.6,
+   "bz_min_nT": -5.9,
+   "bz_median_nT": -0.9,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 17.8,
+   "south_nT_per_hour": 1.22
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2001-04-07 17:35:00",
+   "2001-04-08 11:04:00",
+   "2001-04-10 09:33:00",
+   "2001-04-11 13:34:00",
+   "2001-04-11 19:34:00",
+   "2001-04-13 07:31:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-04-07 17:35:00; low-Tp interval of 14.6 h; no flux-rope signature (rotation 418.5\u00b0 at r\u00b2=0.01, max B\u22a5 8.3 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 45.5 h carrying Bz to -16.8 nT (0.7 h below -10) \u2014 SHEATH-DRIVEN: 67.6 vs 17.8 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "54bd3158607a"
+ },
+ "sens_shock40_20050515": {
+  "icme": {
+   "start": "2005-05-15 07:35:00",
+   "end": "2005-05-17 22:00:00",
+   "duration_hours": 62.4,
+   "min_temp_ratio": 0.01,
+   "mean_speed_kms": 653.8,
+   "magnetic_cloud": false,
+   "rotation_deg": 387.5,
+   "rotation_r2": 0.766,
+   "max_b_perp_nT": 43.19
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2005-05-15 07:35:00",
+    "end": "2005-05-17 22:00:00",
+    "duration_hours": 62.4,
+    "min_temp_ratio": 0.01,
+    "mean_speed_kms": 653.8,
+    "magnetic_cloud": false,
+    "rotation_deg": 387.5,
+    "rotation_r2": 0.766,
+    "max_b_perp_nT": 43.19
+   },
+   {
+    "start": "2005-05-18 08:41:00",
+    "end": "2005-05-18 18:44:00",
+    "duration_hours": 10.1,
+    "min_temp_ratio": 0.076,
+    "mean_speed_kms": 509.1,
+    "magnetic_cloud": false,
+    "rotation_deg": 59.9,
+    "rotation_r2": 0.618,
+    "max_b_perp_nT": 8.51
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2005-05-12 23:21:00",
+  "sheath": {
+   "start": "2005-05-13 11:13:00",
+   "end": "2005-05-15 07:35:00",
+   "duration_hours": 44.4,
+   "field": {
+    "hours": 44.4,
+    "bz_min_nT": -46.5,
+    "bz_median_nT": 0.0,
+    "hours_below_threshold": 1.7,
+    "south_nT_hours": 90.3,
+    "south_nT_per_hour": 2.04
+   }
+  },
+  "ejecta_field": {
+   "hours": 62.4,
+   "bz_min_nT": -26.9,
+   "bz_median_nT": -2.8,
+   "hours_below_threshold": 2.2,
+   "south_nT_hours": 204.5,
+   "south_nT_per_hour": 3.28
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "2005-05-12 23:21:00",
+   "2005-05-13 11:13:00",
+   "2005-05-15 01:42:00",
+   "2005-05-16 23:25:00",
+   "2005-05-17 10:51:00",
+   "2005-05-18 01:19:00",
+   "2005-05-18 08:39:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2005-05-12 23:21:00; low-Tp interval of 62.4 h; no flux-rope signature (rotation 387.5\u00b0 at r\u00b2=0.766, max B\u22a5 43.19 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 44.4 h carrying Bz to -46.5 nT (1.7 h below -10) \u2014 ejecta-driven: 204.5 vs 90.3 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "c7c2402e7a0c"
+ },
+ "sens_shock40_19991022": {
+  "icme": {
+   "start": "1999-10-21 21:00:00",
+   "end": "1999-10-22 06:32:00",
+   "duration_hours": 9.5,
+   "min_temp_ratio": 0.107,
+   "mean_speed_kms": 489.5,
+   "magnetic_cloud": false,
+   "rotation_deg": 179.2,
+   "rotation_r2": 0.681,
+   "max_b_perp_nT": 31.93
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1999-10-21 21:00:00",
+    "end": "1999-10-22 06:32:00",
+    "duration_hours": 9.5,
+    "min_temp_ratio": 0.107,
+    "mean_speed_kms": 489.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 179.2,
+    "rotation_r2": 0.681,
+    "max_b_perp_nT": 31.93
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "1999-10-21 02:22:00",
+  "sheath": {
+   "start": "1999-10-21 02:22:00",
+   "end": "1999-10-21 21:00:00",
+   "duration_hours": 18.6,
+   "field": {
+    "hours": 18.6,
+    "bz_min_nT": -20.4,
+    "bz_median_nT": 6.3,
+    "hours_below_threshold": 0.2,
+    "south_nT_hours": 10.6,
+    "south_nT_per_hour": 0.57
+   }
+  },
+  "ejecta_field": {
+   "hours": 9.5,
+   "bz_min_nT": -31.5,
+   "bz_median_nT": -18.0,
+   "hours_below_threshold": 6.6,
+   "south_nT_hours": 157.3,
+   "south_nT_per_hour": 16.5
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "1999-10-21 02:22:00",
+   "1999-10-22 03:17:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1999-10-21 02:22:00; low-Tp interval of 9.5 h; no flux-rope signature (rotation 179.2\u00b0 at r\u00b2=0.681, max B\u22a5 31.93 nT); sheath 18.6 h carrying Bz to -20.4 nT (0.2 h below -10) \u2014 ejecta-driven: 157.3 vs 10.6 nT\u00b7h southward; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "7e0ef51ced19"
+ },
+ "sens_shock40_20000812": {
+  "icme": {
+   "start": "2000-08-10 21:01:00",
+   "end": "2000-08-11 04:02:00",
+   "duration_hours": 7.0,
+   "min_temp_ratio": 0.043,
+   "mean_speed_kms": 425.4,
+   "magnetic_cloud": false,
+   "rotation_deg": 39.1,
+   "rotation_r2": 0.907,
+   "max_b_perp_nT": 13.75
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-08-10 21:01:00",
+    "end": "2000-08-11 04:02:00",
+    "duration_hours": 7.0,
+    "min_temp_ratio": 0.043,
+    "mean_speed_kms": 425.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 39.1,
+    "rotation_r2": 0.907,
+    "max_b_perp_nT": 13.75
+   },
+   {
+    "start": "2000-08-12 06:00:00",
+    "end": "2000-08-13 23:35:00",
+    "duration_hours": 41.6,
+    "min_temp_ratio": 0.021,
+    "mean_speed_kms": 568.3,
+    "magnetic_cloud": true,
+    "rotation_deg": 280.9,
+    "rotation_r2": 0.905,
+    "max_b_perp_nT": 34.09
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2000-08-10 04:58:00",
+  "sheath": {
+   "start": "2000-08-10 04:58:00",
+   "end": "2000-08-10 21:01:00",
+   "duration_hours": 16.1,
+   "field": {
+    "hours": 16.1,
+    "bz_min_nT": -13.0,
+    "bz_median_nT": -2.8,
+    "hours_below_threshold": 1.3,
+    "south_nT_hours": 60.6,
+    "south_nT_per_hour": 3.78
+   }
+  },
+  "ejecta_field": {
+   "hours": 7.0,
+   "bz_min_nT": -13.8,
+   "bz_median_nT": -13.1,
+   "hours_below_threshold": 7.0,
+   "south_nT_hours": 89.1,
+   "south_nT_per_hour": 12.7
+  },
+  "driver": "ambiguous",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "2000-08-10 04:58:00",
+   "2000-08-11 18:47:00",
+   "2000-08-12 02:20:00",
+   "2000-08-14 22:29:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-08-10 04:58:00; low-Tp interval of 7 h; no flux-rope signature (rotation 39.1\u00b0 at r\u00b2=0.907, max B\u22a5 13.75 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 16.1 h carrying Bz to -13 nT (1.3 h below -10) \u2014 driver ambiguous: 60.6 (sheath) vs 89.1 (ejecta) nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "3caa50fdee32"
+ },
+ "sens_shock40_20150317": {
+  "icme": {
+   "start": "2015-03-17 13:38:00",
+   "end": "2015-03-18 04:17:00",
+   "duration_hours": 14.7,
+   "min_temp_ratio": 0.167,
+   "mean_speed_kms": 565.2,
+   "magnetic_cloud": false,
+   "rotation_deg": 151.8,
+   "rotation_r2": 0.764,
+   "max_b_perp_nT": 32.35
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2015-03-17 13:38:00",
+    "end": "2015-03-18 04:17:00",
+    "duration_hours": 14.7,
+    "min_temp_ratio": 0.167,
+    "mean_speed_kms": 565.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 151.8,
+    "rotation_r2": 0.764,
+    "max_b_perp_nT": 32.35
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "2015-03-17 04:49:00",
+  "sheath": {
+   "start": "2015-03-17 04:49:00",
+   "end": "2015-03-17 13:38:00",
+   "duration_hours": 8.8,
+   "field": {
+    "hours": 8.8,
+    "bz_min_nT": -26.0,
+    "bz_median_nT": -2.3,
+    "hours_below_threshold": 3.1,
+    "south_nT_hours": 61.0,
+    "south_nT_per_hour": 6.91
+   }
+  },
+  "ejecta_field": {
+   "hours": 14.7,
+   "bz_min_nT": -23.2,
+   "bz_median_nT": -14.7,
+   "hours_below_threshold": 9.5,
+   "south_nT_hours": 178.8,
+   "south_nT_per_hour": 12.21
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "2015-03-17 04:49:00",
+   "2015-03-17 11:11:00",
+   "2015-03-18 09:49:00",
+   "2015-03-19 16:08:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2015-03-17 04:49:00; low-Tp interval of 14.7 h; no flux-rope signature (rotation 151.8\u00b0 at r\u00b2=0.764, max B\u22a5 32.35 nT); sheath 8.8 h carrying Bz to -26 nT (3.1 h below -10) \u2014 ejecta-driven: 178.8 vs 61 nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "3d9ace6fa688"
+ },
+ "sens_shock40_20011124": {
+  "icme": {
+   "start": "2001-11-24 18:06:00",
+   "end": "2001-11-25 21:58:00",
+   "duration_hours": 27.9,
+   "min_temp_ratio": 0.033,
+   "mean_speed_kms": 685.2,
+   "magnetic_cloud": false,
+   "rotation_deg": 88.1,
+   "rotation_r2": 0.481,
+   "max_b_perp_nT": 17.63
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-11-24 18:06:00",
+    "end": "2001-11-25 21:58:00",
+    "duration_hours": 27.9,
+    "min_temp_ratio": 0.033,
+    "mean_speed_kms": 685.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 88.1,
+    "rotation_r2": 0.481,
+    "max_b_perp_nT": 17.63
+   },
+   {
+    "start": "2001-11-26 00:17:00",
+    "end": "2001-11-26 11:38:00",
+    "duration_hours": 11.3,
+    "min_temp_ratio": 0.254,
+    "mean_speed_kms": 591.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 179.5,
+    "rotation_r2": 0.007,
+    "max_b_perp_nT": 6.57
+   },
+   {
+    "start": "2001-11-27 04:35:00",
+    "end": "2001-11-27 17:43:00",
+    "duration_hours": 13.1,
+    "min_temp_ratio": 0.17,
+    "mean_speed_kms": 462.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 68.2,
+    "rotation_r2": 0.639,
+    "max_b_perp_nT": 5.77
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2001-11-24 04:53:00",
+  "sheath": {
+   "start": "2001-11-24 04:53:00",
+   "end": "2001-11-24 18:06:00",
+   "duration_hours": 13.2,
+   "field": {
+    "hours": 13.2,
+    "bz_min_nT": -47.1,
+    "bz_median_nT": 1.3,
+    "hours_below_threshold": 3.8,
+    "south_nT_hours": 98.5,
+    "south_nT_per_hour": 7.45
+   }
+  },
+  "ejecta_field": {
+   "hours": 27.9,
+   "bz_min_nT": -3.7,
+   "bz_median_nT": 11.0,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 0.6,
+   "south_nT_per_hour": 0.02
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2001-11-24 04:53:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-11-24 04:53:00; low-Tp interval of 27.9 h; no flux-rope signature (rotation 88.1\u00b0 at r\u00b2=0.481, max B\u22a5 17.63 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 13.2 h carrying Bz to -47.1 nT (3.8 h below -10) \u2014 SHEATH-DRIVEN: 98.5 vs 0.6 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "dfdef4b6012b"
+ },
+ "sens_shock40_20230424": {
+  "icme": {
+   "start": "2023-04-24 01:49:00",
+   "end": "2023-04-24 19:18:00",
+   "duration_hours": 17.5,
+   "min_temp_ratio": 0.081,
+   "mean_speed_kms": 537.3,
+   "magnetic_cloud": true,
+   "rotation_deg": 181.6,
+   "rotation_r2": 0.937,
+   "max_b_perp_nT": 33.9
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2023-04-24 01:49:00",
+    "end": "2023-04-24 19:18:00",
+    "duration_hours": 17.5,
+    "min_temp_ratio": 0.081,
+    "mean_speed_kms": 537.3,
+    "magnetic_cloud": true,
+    "rotation_deg": 181.6,
+    "rotation_r2": 0.937,
+    "max_b_perp_nT": 33.9
+   },
+   {
+    "start": "2023-04-25 04:42:00",
+    "end": "2023-04-26 00:42:00",
+    "duration_hours": 20.0,
+    "min_temp_ratio": 0.117,
+    "mean_speed_kms": 525.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 251.3,
+    "rotation_r2": 0.807,
+    "max_b_perp_nT": 5.55
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2023-04-23 17:39:00",
+  "sheath": {
+   "start": "2023-04-23 17:39:00",
+   "end": "2023-04-24 01:49:00",
+   "duration_hours": 8.2,
+   "field": {
+    "hours": 8.2,
+    "bz_min_nT": -33.3,
+    "bz_median_nT": -5.9,
+    "hours_below_threshold": 3.7,
+    "south_nT_hours": 76.1,
+    "south_nT_per_hour": 9.32
+   }
+  },
+  "ejecta_field": {
+   "hours": 17.5,
+   "bz_min_nT": -33.1,
+   "bz_median_nT": -4.3,
+   "hours_below_threshold": 8.0,
+   "south_nT_hours": 195.0,
+   "south_nT_per_hour": 11.15
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2023-04-23 17:39:00",
+   "2023-04-26 18:21:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2023-04-23 17:39:00; low-Tp interval of 17.5 h; magnetic cloud: 181.6\u00b0 smooth rotation (r\u00b2=0.937), max B\u22a5 33.9 nT; first of 2 qualifying intervals \u2014 an ICME train follows; sheath 8.2 h carrying Bz to -33.3 nT (3.7 h below -10) \u2014 ejecta-driven: 195 vs 76.1 nT\u00b7h southward; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "b36788b1d5d5"
+ },
+ "sens_shock40_19980925": {
+  "icme": {
+   "start": "1998-09-25 06:13:00",
+   "end": "1998-09-25 22:40:00",
+   "duration_hours": 16.4,
+   "min_temp_ratio": 0.022,
+   "mean_speed_kms": 708.1,
+   "magnetic_cloud": true,
+   "rotation_deg": 113.7,
+   "rotation_r2": 0.835,
+   "max_b_perp_nT": 19.68
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1998-09-25 06:13:00",
+    "end": "1998-09-25 22:40:00",
+    "duration_hours": 16.4,
+    "min_temp_ratio": 0.022,
+    "mean_speed_kms": 708.1,
+    "magnetic_cloud": true,
+    "rotation_deg": 113.7,
+    "rotation_r2": 0.835,
+    "max_b_perp_nT": 19.68
+   },
+   {
+    "start": "1998-09-26 01:59:00",
+    "end": "1998-09-26 16:45:00",
+    "duration_hours": 14.8,
+    "min_temp_ratio": 0.028,
+    "mean_speed_kms": 585.6,
+    "magnetic_cloud": true,
+    "rotation_deg": 130.7,
+    "rotation_r2": 0.82,
+    "max_b_perp_nT": 9.61
+   },
+   {
+    "start": "1998-09-28 01:11:00",
+    "end": "1998-09-28 09:02:00",
+    "duration_hours": 7.8,
+    "min_temp_ratio": 0.232,
+    "mean_speed_kms": 556.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 132.7,
+    "rotation_r2": 0.168,
+    "max_b_perp_nT": 5.97
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "1998-09-23 18:46:00",
+  "sheath": {
+   "start": "1998-09-23 18:46:00",
+   "end": "1998-09-25 06:13:00",
+   "duration_hours": 35.5,
+   "field": {
+    "hours": 35.5,
+    "bz_min_nT": -22.9,
+    "bz_median_nT": -2.6,
+    "hours_below_threshold": 4.8,
+    "south_nT_hours": 155.2,
+    "south_nT_per_hour": 4.38
+   }
+  },
+  "ejecta_field": {
+   "hours": 16.4,
+   "bz_min_nT": -15.8,
+   "bz_median_nT": -4.4,
+   "hours_below_threshold": 4.6,
+   "south_nT_hours": 90.2,
+   "south_nT_per_hour": 5.48
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "1998-09-23 18:46:00",
+   "1998-09-24 23:53:00",
+   "1998-09-26 21:03:00",
+   "1998-09-27 18:48:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1998-09-23 18:46:00; low-Tp interval of 16.4 h; magnetic cloud: 113.7\u00b0 smooth rotation (r\u00b2=0.835), max B\u22a5 19.68 nT; first of 3 qualifying intervals \u2014 an ICME train follows; sheath 35.5 h carrying Bz to -22.9 nT (4.8 h below -10) \u2014 SHEATH-DRIVEN: 155.2 vs 90.2 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "b0da96f76c2f"
+ },
+ "sens_shock40_19980504": {
+  "icme": {
+   "start": "1998-05-02 04:55:00",
+   "end": "1998-05-04 01:51:00",
+   "duration_hours": 44.9,
+   "min_temp_ratio": 0.033,
+   "mean_speed_kms": 528.1,
+   "magnetic_cloud": false,
+   "rotation_deg": 188.5,
+   "rotation_r2": 0.618,
+   "max_b_perp_nT": 14.92
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1998-05-02 04:55:00",
+    "end": "1998-05-04 01:51:00",
+    "duration_hours": 44.9,
+    "min_temp_ratio": 0.033,
+    "mean_speed_kms": 528.1,
+    "magnetic_cloud": false,
+    "rotation_deg": 188.5,
+    "rotation_r2": 0.618,
+    "max_b_perp_nT": 14.92
+   },
+   {
+    "start": "1998-05-05 17:29:00",
+    "end": "1998-05-06 06:14:00",
+    "duration_hours": 12.8,
+    "min_temp_ratio": 0.235,
+    "mean_speed_kms": 546.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 550.0,
+    "rotation_r2": 0.779,
+    "max_b_perp_nT": 10.38
+   },
+   {
+    "start": "1998-05-07 13:30:00",
+    "end": "1998-05-07 21:06:00",
+    "duration_hours": 7.6,
+    "min_temp_ratio": 0.135,
+    "mean_speed_kms": 491.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 41.5,
+    "rotation_r2": 0.793,
+    "max_b_perp_nT": 11.07
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "1998-04-30 09:30:00",
+  "sheath": {
+   "start": "1998-04-30 09:30:00",
+   "end": "1998-05-02 04:55:00",
+   "duration_hours": 43.4,
+   "field": {
+    "hours": 43.4,
+    "bz_min_nT": -14.4,
+    "bz_median_nT": 1.4,
+    "hours_below_threshold": 0.3,
+    "south_nT_hours": 59.4,
+    "south_nT_per_hour": 1.37
+   }
+  },
+  "ejecta_field": {
+   "hours": 44.9,
+   "bz_min_nT": -13.8,
+   "bz_median_nT": -4.1,
+   "hours_below_threshold": 3.1,
+   "south_nT_hours": 222.9,
+   "south_nT_per_hour": 4.96
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "1998-04-30 09:30:00",
+   "1998-05-01 22:00:00",
+   "1998-05-02 05:09:00",
+   "1998-05-03 17:58:00",
+   "1998-05-04 02:33:00",
+   "1998-05-04 22:04:00",
+   "1998-05-05 13:10:00",
+   "1998-05-05 22:40:00",
+   "1998-05-07 13:15:00",
+   "1998-05-07 22:19:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1998-04-30 09:30:00; low-Tp interval of 44.9 h; no flux-rope signature (rotation 188.5\u00b0 at r\u00b2=0.618, max B\u22a5 14.92 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 43.4 h carrying Bz to -14.4 nT (0.3 h below -10) \u2014 ejecta-driven: 222.9 vs 59.4 nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "a09d43cf77db"
+ },
+ "sens_shock40_20000917": {
+  "icme": {
+   "start": "2000-09-18 04:03:00",
+   "end": "2000-09-19 20:58:00",
+   "duration_hours": 40.9,
+   "min_temp_ratio": 0.057,
+   "mean_speed_kms": 694.6,
+   "magnetic_cloud": false,
+   "rotation_deg": 428.7,
+   "rotation_r2": 0.0,
+   "max_b_perp_nT": 31.98
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-09-18 04:03:00",
+    "end": "2000-09-19 20:58:00",
+    "duration_hours": 40.9,
+    "min_temp_ratio": 0.057,
+    "mean_speed_kms": 694.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 428.7,
+    "rotation_r2": 0.0,
+    "max_b_perp_nT": 31.98
+   },
+   {
+    "start": "2000-09-19 23:19:00",
+    "end": "2000-09-20 23:54:00",
+    "duration_hours": 24.6,
+    "min_temp_ratio": 0.092,
+    "mean_speed_kms": 509.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 632.1,
+    "rotation_r2": 0.067,
+    "max_b_perp_nT": 6.02
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2000-09-15 04:45:00",
+  "sheath": {
+   "start": "2000-09-17 16:00:00",
+   "end": "2000-09-18 04:03:00",
+   "duration_hours": 12.1,
+   "field": {
+    "hours": 12.1,
+    "bz_min_nT": -37.6,
+    "bz_median_nT": 10.1,
+    "hours_below_threshold": 2.0,
+    "south_nT_hours": 53.9,
+    "south_nT_per_hour": 4.47
+   }
+  },
+  "ejecta_field": {
+   "hours": 40.9,
+   "bz_min_nT": -8.6,
+   "bz_median_nT": 2.4,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 32.8,
+   "south_nT_per_hour": 0.8
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2000-09-15 04:45:00",
+   "2000-09-17 16:00:00",
+   "2000-09-17 23:33:00",
+   "2000-09-19 03:39:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-09-15 04:45:00; low-Tp interval of 40.9 h; no flux-rope signature (rotation 428.7\u00b0 at r\u00b2=0, max B\u22a5 31.98 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 12.1 h carrying Bz to -37.6 nT (2 h below -10) \u2014 SHEATH-DRIVEN: 53.9 vs 32.8 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "2e6c14f86a0a"
+ },
+ "sens_ratio06_20031120": {
+  "icme": {
+   "start": "2003-11-20 10:44:00",
+   "end": "2003-11-21 08:22:00",
+   "duration_hours": 21.6,
+   "min_temp_ratio": 0.123,
+   "mean_speed_kms": 576.3,
+   "magnetic_cloud": true,
+   "rotation_deg": 508.7,
+   "rotation_r2": 0.905,
+   "max_b_perp_nT": 56.1
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2003-11-20 10:44:00",
+    "end": "2003-11-21 08:22:00",
+    "duration_hours": 21.6,
+    "min_temp_ratio": 0.123,
+    "mean_speed_kms": 576.3,
+    "magnetic_cloud": true,
+    "rotation_deg": 508.7,
+    "rotation_r2": 0.905,
+    "max_b_perp_nT": 56.1
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "2003-11-20 08:06:00",
+  "sheath": {
+   "start": "2003-11-20 08:06:00",
+   "end": "2003-11-20 10:44:00",
+   "duration_hours": 2.6,
+   "field": {
+    "hours": 2.6,
+    "bz_min_nT": -17.2,
+    "bz_median_nT": -4.7,
+    "hours_below_threshold": 0.5,
+    "south_nT_hours": 14.2,
+    "south_nT_per_hour": 5.39
+   }
+  },
+  "ejecta_field": {
+   "hours": 21.6,
+   "bz_min_nT": -52.3,
+   "bz_median_nT": -14.4,
+   "hours_below_threshold": 12.3,
+   "south_nT_hours": 391.6,
+   "south_nT_per_hour": 18.1
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "2003-11-20 08:06:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2003-11-20 08:06:00; low-Tp interval of 21.6 h; magnetic cloud: 508.7\u00b0 smooth rotation (r\u00b2=0.905), max B\u22a5 56.1 nT; sheath 2.6 h carrying Bz to -17.2 nT (0.5 h below -10) \u2014 ejecta-driven: 391.6 vs 14.2 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "19827d72fefe"
+ },
+ "sens_ratio06_20240511": {
+  "icme": {
+   "start": "2024-05-11 08:31:00",
+   "end": "2024-05-11 18:41:00",
+   "duration_hours": 10.2,
+   "min_temp_ratio": 0.164,
+   "mean_speed_kms": 780.6,
+   "magnetic_cloud": false,
+   "rotation_deg": 346.6,
+   "rotation_r2": 0.478,
+   "max_b_perp_nT": 42.57
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2024-05-11 08:31:00",
+    "end": "2024-05-11 18:41:00",
+    "duration_hours": 10.2,
+    "min_temp_ratio": 0.164,
+    "mean_speed_kms": 780.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 346.6,
+    "rotation_r2": 0.478,
+    "max_b_perp_nT": 42.57
+   },
+   {
+    "start": "2024-05-12 00:58:00",
+    "end": "2024-05-12 10:39:00",
+    "duration_hours": 9.7,
+    "min_temp_ratio": 0.084,
+    "mean_speed_kms": 906.8,
+    "magnetic_cloud": false,
+    "rotation_deg": 608.5,
+    "rotation_r2": 0.639,
+    "max_b_perp_nT": 8.53
+   },
+   {
+    "start": "2024-05-12 20:43:00",
+    "end": "2024-05-14 10:16:00",
+    "duration_hours": 37.5,
+    "min_temp_ratio": 0.104,
+    "mean_speed_kms": 658.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 266.3,
+    "rotation_r2": 0.369,
+    "max_b_perp_nT": 11.04
+   },
+   {
+    "start": "2024-05-14 12:26:00",
+    "end": "2024-05-15 00:00:00",
+    "duration_hours": 11.6,
+    "min_temp_ratio": 0.265,
+    "mean_speed_kms": 516.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 215.4,
+    "rotation_r2": 0.069,
+    "max_b_perp_nT": 3.38
+   }
+  ],
+  "n_intervals": 4,
+  "shock_time": "2024-05-10 17:05:00",
+  "sheath": {
+   "start": "2024-05-10 17:05:00",
+   "end": "2024-05-11 08:31:00",
+   "duration_hours": 15.4,
+   "field": {
+    "hours": 15.4,
+    "bz_min_nT": -47.9,
+    "bz_median_nT": -23.4,
+    "hours_below_threshold": 10.8,
+    "south_nT_hours": 311.4,
+    "south_nT_per_hour": 20.18
+   }
+  },
+  "ejecta_field": {
+   "hours": 10.2,
+   "bz_min_nT": -39.6,
+   "bz_median_nT": -16.5,
+   "hours_below_threshold": 6.6,
+   "south_nT_hours": 156.5,
+   "south_nT_per_hour": 15.39
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2024-05-10 17:05:00",
+   "2024-05-11 11:24:00",
+   "2024-05-11 18:19:00",
+   "2024-05-12 00:46:00",
+   "2024-05-12 17:50:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2024-05-10 17:05:00; low-Tp interval of 10.2 h; no flux-rope signature (rotation 346.6\u00b0 at r\u00b2=0.478, max B\u22a5 42.57 nT); first of 4 qualifying intervals \u2014 an ICME train follows; sheath 15.4 h carrying Bz to -47.9 nT (10.8 h below -10) \u2014 SHEATH-DRIVEN: 311.4 vs 156.5 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "26ae35c071b3"
+ },
+ "sens_ratio06_20010331": {
+  "icme": {
+   "start": "2001-03-28 07:02:00",
+   "end": "2001-03-30 22:49:00",
+   "duration_hours": 63.8,
+   "min_temp_ratio": 0.06,
+   "mean_speed_kms": 513.1,
+   "magnetic_cloud": true,
+   "rotation_deg": 2111.9,
+   "rotation_r2": 0.894,
+   "max_b_perp_nT": 14.53
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-03-28 07:02:00",
+    "end": "2001-03-30 22:49:00",
+    "duration_hours": 63.8,
+    "min_temp_ratio": 0.06,
+    "mean_speed_kms": 513.1,
+    "magnetic_cloud": true,
+    "rotation_deg": 2111.9,
+    "rotation_r2": 0.894,
+    "max_b_perp_nT": 14.53
+   },
+   {
+    "start": "2001-03-31 17:08:00",
+    "end": "2001-04-03 17:04:00",
+    "duration_hours": 71.9,
+    "min_temp_ratio": 0.05,
+    "mean_speed_kms": 613.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 358.9,
+    "rotation_r2": 0.06,
+    "max_b_perp_nT": 32.66
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2001-03-27 17:58:00",
+  "sheath": {
+   "start": "2001-03-27 17:58:00",
+   "end": "2001-03-28 07:02:00",
+   "duration_hours": 13.1,
+   "field": {
+    "hours": 13.1,
+    "bz_min_nT": -17.1,
+    "bz_median_nT": 6.7,
+    "hours_below_threshold": 1.2,
+    "south_nT_hours": 21.3,
+    "south_nT_per_hour": 1.63
+   }
+  },
+  "ejecta_field": {
+   "hours": 63.8,
+   "bz_min_nT": -11.3,
+   "bz_median_nT": -0.1,
+   "hours_below_threshold": 0.4,
+   "south_nT_hours": 56.8,
+   "south_nT_per_hour": 0.89
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2001-03-27 17:58:00",
+   "2001-03-31 01:00:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-03-27 17:58:00; low-Tp interval of 63.8 h; magnetic cloud: 2111.9\u00b0 smooth rotation (r\u00b2=0.894), max B\u22a5 14.53 nT; first of 2 qualifying intervals \u2014 an ICME train follows; sheath 13.1 h carrying Bz to -17.1 nT (1.2 h below -10) \u2014 ejecta-driven: 56.8 vs 21.3 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "95d90d9867d6"
+ },
+ "sens_ratio06_20031030": {
+  "icme": {
+   "start": "2003-10-28 03:14:00",
+   "end": "2003-10-28 09:18:00",
+   "duration_hours": 6.1,
+   "min_temp_ratio": 0.263,
+   "mean_speed_kms": 623.4,
+   "magnetic_cloud": false,
+   "rotation_deg": 37.6,
+   "rotation_r2": 0.681,
+   "max_b_perp_nT": 16.74
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2003-10-28 03:14:00",
+    "end": "2003-10-28 09:18:00",
+    "duration_hours": 6.1,
+    "min_temp_ratio": 0.263,
+    "mean_speed_kms": 623.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 37.6,
+    "rotation_r2": 0.681,
+    "max_b_perp_nT": 16.74
+   },
+   {
+    "start": "2003-11-01 04:52:00",
+    "end": "2003-11-02 10:51:00",
+    "duration_hours": 30.0,
+    "min_temp_ratio": 0.017,
+    "mean_speed_kms": 588.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 464.6,
+    "rotation_r2": 0.612,
+    "max_b_perp_nT": 5.74
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2003-10-26 09:06:00",
+  "sheath": {
+   "start": "2003-10-26 09:06:00",
+   "end": "2003-10-28 03:14:00",
+   "duration_hours": 42.1,
+   "field": {
+    "hours": 42.1,
+    "bz_min_nT": -12.1,
+    "bz_median_nT": 0.1,
+    "hours_below_threshold": 0.1,
+    "south_nT_hours": 94.0,
+    "south_nT_per_hour": 2.23
+   }
+  },
+  "ejecta_field": {
+   "hours": 6.1,
+   "bz_min_nT": -9.2,
+   "bz_median_nT": -0.4,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 8.7,
+   "south_nT_per_hour": 1.44
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2003-10-26 09:06:00",
+   "2003-10-26 19:04:00",
+   "2003-10-28 02:04:00",
+   "2003-10-28 10:46:00",
+   "2003-10-29 19:16:00",
+   "2003-11-01 04:58:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2003-10-26 09:06:00; low-Tp interval of 6.1 h; no flux-rope signature (rotation 37.6\u00b0 at r\u00b2=0.681, max B\u22a5 16.74 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 42.1 h carrying Bz to -12.1 nT (0.1 h below -10) \u2014 SHEATH-DRIVEN: 94 vs 8.7 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "b1459aef9b02"
+ },
+ "sens_ratio06_20041108": {
+  "icme": {
+   "start": "2004-11-08 03:00:00",
+   "end": "2004-11-09 09:53:00",
+   "duration_hours": 30.9,
+   "min_temp_ratio": 0.031,
+   "mean_speed_kms": 633.7,
+   "magnetic_cloud": false,
+   "rotation_deg": 149.2,
+   "rotation_r2": 0.001,
+   "max_b_perp_nT": 48.23
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2004-11-08 03:00:00",
+    "end": "2004-11-09 09:53:00",
+    "duration_hours": 30.9,
+    "min_temp_ratio": 0.031,
+    "mean_speed_kms": 633.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 149.2,
+    "rotation_r2": 0.001,
+    "max_b_perp_nT": 48.23
+   },
+   {
+    "start": "2004-11-09 20:59:00",
+    "end": "2004-11-11 00:20:00",
+    "duration_hours": 27.4,
+    "min_temp_ratio": 0.045,
+    "mean_speed_kms": 689.4,
+    "magnetic_cloud": true,
+    "rotation_deg": 290.2,
+    "rotation_r2": 0.908,
+    "max_b_perp_nT": 39.79
+   },
+   {
+    "start": "2004-11-11 04:55:00",
+    "end": "2004-11-11 18:56:00",
+    "duration_hours": 14.0,
+    "min_temp_ratio": 0.018,
+    "mean_speed_kms": 571.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 146.1,
+    "rotation_r2": 0.569,
+    "max_b_perp_nT": 7.92
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2004-11-07 18:29:00",
+  "sheath": {
+   "start": "2004-11-07 18:29:00",
+   "end": "2004-11-08 03:00:00",
+   "duration_hours": 8.5,
+   "field": {
+    "hours": 8.5,
+    "bz_min_nT": -49.3,
+    "bz_median_nT": -8.9,
+    "hours_below_threshold": 4.1,
+    "south_nT_hours": 134.1,
+    "south_nT_per_hour": 15.75
+   }
+  },
+  "ejecta_field": {
+   "hours": 30.9,
+   "bz_min_nT": -47.9,
+   "bz_median_nT": -4.4,
+   "hours_below_threshold": 7.4,
+   "south_nT_hours": 252.6,
+   "south_nT_per_hour": 8.18
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2004-11-07 18:29:00",
+   "2004-11-09 09:24:00",
+   "2004-11-09 18:57:00",
+   "2004-11-10 17:05:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2004-11-07 18:29:00; low-Tp interval of 30.9 h; no flux-rope signature (rotation 149.2\u00b0 at r\u00b2=0.001, max B\u22a5 48.23 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 8.5 h carrying Bz to -49.3 nT (4.1 h below -10) \u2014 ejecta-driven: 252.6 vs 134.1 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "02f60a7f38a1"
+ },
+ "sens_ratio06_20241011": {
+  "icme": {
+   "start": "2024-10-11 06:40:00",
+   "end": "2024-10-12 03:22:00",
+   "duration_hours": 20.7,
+   "min_temp_ratio": 0.074,
+   "mean_speed_kms": 688.7,
+   "magnetic_cloud": false,
+   "rotation_deg": 430.4,
+   "rotation_r2": 0.13,
+   "max_b_perp_nT": 30.79
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2024-10-11 06:40:00",
+    "end": "2024-10-12 03:22:00",
+    "duration_hours": 20.7,
+    "min_temp_ratio": 0.074,
+    "mean_speed_kms": 688.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 430.4,
+    "rotation_r2": 0.13,
+    "max_b_perp_nT": 30.79
+   },
+   {
+    "start": "2024-10-12 05:50:00",
+    "end": "2024-10-13 04:06:00",
+    "duration_hours": 22.3,
+    "min_temp_ratio": 0.133,
+    "mean_speed_kms": 568.1,
+    "magnetic_cloud": false,
+    "rotation_deg": 306.5,
+    "rotation_r2": 0.007,
+    "max_b_perp_nT": 8.01
+   },
+   {
+    "start": "2024-10-13 07:29:00",
+    "end": "2024-10-14 22:07:00",
+    "duration_hours": 38.6,
+    "min_temp_ratio": 0.247,
+    "mean_speed_kms": 426.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 485.8,
+    "rotation_r2": 0.513,
+    "max_b_perp_nT": 7.59
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2024-10-10 14:13:00",
+  "sheath": {
+   "start": "2024-10-10 14:13:00",
+   "end": "2024-10-11 06:40:00",
+   "duration_hours": 16.4,
+   "field": {
+    "hours": 16.4,
+    "bz_min_nT": -47.0,
+    "bz_median_nT": -20.9,
+    "hours_below_threshold": 12.2,
+    "south_nT_hours": 333.7,
+    "south_nT_per_hour": 20.29
+   }
+  },
+  "ejecta_field": {
+   "hours": 20.7,
+   "bz_min_nT": -22.6,
+   "bz_median_nT": 2.1,
+   "hours_below_threshold": 3.0,
+   "south_nT_hours": 66.9,
+   "south_nT_per_hour": 3.23
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2024-10-10 14:13:00",
+   "2024-10-11 05:58:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2024-10-10 14:13:00; low-Tp interval of 20.7 h; no flux-rope signature (rotation 430.4\u00b0 at r\u00b2=0.13, max B\u22a5 30.79 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 16.4 h carrying Bz to -47 nT (12.2 h below -10) \u2014 SHEATH-DRIVEN: 333.7 vs 66.9 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "08d4e9b65563"
+ },
+ "sens_ratio06_20000716": {
+  "icme": {
+   "start": "2000-07-14 03:48:00",
+   "end": "2000-07-14 11:35:00",
+   "duration_hours": 7.8,
+   "min_temp_ratio": 0.24,
+   "mean_speed_kms": 597.3,
+   "magnetic_cloud": false,
+   "rotation_deg": 742.3,
+   "rotation_r2": 0.876,
+   "max_b_perp_nT": 5.2
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-07-14 03:48:00",
+    "end": "2000-07-14 11:35:00",
+    "duration_hours": 7.8,
+    "min_temp_ratio": 0.24,
+    "mean_speed_kms": 597.3,
+    "magnetic_cloud": false,
+    "rotation_deg": 742.3,
+    "rotation_r2": 0.876,
+    "max_b_perp_nT": 5.2
+   },
+   {
+    "start": "2000-07-15 19:51:00",
+    "end": "2000-07-17 08:10:00",
+    "duration_hours": 36.3,
+    "min_temp_ratio": 0.005,
+    "mean_speed_kms": 835.7,
+    "magnetic_cloud": true,
+    "rotation_deg": 279.0,
+    "rotation_r2": 0.84,
+    "max_b_perp_nT": 61.24
+   },
+   {
+    "start": "2000-07-17 15:15:00",
+    "end": "2000-07-18 05:33:00",
+    "duration_hours": 14.3,
+    "min_temp_ratio": 0.366,
+    "mean_speed_kms": 609.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 122.1,
+    "rotation_r2": 0.616,
+    "max_b_perp_nT": 6.81
+   },
+   {
+    "start": "2000-07-18 23:00:00",
+    "end": "2000-07-19 15:37:00",
+    "duration_hours": 16.6,
+    "min_temp_ratio": 0.217,
+    "mean_speed_kms": 531.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 442.3,
+    "rotation_r2": 0.366,
+    "max_b_perp_nT": 8.46
+   }
+  ],
+  "n_intervals": 4,
+  "shock_time": "2000-07-13 09:53:00",
+  "sheath": {
+   "start": "2000-07-13 09:53:00",
+   "end": "2000-07-14 03:48:00",
+   "duration_hours": 17.9,
+   "field": {
+    "hours": 17.9,
+    "bz_min_nT": -20.8,
+    "bz_median_nT": -0.0,
+    "hours_below_threshold": 1.2,
+    "south_nT_hours": 38.6,
+    "south_nT_per_hour": 2.15
+   }
+  },
+  "ejecta_field": {
+   "hours": 7.8,
+   "bz_min_nT": -5.2,
+   "bz_median_nT": -1.7,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 14.7,
+   "south_nT_per_hour": 1.89
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2000-07-13 09:53:00",
+   "2000-07-15 14:35:00",
+   "2000-07-16 07:02:00",
+   "2000-07-19 15:30:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-07-13 09:53:00; low-Tp interval of 7.8 h; no flux-rope signature (rotation 742.3\u00b0 at r\u00b2=0.876, max B\u22a5 5.2 nT); first of 4 qualifying intervals \u2014 an ICME train follows; sheath 17.9 h carrying Bz to -20.8 nT (1.2 h below -10) \u2014 SHEATH-DRIVEN: 38.6 vs 14.7 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "f85f1bc0d13a"
+ },
+ "sens_ratio06_20000407": {
+  "icme": {
+   "start": "2000-04-07 05:33:00",
+   "end": "2000-04-08 06:12:00",
+   "duration_hours": 24.6,
+   "min_temp_ratio": 0.03,
+   "mean_speed_kms": 562.4,
+   "magnetic_cloud": false,
+   "rotation_deg": 262.0,
+   "rotation_r2": 0.4,
+   "max_b_perp_nT": 20.09
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-04-07 05:33:00",
+    "end": "2000-04-08 06:12:00",
+    "duration_hours": 24.6,
+    "min_temp_ratio": 0.03,
+    "mean_speed_kms": 562.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 262.0,
+    "rotation_r2": 0.4,
+    "max_b_perp_nT": 20.09
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "2000-04-06 16:47:00",
+  "sheath": {
+   "start": "2000-04-06 16:47:00",
+   "end": "2000-04-07 05:33:00",
+   "duration_hours": 12.8,
+   "field": {
+    "hours": 12.8,
+    "bz_min_nT": -33.0,
+    "bz_median_nT": -19.3,
+    "hours_below_threshold": 7.4,
+    "south_nT_hours": 186.6,
+    "south_nT_per_hour": 14.62
+   }
+  },
+  "ejecta_field": {
+   "hours": 24.6,
+   "bz_min_nT": -16.6,
+   "bz_median_nT": -0.3,
+   "hours_below_threshold": 0.3,
+   "south_nT_hours": 27.5,
+   "south_nT_per_hour": 1.12
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2000-04-06 16:47:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-04-06 16:47:00; low-Tp interval of 24.6 h; no flux-rope signature (rotation 262\u00b0 at r\u00b2=0.4, max B\u22a5 20.09 nT); sheath 12.8 h carrying Bz to -33 nT (7.4 h below -10) \u2014 SHEATH-DRIVEN: 186.6 vs 27.5 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "65302bf8a88e"
+ },
+ "sens_ratio06_20011106": {
+  "icme": {
+   "start": "2001-11-04 18:57:00",
+   "end": "2001-11-05 06:29:00",
+   "duration_hours": 11.5,
+   "min_temp_ratio": 0.409,
+   "mean_speed_kms": 340.5,
+   "magnetic_cloud": false,
+   "rotation_deg": 54.8,
+   "rotation_r2": 0.436,
+   "max_b_perp_nT": 10.23
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-11-04 18:57:00",
+    "end": "2001-11-05 06:29:00",
+    "duration_hours": 11.5,
+    "min_temp_ratio": 0.409,
+    "mean_speed_kms": 340.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 54.8,
+    "rotation_r2": 0.436,
+    "max_b_perp_nT": 10.23
+   },
+   {
+    "start": "2001-11-06 21:47:00",
+    "end": "2001-11-09 02:06:00",
+    "duration_hours": 52.3,
+    "min_temp_ratio": 0.104,
+    "mean_speed_kms": 583.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 332.8,
+    "rotation_r2": 0.201,
+    "max_b_perp_nT": 8.59
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": null,
+  "sheath": null,
+  "ejecta_field": null,
+  "driver": null,
+  "driver_by_rate": null,
+  "shock_times": [],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "low-Tp interval of 11.5 h; no flux-rope signature (rotation 54.8\u00b0 at r\u00b2=0.436, max B\u22a5 10.23 nT); first of 2 qualifying intervals \u2014 an ICME train follows",
+  "status": "ok",
+  "audit_id": "7db0e4fc7d6d"
+ },
+ "sens_ratio06_20010411": {
+  "icme": {
+   "start": "2001-04-09 12:49:00",
+   "end": "2001-04-10 10:37:00",
+   "duration_hours": 21.8,
+   "min_temp_ratio": 0.14,
+   "mean_speed_kms": 566.0,
+   "magnetic_cloud": false,
+   "rotation_deg": 675.7,
+   "rotation_r2": 0.361,
+   "max_b_perp_nT": 8.3
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-04-09 12:49:00",
+    "end": "2001-04-10 10:37:00",
+    "duration_hours": 21.8,
+    "min_temp_ratio": 0.14,
+    "mean_speed_kms": 566.0,
+    "magnetic_cloud": false,
+    "rotation_deg": 675.7,
+    "rotation_r2": 0.361,
+    "max_b_perp_nT": 8.3
+   },
+   {
+    "start": "2001-04-12 07:38:00",
+    "end": "2001-04-13 07:28:00",
+    "duration_hours": 23.8,
+    "min_temp_ratio": 0.026,
+    "mean_speed_kms": 640.4,
+    "magnetic_cloud": false,
+    "rotation_deg": 159.0,
+    "rotation_r2": 0.054,
+    "max_b_perp_nT": 20.49
+   },
+   {
+    "start": "2001-04-13 09:54:00",
+    "end": "2001-04-14 11:12:00",
+    "duration_hours": 25.3,
+    "min_temp_ratio": 0.022,
+    "mean_speed_kms": 728.7,
+    "magnetic_cloud": false,
+    "rotation_deg": 123.8,
+    "rotation_r2": 0.042,
+    "max_b_perp_nT": 13.74
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "2001-04-07 17:35:00",
+  "sheath": {
+   "start": "2001-04-07 17:35:00",
+   "end": "2001-04-09 12:49:00",
+   "duration_hours": 43.2,
+   "field": {
+    "hours": 43.2,
+    "bz_min_nT": -16.8,
+    "bz_median_nT": 0.2,
+    "hours_below_threshold": 0.7,
+    "south_nT_hours": 65.5,
+    "south_nT_per_hour": 1.51
+   }
+  },
+  "ejecta_field": {
+   "hours": 21.8,
+   "bz_min_nT": -5.9,
+   "bz_median_nT": -0.6,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 22.0,
+   "south_nT_per_hour": 1.01
+  },
+  "driver": "sheath",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2001-04-07 17:35:00",
+   "2001-04-08 11:04:00",
+   "2001-04-11 13:34:00",
+   "2001-04-11 19:34:00",
+   "2001-04-13 07:31:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-04-07 17:35:00; low-Tp interval of 21.8 h; no flux-rope signature (rotation 675.7\u00b0 at r\u00b2=0.361, max B\u22a5 8.3 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 43.2 h carrying Bz to -16.8 nT (0.7 h below -10) \u2014 SHEATH-DRIVEN: 65.5 vs 22 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "2400153ce3f6"
+ },
+ "sens_ratio06_20050515": {
+  "icme": {
+   "start": "2005-05-15 07:24:00",
+   "end": "2005-05-18 01:18:00",
+   "duration_hours": 65.9,
+   "min_temp_ratio": 0.01,
+   "mean_speed_kms": 645.8,
+   "magnetic_cloud": false,
+   "rotation_deg": 387.6,
+   "rotation_r2": 0.773,
+   "max_b_perp_nT": 44.39
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2005-05-15 07:24:00",
+    "end": "2005-05-18 01:18:00",
+    "duration_hours": 65.9,
+    "min_temp_ratio": 0.01,
+    "mean_speed_kms": 645.8,
+    "magnetic_cloud": false,
+    "rotation_deg": 387.6,
+    "rotation_r2": 0.773,
+    "max_b_perp_nT": 44.39
+   },
+   {
+    "start": "2005-05-18 08:31:00",
+    "end": "2005-05-18 21:58:00",
+    "duration_hours": 13.4,
+    "min_temp_ratio": 0.076,
+    "mean_speed_kms": 508.9,
+    "magnetic_cloud": true,
+    "rotation_deg": 92.9,
+    "rotation_r2": 0.819,
+    "max_b_perp_nT": 8.72
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2005-05-15 04:24:00",
+  "sheath": {
+   "start": "2005-05-15 04:24:00",
+   "end": "2005-05-15 07:24:00",
+   "duration_hours": 3.0,
+   "field": {
+    "hours": 3.0,
+    "bz_min_nT": -46.5,
+    "bz_median_nT": -8.6,
+    "hours_below_threshold": 1.5,
+    "south_nT_hours": 53.3,
+    "south_nT_per_hour": 17.77
+   }
+  },
+  "ejecta_field": {
+   "hours": 65.9,
+   "bz_min_nT": -27.6,
+   "bz_median_nT": -2.7,
+   "hours_below_threshold": 2.4,
+   "south_nT_hours": 215.1,
+   "south_nT_per_hour": 3.26
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2005-05-15 04:24:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2005-05-15 04:24:00; low-Tp interval of 65.9 h; no flux-rope signature (rotation 387.6\u00b0 at r\u00b2=0.773, max B\u22a5 44.39 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 3 h carrying Bz to -46.5 nT (1.5 h below -10) \u2014 ejecta-driven: 215.1 vs 53.3 nT\u00b7h southward",
+  "status": "ok",
+  "audit_id": "42f12e3d0626"
+ },
+ "sens_ratio06_19991022": {
+  "icme": {
+   "start": "1999-10-21 19:50:00",
+   "end": "1999-10-22 06:32:00",
+   "duration_hours": 10.7,
+   "min_temp_ratio": 0.107,
+   "mean_speed_kms": 486.9,
+   "magnetic_cloud": false,
+   "rotation_deg": 179.4,
+   "rotation_r2": 0.69,
+   "max_b_perp_nT": 31.93
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1999-10-21 19:50:00",
+    "end": "1999-10-22 06:32:00",
+    "duration_hours": 10.7,
+    "min_temp_ratio": 0.107,
+    "mean_speed_kms": 486.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 179.4,
+    "rotation_r2": 0.69,
+    "max_b_perp_nT": 31.93
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "1999-10-21 02:22:00",
+  "sheath": {
+   "start": "1999-10-21 02:22:00",
+   "end": "1999-10-21 19:50:00",
+   "duration_hours": 17.5,
+   "field": {
+    "hours": 17.5,
+    "bz_min_nT": -20.4,
+    "bz_median_nT": 6.4,
+    "hours_below_threshold": 0.1,
+    "south_nT_hours": 9.7,
+    "south_nT_per_hour": 0.56
+   }
+  },
+  "ejecta_field": {
+   "hours": 10.7,
+   "bz_min_nT": -31.5,
+   "bz_median_nT": -17.2,
+   "hours_below_threshold": 6.7,
+   "south_nT_hours": 160.1,
+   "south_nT_per_hour": 14.96
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "1999-10-21 02:22:00",
+   "1999-10-22 07:15:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1999-10-21 02:22:00; low-Tp interval of 10.7 h; no flux-rope signature (rotation 179.4\u00b0 at r\u00b2=0.69, max B\u22a5 31.93 nT); sheath 17.5 h carrying Bz to -20.4 nT (0.1 h below -10) \u2014 ejecta-driven: 160.1 vs 9.7 nT\u00b7h southward; 3 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "644c0f3d8e6b"
+ },
+ "sens_ratio06_20000812": {
+  "icme": {
+   "start": "2000-08-12 06:00:00",
+   "end": "2000-08-13 23:44:00",
+   "duration_hours": 41.7,
+   "min_temp_ratio": 0.021,
+   "mean_speed_kms": 568.0,
+   "magnetic_cloud": true,
+   "rotation_deg": 280.9,
+   "rotation_r2": 0.902,
+   "max_b_perp_nT": 34.09
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-08-12 06:00:00",
+    "end": "2000-08-13 23:44:00",
+    "duration_hours": 41.7,
+    "min_temp_ratio": 0.021,
+    "mean_speed_kms": 568.0,
+    "magnetic_cloud": true,
+    "rotation_deg": 280.9,
+    "rotation_r2": 0.902,
+    "max_b_perp_nT": 34.09
+   },
+   {
+    "start": "2000-08-14 21:47:00",
+    "end": "2000-08-15 03:50:00",
+    "duration_hours": 6.0,
+    "min_temp_ratio": 0.324,
+    "mean_speed_kms": 561.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 357.2,
+    "rotation_r2": 0.352,
+    "max_b_perp_nT": 14.0
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2000-08-11 18:47:00",
+  "sheath": {
+   "start": "2000-08-11 18:47:00",
+   "end": "2000-08-12 06:00:00",
+   "duration_hours": 11.2,
+   "field": {
+    "hours": 11.2,
+    "bz_min_nT": -26.2,
+    "bz_median_nT": -1.1,
+    "hours_below_threshold": 2.7,
+    "south_nT_hours": 59.7,
+    "south_nT_per_hour": 5.33
+   }
+  },
+  "ejecta_field": {
+   "hours": 41.7,
+   "bz_min_nT": -29.9,
+   "bz_median_nT": 4.3,
+   "hours_below_threshold": 9.4,
+   "south_nT_hours": 208.4,
+   "south_nT_per_hour": 4.99
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2000-08-11 18:47:00",
+   "2000-08-14 22:36:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-08-11 18:47:00; low-Tp interval of 41.7 h; magnetic cloud: 280.9\u00b0 smooth rotation (r\u00b2=0.902), max B\u22a5 34.09 nT; first of 2 qualifying intervals \u2014 an ICME train follows; sheath 11.2 h carrying Bz to -26.2 nT (2.7 h below -10) \u2014 ejecta-driven: 208.4 vs 59.7 nT\u00b7h southward; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "a31a161781df"
+ },
+ "sens_ratio06_20150317": {
+  "icme": {
+   "start": "2015-03-17 13:38:00",
+   "end": "2015-03-18 04:19:00",
+   "duration_hours": 14.7,
+   "min_temp_ratio": 0.167,
+   "mean_speed_kms": 565.1,
+   "magnetic_cloud": false,
+   "rotation_deg": 151.8,
+   "rotation_r2": 0.765,
+   "max_b_perp_nT": 32.35
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2015-03-17 13:38:00",
+    "end": "2015-03-18 04:19:00",
+    "duration_hours": 14.7,
+    "min_temp_ratio": 0.167,
+    "mean_speed_kms": 565.1,
+    "magnetic_cloud": false,
+    "rotation_deg": 151.8,
+    "rotation_r2": 0.765,
+    "max_b_perp_nT": 32.35
+   }
+  ],
+  "n_intervals": 1,
+  "shock_time": "2015-03-17 04:49:00",
+  "sheath": {
+   "start": "2015-03-17 04:49:00",
+   "end": "2015-03-17 13:38:00",
+   "duration_hours": 8.8,
+   "field": {
+    "hours": 8.8,
+    "bz_min_nT": -26.0,
+    "bz_median_nT": -2.3,
+    "hours_below_threshold": 3.1,
+    "south_nT_hours": 61.0,
+    "south_nT_per_hour": 6.91
+   }
+  },
+  "ejecta_field": {
+   "hours": 14.7,
+   "bz_min_nT": -23.2,
+   "bz_median_nT": -14.7,
+   "hours_below_threshold": 9.5,
+   "south_nT_hours": 179.0,
+   "south_nT_per_hour": 12.19
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "2015-03-17 04:49:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2015-03-17 04:49:00; low-Tp interval of 14.7 h; no flux-rope signature (rotation 151.8\u00b0 at r\u00b2=0.765, max B\u22a5 32.35 nT); sheath 8.8 h carrying Bz to -26 nT (3.1 h below -10) \u2014 ejecta-driven: 179 vs 61 nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "f4979608db15"
+ },
+ "sens_ratio06_20011124": {
+  "icme": {
+   "start": "2001-11-24 18:01:00",
+   "end": "2001-11-26 12:44:00",
+   "duration_hours": 42.7,
+   "min_temp_ratio": 0.033,
+   "mean_speed_kms": 652.6,
+   "magnetic_cloud": false,
+   "rotation_deg": 255.8,
+   "rotation_r2": 0.62,
+   "max_b_perp_nT": 17.63
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2001-11-24 18:01:00",
+    "end": "2001-11-26 12:44:00",
+    "duration_hours": 42.7,
+    "min_temp_ratio": 0.033,
+    "mean_speed_kms": 652.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 255.8,
+    "rotation_r2": 0.62,
+    "max_b_perp_nT": 17.63
+   },
+   {
+    "start": "2001-11-26 22:04:00",
+    "end": "2001-11-27 17:43:00",
+    "duration_hours": 19.6,
+    "min_temp_ratio": 0.17,
+    "mean_speed_kms": 465.2,
+    "magnetic_cloud": false,
+    "rotation_deg": 209.7,
+    "rotation_r2": 0.024,
+    "max_b_perp_nT": 5.77
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2001-11-24 04:53:00",
+  "sheath": {
+   "start": "2001-11-24 04:53:00",
+   "end": "2001-11-24 18:01:00",
+   "duration_hours": 13.1,
+   "field": {
+    "hours": 13.1,
+    "bz_min_nT": -47.1,
+    "bz_median_nT": 1.2,
+    "hours_below_threshold": 3.8,
+    "south_nT_hours": 98.6,
+    "south_nT_per_hour": 7.51
+   }
+  },
+  "ejecta_field": {
+   "hours": 42.7,
+   "bz_min_nT": -4.1,
+   "bz_median_nT": 6.9,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 3.2,
+   "south_nT_per_hour": 0.07
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2001-11-24 04:53:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2001-11-24 04:53:00; low-Tp interval of 42.7 h; no flux-rope signature (rotation 255.8\u00b0 at r\u00b2=0.62, max B\u22a5 17.63 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 13.1 h carrying Bz to -47.1 nT (3.8 h below -10) \u2014 SHEATH-DRIVEN: 98.6 vs 3.2 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "f67d8f0f849f"
+ },
+ "sens_ratio06_20230424": {
+  "icme": {
+   "start": "2023-04-24 01:49:00",
+   "end": "2023-04-24 19:26:00",
+   "duration_hours": 17.6,
+   "min_temp_ratio": 0.081,
+   "mean_speed_kms": 537.0,
+   "magnetic_cloud": true,
+   "rotation_deg": 181.6,
+   "rotation_r2": 0.939,
+   "max_b_perp_nT": 33.9
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2023-04-24 01:49:00",
+    "end": "2023-04-24 19:26:00",
+    "duration_hours": 17.6,
+    "min_temp_ratio": 0.081,
+    "mean_speed_kms": 537.0,
+    "magnetic_cloud": true,
+    "rotation_deg": 181.6,
+    "rotation_r2": 0.939,
+    "max_b_perp_nT": 33.9
+   },
+   {
+    "start": "2023-04-25 03:30:00",
+    "end": "2023-04-26 07:19:00",
+    "duration_hours": 27.8,
+    "min_temp_ratio": 0.117,
+    "mean_speed_kms": 523.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 265.0,
+    "rotation_r2": 0.859,
+    "max_b_perp_nT": 5.55
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2023-04-23 17:39:00",
+  "sheath": {
+   "start": "2023-04-23 17:39:00",
+   "end": "2023-04-24 01:49:00",
+   "duration_hours": 8.2,
+   "field": {
+    "hours": 8.2,
+    "bz_min_nT": -33.3,
+    "bz_median_nT": -5.9,
+    "hours_below_threshold": 3.7,
+    "south_nT_hours": 76.1,
+    "south_nT_per_hour": 9.32
+   }
+  },
+  "ejecta_field": {
+   "hours": 17.6,
+   "bz_min_nT": -33.1,
+   "bz_median_nT": -3.0,
+   "hours_below_threshold": 8.0,
+   "south_nT_hours": 194.9,
+   "south_nT_per_hour": 11.07
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ambiguous",
+  "shock_times": [
+   "2023-04-23 17:39:00",
+   "2023-04-26 18:21:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2023-04-23 17:39:00; low-Tp interval of 17.6 h; magnetic cloud: 181.6\u00b0 smooth rotation (r\u00b2=0.939), max B\u22a5 33.9 nT; first of 2 qualifying intervals \u2014 an ICME train follows; sheath 8.2 h carrying Bz to -33.3 nT (3.7 h below -10) \u2014 ejecta-driven: 194.9 vs 76.1 nT\u00b7h southward; 2 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "fb30ae8cbd35"
+ },
+ "sens_ratio06_19980925": {
+  "icme": {
+   "start": "1998-09-25 05:59:00",
+   "end": "1998-09-25 22:40:00",
+   "duration_hours": 16.7,
+   "min_temp_ratio": 0.022,
+   "mean_speed_kms": 709.6,
+   "magnetic_cloud": true,
+   "rotation_deg": 116.7,
+   "rotation_r2": 0.836,
+   "max_b_perp_nT": 19.68
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1998-09-25 05:59:00",
+    "end": "1998-09-25 22:40:00",
+    "duration_hours": 16.7,
+    "min_temp_ratio": 0.022,
+    "mean_speed_kms": 709.6,
+    "magnetic_cloud": true,
+    "rotation_deg": 116.7,
+    "rotation_r2": 0.836,
+    "max_b_perp_nT": 19.68
+   },
+   {
+    "start": "1998-09-26 01:59:00",
+    "end": "1998-09-26 16:50:00",
+    "duration_hours": 14.8,
+    "min_temp_ratio": 0.028,
+    "mean_speed_kms": 585.4,
+    "magnetic_cloud": true,
+    "rotation_deg": 130.7,
+    "rotation_r2": 0.823,
+    "max_b_perp_nT": 9.61
+   },
+   {
+    "start": "1998-09-28 01:11:00",
+    "end": "1998-09-28 10:23:00",
+    "duration_hours": 9.2,
+    "min_temp_ratio": 0.232,
+    "mean_speed_kms": 549.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 132.7,
+    "rotation_r2": 0.075,
+    "max_b_perp_nT": 5.97
+   },
+   {
+    "start": "1998-09-28 17:58:00",
+    "end": "1998-09-29 00:00:00",
+    "duration_hours": 6.0,
+    "min_temp_ratio": 0.42,
+    "mean_speed_kms": 454.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 304.9,
+    "rotation_r2": 0.26,
+    "max_b_perp_nT": 4.47
+   }
+  ],
+  "n_intervals": 4,
+  "shock_time": "1998-09-24 23:54:00",
+  "sheath": {
+   "start": "1998-09-24 23:54:00",
+   "end": "1998-09-25 05:59:00",
+   "duration_hours": 6.1,
+   "field": {
+    "hours": 6.1,
+    "bz_min_nT": -22.9,
+    "bz_median_nT": -13.1,
+    "hours_below_threshold": 4.5,
+    "south_nT_hours": 71.0,
+    "south_nT_per_hour": 11.67
+   }
+  },
+  "ejecta_field": {
+   "hours": 16.7,
+   "bz_min_nT": -15.8,
+   "bz_median_nT": -4.5,
+   "hours_below_threshold": 4.8,
+   "south_nT_hours": 93.0,
+   "south_nT_per_hour": 5.58
+  },
+  "driver": "ambiguous",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "1998-09-24 23:54:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1998-09-24 23:54:00; low-Tp interval of 16.7 h; magnetic cloud: 116.7\u00b0 smooth rotation (r\u00b2=0.836), max B\u22a5 19.68 nT; first of 4 qualifying intervals \u2014 an ICME train follows; sheath 6.1 h carrying Bz to -22.9 nT (4.5 h below -10) \u2014 driver ambiguous: 71 (sheath) vs 93 (ejecta) nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "86e02178897c"
+ },
+ "sens_ratio06_19980504": {
+  "icme": {
+   "start": "1998-05-02 04:44:00",
+   "end": "1998-05-04 02:01:00",
+   "duration_hours": 45.3,
+   "min_temp_ratio": 0.033,
+   "mean_speed_kms": 528.5,
+   "magnetic_cloud": false,
+   "rotation_deg": 188.5,
+   "rotation_r2": 0.62,
+   "max_b_perp_nT": 14.92
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "1998-05-02 04:44:00",
+    "end": "1998-05-04 02:01:00",
+    "duration_hours": 45.3,
+    "min_temp_ratio": 0.033,
+    "mean_speed_kms": 528.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 188.5,
+    "rotation_r2": 0.62,
+    "max_b_perp_nT": 14.92
+   },
+   {
+    "start": "1998-05-05 16:12:00",
+    "end": "1998-05-06 06:18:00",
+    "duration_hours": 14.1,
+    "min_temp_ratio": 0.235,
+    "mean_speed_kms": 544.9,
+    "magnetic_cloud": false,
+    "rotation_deg": 558.8,
+    "rotation_r2": 0.78,
+    "max_b_perp_nT": 10.38
+   },
+   {
+    "start": "1998-05-07 13:29:00",
+    "end": "1998-05-07 21:27:00",
+    "duration_hours": 8.0,
+    "min_temp_ratio": 0.135,
+    "mean_speed_kms": 490.6,
+    "magnetic_cloud": false,
+    "rotation_deg": 47.1,
+    "rotation_r2": 0.591,
+    "max_b_perp_nT": 11.07
+   }
+  ],
+  "n_intervals": 3,
+  "shock_time": "1998-05-01 22:00:00",
+  "sheath": {
+   "start": "1998-05-01 22:00:00",
+   "end": "1998-05-02 04:44:00",
+   "duration_hours": 6.7,
+   "field": {
+    "hours": 6.7,
+    "bz_min_nT": -14.4,
+    "bz_median_nT": 9.0,
+    "hours_below_threshold": 0.1,
+    "south_nT_hours": 4.8,
+    "south_nT_per_hour": 0.71
+   }
+  },
+  "ejecta_field": {
+   "hours": 45.3,
+   "bz_min_nT": -13.8,
+   "bz_median_nT": -4.1,
+   "hours_below_threshold": 3.1,
+   "south_nT_hours": 225.4,
+   "south_nT_per_hour": 4.98
+  },
+  "driver": "ejecta",
+  "driver_by_rate": "ejecta",
+  "shock_times": [
+   "1998-05-01 22:00:00",
+   "1998-05-04 02:47:00",
+   "1998-05-05 13:15:00",
+   "1998-05-05 22:48:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 1998-05-01 22:00:00; low-Tp interval of 45.3 h; no flux-rope signature (rotation 188.5\u00b0 at r\u00b2=0.62, max B\u22a5 14.92 nT); first of 3 qualifying intervals \u2014 an ICME train follows; sheath 6.7 h carrying Bz to -14.4 nT (0.1 h below -10) \u2014 ejecta-driven: 225.4 vs 4.8 nT\u00b7h southward; 1 pre-shock cold-slow-wind interval(s) ignored",
+  "status": "ok",
+  "audit_id": "81c87e2ab174"
+ },
+ "sens_ratio06_20000917": {
+  "icme": {
+   "start": "2000-09-18 04:00:00",
+   "end": "2000-09-19 20:58:00",
+   "duration_hours": 41.0,
+   "min_temp_ratio": 0.057,
+   "mean_speed_kms": 694.8,
+   "magnetic_cloud": false,
+   "rotation_deg": 428.7,
+   "rotation_r2": 0.0,
+   "max_b_perp_nT": 31.98
+  },
+  "closest": null,
+  "intervals": [
+   {
+    "start": "2000-09-18 04:00:00",
+    "end": "2000-09-19 20:58:00",
+    "duration_hours": 41.0,
+    "min_temp_ratio": 0.057,
+    "mean_speed_kms": 694.8,
+    "magnetic_cloud": false,
+    "rotation_deg": 428.7,
+    "rotation_r2": 0.0,
+    "max_b_perp_nT": 31.98
+   },
+   {
+    "start": "2000-09-19 23:19:00",
+    "end": "2000-09-20 23:55:00",
+    "duration_hours": 24.6,
+    "min_temp_ratio": 0.092,
+    "mean_speed_kms": 509.5,
+    "magnetic_cloud": false,
+    "rotation_deg": 632.1,
+    "rotation_r2": 0.065,
+    "max_b_perp_nT": 6.02
+   }
+  ],
+  "n_intervals": 2,
+  "shock_time": "2000-09-17 16:01:00",
+  "sheath": {
+   "start": "2000-09-17 16:01:00",
+   "end": "2000-09-18 04:00:00",
+   "duration_hours": 12.0,
+   "field": {
+    "hours": 12.0,
+    "bz_min_nT": -37.6,
+    "bz_median_nT": 10.0,
+    "hours_below_threshold": 2.0,
+    "south_nT_hours": 53.9,
+    "south_nT_per_hour": 4.5
+   }
+  },
+  "ejecta_field": {
+   "hours": 41.0,
+   "bz_min_nT": -8.6,
+   "bz_median_nT": 2.4,
+   "hours_below_threshold": 0.0,
+   "south_nT_hours": 32.8,
+   "south_nT_per_hour": 0.8
+  },
+  "driver": "sheath",
+  "driver_by_rate": "sheath",
+  "shock_times": [
+   "2000-09-17 16:01:00",
+   "2000-09-17 23:36:00"
+  ],
+  "method": "Tp/Texp(V) (Lopez 1987) intervals, shock-gated; clock-angle flux-rope proxy (Burlaga et al. 1981); Richardson & Cane 2010",
+  "note": "shock 2000-09-17 16:01:00; low-Tp interval of 41 h; no flux-rope signature (rotation 428.7\u00b0 at r\u00b2=0, max B\u22a5 31.98 nT); first of 2 qualifying intervals \u2014 an ICME train follows; sheath 12 h carrying Bz to -37.6 nT (2 h below -10) \u2014 SHEATH-DRIVEN: 53.9 vs 32.8 nT\u00b7h southward, so the storm minimum may fall outside every ICME interval",
+  "status": "ok",
+  "audit_id": "a3cf0d376b2f"
+ },
+ "_sensitivity": {
+  "minh4": {
+   "sheath": 8,
+   "ejecta": 9,
+   "ambiguous": 1,
+   "none": 1
+  },
+  "shock40": {
+   "sheath": 9,
+   "ejecta": 7,
+   "ambiguous": 1,
+   "none": 2
+  },
+  "ratio06": {
+   "sheath": 8,
+   "ejecta": 9,
+   "ambiguous": 1,
+   "none": 1
+  }
+ },
+ "_modern": [
+  "2003-11-20 20:30:00",
+  "2024-05-11 02:30:00",
+  "2001-03-31 08:30:00",
+  "2003-10-30 22:30:00",
+  "2004-11-08 06:30:00",
+  "2024-10-11 01:30:00",
+  "2000-07-16 00:30:00",
+  "2000-04-07 00:30:00",
+  "2001-11-06 06:30:00",
+  "2001-04-11 23:30:00",
+  "2005-05-15 08:30:00",
+  "1999-10-22 06:30:00",
+  "2000-08-12 09:30:00",
+  "2015-03-17 22:30:00",
+  "2001-11-24 16:30:00",
+  "2023-04-24 05:30:00",
+  "1998-09-25 09:30:00",
+  "1998-05-04 05:30:00",
+  "2000-09-17 23:30:00"
+ ]
 }
