@@ -38,3 +38,15 @@
 ## Validation anchors
 - **2003-10-29/30 Halloween storms**: |B| exceeding 50 nT and speed ~1800-2000 km/s (SWEPAM partly unreliable — a deliberate test that your gap/fallback logic works).
 - **2006-12-13 shock + ICME**: clean shock jump in AC_H0_SWE/MFI near 14:14 UT at ACE, with a textbook magnetic cloud following — good pipeline sanity event.
+
+## Coverage limit: ACE plasma Level 2 stops mid-2024 (found 2026-09-05)
+`AC_H2_SWE` (hourly) and `AC_H0_SWE` (64-second) SWEPAM Level 2 both end at **2024-07-09** on CDAWeb. An October 2024 request is refused by the coverage check, correctly:
+
+> `refusing: requested window 2024-10-08..2024-10-14 is outside AC_H2_SWE coverage 1998-02-04..2024-07-09`
+
+This bites any analysis of a late-2024 event that reuses a recipe written against an earlier one. For events after mid-2024 the L1 plasma routes are:
+- **OMNI 1-min** (`OMNI_HRO_1MIN`) — merged and time-shifted to the bow-shock nose; the right default for storm metrics.
+- **Wind SWE** — `WI_H1_SWE` (non-linear proton fits: `Proton_V_nonlin`, `Proton_Np_nonlin`, `Proton_W_nonlin`) or `WI_K0_SWE` (key parameter, `V_GSM`/`Np`/`THERMAL_SPD`). Both cover October 2024.
+- **DSCOVR Level 2** via `fetch_dscovr_l2` — NOAA NCEI, not CDAWeb. Check `reduced_proton_quality_fraction` per event: 58% in May 2024 (cup under-read the speed by ~200 km s⁻¹) against 39% in October 2024 (agreed with OMNI to 33 km s⁻¹). The caveat is event-dependent, not a blanket property.
+
+ACE **MAG** (`AC_H1_MFI`) is unaffected and still covers the present.

@@ -1149,6 +1149,24 @@ def case_track_cme_front() -> None:
           f"{heights[0]:.2f} -> {heights[-1]:.2f} Rsun, halo fraction "
           f"{trk['halo_fraction_peak']:.2f}")
 
+    # The 2024-10-09 halo is the counter-case: it must be REFUSED, and the
+    # refusal must name the halo rather than blaming the threshold. Before
+    # this guard the tracker returned [5.05, 28.85, 28.85, 28.85, 28.85] in
+    # C3 and called it a monotonic track — four saturations at the field
+    # edge, which pass a monotonicity test precisely because they are equal.
+    halo = run_tool("fetch_vso", start="2024-10-09T02:00:00",
+                    end="2024-10-09T10:00:00", instrument="LASCO",
+                    detector="C3", max_files=16)
+    if halo["status"] == "ok" and len(halo.get("files", [])) >= 6:
+        h = run_tool("track_cme_front", files=halo["files"])
+        check("track_cme.halo_refusal",
+              h["status"] == "error" and "HALO" in h.get("error", "")
+              and (h.get("halo_fraction_peak") or 0) >= 0.75,
+              f"2024-10-09 Earth-directed CME refused at halo fraction "
+              f"{h.get('halo_fraction_peak')}: the geometry that made it "
+              "geoeffective is the geometry that makes plane-of-sky "
+              "height-time meaningless")
+
     fit = run_tool("cme_height_time", times=trk["times"],
                    heights_rsun=heights)
     if fit["status"] != "ok":

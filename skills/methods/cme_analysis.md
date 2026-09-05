@@ -66,6 +66,15 @@ Measures the leading edge frame by frame so `cme_height_time` has something real
 2. **The sector statistic is the 90th percentile, not the median.** The front is a thin arc inside a 30° bin; a median averages it away. Measured: median profile peaked at 1.0 where the 90th percentile reached 4.9.
 3. **Auto sector selection scores monotonicity first, detection count second, span last.** Scoring by span alone rewards a noisy sector whose "edge" jumps around — the opposite of a tracked front. On the 2024-05-14 limb CME the span-first rule picked PA 30° (non-monotonic, wrong side of the Sun); monotonicity-first picks PA 225°.
 
+**Two artefacts the tracker refuses (added 2026-09-05, after October 2024).** Both reach the end of the routine with three or more *monotonic* detections, so neither is caught by the monotonicity test:
+
+1. **Halo fraction ≥ 0.75.** A halo brightens every position angle at once, so the azimuthal reference annulus is itself full of CME and no sector stands out. What gets followed is the edge of the brightened region, not a front. `halo_fraction_peak` reports the fraction of position angles brightening.
+2. **Heights pinned at the search bound.** A CME faster than the field can follow leaves the detector between frames; the outermost bin stays lit and every later detection reports the same radius. Repeated maxima at `r_max` are saturations. Refused when half or more of the heights sit within 0.15 R☉ of the outer bound.
+
+The October 2024 events forced both. The 9 October Earth-directed CME returned `[5.05, 28.85, 28.85, 28.85, 28.85]` in C3 — four identical values at the field edge, reported as a monotonic track with `halo_fraction_peak` 1.0. The 3 October C2 track returned `[..., 5.55, 5.65, 5.65]` and fitted to 272 km s⁻¹, an implausible speed for an X9.0 CME and a pure artefact of the C2 outer edge.
+
+**The refusal is the scientific answer for an Earth-directed CME.** The halo geometry that makes a CME geoeffective is the same geometry that makes plane-of-sky height-time meaningless. Use cone/GCS (`search_donki` CMEAnalysis) for those, and note that the plane-of-sky/cone comparison in the May 2024 case only exists because that event was a *partial* halo (fraction 0.38–0.46).
+
 **Halo events.** A halo brightens every position angle at once, so no quiet reference annulus remains. `halo_fraction_peak` reports the fraction of position angles brightening; above ~0.75 the refusal message says so explicitly and points at cone/GCS instead. This is geometry, not a threshold that wants lowering. Even below that, a halo is only trackable in its **early** frames, before the disturbance fills the field: on 2024-05-08 the front is measurable from 06:12 to 06:36 UT and gone by 07:12.
 
 **Validated result (2024-05-08 halo, `run_validation.py cmetrack`):** PA 225°, 3.75 → 4.75 R☉, plane-of-sky **483 ± 55 km s⁻¹**, r² 0.987. Two independent checks: it lands **below** DONKI's cone fit (729 km s⁻¹), as an edge-on halo must; and the linear fit extrapolates to 1 R☉ at 05:05 UT against an X1.0 peak at 05:09 — the tracker never sees the flare, so that agreement is not circular.

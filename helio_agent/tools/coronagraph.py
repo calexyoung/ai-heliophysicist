@@ -391,6 +391,48 @@ def track_cme_front(files: list[str], position_angle_deg: float | None = None,
                           "that the CME is inside the radial bounds."))}
 
     monotonic = all(b >= a for a, b in zip(heights, heights[1:]))
+
+    # Two ways a "track" can be an artefact rather than a measurement. Both
+    # reach here with 3+ monotonic detections, and both must be refused.
+    #
+    # (1) A FULL HALO brightens every position angle, so the azimuthal
+    #     reference is itself full of CME and no sector stands out. What the
+    #     tracker then follows is the edge of the brightened region, not a
+    #     front. Geometry, not tuning: plane-of-sky height-time does not
+    #     apply to a halo, which is why halos are fitted with cone/GCS.
+    if halo_peak >= 0.75:
+        return {"status": "error",
+                "n_detections": len(times), "heights_rsun": heights,
+                "halo_fraction_peak": round(halo_peak, 2),
+                "position_angle_deg": round(chosen, 1),
+                "error": (f"HALO event: {halo_peak * 100:.0f}% of position "
+                          "angles brighten simultaneously, so no quiet "
+                          "reference annulus remains and azimuthal contrast "
+                          "cannot locate a front. Plane-of-sky height-time "
+                          "does not apply to a halo by construction — use a "
+                          "cone or GCS fit (search_donki CMEAnalysis). This "
+                          "is the geometry of the event, not a threshold "
+                          "that wants lowering.")}
+    # (2) Heights PINNED AT THE SEARCH BOUND. A CME faster than the field can
+    #     follow leaves the detector between frames; the outermost bin stays
+    #     lit and every later "detection" reports the same radius. A repeated
+    #     maximum at r_max is a saturation, not a track — and it passes the
+    #     monotonicity test, which is why it needs its own check.
+    edge = float(r_max_rsun) - 0.15
+    pinned = sum(1 for h in heights if h >= edge)
+    if pinned >= 2 and pinned >= len(heights) / 2:
+        return {"status": "error",
+                "n_detections": len(times), "heights_rsun": heights,
+                "halo_fraction_peak": round(halo_peak, 2),
+                "position_angle_deg": round(chosen, 1),
+                "error": (f"{pinned} of {len(heights)} heights sit at the "
+                          f"outer search bound ({r_max_rsun} Rsun): the front "
+                          "left the field faster than the cadence can follow, "
+                          "so these are saturations, not measurements. Track "
+                          "this event in a wider field (LASCO C3 spans "
+                          "3.9-29 Rsun against C2's 2.4-5.8) or accept that "
+                          "the plane-of-sky speed is unmeasurable here.")}
+
     return {"n_frames": len(maps), "n_differences": len(diffs),
             "n_detections": len(times),
             "position_angle_deg": round(chosen, 1),
