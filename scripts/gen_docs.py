@@ -112,6 +112,7 @@ DOCS_LEAD_END = "<!-- gen_docs:docs-lead end -->"
 # full index below it.
 DOC_LEAD = {
     "USAGE.md": "Walkthroughs",
+    "EXAMPLES.md": "worked examples",
     "TOOLS.md": "every tool",
     "SKILLS.md": "every skill",
     "MODULES.md": "internals",
@@ -127,6 +128,7 @@ DOC_BLURB = {
     "SKILLS.md": "**Every skill document**, cataloged with its one-line summary (generated)",
     "MODULES.md": "The `helio_agent` package module by module: registry, audit, cache, monitor, reports, tool modules",
     "ARCHITECTURE.md": "Full design, mapping to the AI Astrophysicist model",
+    "EXAMPLES.md": "**Worked examples** \u2014 every tool run for real, with its audit id and the figures it made",
     "MONITOR.md": "**The standing watch in plain language** \u2014 what a cycle does, how to read the scorecard, and why the aim test is 45 degrees",
     "helio_agent_review.md": "What the helio-agent harness taught this repo, and what was deliberately not ported",
     "helio_agent_merge_analysis.md": "Why helio-agent and ai-heliophysicist stay separate repositories",

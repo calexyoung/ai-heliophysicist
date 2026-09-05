@@ -108,8 +108,18 @@ def plot_solar_map(fits_file: str, out_name: str = "solar_map.png",
     m = sunpy.map.Map(fits_file)
     fig = plt.figure(figsize=(7, 7))
     ax = fig.add_subplot(projection=m)
-    vmax = np.nanpercentile(m.data, clip_percent)
-    m.plot(axes=ax, clip_interval=None, vmin=0, vmax=vmax)
+    # sunpy maps often carry their own norm; passing vmin/vmax beside it
+    # raises, so hand plot() an explicit Normalize (signed for magnetograms).
+    from matplotlib.colors import Normalize
+    data = np.asarray(m.data, dtype=float)
+    finite = data[np.isfinite(data)]
+    if str(m.meta.get("bunit", "")).strip().lower() in ("gauss", "g"):
+        lim = float(np.nanpercentile(np.abs(finite), clip_percent))
+        m.plot(axes=ax, cmap="gray", norm=Normalize(vmin=-lim, vmax=lim))
+    else:
+        m.plot(axes=ax, norm=Normalize(
+            vmin=float(np.nanpercentile(finite, 100 - clip_percent)),
+            vmax=float(np.nanpercentile(finite, clip_percent))))
     fpath = output_path(out_name)
     fig.savefig(fpath, bbox_inches="tight")
     plt.close(fig)

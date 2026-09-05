@@ -71,11 +71,22 @@ def search_heliodata(query: str, max_results: int = 20) -> dict:
     Uses the alpha HelioData API (api.heliophysics.net). Falls back with a
     clear error if the alpha API is down; CDAWeb search still works then.
     """
-    r = cached_get(f"{HELIODATA_API}/datasets",
-                     params={"search": query, "limit": max_results}, timeout=60)
+    # The alpha API used to accept ?search=&limit= but now answers 405 to
+    # ANY query parameter (observed 2026-09-05); the bare endpoint returns
+    # the full ~7800-row catalog. So fetch once (cached a day) and filter
+    # client-side — same behaviour, one honest network shape.
+    r = cached_get(f"{HELIODATA_API}/datasets", timeout=90,
+                   ttl_seconds=24 * 3600)
     r.raise_for_status()
     payload = r.json()
     items = payload if isinstance(payload, list) else payload.get("data") or payload.get("datasets") or []
+    terms = [t for t in query.lower().split() if t]
+
+    def _blob(it: dict) -> str:
+        return " ".join(str(v) for v in it.values() if v is not None).lower()
+
+    items = [it for it in items
+             if isinstance(it, dict) and all(t in _blob(it) for t in terms)]
     results = []
     for it in items[:max_results]:
         if isinstance(it, dict):

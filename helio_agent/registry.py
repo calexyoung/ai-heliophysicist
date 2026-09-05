@@ -83,8 +83,11 @@ def list_tools(family: str | None = None) -> list[Tool]:
     return tools
 
 
-def run_tool(name: str, **kwargs: Any) -> dict:
+def run_tool(name: str, /, **kwargs: Any) -> dict:
     """Invoke a tool with audit logging. Returns the tool's dict result.
+
+    `name` is positional-only so that a tool whose own signature has a
+    `name` parameter (save_json) can still be called through here.
 
     Every tool returns a dict; by convention it includes 'status' and, where
     files are produced, an 'artifacts' list of paths.

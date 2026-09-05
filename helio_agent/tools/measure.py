@@ -218,6 +218,10 @@ def superposed_epoch(file: str, column: str, epochs: list[str],
     stack = []
     for ep in epochs:
         t0 = pd.Timestamp(ep)
+        # workspace CSVs carry naive-UTC indexes; accept 'Z'/offset epochs
+        # by converting rather than crashing on the comparison
+        if t0.tzinfo is not None:
+            t0 = t0.tz_convert("UTC").tz_localize(None)
         vals = [s.asof(t0 + dt) if (t0 + dt) >= s.index[0] else np.nan for dt in rel]
         stack.append(vals)
     arr = np.array(stack, dtype=float)
